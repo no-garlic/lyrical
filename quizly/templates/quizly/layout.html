@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Quizly{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        <link href="{% static 'quizly/styles.css' %}" rel="stylesheet">
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+        <div class="header">
+        </div>
+        <div class="page-container">
+            <aside class="sidebar">
+                <ul>
+                    <!-- Logo / default route -->
+                    <li class="sidebar-logo">
+                        <a href="{% url 'index' %}">
+                            <img src="{% static 'quizly/quizly.jpeg' %}" alt="quizly Logo" class="sidebar-logo-large">
+                            <img src="{% static 'quizly/quizly-icon.jpeg' %}" alt="quizly Icon" class="sidebar-logo-small">
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-heading">Navigation</li>
+
+                    {% if user.is_authenticated %}
+
+                    <!-- Create a new Quiz -->
+                    <li>
+                        <a href="{% url 'create' %}" class="{% if active_filter != 'create' %}in{% endif %}active-link">
+                            <i class="bi-plus-square"></i>
+                            <span class="sidebar-menu-text">Create New</span>
+                        </a>
+                    </li>
+
+                    {% endif %}
+
+                    <!-- Search for a Quiz -->
+                    <li>
+                        <a href="{% url 'search' %}" class="{% if active_filter != 'search' %}in{% endif %}active-link">
+                            <i class="bi-search"></i>
+                            <span class="sidebar-menu-text">Search</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Browse quiz categories -->
+                    <li>
+                        <a href="{% url 'browse' %}" class="{% if active_filter != 'browse' %}in{% endif %}active-link">
+                            <i class="bi-globe"></i>
+                            <span class="sidebar-menu-text">Browse</span>
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-heading">Account</li>
+
+                    {% if user.is_authenticated %}
+
+                    <!-- My Profile -->
+                    <li>
+                        <a href="{% url 'profile' %}" class="{% if active_filter != 'profile' %}in{% endif %}active-link">
+                            <i class="bi-person"></i>
+                            <span class="sidebar-menu-text">My Profile</span>
+                        </a>
+                    </li>                   
+                    <hr>
+
+                    <!-- Logout -->
+                    <li>
+                        <a href="{% url 'logout' %}" class="inactive-link">
+                            <i class="bi-box-arrow-left"></i>
+                            <span class="sidebar-menu-text">Logout</span>
+                        </a>
+                    </li>
+
+                    {% else %}
+
+                    <!-- Login -->
+                    <li>
+                        <a href="{% url 'login' %}" class="{% if active_filter != 'login' %}in{% endif %}active-link">
+                            <i class="bi-box-arrow-in-right"></i>
+                            <span class="sidebar-menu-text">Login</span>
+                        </a>
+                    </li>                   
+
+                    <!-- Register -->
+                    <li>
+                        <a href="{% url 'register' %}" class="{% if active_filter != 'register' %}in{% endif %}active-link">
+                            <i class="bi-person-add"></i>
+                            <span class="sidebar-menu-text">Register</span>
+                        </a>
+                    </li>                   
+                    {% endif %}
+                </ul>
+            </aside>
+
+            <main class="content">
+                <!-- Show any error message -->
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>                    
+                {% endif %}
+
+                <div class="page-content">
+                    {% block body %}
+                    {% endblock %}
+                </div>                    
+            </main>
+        </div>
+    </body>
+</html>
