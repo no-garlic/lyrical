@@ -9,3 +9,11 @@ def index(request):
     return render(request, "lyrical/index.html", {
         "active_filter": "index",
     })
+
+def browse(request):
+    """
+    Show the browse page.
+    """
+    return render(request, "lyrical/browse.html", {
+        "active_filter": "browse"
+    })

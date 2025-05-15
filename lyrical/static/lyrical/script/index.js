@@ -12,5 +12,5 @@ function initHeroButton() {
 
 function handleHeroButtonClick() {
     // Redirect to the browse page
-    window.location.href = '/login';
+    window.location.href = '/browse';
 }
