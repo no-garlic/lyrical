@@ -1,0 +1,10 @@
+
+# Django dependencies
+Django==5.2.1
+python-dotenv==1.1.0
+
+# For test-data generation only, not required to 
+# run the server or to run migrations
+langchain==0.3.25
+langchain-core==0.3.59
+langchain-ollama==0.3.2

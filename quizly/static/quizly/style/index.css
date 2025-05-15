@@ -1,0 +1,177 @@
+/* 
+ --------------------------------------------------------
+                Main page container styling 
+ -------------------------------------------------------- 
+*/
+.page-content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 
+ --------------------------------------------------------
+                  Logo section styling 
+ -------------------------------------------------------- 
+*/
+.logo-container {
+    background: var(--color-bg-primary);
+    margin-top: 30px;
+}
+
+.logo-large {
+    display: block;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+}
+
+/* 
+ --------------------------------------------------------
+                  Hero section styling 
+ -------------------------------------------------------- 
+*/
+.homepage-hero {
+    width: calc(100% - 20px);
+    margin: 2rem 10px;
+    padding: 2rem;
+    text-align: center;
+    background: var(--gradient-hero);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.hero-text {
+    margin: 0 auto;
+}
+
+.hero-heading {
+    font-family: var(--font-family-logo);
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.hero-subheading {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* 
+ --------------------------------------------------------
+              Button styling for hero section 
+ -------------------------------------------------------- 
+*/
+.hero-btn {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    font-size: 1.1rem;
+    padding: 12px var(--space-lg);
+    border-radius: var(--border-radius-lg);
+    text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    border: none;
+    transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hero-btn:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-text-white);
+}
+
+.hero-btn:active,
+.hero-btn:focus {
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+    box-shadow: var(--shadow-focus) !important;
+    color: var(--color-text-white);
+}
+
+/* 
+ --------------------------------------------------------
+                Features section styling 
+ -------------------------------------------------------- 
+*/
+.features-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 3rem auto;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.feature {
+    background: var(--color-bg-secondary);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    flex: 1 1 280px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.feature h2 {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 0.75rem;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: var(--color-text-primary);
+}
+
+/* 
+ --------------------------------------------------------
+              Layout overrides for homepage 
+ -------------------------------------------------------- 
+*/
+body .content {
+    margin-left: 0;
+    width: 100%;
+}
+
+.page-content {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.page-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center;
+}
+
+body .content {
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 
+ --------------------------------------------------------
+                Responsive adjustments 
+ -------------------------------------------------------- 
+*/
+@media (max-width: 900px) {
+    .logo-large {
+        width: 80%;
+    }
+    
+    .homepage-hero {
+        width: calc(100% - 30px);
+        margin: 1.5rem 15px;
+    }
+    
+    .features-section {
+        padding: 1.5rem 15px;
+    }
+}

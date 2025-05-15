@@ -1,0 +1,616 @@
+{
+    "Unusual Hobbies": [
+        {
+            "name": "The Eccentric Enthusiast's Pursuit",
+            "description": "Delve into the world of unusual hobbies! This quiz explores passions far beyond the typical, testing your knowledge of niche interests and dedicated practitioners. From miniature artistry to competitive collecting, prepare to be surprised by the creativity of humankind. Let's see how well you know the wonderfully weird!",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a mundane chore with an adventurous location.",
+                    "option1": "A competitive sport involving ironing clothes at high speeds.",
+                    "option2": "A method of removing wrinkles from vintage iron artifacts.",
+                    "option3": "A form of performance art where ironing is done in unusual and remote locations.",
+                    "option4": "A technique for preserving delicate fabrics using heat and pressure.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unique activity?",
+                    "hint": "It's a blend of online gaming and real-world interaction, often involving a specific game.",
+                    "option1": "Collecting rare and historical newspapers for preservation.",
+                    "option2": "Creating elaborate news-themed costumes for cosplay events.",
+                    "option3": "Organizing online debates and discussions based on current news headlines.",
+                    "option4": "Players in a game like Minecraft, recreating real-world news events and locations within the game.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What defines the hobby of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with specific rules and regulations.",
+                    "option1": "A form of physical therapy using gentle tickling to relax muscles.",
+                    "option2": "A competitive sport where participants attempt to tickle each other for the longest duration.",
+                    "option3": "A therapeutic practice involving tickling to stimulate laughter and reduce stress.",
+                    "option4": "A performance art piece exploring the boundaries of physical sensation and consent.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Cloudspotting is a hobby focused on what?",
+                    "hint": "It's about appreciating the beauty and variety of something we often take for granted.",
+                    "option1": "Collecting photographs of clouds for scientific research.",
+                    "option2": "Identifying and classifying different types of clouds based on their appearance and formation.",
+                    "option3": "Building miniature cloud formations using cotton and other materials.",
+                    "option4": "Creating artistic representations of clouds using various painting techniques.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the primary focus of 'Grave Rubbing' as a hobby?",
+                    "hint": "It involves transferring designs from a specific type of surface, often with historical significance.",
+                    "option1": "Restoring and cleaning old gravestones to preserve their historical value.",
+                    "option2": "Creating artistic prints by rubbing paper over the carved surfaces of gravestones.",
+                    "option3": "Documenting the genealogy of individuals buried in historic cemeteries.",
+                    "option4": "Collecting antique gravestones for display in private collections.",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "The Curious Collector's Compendium",
+            "description": "Delve into the world of unconventional passions! This quiz explores the fascinating realm of unusual hobbies, from miniature artistry to competitive stone balancing. Test your knowledge and discover the dedication behind these unique pursuits. Are you ready to uncover the secrets of the curious collector?",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous outdoor activity.",
+                    "option1": "Competitive origami using industrial-grade metal sheets.",
+                    "option2": "Ironing clothes in remote and unusual locations, often while engaging in other activities.",
+                    "option3": "A performance art piece involving elaborate ironing board designs.",
+                    "option4": "A method of preserving antique fabrics using heat and pressure.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The art of 'Gongoozling' is a British pastime. What does it involve?",
+                    "hint": "It's a leisurely activity centered around waterways.",
+                    "option1": "Collecting vintage gongs and cymbals.",
+                    "option2": "Observing and enjoying canal boats and activity on canals.",
+                    "option3": "A traditional form of British folk music played on gongs.",
+                    "option4": "The practice of repairing and restoring old canal locks.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What defines the hobby of 'Newsraiding'?",
+                    "hint": "It's a creative response to current events, often involving public spaces.",
+                    "option1": "Collecting rare and historical newspapers.",
+                    "option2": "Creating temporary, often humorous, installations in public spaces inspired by news headlines.",
+                    "option3": "Analyzing news articles for hidden messages and conspiracies.",
+                    "option4": "A form of competitive journalism focused on breaking news first.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the primary focus of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with strict rules and regulations.",
+                    "option1": "Breeding and training exceptionally ticklish animals.",
+                    "option2": "A sport where participants attempt to withstand tickling for the longest duration.",
+                    "option3": "A form of therapy using tickling to reduce stress and anxiety.",
+                    "option4": "Creating elaborate costumes and routines for tickling performances.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is 'Cloudspotting' as a hobby?",
+                    "hint": "It's a relaxing and contemplative activity that involves observing the sky.",
+                    "option1": "Collecting photographs of unusual cloud formations.",
+                    "option2": "Studying the science of cloud formation and atmospheric conditions.",
+                    "option3": "Observing and appreciating the shapes, patterns, and colors of clouds.",
+                    "option4": "Building miniature cloud sculptures using cotton and other materials.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the core activity in 'Train Surfing' (though highly discouraged and illegal)?",
+                    "hint": "It involves a dangerous interaction with a mode of transportation.",
+                    "option1": "Collecting train tickets and memorabilia.",
+                    "option2": "Riding on the exterior of a moving train.",
+                    "option3": "Restoring and preserving vintage railway carriages.",
+                    "option4": "Designing and building miniature model trains.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Rock Balancing'?",
+                    "hint": "It's a meditative practice involving natural materials.",
+                    "option1": "Collecting rare and valuable gemstones.",
+                    "option2": "Creating sculptures by carefully balancing rocks on top of each other.",
+                    "option3": "Identifying and classifying different types of rocks and minerals.",
+                    "option4": "Using rocks to build traditional dry-stone walls.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the main objective in the hobby of 'Bottle Cap Collecting'?",
+                    "hint": "It's a surprisingly diverse and historical pursuit.",
+                    "option1": "Recycling bottle caps to reduce environmental waste.",
+                    "option2": "Collecting and organizing bottle caps based on design, rarity, and historical significance.",
+                    "option3": "Using bottle caps to create mosaic artwork.",
+                    "option4": "Manufacturing custom bottle caps for unique beverages.",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "The Singular Pursuit: A Hobbyist's Challenge",
+            "description": "Delve into the world of unconventional passions! This quiz explores the fascinating realm of unusual hobbies, testing your knowledge of niche interests and dedicated enthusiasts. Prepare to be surprised by the creativity and dedication found in these singular pursuits. Let's see how well you know the world beyond the mainstream!",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous location.",
+                    "option1": "Competitive origami folding in unusual places.",
+                    "option2": "Collecting vintage irons and their history.",
+                    "option3": "Ironing clothes in remote and challenging outdoor locations.",
+                    "option4": "Creating iron sculptures and displaying them publicly.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unique activity?",
+                    "hint": "It's a form of performance art with a focus on current events.",
+                    "option1": "Collecting and archiving historical newspapers.",
+                    "option2": "Creating satirical news reports and performing them in public.",
+                    "option3": "Analyzing news trends and predicting future events.",
+                    "option4": "Reporting on local news stories using unconventional methods.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What defines the hobby of 'Train Surfing' (also known as 'railriding')?",
+                    "hint": "This is a dangerous and illegal activity involving trains.",
+                    "option1": "Collecting miniature train sets and building elaborate layouts.",
+                    "option2": "Photographing trains in motion and documenting their routes.",
+                    "option3": "Illegally riding on the exterior of moving trains.",
+                    "option4": "Restoring and preserving vintage railway carriages.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the primary focus of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with strict rules and regulations.",
+                    "option1": "Breeding and training tickling spiders.",
+                    "option2": "Creating humorous tickling routines for comedic performances.",
+                    "option3": "Measuring and documenting the physiological responses to tickling.",
+                    "option4": "Participants enduring prolonged tickling sessions to determine a 'champion'.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the core activity in the hobby of 'Cloudspotting'?",
+                    "hint": "It's a relaxing and contemplative pastime focused on the sky.",
+                    "option1": "Building and launching weather balloons to study cloud formations.",
+                    "option2": "Identifying and classifying different types of clouds.",
+                    "option3": "Creating artistic representations of clouds using various mediums.",
+                    "option4": "Predicting weather patterns based on cloud observations.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What distinguishes 'Toy Voyaging' from simply collecting toys?",
+                    "hint": "It involves sending toys on adventures and documenting their travels.",
+                    "option1": "Restoring and repairing vintage toy cars.",
+                    "option2": "Creating elaborate dioramas for displaying toy figures.",
+                    "option3": "Sending toys on trips and sharing their experiences online.",
+                    "option4": "Organizing toy swap meets and trading with other collectors.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Microsculpture'?",
+                    "hint": "It involves creating incredibly small works of art.",
+                    "option1": "Building miniature architectural models.",
+                    "option2": "Creating sculptures that are too small to be seen without magnification.",
+                    "option3": "Collecting and studying microscopic organisms.",
+                    "option4": "Designing and building miniature electronic devices.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the main objective of 'Gurning'?",
+                    "hint": "It's a traditional British folk activity involving facial contortions.",
+                    "option1": "Learning to mimic the facial expressions of different animals.",
+                    "option2": "Creating humorous portraits using exaggerated facial expressions.",
+                    "option3": "Contorting one's face into grotesque expressions, often through the insertion of a horse collar.",
+                    "option4": "Studying the anatomy of facial muscles and their movements.",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "The Chronicle of Curious Pursuits",
+            "description": "Delve into the world of unconventional hobbies! This quiz explores the passions of individuals whos chosen paths less traveled. From miniature artistry to competitive memory, test your knowledge of these fascinating and often surprising pursuits. Are you ready to uncover the secrets of the unusual?",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous outdoor activity.",
+                    "option1": "Competitive origami using specialized metal alloys.",
+                    "option2": "A form of performance art involving intricate fabric manipulation.",
+                    "option3": "Ironing clothes in remote and unusual locations, often photographed for documentation.",
+                    "option4": "A technique for creating iron sculptures using recycled materials.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unique activity?",
+                    "hint": "It's a blend of urban exploration and creative documentation, often involving a specific type of media.",
+                    "option1": "Collecting vintage newspapers and creating historical archives.",
+                    "option2": "Creating satirical news reports and distributing them anonymously.",
+                    "option3": "Photographing and documenting abandoned or decaying newsstands and related infrastructure.",
+                    "option4": "Analyzing news trends and predicting future headlines with statistical models.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the primary focus of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with a surprising level of competition and rules.",
+                    "option1": "Developing advanced tickling techniques for comedic performances.",
+                    "option2": "Studying the physiological responses to tickling and laughter.",
+                    "option3": "Participants enduring tickling from opponents for the longest duration, judged on resilience and laughter control.",
+                    "option4": "Creating elaborate costumes and props for tickling-themed events.",
+                    "solution": "3"
+                },
+                {
+                    "text": "Cloudspotting as a hobby is primarily about:",
+                    "hint": "It's a relaxing and observational pastime, often linked to mindfulness and appreciation of nature.",
+                    "option1": "Predicting weather patterns based on cloud formations using complex algorithms.",
+                    "option2": "Collecting photographs of rare and unusual cloud types.",
+                    "option3": "Identifying and classifying different cloud formations and appreciating their beauty and significance.",
+                    "option4": "Building miniature cloud sculptures using specialized materials.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What defines the hobby of 'Toy Voyaging'?",
+                    "hint": "It involves a unique form of travel and storytelling for inanimate objects.",
+                    "option1": "Restoring and repairing antique toy trains for historical preservation.",
+                    "option2": "Creating elaborate dioramas featuring miniature toy figures.",
+                    "option3": "Sending toys on adventures and documenting their travels through photographs and stories shared online.",
+                    "option4": "Designing and manufacturing custom-made toys for collectors.",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "The Niche Navigator's Expedition",
+            "description": "Delve into the world of extraordinary pastimes! This quiz explores unusual hobbies, from meticulously crafting miniature worlds to documenting the lives of insects. Test your knowledge of these unique pursuits and see if you can navigate the niche navigator's expedition.",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous location.",
+                    "option1": "Ironing clothes while skydiving.",
+                    "option2": "Creating intricate iron sculptures.",
+                    "option3": "Ironing clothes in remote and unusual locations.",
+                    "option4": "Developing a new ironing technique for delicate fabrics.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unusual activity?",
+                    "hint": "It's a form of creative writing inspired by current events.",
+                    "option1": "Collecting vintage newspapers and magazines.",
+                    "option2": "Creating fictional news reports based on real-world events.",
+                    "option3": "Analyzing the biases in modern news reporting.",
+                    "option4": "Reporting on obscure local news stories.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the primary focus of 'Microsculpture,' a hobby pioneered by Willard Wigan?",
+                    "hint": "It involves creating incredibly small works of art.",
+                    "option1": "Creating large-scale sculptures using microscopic materials.",
+                    "option2": "Designing miniature landscapes for dollhouses.",
+                    "option3": "Sculpting tiny figures and objects, often requiring a microscope to view.",
+                    "option4": "Restoring antique microscopes and lenses.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What defines the hobby of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with specific rules and scoring.",
+                    "option1": "Collecting rare and unusual tickling feathers.",
+                    "option2": "A sport where participants attempt to tickle each other for extended periods.",
+                    "option3": "Studying the physiological responses to tickling.",
+                    "option4": "Creating humorous videos of people being tickled.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the core activity in 'Train Surfing' (though strongly discouraged and illegal)?",
+                    "hint": "It involves a dangerous interaction with a mode of transportation.",
+                    "option1": "Collecting train schedules and memorabilia.",
+                    "option2": "Riding on the exterior of a moving train.",
+                    "option3": "Photographing trains in motion.",
+                    "option4": "Designing and building miniature train sets.",
+                    "solution": "2"
+                }
+            ]
+        },
+        {
+            "name": "The Anomaly Archive: A Hobbyist's Deep Dive",
+            "description": "Delve into the world of extraordinary pastimes! This quiz explores unusual hobbies, from the meticulously crafted to the delightfully bizarre. Test your knowledge of niche interests and discover passions you never knew existed. Are you ready to uncover the secrets of the Anomaly Archive?",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous location.",
+                    "option1": "Ironing clothes while skydiving.",
+                    "option2": "Ironing clothes using steam generated from volcanic vents.",
+                    "option3": "Ironing clothes using only antique irons.",
+                    "option4": "Ironing clothes in remote and unusual locations.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The hobby of 'Competitive Endurance Tickling' involves what?",
+                    "hint": "It's a surprisingly intense and regulated activity.",
+                    "option1": "Training pigeons to perform synchronized routines.",
+                    "option2": "Withstanding tickling for the longest duration in a competitive setting.",
+                    "option3": "Creating intricate sculptures from discarded feathers.",
+                    "option4": "Collecting vintage tickling devices.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is 'Train Surfing,' a dangerous and often illegal activity considered a hobby by some?",
+                    "hint": "It involves riding on the exterior of a moving train.",
+                    "option1": "Collecting miniature train models.",
+                    "option2": "Designing and building custom train carriages.",
+                    "option3": "Photographing trains in motion.",
+                    "option4": "Riding on the outside of a moving train.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Cloudspotting is a hobby focused on what?",
+                    "hint": "It's a relaxing and visually stimulating pastime.",
+                    "option1": "Building miniature cloud formations in terrariums.",
+                    "option2": "Predicting weather patterns based on cloud formations.",
+                    "option3": "Observing and identifying different types of clouds.",
+                    "option4": "Creating artwork inspired by cloud shapes.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What defines the hobby of 'Newsraiding'?",
+                    "hint": "It's a unique form of online interaction.",
+                    "option1": "Collecting vintage newspapers.",
+                    "option2": "Writing satirical news articles.",
+                    "option3": "Creating elaborate hoaxes and spreading them as news.",
+                    "option4": "Intentionally disrupting online news forums with humorous or nonsensical posts.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the primary focus of 'Toy Voyaging'?",
+                    "hint": "It involves sending toys on adventures and documenting their travels.",
+                    "option1": "Restoring antique toy trains.",
+                    "option2": "Creating stop-motion animation films using toys.",
+                    "option3": "Sending toys on travels and documenting their experiences through photos and stories.",
+                    "option4": "Collecting rare and limited-edition action figures.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the core activity in the hobby of 'Gongoozling'?",
+                    "hint": "It's a British pastime with a specific location in mind.",
+                    "option1": "Collecting antique gongs and cymbals.",
+                    "option2": "Observing activity on canals and waterways.",
+                    "option3": "Building miniature canal boats.",
+                    "option4": "Writing poetry inspired by the sounds of water.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What distinguishes the hobby of 'Microsculpture'?",
+                    "hint": "It requires incredible precision and specialized tools.",
+                    "option1": "Creating large-scale sculptures from recycled materials.",
+                    "option2": "Carving miniature sculptures that require a microscope to fully appreciate.",
+                    "option3": "Building miniature replicas of famous landmarks.",
+                    "option4": "Creating sculptures using only microscopic organisms.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Pluviophile' as a hobby?",
+                    "hint": "It's all about embracing a specific weather condition.",
+                    "option1": "Collecting rain gauges and weather instruments.",
+                    "option2": "Creating artwork inspired by rain and storms.",
+                    "option3": "Enjoying and appreciating rainy weather.",
+                    "option4": "Studying the science of precipitation.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the central element of 'Rock Balancing'?",
+                    "hint": "It's a meditative practice that requires patience and skill.",
+                    "option1": "Collecting rare and valuable gemstones.",
+                    "option2": "Creating sculptures by carefully balancing rocks on top of each other.",
+                    "option3": "Identifying different types of rocks and minerals.",
+                    "option4": "Building miniature rock gardens.",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "The Passionate Particular's Playground",
+            "description": "Delve into the world of extraordinary hobbies! This quiz explores the unusual and often overlooked passions people pursue. Test your knowledge of niche interests and discover the dedication it takes to master a truly unique pastime. Are you ready to embrace the delightfully peculiar?",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous outdoor activity.",
+                    "option1": "Competitive origami using industrial-grade metal sheets.",
+                    "option2": "A form of performance art involving elaborate clothing designs.",
+                    "option3": "Ironing clothes in remote and unusual locations, often photographed for documentation.",
+                    "option4": "A specialized technique for repairing antique ironwork.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The art of 'Gongoozling' is a British pastime. What does it involve?",
+                    "hint": "It's a leisurely activity centered around a specific type of waterway.",
+                    "option1": "Collecting vintage gongs and cymbals.",
+                    "option2": "Observing and enjoying canal boats and canal life.",
+                    "option3": "A competitive sport involving the striking of large gongs.",
+                    "option4": "Restoring and preserving historic canal infrastructure.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like, but with specific rules and regulations.",
+                    "option1": "A form of physiotherapy using tickling to release muscle tension.",
+                    "option2": "A theatrical performance involving comedic tickling routines.",
+                    "option3": "A sport where participants are tickled by opponents, and the last person to laugh wins.",
+                    "option4": "A method of pest control using tickling to deter insects.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is 'Newsraiding'?",
+                    "hint": "It combines online activity with a unique form of creative expression.",
+                    "option1": "Investigating the origins of fake news stories.",
+                    "option2": "Creating elaborate, fictional news reports and disseminating them online.",
+                    "option3": "A form of digital archiving of historical news publications.",
+                    "option4": "A competitive sport involving speed-reading news articles.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What defines the hobby of 'Cloudspotting' (Nebulwatching)?",
+                    "hint": "It's a relaxing and visually stimulating pastime.",
+                    "option1": "Collecting photographs of clouds and categorizing them by type.",
+                    "option2": "Observing and appreciating cloud formations, often with a scientific or artistic focus.",
+                    "option3": "Building miniature cloud sculptures using cotton and other materials.",
+                    "option4": "Predicting weather patterns based on cloud formations.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the primary focus of 'Train Surfing' (though highly dangerous and illegal)?",
+                    "hint": "It involves a risky interaction with a mode of transportation.",
+                    "option1": "Collecting train schedules and timetables.",
+                    "option2": "Photographing trains in motion from precarious locations.",
+                    "option3": "Riding on the exterior of a moving train.",
+                    "option4": "Restoring and preserving historic railway carriages.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is 'Psychic Archaeology'?",
+                    "hint": "It blends historical investigation with unconventional methods.",
+                    "option1": "Using scientific dating techniques to analyze archaeological finds.",
+                    "option2": "Attempting to gain information about past events through psychic abilities.",
+                    "option3": "Reconstructing ancient civilizations through virtual reality simulations.",
+                    "option4": "Cataloging and preserving ancient artifacts using psychological principles.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the core activity in 'Toy Voyaging'?",
+                    "hint": "It involves sending a toy on a journey and documenting its adventures.",
+                    "option1": "Collecting rare and vintage toy cars.",
+                    "option2": "Sending a toy on a journey, often with a tracking device, and sharing its experiences online.",
+                    "option3": "Restoring and repairing damaged toy figurines.",
+                    "option4": "Creating elaborate dioramas featuring toy characters.",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "The Obsessive Oracle's Almanac",
+            "description": "Delve into the captivating world of unusual hobbies! This quiz explores the passions of individuals whove chosen paths less traveled, from meticulously cataloging obscure objects to crafting miniature worlds. Test your knowledge of these eccentric pursuits and discover a new appreciation for the wonderfully weird.",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous outdoor activity.",
+                    "option1": "A competitive sport involving intricate metalwork designs.",
+                    "option2": "A method of removing rust and stains from antique iron objects.",
+                    "option3": "A performance art piece using vintage ironing boards as props.",
+                    "option4": "Ironing clothes in unusual and often precarious locations.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unique activity?",
+                    "hint": "It's a form of creative writing inspired by current events, but with a twist.",
+                    "option1": "Collecting and archiving historical newspaper clippings.",
+                    "option2": "Writing fictional stories based on real news headlines and events.",
+                    "option3": "Creating satirical news broadcasts using puppets and props.",
+                    "option4": "Analyzing news articles to predict future market trends.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What defines the hobby of 'Train Surfing,' despite its inherent dangers and illegality?",
+                    "hint": "It involves a specific, risky interaction with a moving train.",
+                    "option1": "Collecting miniature train models and building elaborate layouts.",
+                    "option2": "Documenting the history and evolution of railway systems.",
+                    "option3": "Riding on the exterior of a moving train.",
+                    "option4": "Restoring and preserving vintage railway carriages.",
+                    "solution": "1"
+                },
+                {
+                    "text": "Microsculpture is a fascinating hobby. What distinguishes it from traditional sculpture?",
+                    "hint": "Consider the scale at which the artist works.",
+                    "option1": "Sculpting large-scale public art installations.",
+                    "option2": "Creating sculptures using recycled materials.",
+                    "option3": "Creating incredibly small sculptures, often requiring a microscope to view them.",
+                    "option4": "Sculpting figures from precious metals and gemstones.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the primary focus of the hobby known as 'Cloudspotting'?",
+                    "hint": "It's a relaxing and observational pastime related to the sky.",
+                    "option1": "Predicting weather patterns based on cloud formations.",
+                    "option2": "Photographing clouds and creating artistic compositions.",
+                    "option3": "Identifying and classifying different types of clouds.",
+                    "option4": "Building miniature cloud formations using cotton and other materials.",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "The Singular Spark: A Hobbyist's Kaleidoscope",
+            "description": "Delve into the world of extraordinary pastimes! This quiz explores unusual hobbies, from the meticulously crafted to the delightfully bizarre. Test your knowledge of niche pursuits and discover passions you never knew existed. Are you ready to embrace the wonderfully weird?",
+            "questions": [
+                {
+                    "text": "What is 'Extreme Ironing,' a hobby that gained popularity in the late 1990s?",
+                    "hint": "Think about combining a common household chore with an adventurous location.",
+                    "option1": "Competitive origami folding in challenging environments.",
+                    "option2": "Synchronized swimming performed in unusual locations.",
+                    "option3": "Taking an iron and ironing board to remote locations and photographing the activity.",
+                    "option4": "Creating miniature iron sculptures.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The hobby of 'Newsraiding' involves what unique activity?",
+                    "hint": "It's a form of creative writing and performance art, often involving public spaces.",
+                    "option1": "Collecting vintage newspapers and archiving them digitally.",
+                    "option2": "Creating fictional news reports and performing them in public, often satirically.",
+                    "option3": "Analyzing news trends to predict future events.",
+                    "option4": "Restoring damaged newspapers to their original condition.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the primary focus of 'Train Surfing' (also known as 'railriding'), a highly dangerous and illegal activity?",
+                    "hint": "It involves riding on the exterior of a moving train.",
+                    "option1": "Collecting train schedules and timetables.",
+                    "option2": "Building miniature train models.",
+                    "option3": "Photographing trains in motion.",
+                    "option4": "Riding on the outside of a moving train.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What defines the hobby of 'Competitive Endurance Tickling'?",
+                    "hint": "It's exactly what it sounds like  a test of tickle tolerance.",
+                    "option1": "Collecting rare and unusual tickling devices.",
+                    "option2": "A competition where participants attempt to withstand tickling for the longest time.",
+                    "option3": "Studying the physiological effects of tickling.",
+                    "option4": "Creating humorous videos featuring tickling.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the core activity in 'Cloudspotting'?",
+                    "hint": "It's a relaxing and contemplative pastime focused on the sky.",
+                    "option1": "Building miniature cloud formations.",
+                    "option2": "Collecting photographs of clouds.",
+                    "option3": "Observing and identifying different types of clouds.",
+                    "option4": "Predicting weather patterns based on cloud formations.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Toy Voyaging'?",
+                    "hint": "It involves sending a toy on a journey and documenting its adventures.",
+                    "option1": "Collecting vintage toys and displaying them in a museum.",
+                    "option2": "Sending a toy on a journey, often with a tracking device, and sharing its experiences online.",
+                    "option3": "Restoring damaged toys to their original condition.",
+                    "option4": "Creating stop-motion animation films featuring toys.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the central element of 'Gurning'?",
+                    "hint": "It's a traditional British folk activity involving facial contortion.",
+                    "option1": "Collecting antique masks and puppets.",
+                    "option2": "Creating elaborate facial makeup designs.",
+                    "option3": "Contorting one's face into grotesque expressions, often through the mouth.",
+                    "option4": "Studying the anatomy of facial muscles.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What distinguishes 'Microsculpture' as a unique art form?",
+                    "hint": "It involves creating incredibly small sculptures.",
+                    "option1": "Creating large-scale sculptures from recycled materials.",
+                    "option2": "Painting miniature portraits on tiny canvases.",
+                    "option3": "Creating sculptures that are too small to be seen without magnification.",
+                    "option4": "Building miniature replicas of famous landmarks.",
+                    "solution": "3"
+                }
+            ]
+        }
+    ]
+}

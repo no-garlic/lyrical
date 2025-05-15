@@ -1,0 +1,163 @@
+{% extends "quizly/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'quizly/style/attempt.css' %}">
+    <script src="{% static 'quizly/script/attempt.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="page-heading">
+        <h2>{{ quiz.name }}</h2>
+        <p>{{ quiz.description }}</p>
+    </div>
+
+    {% if quiz_attempt %}
+    <div class="details-container">
+        <div>
+            Completed by <strong><a href="{% url 'profile' quiz_attempt.user.username %}">{{ quiz_attempt.user.display_name }}</a></strong>
+            on <strong>{{ quiz_attempt.date_taken|date:"M d, Y" }}</strong> from category <strong> 
+            <a href="{% url 'browse' %}?category={{ quiz.category.id }}">{{ quiz.category.name }}</strong></a>.
+        </div>
+        
+        <div class="details-banner">
+            Score<div class="details-value">{{ quiz_attempt.score }}/{{ quiz_attempt.quiz.get_question_count }}</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if answers %}
+        {% for answer in answers %}
+            <div class="details-container question-container 
+                {% if answer.answer != answer.question.solution and answer.answer > 0 %}
+                    incorrect-answer-selected
+                {% endif %}">
+                <div class="question-text">{{ answer.question.text }}</div>
+                <div class="question-options">
+                    <div class="option-item 
+                        {% if answer.answer == 1 %}
+                            {% if answer.question.solution == 1 %}
+                                correct-answer
+                            {% else %}
+                                incorrect-answer
+                            {% endif %}
+                        {% elif answer.question.solution == 1 and answer.answer == 0 %}
+                            correct-solution
+                        {% endif %}">
+                        <div class="radio-button {% if answer.answer == 1 %}selected{% endif %}"></div>
+                        <div class="option-text">{{ answer.question.option1 }}</div>
+                    </div>
+                    
+                    <div class="option-item 
+                        {% if answer.answer == 2 %}
+                            {% if answer.question.solution == 2 %}
+                                correct-answer
+                            {% else %}
+                                incorrect-answer
+                            {% endif %}
+                        {% elif answer.question.solution == 2 and answer.answer == 0 %}
+                            correct-solution
+                        {% endif %}">
+                        <div class="radio-button {% if answer.answer == 2 %}selected{% endif %}"></div>
+                        <div class="option-text">{{ answer.question.option2 }}</div>
+                    </div>
+                    
+                    <div class="option-item 
+                        {% if answer.answer == 3 %}
+                            {% if answer.question.solution == 3 %}
+                                correct-answer
+                            {% else %}
+                                incorrect-answer
+                            {% endif %}
+                        {% elif answer.question.solution == 3 and answer.answer == 0 %}
+                            correct-solution
+                        {% endif %}">
+                        <div class="radio-button {% if answer.answer == 3 %}selected{% endif %}"></div>
+                        <div class="option-text">{{ answer.question.option3 }}</div>
+                    </div>
+                    
+                    <div class="option-item 
+                        {% if answer.answer == 4 %}
+                            {% if answer.question.solution == 4 %}
+                                correct-answer
+                            {% else %}
+                                incorrect-answer
+                            {% endif %}
+                        {% elif answer.question.solution == 4 and answer.answer == 0 %}
+                            correct-solution
+                        {% endif %}">
+                        <div class="radio-button {% if answer.answer == 4 %}selected{% endif %}"></div>
+                        <div class="option-text">{{ answer.question.option4 }}</div>
+                    </div>
+                </div>                
+                <div class="question-hint">
+                    <div class="question-hint-header">
+                        <i class="bi bi-lightbulb"></i>Hint
+                    </div>
+                    <div class="question-hint-content">
+                        {{ answer.question.hint }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="action-buttons">
+            <a href="{% url 'quiz' quiz.id %}" class="quiz-btn btn-primary">Quiz Summary</a>
+        </div>
+
+    {% else %} <!-- If there are no answers -->
+
+        {% for question in questions %}
+            <div class="details-container question-container">
+                <div class="question-text">{{ question.text }}</div>
+                <form class="question-options" id="question-form">
+                    <div class="option-item">
+                        <input type="radio" name="question_{{ question.id }}" value="1" 
+                        id="q{{ question.id }}_opt1" class="option-radio" required>
+                        <label for="q{{ question.id }}_opt1" class="option-label">
+                            <div class="radio-button"></div>
+                            <div class="option-text">{{ question.option1 }}</div>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="question_{{ question.id }}" value="2" 
+                        id="q{{ question.id }}_opt2" class="option-radio" required>
+                        <label for="q{{ question.id }}_opt2" class="option-label">
+                            <div class="radio-button"></div>
+                            <div class="option-text">{{ question.option2 }}</div>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="question_{{ question.id }}" value="3" 
+                        id="q{{ question.id }}_opt3" class="option-radio" required>
+                        <label for="q{{ question.id }}_opt3" class="option-label">
+                            <div class="radio-button"></div>
+                            <div class="option-text">{{ question.option3 }}</div>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" name="question_{{ question.id }}" value="4" 
+                        id="q{{ question.id }}_opt4" class="option-radio" required>
+                        <label for="q{{ question.id }}_opt4" class="option-label">
+                            <div class="radio-button"></div>
+                            <div class="option-text">{{ question.option4 }}</div>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+
+        <form action="{% url 'new_attempt' quiz.id %}" method="post" id="quiz-form">
+            {% csrf_token %}
+            <input type="hidden" id="answers-data" name="answers" value="">
+            <div class="action-buttons">
+                <button type="submit" class="quiz-btn btn-primary">Submit Quiz</button>
+            </div>
+        </form>
+
+    {% endif %}
+
+
+
+{% endblock %}
+

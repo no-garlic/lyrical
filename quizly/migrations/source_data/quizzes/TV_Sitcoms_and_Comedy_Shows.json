@@ -1,0 +1,577 @@
+{
+    "TV Sitcoms & Comedy Shows": [
+        {
+            "name": "Laugh Tracks & Legacy: A Sitcom Showdown",
+            "description": "From classic family dynamics to quirky workplace comedies, sitcoms have shaped our entertainment landscape. This quiz tests your knowledge of iconic shows and memorable moments. Are you a true sitcom aficionado, or just along for the laughs?",
+            "questions": [
+                {
+                    "text": "In 'Seinfeld,' what is Kramer's elaborate scheme involving a rickshaw?",
+                    "hint": "Think about Kramer's entrepreneurial spirit and his unusual transportation ideas.",
+                    "option1": "Opening a chain of hot dog stands",
+                    "option2": "Operating an illegal taxi service",
+                    "option3": "Starting a dog-walking business",
+                    "option4": "Creating a mobile coffee delivery service",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Bob's Burgers'?",
+                    "hint": "It's a family-run establishment with a distinctive name.",
+                    "option1": "The Happy Clam",
+                    "option2": "Bob's Burgers",
+                    "option3": "Jerkface's",
+                    "option4": "The Crab Shack",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'Parks and Recreation,' what is Ron Swanson's preferred method of preparing meat?",
+                    "hint": "It involves a specific type of cooking and a strong preference for minimal seasoning.",
+                    "option1": "Grilling with a complex marinade",
+                    "option2": "Slow cooking with aromatic herbs",
+                    "option3": "Smoking with hickory wood",
+                    "option4": "Roasting with a sweet glaze",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the name of Phoebe Buffay's twin sister in 'Friends'?",
+                    "hint": "This character is known for her mischievous nature and often causes chaos.",
+                    "option1": "Monica Geller",
+                    "option2": "Ursula Buffay",
+                    "option3": "Rachel Green",
+                    "option4": "Phoebe Buffay",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'The Office,' what is the name of Dwight Schrute's beet farm?",
+                    "hint": "It's a reflection of his agricultural passion and family heritage.",
+                    "option1": "Schrute Farms",
+                    "option2": "Dunder Mifflin Farms",
+                    "option3": "Beetroot Acres",
+                    "option4": "Scranton Farms",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the fictional city where 'Cheers' is set?",
+                    "hint": "It's a small, charming town known for its friendly atmosphere.",
+                    "option1": "New York City",
+                    "option2": "Boston",
+                    "option3": "Chicago",
+                    "option4": "Los Angeles",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Arrested Development,' what is Lucille Bluth's signature cocktail?",
+                    "hint": "It's a deceptively simple drink with a surprising kick.",
+                    "option1": "Margarita",
+                    "option2": "Martini",
+                    "option3": "Old Fashioned",
+                    "option4": "Vodka Gimlet",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the quirky, eccentric landlord in '30 Rock'?",
+                    "hint": "He's known for his unusual business practices and flamboyant personality.",
+                    "option1": "Jack Donaghy",
+                    "option2": "Liz Lemon",
+                    "option3": "Jenna Maroney",
+                    "option4": "Tracy Jordan",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Giggles & Gadgets: A Sitcom Spectrum",
+            "description": "From quirky neighbors to workplace shenanigans, sitcoms have shaped our comedic landscape. This quiz tests your knowledge of classic and contemporary shows, exploring characters, running gags, and iconic moments. Are you a sitcom savant or a casual viewer? Let's find out!",
+            "questions": [
+                {
+                    "text": "In 'Seinfeld,' what is Kramer's infamous coffee table book about?",
+                    "hint": "Think about Kramer's eccentric hobbies and unusual interests.",
+                    "option1": "Rare stamps from around the world",
+                    "option2": "The history of competitive eating",
+                    "option3": "Macrame techniques",
+                    "option4": "Vintage baseball cards",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Bob's Burgers'?",
+                    "hint": "It's a family-run establishment with a unique charm.",
+                    "option1": "The Happy Clam",
+                    "option2": "Bunny's Diner",
+                    "option3": "Jerkface Burgers",
+                    "option4": "Belcher's Burger Joint",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Parks and Recreation,' what is Ron Swanson's preferred method of preparing meat?",
+                    "hint": "He's a staunch advocate for traditional masculinity and self-sufficiency.",
+                    "option1": "Slow cooking with exotic spices",
+                    "option2": "Grilling with a complex marinade",
+                    "option3": "Smoking with hickory wood",
+                    "option4": "Deep frying in peanut oil",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the name of the fictional city where 'Community' is set?",
+                    "hint": "It's a place known for its community college and quirky residents.",
+                    "option1": "Sunnydale",
+                    "option2": "Greendale",
+                    "option3": "Hill Valley",
+                    "option4": "Springfield",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'The Office,' what is the name of Dwight Schrute's beet farm?",
+                    "hint": "It's a significant part of his identity and a source of pride.",
+                    "option1": "Schrute Farms",
+                    "option2": "Beetroot Acres",
+                    "option3": "The Beet Retreat",
+                    "option4": "Agri-Schrute",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the sitcom starring Lucy Ricardo and Ricky Ricardo?",
+                    "hint": "It's considered a groundbreaking show in television history.",
+                    "option1": "The Honeymooners",
+                    "option2": "Leave it to Beaver",
+                    "option3": "I Love Lucy",
+                    "option4": "The Andy Griffith Show",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the profession of Leslie Knope's mother in 'Parks and Recreation'?",
+                    "hint": "She's a woman with strong opinions and a unique perspective.",
+                    "option1": "Chef",
+                    "option2": "Lawyer",
+                    "option3": "Real Estate Agent",
+                    "option4": "Veterinarian",
+                    "solution": "3"
+                },
+                {
+                    "text": "In 'Arrested Development,' what is the name of the frozen banana stand?",
+                    "hint": "It's a source of both income and embarrassment for the Bluth family.",
+                    "option1": "Bluth's Bananas",
+                    "option2": "Frozen Assets",
+                    "option3": "The Banana Boat",
+                    "option4": "Sealed with a Kiss",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the name of the quirky, eccentric neighbor on 'Full House'?",
+                    "hint": "He's known for his unusual fashion sense and catchphrases.",
+                    "option1": "Mr. Belvedere",
+                    "option2": "Uncle Jesse",
+                    "option3": "Uncle Joey",
+                    "option4": "Mr. Mooney",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the bar in 'Cheers'?",
+                    "hint": "It's a gathering place for a colorful cast of characters.",
+                    "option1": "Moe's Tavern",
+                    "option2": "Cheers",
+                    "option3": "Paddy's Pub",
+                    "option4": "The Regal Beagle",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "Witty Banter & Quirky Characters: A Sitcom Deep Dive",
+            "description": "Test your knowledge of classic and contemporary sitcoms! From iconic catchphrases to memorable plotlines, this quiz will challenge your understanding of the genre's most beloved shows. Prepare to laugh, reminisce, and see how well you truly know your sitcoms.",
+            "questions": [
+                {
+                    "text": "In 'Parks and Recreation,' what is Ron Swanson's preferred method of preparing breakfast?",
+                    "hint": "Think about Ron's love for meat and traditional masculinity.",
+                    "option1": "A bowl of granola with berries",
+                    "option2": "Pancakes with maple syrup",
+                    "option3": "A large plate of bacon and eggs",
+                    "option4": "A smoothie with spinach and kale",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the coffee shop frequented by the characters in 'Friends'?",
+                    "hint": "It's a central meeting place for the group.",
+                    "option1": "The Daily Grind",
+                    "option2": "Central Perk",
+                    "option3": "Java Junction",
+                    "option4": "Brew & Bean",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Seinfeld,' what is Kramer's first name?",
+                    "hint": "It's a detail that's rarely revealed.",
+                    "option1": "Cosmo",
+                    "option2": "Arthur",
+                    "option3": "Newman",
+                    "option4": "Kenny",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the fictional town where 'Schitt's Creek' is located?",
+                    "hint": "It's a town the Rose family unexpectedly inherits.",
+                    "option1": "Harmony",
+                    "option2": "Pleasantville",
+                    "option3": "Schitt's Creek",
+                    "option4": "Willow Creek",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the diner in 'Bob's Burgers'?",
+                    "hint": "It's a struggling business run by the Belcher family.",
+                    "option1": "The Greasy Spoon",
+                    "option2": "Burger Bliss",
+                    "option3": "Bob's Burgers",
+                    "option4": "The Patty Shack",
+                    "solution": "4"
+                },
+                {
+                    "text": "In 'The Office,' what is Michael Scott's favorite catchphrase?",
+                    "hint": "It's often used inappropriately.",
+                    "option1": "That's what she said!",
+                    "option2": "Bears. Beets. Battlestar Galactica.",
+                    "option3": "Did I stutter?",
+                    "option4": "YOLO",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of Sheldon Cooper's designated spot on the couch in 'The Big Bang Theory'?",
+                    "hint": "He's very particular about his seating arrangements.",
+                    "option1": "The Prime Spot",
+                    "option2": "The Comfort Zone",
+                    "option3": "His Spot",
+                    "option4": "The Designated Area",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the profession of Leslie Knope's mother in 'Parks and Recreation'?",
+                    "hint": "She's a very supportive figure in Leslie's life.",
+                    "option1": "Teacher",
+                    "option2": "Librarian",
+                    "option3": "Real Estate Agent",
+                    "option4": "Doctor",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'Arrested Development,' what is the name of Lucille Bluth's signature cocktail?",
+                    "hint": "It's a strong and sophisticated drink.",
+                    "option1": "Margarita",
+                    "option2": "Lucille's Martini",
+                    "option3": "Mojito",
+                    "option4": "Cosmopolitan",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the quirky neighbor in 'How I Met Your Mother' who lives across the hall from Ted?",
+                    "hint": "He's known for his eccentric personality and unusual hobbies.",
+                    "option1": "Marshall",
+                    "option2": "Lily",
+                    "option3": "Barney",
+                    "option4": "Robin",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Couch Potatoes & Comic Chaos",
+            "description": "From quirky neighbors to workplace shenanigans, this quiz tests your knowledge of beloved TV sitcoms and comedy shows. Prepare to recall iconic moments, memorable characters, and hilarious plotlines. Are you a true aficionado of the laugh track era and beyond?",
+            "questions": [
+                {
+                    "text": "In 'Parks and Recreation,' what is Ron Swanson's preferred method of preparing breakfast?",
+                    "hint": "Think about Ron's love for meat and traditional masculinity.",
+                    "option1": "A bowl of granola with berries",
+                    "option2": "Scrambled eggs with avocado toast",
+                    "option3": "A large plate of bacon and eggs",
+                    "option4": "A smoothie with spinach and kale",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the fictional bar in the sitcom 'Cheers'?",
+                    "hint": "It's a place where 'everybody knows your name'.",
+                    "option1": "The Rusty Mug",
+                    "option2": "O'Malley's Pub",
+                    "option3": "Cheers",
+                    "option4": "The Drunken Clam",
+                    "solution": "3"
+                },
+                {
+                    "text": "In 'Seinfeld,' what is Kramer's first name?",
+                    "hint": "It's a name that's often a source of confusion and amusement.",
+                    "option1": "Cosmo",
+                    "option2": "Arthur",
+                    "option3": "Newman",
+                    "option4": "Barry",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the profession of Leslie Knope's mother, Marlene?",
+                    "hint": "She's known for her unique and sometimes eccentric hobbies.",
+                    "option1": "A lawyer",
+                    "option2": "A teacher",
+                    "option3": "A competitive miniature golfer",
+                    "option4": "A doctor",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Twin Peaks'?",
+                    "hint": "It's a central location for gossip and important plot developments.",
+                    "option1": "The Blue Plate Diner",
+                    "option2": "The Double R Diner",
+                    "option3": "Lou's Cafe",
+                    "option4": "The Cozy Corner",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "Slapstick & Sass: A Sitcom Spotlight",
+            "description": "Test your knowledge of classic and contemporary sitcoms! From quirky ensembles to iconic catchphrases, this quiz will challenge your memory and appreciation for the world of televised comedy. Prepare to laugh, reminisce, and see how well you truly know your sitcoms.",
+            "questions": [
+                {
+                    "text": "In 'Seinfeld,' what is Kramer's full first name?",
+                    "hint": "Think about the episode where he reveals a surprising detail about his past.",
+                    "option1": "Cosmo",
+                    "option2": "Neil",
+                    "option3": "Arthur",
+                    "option4": "Morty",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Bob's Burgers'?",
+                    "hint": "It's a family-run establishment with a unique menu.",
+                    "option1": "Monk's",
+                    "option2": "Good Burger",
+                    "option3": "Jailbreak Burgers",
+                    "option4": "Bob's Burgers",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which 'Friends' character is known for their love of leather pants?",
+                    "hint": "This character's fashion choices are often a source of humor.",
+                    "option1": "Rachel",
+                    "option2": "Monica",
+                    "option3": "Joey",
+                    "option4": "Phoebe",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the fictional town where 'Parks and Recreation' is set?",
+                    "hint": "It's a small town in Indiana with a quirky local government.",
+                    "option1": "Pawnee",
+                    "option2": "Springfield",
+                    "option3": "Hill Valley",
+                    "option4": "Arlen",
+                    "solution": "4"
+                },
+                {
+                    "text": "In 'The Office' (US), what is the name of Michael Scott's screenplay?",
+                    "hint": "It's a dramatic, albeit poorly received, work of fiction.",
+                    "option1": "Threat Level Midnight",
+                    "option2": "Somehow I Manage",
+                    "option3": "The Dundies",
+                    "option4": "Dinner Party",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the eccentric landlord in 'Arrested Development'?",
+                    "hint": "He's known for his unusual business ventures and questionable judgment.",
+                    "option1": "Lucille Austero",
+                    "option2": "Gob Bluth",
+                    "option3": "Franklin H. George",
+                    "option4": "Barry Zwick",
+                    "solution": "3"
+                },
+                {
+                    "text": "In 'Modern Family,' what is Phil Dunphy's self-proclaimed nickname?",
+                    "hint": "It reflects his enthusiastic and often unconventional parenting style.",
+                    "option1": "Cool Dad",
+                    "option2": "The Fun Uncle",
+                    "option3": "Mr. Manager",
+                    "option4": "Coolest Dad Ever",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the name of the coffee shop frequented by the characters in 'How I Met Your Mother'?",
+                    "hint": "It's a central meeting place for the group.",
+                    "option1": "Central Perk",
+                    "option2": "Java the Hutt",
+                    "option3": "The Bean Scene",
+                    "option4": "Brewed Awakening",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "Zany Schemes & Endearing Flubs: A Sitcom Saga",
+            "description": "Dive into the hilarious world of television sitcoms! This quiz explores iconic shows, memorable characters, and the clever writing that has kept us laughing for decades. Test your knowledge of classic and contemporary comedy  are you a true sitcom savant?",
+            "questions": [
+                {
+                    "text": "In 'Parks and Recreation,' what is Ron Swanson's preferred method of preparing breakfast?",
+                    "hint": "Think about Ron's love for meat and minimal effort.",
+                    "option1": "A bowl of granola with fresh berries",
+                    "option2": "A stack of pancakes with maple syrup",
+                    "option3": "A plate of bacon and eggs, cooked in bacon grease",
+                    "option4": "A smoothie with spinach and kale",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Seinfeld'?",
+                    "hint": "It's a New York City institution, known for its quirky owner.",
+                    "option1": "Monk's Cafe",
+                    "option2": "The Peach Pit",
+                    "option3": "Central Perk",
+                    "option4": "Cheers",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'The Office,' what is the name of Dwight Schrutes beet farm?",
+                    "hint": "It's a reflection of his agricultural passion and German heritage.",
+                    "option1": "Schrute Farms",
+                    "option2": "Dunder Mifflin Acres",
+                    "option3": "Beetroot Bliss",
+                    "option4": "The Scranton Harvest",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the profession of Chandler Bing in 'Friends'?",
+                    "hint": "It's a job he often complains about, but never fully understands.",
+                    "option1": "Advertising Executive",
+                    "option2": "Statistical Analysis and Data Reconfiguration",
+                    "option3": "Accountant",
+                    "option4": "Software Engineer",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Arrested Development,' what is the name of Lucille Bluths signature cocktail?",
+                    "hint": "It's a deceptively simple drink with a surprising kick.",
+                    "option1": "The Martini",
+                    "option2": "The Old Fashioned",
+                    "option3": "The Lucille",
+                    "option4": "The Manhattan",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the name of the fictional city where 'Bob's Burgers' is set?",
+                    "hint": "It's a quirky, seaside town with a unique charm.",
+                    "option1": "Springfield",
+                    "option2": "Hill Valley",
+                    "option3": "Seymour's Bay",
+                    "option4": "Ocean Avenue",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the quirky, antique shop owned by Lorelai Gilmore in 'Gilmore Girls'?",
+                    "hint": "It's a reflection of her eclectic taste and entrepreneurial spirit.",
+                    "option1": "Luke's Diner",
+                    "option2": "Miss Patty's Dance Studio",
+                    "option3": "Stars Hollow Antiques",
+                    "option4": "Doose's Market",
+                    "solution": "3"
+                },
+                {
+                    "text": "In 'Modern Family,' what is Phil Dunphy's self-proclaimed profession?",
+                    "hint": "It involves selling houses and being 'cool' with his clients.",
+                    "option1": "Real Estate Agent",
+                    "option2": "Financial Advisor",
+                    "option3": "Marketing Executive",
+                    "option4": "Lawyer",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the fictional television show within '30 Rock'?",
+                    "hint": "It's a cheesy, low-budget variety show that Liz Lemon despises.",
+                    "option1": "TGS with Tracy Jordan",
+                    "option2": "The Tonight Show",
+                    "option3": "Saturday Night Live",
+                    "option4": "Late Night with Conan O'Brien",
+                    "solution": "3"
+                },
+                {
+                    "text": "In 'Community,' what is the name of the study group's unofficial leader?",
+                    "hint": "He's known for his elaborate plans and pop culture references.",
+                    "option1": "Annie Edison",
+                    "option2": "Jeff Winger",
+                    "option3": "Abed Nadir",
+                    "option4": "Shirley Bennett",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "Absurdity & Antics: A Sitcom Universe",
+            "description": "Dive into the wonderfully weird world of television sitcoms! This quiz explores iconic shows, memorable characters, and the unique humor that has defined the genre. Test your knowledge of classic and contemporary comedy  are you ready to embrace the absurdity?",
+            "questions": [
+                {
+                    "text": "In 'Arrested Development,' what is the name of Lucille Bluths signature cocktail?",
+                    "hint": "Think about Lucille's flamboyant personality and her love of indulgence.",
+                    "option1": "The Blue Raspberry",
+                    "option2": "The Lucille Special",
+                    "option3": "The Banana Panther",
+                    "option4": "The Frozen Banana",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the fictional town where 'Parks and Recreation' is primarily set?",
+                    "hint": "It's a small, quirky town in Indiana.",
+                    "option1": "Eagleton",
+                    "option2": "Pawnee",
+                    "option3": "Swittersville",
+                    "option4": "Brightport",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which 'Seinfeld' character is famously known for their 'man hands'?",
+                    "hint": "Consider the character known for their awkwardness and lack of finesse.",
+                    "option1": "George Costanza",
+                    "option2": "Jerry Seinfeld",
+                    "option3": "Newman",
+                    "option4": "Kramer",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'The Office' (US), what is the name of Dwight Schrutes beet farm?",
+                    "hint": "It's a reflection of Dwight's unique agricultural pursuits.",
+                    "option1": "Schrute Farms",
+                    "option2": "Beetroot Acres",
+                    "option3": "The Beet Retreat",
+                    "option4": "Harvest Haven",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the name of the diner frequented by the characters in 'Seinfeld'?",
+                    "hint": "It's a classic New York City establishment.",
+                    "option1": "Monk's Cafe",
+                    "option2": "Pete's",
+                    "option3": "The Coffee Shop",
+                    "option4": "Lou's",
+                    "solution": "4"
+                },
+                {
+                    "text": "In 'Community,' what is the name of the study groups unofficial leader?",
+                    "hint": "He's known for his elaborate plans and desire for structure.",
+                    "option1": "Annie Edison",
+                    "option2": "Jeff Winger",
+                    "option3": "Greendale Dean",
+                    "option4": "Abed Nadir",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the profession of Leslie Knope's mother in 'Parks and Recreation'?",
+                    "hint": "It's a surprising and somewhat unconventional career.",
+                    "option1": "Librarian",
+                    "option2": "Chef",
+                    "option3": "Mortician",
+                    "option4": "Lawyer",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the name of the fictional network that broadcasts '30 Rock'?",
+                    "hint": "It's a parody of a major television network.",
+                    "option1": "NBC",
+                    "option2": "Kabletown",
+                    "option3": "FOX",
+                    "option4": "ABC",
+                    "solution": "2"
+                }
+            ]
+        }
+    ]
+}

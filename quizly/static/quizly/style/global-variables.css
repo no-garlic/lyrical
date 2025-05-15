@@ -1,0 +1,139 @@
+/* 
+ --------------------------------------------------------
+                       Primary colors 
+ -------------------------------------------------------- 
+*/
+:root {
+  --color-primary: #15a29f;
+  --color-primary-light: #128a89;
+  --color-primary-dark: #0e706f;
+  --color-primary-transparent-10: rgba(21, 162, 159, 0.1);
+  --color-primary-transparent-11: rgba(21, 162, 159, 0.11);
+  --color-primary-transparent-22: rgba(21, 162, 159, 0.22);
+  --color-primary-transparent-33: rgba(21, 162, 159, 0.33);
+  --color-primary-transparent-44: rgba(21, 162, 159, 0.44);
+  --color-primary-transparent-50: rgba(21, 162, 159, 0.5);
+  --color-primary-transparent-77: rgba(21, 162, 159, 0.77);
+  --color-primary-transparent-88: rgba(21, 162, 159, 0.88);
+  
+  /* 
+   --------------------------------------------------------
+                         Text colors 
+   -------------------------------------------------------- 
+  */
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-light: #444;
+  --color-text-white: #ffffff;
+  
+  /* 
+   --------------------------------------------------------
+                   Success & error colors 
+   -------------------------------------------------------- 
+  */
+  --color-success: #4CAF50;
+  --color-success-bg: rgba(76, 175, 80, 0.1);
+  --color-success-bg-light: rgba(76, 175, 80, 0.05);
+  --color-error: #F44336;
+  --color-error-bg: rgba(244, 67, 54, 0.1);
+  
+  /* 
+   --------------------------------------------------------
+                        Hint colors 
+   -------------------------------------------------------- 
+  */
+  --color-hint-bg: rgba(255, 249, 196, 0.7);
+  --color-hint-title: #9E7400;
+  --color-hint-text: #5D4500;
+  --color-hint-border: #FBC02D;
+  
+  /* 
+   --------------------------------------------------------
+                         Backgrounds 
+   -------------------------------------------------------- 
+  */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9f9f9;
+  --color-bg-tertiary: #dedede;
+  
+  /* 
+   --------------------------------------------------------
+                          Gradients 
+   -------------------------------------------------------- 
+  */
+  --gradient-primary: linear-gradient(135deg, #ffffff, rgba(21, 162, 159, 0.11));
+  --gradient-sidebar: linear-gradient(135deg, #ffffff, rgba(21, 162, 159, 0.11));
+  --gradient-banner: linear-gradient(to right, transparent, rgba(21, 162, 159, 0.88) 30%, rgba(21, 162, 159, 0.88) 70%, transparent);
+  --gradient-banner-thin: linear-gradient(to right, rgba(21, 162, 159, 0.05), rgba(21, 162, 159, 0.5) 20%, rgba(21, 162, 159, 0.5) 80%, rgba(21, 162, 159, 0.05));
+  --gradient-hero: linear-gradient(135deg, rgba(21, 162, 159, 0.33), #ffffff);
+  
+  /* 
+   --------------------------------------------------------
+                        Border radius 
+   -------------------------------------------------------- 
+  */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 12px;
+  
+  /* 
+   --------------------------------------------------------
+                         Box shadows 
+   -------------------------------------------------------- 
+  */
+  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --shadow-primary-btn: 0 2px 5px rgba(21, 162, 159, 0.3);
+  --shadow-primary-btn-hover: 0 4px 8px rgba(21, 162, 159, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(21, 162, 159, 0.15);
+  
+  /* 
+   --------------------------------------------------------
+                            Fonts 
+   -------------------------------------------------------- 
+  */
+  --font-family-primary: 'Poppins', Arial, sans-serif;
+  --font-family-logo: 'Lilita One', cursive;
+  --font-size-base: 18px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+  --font-size-lg: 20px;
+  --font-size-xl: 32px;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* 
+   --------------------------------------------------------
+                          Spacing 
+   -------------------------------------------------------- 
+  */
+  --space-xs: 5px;
+  --space-sm: 10px;
+  --space-md: 15px;
+  --space-lg: 20px;
+  --space-xl: 25px;
+  --space-xxl: 30px;
+  
+  /* 
+   --------------------------------------------------------
+                         Transitions 
+   -------------------------------------------------------- 
+  */
+  --transition-fast: all 0.2s ease;
+  --transition-medium: all 0.3s ease;
+  
+  /* 
+   --------------------------------------------------------
+                           Layout 
+   -------------------------------------------------------- 
+  */
+  --sidebar-width: 260px;
+  --sidebar-width-collapsed: 110px;
+  --max-width-container: 1060px;
+  --max-width-page: 1270px;
+  --max-width-content: 800px;
+}

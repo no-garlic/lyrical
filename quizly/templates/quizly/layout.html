@@ -5,23 +5,29 @@
     <head>
         <title>{% block title %}Quizly{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-        <link href="{% static 'quizly/styles.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'quizly/style/global-variables.css' %}">
+        <link rel="stylesheet" href="{% static 'quizly/style/bootstrap-overrides.css' %}">
+        <link rel="stylesheet" href="{% static 'quizly/style/styles.css' %}">
         {% block head %}
         {% endblock %}
     </head>
     <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
-        <div class="header">
-        </div>
         <div class="page-container">
+            {% block sidebar %}
             <aside class="sidebar">
                 <ul>
                     <!-- Logo / default route -->
                     <li class="sidebar-logo">
                         <a href="{% url 'index' %}">
-                            <img src="{% static 'quizly/quizly.jpeg' %}" alt="quizly Logo" class="sidebar-logo-large">
-                            <img src="{% static 'quizly/quizly-icon.jpeg' %}" alt="quizly Icon" class="sidebar-logo-small">
+                            <img src="{% static 'quizly/image/quizly.jpeg' %}" alt="quizly Logo" class="sidebar-logo-large">
+                            <img src="{% static 'quizly/image/quizly-icon.jpeg' %}" alt="quizly Icon" class="sidebar-logo-small">
                         </a>
                     </li>
                     
@@ -61,7 +67,7 @@
 
                     <!-- My Profile -->
                     <li>
-                        <a href="{% url 'profile' %}" class="{% if active_filter != 'profile' %}in{% endif %}active-link">
+                        <a href="{% url 'profile' user.username %}" class="{% if active_filter != 'profile' %}in{% endif %}active-link">
                             <i class="bi-person"></i>
                             <span class="sidebar-menu-text">My Profile</span>
                         </a>
@@ -96,9 +102,10 @@
                     {% endif %}
                 </ul>
             </aside>
+            {% endblock %}
 
             <main class="content">
-                <!-- Show any error message -->
+                <!-- Show any error message  from any page as a banner -->
                 {% if error_message %}
                     <div class="alert alert-danger" role="alert">
                         {{ error_message }}

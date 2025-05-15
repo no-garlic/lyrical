@@ -6,20 +6,30 @@ from pathlib import Path
 
 
 def add_data(apps, schema_editor):
+    """
+    Adds categories to the database from a JSON file.
+    """
     
-    migration_folder = Path(__file__).parent
-    json_file_path = migration_folder / 'quizzes.json'
+    # Get the folder that contains the category JSON file
+    current_folder = Path(__file__).parent
+    json_file_path = current_folder / 'source_data' / 'categories.json'
     
+    # Load the JSON file
     with open(json_file_path, 'r') as file:
-        quiz_data = json.load(file)
+        category_data = json.load(file)
     
+    # Get the model we need to work with
     category_model = apps.get_model('quizly', 'Category')
     
-    for category_name in quiz_data.keys():
-        category_model.objects.create(name=category_name)
+    # Create category objects from each entry in the JSON file
+    for name, description in category_data.items():
+        category_model.objects.create(name=name, description=description)
 
 
 def remove_data(apps, schema_editor):
+    """
+    Removes all categories from the database.
+    """
     categories = apps.get_model('quizly', 'Category')
     categories.objects.all().delete()
 

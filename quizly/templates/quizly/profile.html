@@ -1,0 +1,105 @@
+{% extends "quizly/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'quizly/style/profile.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% csrf_token %}
+    <div class="page-heading">
+        <h2>{{ profile_user.display_name }}</h2>
+    </div>
+
+    <div class="details-container">
+        <h3 class="details-heading">My Details</h3>
+        <div class="table-container">
+            <table class="user-details-table">
+                <tbody>
+                    <tr>
+                        <td>Username</td>
+                        <td>{{ profile_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ profile_user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td>{{ profile_user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td>{{ profile_user.last_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="details-container">
+        <h3 class="details-heading">Saved For Later</h3>
+        <div class="table-container">
+            {% if saved_for_later|length > 0 %}
+                <table class="profile-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in saved_for_later %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'quiz' quiz.id %}">{{ quiz.name }}</a>
+                                </td>
+                                <td style="width:30% !important;">
+                                    <a href="{% url 'browse' %}?category={{quiz.category.id}}">{{ quiz.category.name }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-items">No quizzes saved for later.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="details-container">
+        <h3 class="details-heading">Completed</h3>
+        <div class="table-container">
+            {% if quiz_attempts|length > 0 %}
+                <table class="profile-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attempt in quiz_attempts %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'quiz' attempt.quiz.id %}">{{ attempt.quiz.name }}</a>
+                                </td>
+                                <td>
+                                    {{ attempt.date_taken|date:"M d, Y" }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'show_attempt' attempt.id %}">{{ attempt.score }}/{{ attempt.quiz.get_question_count }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-items">No completed quizzes.</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+

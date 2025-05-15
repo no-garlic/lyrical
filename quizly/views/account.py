@@ -1,43 +1,9 @@
-import json
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
-from django import forms
-from django.core.paginator import Paginator
-from .models import *
-
-
-def index(request):
-    return render(request, "quizly/index.html", {
-        "active_filter": "index",
-    })
-
-
-def quiz(request):
-    return render(request, "quizly/index.html", {
-        "active_filter": "create",
-    })
-
-
-def browse(request):
-    return render(request, "quizly/index.html", {
-        "active_filter": "browse",
-    })
-
-
-def search(request):
-    return render(request, "quizly/index.html", {
-        "active_filter": "search",
-    })
-
-def profile(request):
-    return render(request, "quizly/index.html", {
-        "active_filter": "profile",
-    })
+from ..models import *
 
 
 def login_view(request):
@@ -54,7 +20,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("browse"))
         else:
             return render(request, "quizly/login.html", {
                 "message": "Invalid username and/or password."
@@ -78,8 +44,11 @@ def register(request):
     Handle registration request
     """
     if request.method == "POST":
+        # get the form data
         username = request.POST["username"]
         email = request.POST["email"]
+        firstname = request.POST["firstname"]
+        lastname = request.POST["lastname"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -90,18 +59,26 @@ def register(request):
                 "active_filter": "register"
             })
 
-        # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            # Attempt to create and save the new user
+            user = User.objects.create_user(
+                username=username, 
+                email=email, 
+                password=password,
+                first_name=firstname, 
+                last_name=lastname)
             user.save()
         except IntegrityError:
+            # If username already taken, show error message
             return render(request, "quizly/register.html", {
                 "message": "Username already taken.",
                 "active_filter": "register"
             })
+        # Automatically log the user in after registration
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("browse"))
     else:
+        # GET request, show the registration form
         return render(request, "quizly/register.html", {
             "active_filter": "register"
         })

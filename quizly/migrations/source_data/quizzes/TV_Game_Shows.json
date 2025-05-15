@@ -1,0 +1,724 @@
+{
+    "TV Game Shows": [
+        {
+            "name": "Spinning Wheels & Winning Deals: A TV Game Show Gauntlet",
+            "description": "Test your knowledge of the most iconic and obscure TV game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the art of televised competition. Are you a true game show guru, or will you be stumped by the buzzer?",
+            "questions": [
+                {
+                    "text": "What was the original grand prize offered on 'The Price is Right' when it premiered in 1956?",
+                    "hint": "Think about the era and what a significant purchase would have been.",
+                    "option1": "A brand new car",
+                    "option2": "A trip around the world",
+                    "option3": "A fully furnished house",
+                    "option4": "A lifetime supply of groceries",
+                    "solution": "3"
+                },
+                {
+                    "text": "On 'Family Feud', what is the maximum number of family members allowed on stage?",
+                    "hint": "Consider the need for a large enough group to represent a 'family'.",
+                    "option1": "5",
+                    "option2": "10",
+                    "option3": "12",
+                    "option4": "8",
+                    "solution": "2"
+                },
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously featured contestants bidding on merchandise?",
+                    "hint": "This show is known for its iconic closing sequence and 'help me!' sign.",
+                    "option1": "Let's Make a Deal",
+                    "option2": "Match Game",
+                    "option3": "The Price is Right",
+                    "option4": "Press Your Luck",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the primary objective in the game show 'Wipeout'?",
+                    "hint": "It involves navigating a series of challenging and often hilarious obstacles.",
+                    "option1": "Answering trivia questions correctly",
+                    "option2": "Solving puzzles",
+                    "option3": "Completing an obstacle course",
+                    "option4": "Negotiating deals",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Deal or No Deal', what does the 'Briefcase Banker' represent?",
+                    "hint": "It's a mysterious figure who influences the contestant's decisions.",
+                    "option1": "A random number generator",
+                    "option2": "The show's producer",
+                    "option3": "A representation of luck",
+                    "option4": "A psychological strategist",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which game show, known for its 'Whammy' and its prize pot that could be won or lost, originally aired in the 1980s?",
+                    "hint": "Think about a game show where you avoid a menacing character.",
+                    "option1": "Press Your Luck",
+                    "option2": "Card Sharks",
+                    "option3": "Tic-Tac-Dough",
+                    "option4": "Chain Reaction",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the central mechanic of 'Let's Make a Deal'?",
+                    "hint": "It involves choosing between different doors or curtains, hoping for a valuable prize.",
+                    "option1": "Answering trivia questions",
+                    "option2": "Solving logic puzzles",
+                    "option3": "Bidding on items",
+                    "option4": "Choosing doors with hidden prizes",
+                    "solution": "4"
+                },
+                {
+                    "text": "On 'Hollywood Squares', what was the typical format of the game?",
+                    "hint": "It involved celebrities answering questions and marking their answers on a grid.",
+                    "option1": "A singing competition",
+                    "option2": "A celebrity tic-tac-toe game",
+                    "option3": "A trivia battle",
+                    "option4": "A physical challenge",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the main goal in the game show 'Minute to Win It'?",
+                    "hint": "It involves completing a series of challenges within a very short time limit.",
+                    "option1": "Winning a cash prize",
+                    "option2": "Completing a series of quick challenges",
+                    "option3": "Answering trivia questions",
+                    "option4": "Building a structure",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the significance of the 'Big Board' on 'The $100,000 Pyramid'?",
+                    "hint": "It's a visual aid used to help contestants guess words and phrases.",
+                    "option1": "It displays the contestant's score",
+                    "option2": "It lists the categories for the round",
+                    "option3": "It shows the clues for the contestant to guess",
+                    "option4": "It tracks the time remaining",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "Lights, Cameras, Cash! A TV Game Show Challenge",
+            "description": "Test your knowledge of the world's most beloved TV game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of winning. Are you ready to play for keeps?",
+            "questions": [
+                {
+                    "text": "Which iconic game show, hosted by Bob Barker, famously featured contestants spinning a large wheel to determine their prize money?",
+                    "hint": "Think about a game show known for its colorful wheel and prizes ranging from cars to cash.",
+                    "option1": "Family Feud",
+                    "option2": "Let's Make a Deal",
+                    "option3": "The Price Is Right",
+                    "option4": "Press Your Luck",
+                    "solution": "4"
+                },
+                {
+                    "text": "On 'Double Dare,' what was the primary purpose of the 'Physical Challenge'?",
+                    "hint": "Consider the messy and often hilarious nature of the challenges on this Nickelodeon show.",
+                    "option1": "To win bonus money",
+                    "option2": "To avoid the dreaded 'Pie in the Face'",
+                    "option3": "To earn a chance to enter the Obstacle Course",
+                    "option4": "To determine the team captain",
+                    "solution": "3"
+                },
+                {
+                    "text": "What was the original grand prize offered on 'Who Wants to Be a Millionaire'?",
+                    "hint": "The prize was a significant sum of money, reflecting the show's ambition.",
+                    "option1": "$10,000",
+                    "option2": "$50,000",
+                    "option3": "$1,000,000",
+                    "option4": "$100,000",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'Deal or No Deal,' what does the 'banker' represent?",
+                    "hint": "The banker's role is crucial to the game's tension and strategy.",
+                    "option1": "A contestant who has already won a large sum",
+                    "option2": "The show's producer",
+                    "option3": "An anonymous entity offering deals to the contestant",
+                    "option4": "The host's assistant",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which game show, known for its fast-paced questioning and buzzer system, tests contestants' knowledge of pop culture and general trivia?",
+                    "hint": "This show is known for its quick-fire rounds and competitive atmosphere.",
+                    "option1": "Jeopardy!",
+                    "option2": "Match Game",
+                    "option3": "Hollywood Squares",
+                    "option4": "Chain Reaction",
+                    "solution": "1"
+                },
+                {
+                    "text": "On 'Let's Make a Deal,' what is the significance of the 'door' choices?",
+                    "hint": "The doors represent a gamble, concealing either a valuable prize or a comical disappointment.",
+                    "option1": "They always contain a car",
+                    "option2": "They determine the order of contestants",
+                    "option3": "They conceal prizes of varying value, known only to the contestant",
+                    "option4": "They are purely decorative",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the primary objective in the game show 'Wipeout'?",
+                    "hint": "Think about the show's focus on physical challenges and comedic mishaps.",
+                    "option1": "To correctly answer trivia questions",
+                    "option2": "To negotiate deals with the banker",
+                    "option3": "To navigate a series of increasingly difficult and hilarious obstacles",
+                    "option4": "To spin a wheel and win prizes",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'The Weakest Link,' what is the role of the 'chain'?",
+                    "hint": "The chain represents the contestants' connection and vulnerability.",
+                    "option1": "It determines the order of questions",
+                    "option2": "It signifies the contestants' collective score",
+                    "option3": "It represents the contestants' connection, and the weakest link is eliminated after each round",
+                    "option4": "It's a decorative element on the set",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the core mechanic of the game show 'Minute to Win It'?",
+                    "hint": "The show revolves around completing challenges within a very limited timeframe.",
+                    "option1": "Answering trivia questions under pressure",
+                    "option2": "Completing a series of challenges within one minute",
+                    "option3": "Negotiating deals with a mysterious banker",
+                    "option4": "Spinning a wheel to determine prize amounts",
+                    "solution": "2"
+                },
+                {
+                    "text": "On 'Family Feud,' what is the purpose of the 'Fast Money' round?",
+                    "hint": "This round determines the winning family's final prize amount.",
+                    "option1": "To answer a single, difficult question",
+                    "option2": "To guess the top six answers to a series of questions",
+                    "option3": "To spin a wheel and win bonus points",
+                    "option4": "To compete in a physical challenge",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Buzzer Beat: A TV Game Show Odyssey",
+            "description": "Test your knowledge of the world's most iconic television game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of the win. Are you ready to hear that buzzer sound?",
+            "questions": [
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously featured contestants spinning a large wheel to determine their prize money?",
+                    "hint": "Think about a show known for its colorful wheel and often-heard phrase, 'Come on down!'",
+                    "option1": "Family Feud",
+                    "option2": "The Price Is Right",
+                    "option3": "Let's Make a Deal",
+                    "option4": "Press Your Luck",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was the original premise of 'Hollywood Squares'?",
+                    "hint": "It involved celebrities answering questions in a grid format.",
+                    "option1": "Contestants guessed the prices of merchandise.",
+                    "option2": "Celebrities answered trivia questions in a tic-tac-toe style game.",
+                    "option3": "Teams competed to build the best product.",
+                    "option4": "Participants solved puzzles to unlock cash prizes.",
+                    "solution": "2"
+                },
+                {
+                    "text": "On 'Match Game', what was the defining characteristic of the answers contestants had to match?",
+                    "hint": "The answers were often silly, suggestive, or nonsensical.",
+                    "option1": "They were historical facts.",
+                    "option2": "They were scientific equations.",
+                    "option3": "They were blank phrases filled in by celebrity panelists.",
+                    "option4": "They were geographical locations.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the primary objective in the game show 'Wipeout'?",
+                    "hint": "It involves navigating a series of challenging and often hilarious obstacles.",
+                    "option1": "To correctly identify famous landmarks.",
+                    "option2": "To accurately guess the prices of items.",
+                    "option3": "To build the tallest structure.",
+                    "option4": "To complete an obstacle course without falling into the water.",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which game show features a 'Money Tree' that contestants can interact with to potentially win larger sums of money?",
+                    "hint": "It's a modern game show known for its vibrant set and strategic gameplay.",
+                    "option1": "Deal or No Deal",
+                    "option2": "The Million Second Quiz",
+                    "option3": "Card Sharks",
+                    "option4": "Who Wants to Be a Millionaire",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the core mechanic of 'Double Dare'?",
+                    "hint": "It combines trivia with messy, physical challenges.",
+                    "option1": "Contestants build elaborate structures.",
+                    "option2": "Teams compete in a singing competition.",
+                    "option3": "Correct answers earn the opportunity to issue 'Double Dare' challenges.",
+                    "option4": "Participants guess the weight of various objects.",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'Let's Make a Deal', what is the significance of the 'door'?",
+                    "hint": "It represents a potential prize, but also a risk.",
+                    "option1": "It leads to a bonus round.",
+                    "option2": "It determines the order of contestants.",
+                    "option3": "It conceals a prize, which could be valuable or a 'zonk'.",
+                    "option4": "It unlocks a secret message.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the unique element that distinguishes 'The Weakest Link' from other trivia game shows?",
+                    "hint": "Contestants vote each other out after each round.",
+                    "option1": "The questions are worth increasingly larger sums of money.",
+                    "option2": "The host is known for their harsh and critical demeanor.",
+                    "option3": "Contestants eliminate the 'weakest' player after each round.",
+                    "option4": "The set design is constantly changing.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the primary goal in the game show 'Superstar'? ",
+                    "hint": "It involves impersonating celebrities.",
+                    "option1": "To correctly guess the prices of items.",
+                    "option2": "Contestants impersonate celebrities and are judged on their performances.",
+                    "option3": "To build the tallest structure.",
+                    "option4": "To correctly identify famous landmarks.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the defining characteristic of the game show 'Pyramid'?",
+                    "hint": "It involves giving one-word clues to help teammates guess a list of words.",
+                    "option1": "Contestants build elaborate structures.",
+                    "option2": "Teams compete in a singing competition.",
+                    "option3": "One player gives clues to their teammate to guess a list of words.",
+                    "option4": "Participants guess the weight of various objects.",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "The Vault of Victory: A TV Game Show Examination",
+            "description": "Step into the spotlight and test your knowledge of television's most iconic game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of competition. Are you ready to unlock the Vault of Victory?",
+            "questions": [
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously featured contestants spinning a large wheel to determine their potential winnings?",
+                    "hint": "Think about a game show known for its colorful wheel and prizes ranging from cash to cars.",
+                    "option1": "Family Feud",
+                    "option2": "Let's Make a Deal",
+                    "option3": "The Price Is Right",
+                    "option4": "Press Your Luck",
+                    "solution": "4"
+                },
+                {
+                    "text": "In 'Double Dare,' what was the primary purpose of the 'Pie Face' challenge?",
+                    "hint": "Consider the comedic element and messy nature of the show.",
+                    "option1": "To determine the final score",
+                    "option2": "To test physical strength",
+                    "option3": "To add a humorous obstacle to the course",
+                    "option4": "To award bonus points",
+                    "solution": "1"
+                },
+                {
+                    "text": "What unique element distinguished 'Card Sharks' from other game shows, often involving a visual representation of the contestants' guesses?",
+                    "hint": "The show involved predicting card values, and a visual aid was used to represent these predictions.",
+                    "option1": "A live orchestra",
+                    "option2": "A panel of celebrity judges",
+                    "option3": "A pyramid-shaped board displaying card values",
+                    "option4": "A rotating prize wheel",
+                    "solution": "3"
+                },
+                {
+                    "text": "On 'Who Wants to Be a Millionaire,' what does the 'Phone-a-Friend' lifeline allow the contestant to do?",
+                    "hint": "This lifeline provides assistance from outside the studio.",
+                    "option1": "Ask the audience for a vote",
+                    "option2": "Consult with a legal expert",
+                    "option3": "Re-examine a previous question",
+                    "option4": "Contact a pre-selected friend or family member for help",
+                    "solution": "2"
+                },
+                {
+                    "text": "What was the central premise of the game show 'Chain Reaction,' where contestants answered questions and passed on answers to subsequent teams?",
+                    "hint": "The show involved a chain of answers, with each team building upon the previous one.",
+                    "option1": "Contestants competed to build the tallest tower",
+                    "option2": "Teams raced to solve puzzles",
+                    "option3": "Contestants answered questions and passed on answers to subsequent teams",
+                    "option4": "Players attempted to guess the most popular survey responses",
+                    "solution": "4"
+                }
+            ]
+        },
+        {
+            "name": "Stage Fright & Fortune: A TV Game Show Spectacle",
+            "description": "Test your knowledge of the world's most iconic television game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of competition. Are you ready to step onto the stage and prove you're a true game show aficionado?",
+            "questions": [
+                {
+                    "text": "Which game show, known for its elaborate sets and physical challenges, originally aired on Nickelodeon in the 1990s?",
+                    "hint": "Think about a show where contestants had to navigate a large, colorful obstacle course.",
+                    "option1": "Press Your Luck",
+                    "option2": "Family Feud",
+                    "option3": "The Price is Right",
+                    "option4": "Legends of the Hidden Temple",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was the original grand prize offered on 'Let's Make a Deal' when it premiered in 1966?",
+                    "hint": "Consider the era and the types of prizes that would have been considered valuable at the time.",
+                    "option1": "A brand new car",
+                    "option2": "A trip around the world",
+                    "option3": "$1,000,000 in cash",
+                    "option4": "A lifetime supply of groceries",
+                    "solution": "3"
+                },
+                {
+                    "text": "On 'Double Dare,' what was the primary purpose of the 'Pie in the Face' challenge?",
+                    "hint": "It wasn't just for laughs; it served a strategic purpose.",
+                    "option1": "To determine the fastest contestant",
+                    "option2": "To award bonus points",
+                    "option3": "To gain a time advantage in the physical challenge",
+                    "option4": "To eliminate a contestant",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously features contestants bidding on merchandise to win it for the lowest price?",
+                    "hint": "The phrase 'Come on down!' is synonymous with this show.",
+                    "option1": "Card Sharks",
+                    "option2": "Match Game",
+                    "option3": "Hollywood Squares",
+                    "option4": "The Price is Right",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the core mechanic of the game show 'Wipeout,' where contestants navigate a series of increasingly difficult and humorous obstacles?",
+                    "hint": "It's all about avoiding the water!",
+                    "option1": "Solving trivia questions",
+                    "option2": "Building structures",
+                    "option3": "Completing puzzles",
+                    "option4": "Navigating a challenging obstacle course",
+                    "solution": "2"
+                }
+            ]
+        },
+        {
+            "name": "Chasing the Checkered Flag: A TV Game Show Pursuit",
+            "description": "Test your knowledge of television's most iconic game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of winning. Prepare to navigate the trivia trail and see if you have what it takes to be a champion.",
+            "questions": [
+                {
+                    "text": "Which game show, known for its elaborate set and physical challenges, originally aired on Nickelodeon in the 1990s?",
+                    "hint": "Think about a show where contestants had to climb, slide, and navigate a large, colorful structure.",
+                    "option1": "Double Dare",
+                    "option2": "Legends of the Hidden Temple",
+                    "option3": "Where in the World is Carmen Sandiego?",
+                    "option4": "Super Mario Bros. Super Show!",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was the original grand prize offered on 'The Price is Right' when it premiered in 1956?",
+                    "hint": "It wasn't just cash; it was a significant lifestyle upgrade for the winner.",
+                    "option1": "A lifetime supply of groceries",
+                    "option2": "A brand new car",
+                    "option3": "A fully furnished house",
+                    "option4": "A trip around the world",
+                    "solution": "3"
+                },
+                {
+                    "text": "On 'Family Feud', what is the maximum number of family members allowed on stage to participate?",
+                    "hint": "Consider the size of a typical family and the logistics of the game.",
+                    "option1": "5",
+                    "option2": "7",
+                    "option3": "9",
+                    "option4": "11",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously featured contestants bidding on merchandise?",
+                    "hint": "Think about a show where guessing the price is key to winning.",
+                    "option1": "Let's Make a Deal",
+                    "option2": "The Match Game",
+                    "option3": "Password",
+                    "option4": "The Price is Right",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is the primary objective in the game show 'Wipeout'?",
+                    "hint": "It's all about overcoming obstacles, often in a humorous and messy way.",
+                    "option1": "Answering trivia questions correctly",
+                    "option2": "Solving logic puzzles",
+                    "option3": "Navigating a challenging obstacle course",
+                    "option4": "Negotiating deals with other contestants",
+                    "solution": "4"
+                },
+                {
+                    "text": "In 'Deal or No Deal', what determines the value of the sealed briefcases?",
+                    "hint": "The values are predetermined and range from a small amount to a substantial jackpot.",
+                    "option1": "The contestant's performance on a preliminary challenge",
+                    "option2": "A random number generator controlled by the host",
+                    "option3": "The current stock market conditions",
+                    "option4": "The contestant's lucky number",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which game show, known for its 'Pyramid' format, requires contestants to give clues to help their partner guess a secret word or phrase?",
+                    "hint": "Think about a show where communication and clever clues are essential.",
+                    "option1": "Press Your Luck",
+                    "option2": "Hollywood Squares",
+                    "option3": "The $100,000 Pyramid",
+                    "option4": "Chain Reaction",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the central mechanic of the game show 'Minute to Win It'?",
+                    "hint": "It's about completing challenges quickly, under a strict time limit.",
+                    "option1": "Answering trivia questions under pressure",
+                    "option2": "Building elaborate structures with limited resources",
+                    "option3": "Completing a series of quick challenges within one minute",
+                    "option4": "Negotiating deals with other contestants",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Dialing for Dollars & Dream Prizes: A TV Game Show Legacy",
+            "description": "Step into the spotlight and test your knowledge of television's most iconic game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of winning. Are you ready to prove you're a true game show aficionado?",
+            "questions": [
+                {
+                    "text": "What was the original grand prize offered on 'The Price is Right' when it premiered in 1956?",
+                    "hint": "Think about the era and what constituted a significant reward at the time.",
+                    "option1": "A brand new car",
+                    "option2": "A trip around the world",
+                    "option3": "A fully furnished house",
+                    "option4": "A year's worth of groceries",
+                    "solution": "4"
+                },
+                {
+                    "text": "On 'Family Feud', what is the primary objective of the 'Fast Money' round?",
+                    "hint": "Consider the scoring system and how families accumulate points.",
+                    "option1": "To guess the most popular answers in order",
+                    "option2": "To accumulate the highest total points within a time limit",
+                    "option3": "To correctly identify the host's secret answer",
+                    "option4": "To eliminate all opposing family members",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously featured contestants spinning a large wheel to determine their prize value?",
+                    "hint": "This show is synonymous with the phrase 'Come on down!'",
+                    "option1": "Let's Make a Deal",
+                    "option2": "Press Your Luck",
+                    "option3": "The Price is Right",
+                    "option4": "Match Game",
+                    "solution": "2"
+                },
+                {
+                    "text": "What unique element defined the gameplay of 'Press Your Luck,' beyond simply answering trivia questions?",
+                    "hint": "It wasn't just about knowing the answers; it was about avoiding something specific.",
+                    "option1": "Contestants had to solve riddles",
+                    "option2": "Contestants had to build a structure",
+                    "option3": "Contestants had to avoid Whammy squares",
+                    "option4": "Contestants had to sing a song",
+                    "solution": "1"
+                },
+                {
+                    "text": "Which daytime game show, known for its 'Double Points Round,' featured contestants competing in a series of physical challenges?",
+                    "hint": "Think about a show that combined trivia with athleticism.",
+                    "option1": "Card Sharks",
+                    "option2": "Tic-Tac-Dough",
+                    "option3": "Chain Reaction",
+                    "option4": "Minute to Win It",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was the central mechanic of 'Hollywood Squares,' beyond simply answering trivia questions?",
+                    "hint": "It involved a grid of celebrities and a unique way of selecting answers.",
+                    "option1": "Contestants had to act out scenes",
+                    "option2": "Contestants had to guess the celebrity's profession",
+                    "option3": "Contestants chose squares occupied by celebrities",
+                    "option4": "Contestants had to sing a duet",
+                    "solution": "3"
+                },
+                {
+                    "text": "On 'Let's Make a Deal,' what is the significance of the 'door' choices for contestants?",
+                    "hint": "It's about risk versus reward and the potential for surprising outcomes.",
+                    "option1": "The doors always contain identical prizes",
+                    "option2": "The host chooses the doors for the contestants",
+                    "option3": "The doors represent a gamble with unknown prizes",
+                    "option4": "The doors are only decorative and have no prizes",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which game show, hosted by Drew Carey, involved contestants using 'power-ups' to strategically answer questions and gain an advantage?",
+                    "hint": "This show combined trivia with a strategic element.",
+                    "option1": "The Chase",
+                    "option2": "Who Wants to Be a Millionaire",
+                    "option3": "Deal or No Deal",
+                    "option4": "Power of 10",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "Gavel to Glory: A TV Game Show Showdown",
+            "description": "Test your knowledge of the iconic world of television game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of winning. Prepare to bid farewell to doubt and hello to game show greatness!",
+            "questions": [
+                {
+                    "text": "What was the original grand prize offered on the classic game show 'Let's Make a Deal,' hosted by Monty Hall?",
+                    "hint": "Think about the show's core concept  what was the ultimate reward for choosing the right door?",
+                    "option1": "A brand new car",
+                    "option2": "A tropical vacation",
+                    "option3": "A year's supply of groceries",
+                    "option4": "A trip around the world",
+                    "solution": "4"
+                },
+                {
+                    "text": "On 'The Price is Right,' what is the significance of 'Any number you choose' when contestants are bidding on an item?",
+                    "hint": "This phrase allows for a specific strategy  what does it enable contestants to do?",
+                    "option1": "It guarantees the contestant will win the item.",
+                    "option2": "It allows contestants to bid without fear of going too high.",
+                    "option3": "It means the contestant can choose any number between 1 and 100.",
+                    "option4": "It allows the host to manipulate the bidding process.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Which game show, known for its physical challenges and trivia, featured contestants competing for a million-dollar grand prize?",
+                    "hint": "This show combined mental acuity with athletic prowess.",
+                    "option1": "Press Your Luck",
+                    "option2": "Double Dare",
+                    "option3": "Wipeout",
+                    "option4": "Minute to Win It",
+                    "solution": "4"
+                },
+                {
+                    "text": "What unique element distinguished 'Hollywood Squares' from other game shows, beyond its celebrity panel?",
+                    "hint": "Consider the grid-based format and how it influenced gameplay.",
+                    "option1": "The use of a live orchestra",
+                    "option2": "The square grid format with celebrity answers",
+                    "option3": "The elimination rounds based on audience applause",
+                    "option4": "The use of elaborate stage props",
+                    "solution": "2"
+                },
+                {
+                    "text": "In 'Family Feud,' what is the primary objective for each family?",
+                    "hint": "Think about how points are earned and what the ultimate goal is.",
+                    "option1": "To correctly answer trivia questions",
+                    "option2": "To guess the most popular answers given by a survey group",
+                    "option3": "To eliminate the opposing family through strategic play",
+                    "option4": "To accumulate the most money throughout the game",
+                    "solution": "3"
+                },
+                {
+                    "text": "What was the original format of 'Match Game,' which ran from 1962 to 2016?",
+                    "hint": "It involved a panel of celebrities and a contestant  what was the core challenge?",
+                    "option1": "Contestants had to match the answers of a panel of experts.",
+                    "option2": "Contestants had to guess the answers given by a panel of celebrities.",
+                    "option3": "Celebrities had to guess the answers given by the contestant.",
+                    "option4": "Contestants had to match the celebrities in a physical competition.",
+                    "solution": "1"
+                },
+                {
+                    "text": "Which game show, hosted by Bob Barker, famously encouraged viewers to 'Help control the pet population?'",
+                    "hint": "This message was a recurring element of the shows closing segment.",
+                    "option1": "The Price is Right",
+                    "option2": "Let's Go Fishing",
+                    "option3": "The Newlywed Game",
+                    "option4": "Happy Days",
+                    "solution": "3"
+                },
+                {
+                    "text": "What was the defining characteristic of the game show 'Chain Reaction,' where contestants answered questions and then passed on a chain of answers?",
+                    "hint": "The chain reaction element was more than just a name  how did it affect gameplay?",
+                    "option1": "Contestants had to physically pass a chain across the stage.",
+                    "option2": "Answers were passed down, with each subsequent answer building on the previous one.",
+                    "option3": "The show featured a literal chain reaction of explosions.",
+                    "option4": "The show involved a series of interconnected puzzles.",
+                    "solution": "2"
+                }
+            ]
+        },
+        {
+            "name": "The Bright Lights & Big Risks: A TV Game Show Gamble",
+            "description": "Step onto the stage and test your knowledge of television's most iconic game shows! From classic formats to modern twists, this quiz will challenge your memory and appreciation for the thrill of winning. Are you ready to risk it all for a chance at the grand prize?",
+            "questions": [
+                {
+                    "text": "What was the original grand prize offered on 'The Price is Right' when it premiered in 1956?",
+                    "hint": "Think about the era and what constituted a significant prize at the time.",
+                    "option1": "A brand new car",
+                    "option2": "A trip around the world",
+                    "option3": "A fully furnished house",
+                    "option4": "A substantial cash prize of $10,000",
+                    "solution": "2"
+                },
+                {
+                    "text": "On 'Family Feud', what is the primary objective of each family?",
+                    "hint": "It's about guessing what a survey says.",
+                    "option1": "To correctly answer trivia questions",
+                    "option2": "To guess the most popular answers to survey questions",
+                    "option3": "To steal points from the opposing family",
+                    "option4": "To complete a physical challenge",
+                    "solution": "1"
+                },
+                {
+                    "text": "Which game show, known for its 'Double Jeopardy!' round, is hosted by Ken Jennings?",
+                    "hint": "This show involves answering trivia questions for money.",
+                    "option1": "Who Wants to Be a Millionaire?",
+                    "option2": "Jeopardy!",
+                    "option3": "Press Your Luck",
+                    "option4": "Let's Make a Deal",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the key mechanic that differentiates 'Deal or No Deal' from other game shows?",
+                    "hint": "It involves opening briefcases containing varying amounts of money.",
+                    "option1": "Physical challenges and obstacle courses",
+                    "option2": "Negotiating with 'The Banker' to accept or decline offers",
+                    "option3": "Answering trivia questions under pressure",
+                    "option4": "Spinning a large wheel to determine prize values",
+                    "solution": "1"
+                },
+                {
+                    "text": "In 'Let's Make a Deal,' what is the significance of the 'door' choices?",
+                    "hint": "It's about taking a risk and hoping for a better prize.",
+                    "option1": "They always contain valuable prizes.",
+                    "option2": "They are randomly assigned by the host.",
+                    "option3": "Contestants can trade doors with each other.",
+                    "option4": "They conceal prizes ranging from valuable items to 'zonks'.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was the original format of 'The Gong Show'?",
+                    "hint": "It involved a panel of judges and unusual acts.",
+                    "option1": "Contestants competed in a trivia competition.",
+                    "option2": "Amateur performers were judged by a panel, with the lowest-scoring act eliminated by a gong.",
+                    "option3": "Teams raced against each other in physical challenges.",
+                    "option4": "Contestants bid on prizes in an auction format.",
+                    "solution": "1"
+                },
+                {
+                    "text": "On 'Press Your Luck', what is the danger of spinning the wheel?",
+                    "hint": "There's something you really want to avoid.",
+                    "option1": "Winning too much money too quickly.",
+                    "option2": "Landing on a 'Whammy' that takes away accumulated prize money.",
+                    "option3": "Being forced to answer a difficult trivia question.",
+                    "option4": "Having to share the winnings with another contestant.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is the primary goal in 'Card Sharks'?",
+                    "hint": "It's about predicting what card someone else guessed.",
+                    "option1": "To build the highest-scoring hand of cards.",
+                    "option2": "To correctly guess the card chosen by the previous contestant.",
+                    "option3": "To bluff opponents into folding.",
+                    "option4": "To win a poker tournament.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the unique element that sets 'Supermarket Sweep' apart from other game shows?",
+                    "hint": "It involves a shopping spree with a time limit.",
+                    "option1": "Contestants answer trivia questions about food.",
+                    "option2": "Teams race through a simulated supermarket collecting items.",
+                    "option3": "Contestants bid on groceries in an auction.",
+                    "option4": "Contestants design their own grocery store displays.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the significance of the 'Pyramid' in the game show 'Pyramid'?",
+                    "hint": "It's about giving clues to help your partner guess words.",
+                    "option1": "It represents the grand prize.",
+                    "option2": "It's a visual representation of the scoring system.",
+                    "option3": "It's a structure contestants must climb to win.",
+                    "option4": "It's a framework for giving clues to your partner to guess words.",
+                    "solution": "3"
+                }
+            ]
+        }
+    ]
+}

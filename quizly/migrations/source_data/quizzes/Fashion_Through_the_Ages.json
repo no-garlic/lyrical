@@ -1,0 +1,505 @@
+{
+    "Fashion Through the Ages": [
+        {
+            "name": "Chronicles of Couture: A Fashion Time Traveler's Test",
+            "description": "Embark on a stylish journey through history! This quiz explores the evolution of fashion, from ancient civilizations to modern trends. Test your knowledge of iconic garments, influential designers, and the cultural contexts that shaped what we wear. Are you a true fashion historian?",
+            "questions": [
+                {
+                    "text": "What was the primary function of Egyptian linen garments in ancient times?",
+                    "hint": "Consider the climate and resources available in ancient Egypt.",
+                    "option1": "To display wealth and status through intricate embroidery.",
+                    "option2": "To provide lightweight and breathable clothing in a hot climate.",
+                    "option3": "To adhere to strict religious dictates regarding modesty.",
+                    "option4": "To serve as ceremonial robes for pharaohs and priests.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'Robe a la Francaise' was a defining silhouette of what era?",
+                    "hint": "Think about the elaborate court fashions of 18th-century France.",
+                    "option1": "The Renaissance",
+                    "option2": "The Rococo period",
+                    "option3": "The Victorian era",
+                    "option4": "The Edwardian period",
+                    "solution": "2"
+                },
+                {
+                    "text": "What significant change in women's fashion is most associated with Charles Frederick Worth?",
+                    "hint": "He is considered the 'father of haute couture'.",
+                    "option1": "The introduction of the bustle.",
+                    "option2": "The popularization of the corset.",
+                    "option3": "The shift towards simpler, more practical designs.",
+                    "option4": "The creation of the first fashion house and the concept of ready-to-wear.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The 'Gibson Girl' look, popularized by illustrator Charles Dana Gibson, embodied which ideal?",
+                    "hint": "Consider the social and cultural values of the late 19th and early 20th centuries.",
+                    "option1": "A rebellious, flapper-like independence.",
+                    "option2": "The ideal of the wholesome, athletic, and independent American woman.",
+                    "option3": "A return to the restrictive fashions of the Victorian era.",
+                    "option4": "A focus on extreme elegance and aristocratic refinement.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Coco Chanel's 'little black dress' revolutionized fashion by making what accessible?",
+                    "hint": "Think about the previous perceptions of black clothing.",
+                    "option1": "Extravagant embellishments and luxurious fabrics.",
+                    "option2": "Simple, elegant, and affordable clothing for a wider audience.",
+                    "option3": "Highly structured and formal evening wear.",
+                    "option4": "Bold and vibrant color palettes.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What was the 'New Look' introduced by Christian Dior in 1947 a reaction against?",
+                    "hint": "Consider the fashion trends and societal context immediately following World War II.",
+                    "option1": "The growing popularity of sportswear.",
+                    "option2": "The utilitarian and austere styles of wartime fashion.",
+                    "option3": "The minimalist aesthetic of the 1960s.",
+                    "option4": "The rejection of traditional gender roles.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The 'Mod' subculture of the 20th century was characterized by what style?",
+                    "hint": "Think about the music and youth culture of the 30s.",
+                    "option1": "Ornate Victorian-inspired designs.",
+                    "option2": "Clean lines, tailored suits, and a youthful, rebellious attitude.",
+                    "option3": "Flowing bohemian dresses and natural fabrics.",
+                    "option4": "Elaborate, theatrical costumes and dramatic makeup.",
+                    "solution": "1"
+                },
+                {
+                    "text": "Which designer is most closely associated with the 'power dressing' trend of the 1980s?",
+                    "hint": "Think about sharp tailoring and strong silhouettes.",
+                    "option1": "Vivienne Westwood",
+                    "option2": "Giorgio Armani",
+                    "option3": "Calvin Klein",
+                    "option4": "Ralph Lauren",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is 'deconstructionism' in fashion, as pioneered by designers like Rei Kawakubo?",
+                    "hint": "Consider the dismantling of traditional garment construction.",
+                    "option1": "A focus on perfectly symmetrical and balanced designs.",
+                    "option2": "The deliberate subversion of traditional garment construction and aesthetics.",
+                    "option3": "A return to the romanticism and embellishment of the Victorian era.",
+                    "option4": "The creation of highly structured and tailored silhouettes.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What is 'Athleisure' fashion?",
+                    "hint": "Consider the blending of athletic and leisure wear.",
+                    "option1": "Formal evening gowns with athletic-inspired details.",
+                    "option2": "Clothing that combines athletic and leisure wear for everyday comfort and style.",
+                    "option3": "Highly specialized sportswear designed for professional athletes.",
+                    "option4": "Vintage athletic wear from the 1980s and 1990s.",
+                    "solution": "2"
+                }
+            ]
+        },
+        {
+            "name": "Threads of Time: A Fashion History Challenge",
+            "description": "Embark on a stylish journey through the centuries! This quiz explores pivotal moments and iconic trends in fashion history, from ancient civilizations to modern movements. Test your knowledge of silhouettes, fabrics, and the cultural forces that shaped what we wear. Are you ready to unravel the threads of time?",
+            "questions": [
+                {
+                    "text": "What was the primary purpose of the 'pince' during the French Rococo period (1730s-1770s)?",
+                    "hint": "Think about how dresses were structured and the desired silhouette of the time.",
+                    "option1": "To create a more relaxed and flowing silhouette.",
+                    "option2": "To emphasize the natural curves of the body.",
+                    "option3": "To create a conical shape and support the panniers.",
+                    "option4": "To provide pockets for carrying small items.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The 'hobble skirt,' popular in the early 1900s, was controversial primarily because:",
+                    "hint": "Consider the impact on movement and social norms of the era.",
+                    "option1": "It was made from excessively expensive materials.",
+                    "option2": "It was considered too revealing for the time.",
+                    "option3": "It severely restricted the wearer's ability to walk freely.",
+                    "option4": "It was difficult to clean and maintain.",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which of the following best describes the 'New Look' introduced by Christian Dior in 1947?",
+                    "hint": "Consider the post-war fashion landscape and Dior's reaction to it.",
+                    "option1": "A continuation of the utilitarian styles prevalent during wartime.",
+                    "option2": "A rejection of all previous fashion trends in favor of minimalist designs.",
+                    "option3": "A return to a feminine, full-skirted silhouette with a cinched waist.",
+                    "option4": "A focus on androgynous styles and loose-fitting garments.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The 'Teddy Boy' subculture of the 1950s in Britain drew significant inspiration from which historical period?",
+                    "hint": "Think about the styles they were deliberately referencing and reinterpreting.",
+                    "option1": "The Victorian Era.",
+                    "option2": "The Renaissance.",
+                    "option3": "The Edwardian Era.",
+                    "option4": "The Ancient Egyptian Period.",
+                    "solution": "4"
+                },
+                {
+                    "text": "What was a defining characteristic of 'Space Age' fashion in the 1960s?",
+                    "hint": "Consider the technological advancements and cultural fascination of the time.",
+                    "option1": "A return to traditional, handcrafted techniques.",
+                    "option2": "The use of natural, earthy tones and textures.",
+                    "option3": "The incorporation of futuristic materials like plastic and metal.",
+                    "option4": "A focus on elaborate embroidery and embellishments.",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Style Echoes: A Journey Through Fashion Eras",
+            "description": "Delve into the captivating evolution of fashion, from ancient civilizations to modern trends. This quiz explores iconic styles, influential figures, and the cultural contexts that shaped what we wear. Test your knowledge and see how well you understand the echoes of fashion through the ages!",
+            "questions": [
+                {
+                    "text": "What was the primary purpose of the 'peplos' worn in ancient Greece?",
+                    "hint": "Consider the practicality and materials available in ancient Greek society.",
+                    "option1": "A ceremonial garment worn only by priestesses.",
+                    "option2": "A symbol of wealth and status, adorned with intricate embroidery.",
+                    "option3": "A simple, draped garment providing basic coverage and comfort.",
+                    "option4": "A protective layer worn during athletic competitions.",
+                    "solution": "1"
+                },
+                {
+                    "text": "The 'Watteau pleat' is most closely associated with which era of fashion?",
+                    "hint": "Think about the romantic and flowing styles of the 18th century.",
+                    "option1": "The Victorian Era (1837-1901)",
+                    "option2": "The Roaring Twenties (1920s)",
+                    "option3": "The Rococo Period (1730s-1770s)",
+                    "option4": "The Disco Era (1970s)",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which of the following best describes the 'Directoire' style, popular in France during the late 1790s?",
+                    "hint": "This style emerged after the French Revolution and reflected a shift in societal values.",
+                    "option1": "Elaborate, heavily ornamented gowns with high collars and puffed sleeves.",
+                    "option2": "Simple, streamlined silhouettes inspired by ancient Roman and Greek attire.",
+                    "option3": "Bold, geometric patterns and vibrant colors reflecting the revolutionary spirit.",
+                    "option4": "Corseted bodices and voluminous skirts emphasizing a feminine ideal.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'Gibson Girl' look, popularized in the early 1900s, was characterized by what key features?",
+                    "hint": "Consider the artistic depictions of this ideal woman by Charles Dana Gibson.",
+                    "option1": "A boyish, androgynous silhouette with short bobbed hair.",
+                    "option2": "A flapper style with dropped waistlines and beaded dresses.",
+                    "option3": "An hourglass figure with a large bust, narrow waist, and full skirts.",
+                    "option4": "A minimalist aesthetic with clean lines and neutral colors.",
+                    "solution": "3"
+                },
+                {
+                    "text": "Coco Chanel's influence on fashion is most notable for which of the following?",
+                    "hint": "Think about the revolutionary changes she brought to women's clothing.",
+                    "option1": "Reviving the elaborate court gowns of the 18th century.",
+                    "option2": "Popularizing the corset and emphasizing a highly structured silhouette.",
+                    "option3": "Introducing comfortable, practical, and liberating designs like the little black dress and jersey fabrics.",
+                    "option4": "Promoting the use of extravagant furs and jewels in everyday wear.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The 'New Look' collection, introduced by Christian Dior in 1947, represented a reaction against what prevailing fashion trend?",
+                    "hint": "Consider the clothing styles prevalent during and immediately after World War II.",
+                    "option1": "The extravagant and opulent styles of the Rococo period.",
+                    "option2": "The minimalist and utilitarian designs of the 1960s.",
+                    "option3": "The practical and functional clothing worn by women during the wartime austerity.",
+                    "option4": "The bold and rebellious styles of the punk movement.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Mod' fashion, which emerged in the 1960s?",
+                    "hint": "Think about the youth culture and music scene of the time.",
+                    "option1": "Ornate, Victorian-inspired designs with lace and velvet.",
+                    "option2": "Clean lines, geometric shapes, and a focus on youthfulness and modernity.",
+                    "option3": "Bell-bottom jeans, tie-dye patterns, and a bohemian aesthetic.",
+                    "option4": "Structured tailoring and conservative silhouettes reflecting a formal style.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Which designer is most closely associated with the 'power dressing' trend of the 1980s?",
+                    "hint": "Consider the strong, tailored silhouettes and bold shoulders of the era.",
+                    "option1": "Vivienne Westwood",
+                    "option2": "Giorgio Armani",
+                    "option3": "Donna Karan",
+                    "option4": "Calvin Klein",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Silhouette Shifts: A Fashion Evolution Examination",
+            "description": "Explore the dramatic transformations in fashion across centuries! This quiz delves into the key silhouettes, materials, and cultural influences that shaped the styles we recognize today. Test your knowledge of historical dress and see how far fashion has evolved.",
+            "questions": [
+                {
+                    "text": "The 'Watteau gown,' popular in the Rococo period, was characterized by what distinctive feature?",
+                    "hint": "Think about the back of the gown and its flowing design.",
+                    "option1": "A tightly laced bodice and a voluminous skirt.",
+                    "option2": "An elaborate, flowing back panel that extended beyond the shoulders.",
+                    "option3": "A high, structured neckline and minimal ornamentation.",
+                    "option4": "A short, practical length suitable for dancing.",
+                    "solution": "3"
+                },
+                {
+                    "text": "Which of the following best describes the 'Directoire' style, a reaction against the excesses of the Rococo era?",
+                    "hint": "Consider the influence of classical antiquity on this style.",
+                    "option1": "Extremely ornate gowns with panniers and elaborate embroidery.",
+                    "option2": "Simple, neoclassical dresses inspired by ancient Greek and Roman styles.",
+                    "option3": "Elaborate, powdered wigs and heavily embellished menswear.",
+                    "option4": "A return to the restrictive corsetry of the 18th century.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'S-bend' silhouette, prominent in the early 1900s, was largely achieved through which of the following?",
+                    "hint": "Think about the construction of the corset and its impact on posture.",
+                    "option1": "A focus on a naturally straight posture and minimal shaping.",
+                    "option2": "The use of padding at the hips to create a fuller shape.",
+                    "option3": "A specially designed corset that pushed the bust forward and the hips back.",
+                    "option4": "The adoption of looser, more flowing garments without any structural support.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The 'New Look' introduced by Christian Dior in 1947 marked a significant departure from wartime austerity. What was the defining characteristic of this style?",
+                    "hint": "Consider the shape of the skirt and the emphasis on femininity.",
+                    "option1": "A continuation of the utilitarian, boxy shapes of wartime fashion.",
+                    "option2": "A return to full, flowing skirts and a cinched waist, emphasizing a feminine hourglass figure.",
+                    "option3": "The widespread adoption of trousers for women in all social settings.",
+                    "option4": "A focus on minimalist designs and neutral color palettes.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'Mod' subculture of the 1960s was heavily influenced by which of the following?",
+                    "hint": "Think about music, youth culture, and a rejection of traditional styles.",
+                    "option1": "Victorian mourning rituals and elaborate mourning attire.",
+                    "option2": "Contemporary Italian scooter design and youth-oriented music.",
+                    "option3": "The grandeur and formality of the French court.",
+                    "option4": "The practicality and functionality of military uniforms.",
+                    "solution": "3"
+                }
+            ]
+        },
+        {
+            "name": "Fabric of Eras: A Fashion Legacy Unveiled",
+            "description": "Delve into the captivating world of fashion history! This quiz explores iconic styles, influential designers, and pivotal moments that shaped the garments we wear today. Test your knowledge of centuries of trends, from ancient civilizations to modern movements. Are you ready to unravel the fabric of eras?",
+            "questions": [
+                {
+                    "text": "What was the primary purpose of the 'pince' during the Directoire period (late 1790s) in French fashion?",
+                    "hint": "Think about the silhouette of the time  it was a reaction to something very different.",
+                    "option1": "To create a more elaborate neckline with intricate beading.",
+                    "option2": "To subtly shape the waist and create a more natural, less restrictive form.",
+                    "option3": "To provide structural support for the towering hairstyles popular at the time.",
+                    "option4": "To add decorative pockets for carrying small personal items.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'hobble skirt,' a controversial fashion trend of the early 1900s, was designed to restrict movement. Which designer is most closely associated with popularizing this style?",
+                    "hint": "Consider a designer known for pushing boundaries and creating visually striking, albeit restrictive, silhouettes.",
+                    "option1": "Coco Chanel",
+                    "option2": "Paul Poiret",
+                    "option3": "Christian Dior",
+                    "option4": "Charles Worth",
+                    "solution": "1"
+                },
+                {
+                    "text": "The 'New Look' collection, introduced by Christian Dior in 1947, dramatically shifted post-war fashion. What was the defining characteristic of this collection?",
+                    "hint": "Think about a return to a more feminine and structured silhouette after years of wartime austerity.",
+                    "option1": "A focus on minimalist designs and utilitarian fabrics.",
+                    "option2": "A return to the loose, flowing styles of the 1920s.",
+                    "option3": "A full, rounded skirt, a cinched waist, and a softened shoulder line.",
+                    "option4": "The widespread adoption of trousers for women.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The 'Teddy Boy' style, popular in Britain during the 1950s, drew heavily from which historical fashion era?",
+                    "hint": "This style was a deliberate revival of a previous, more formal and aristocratic look.",
+                    "option1": "The Rococo period",
+                    "option2": "The Victorian era",
+                    "option3": "The Edwardian era",
+                    "option4": "The Regency era",
+                    "solution": "1"
+                },
+                {
+                    "text": "What significant change in textile production during the Industrial Revolution most directly impacted the accessibility and affordability of clothing?",
+                    "hint": "This innovation allowed for mass production of fabrics, drastically changing the fashion landscape.",
+                    "option1": "The invention of the sewing machine",
+                    "option2": "The development of synthetic dyes",
+                    "option3": "The introduction of the power loom",
+                    "option4": "The rise of haute couture houses",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'Mod' subculture of the 1960s was characterized by a specific aesthetic. Which of the following best describes the key elements of Mod fashion?",
+                    "hint": "Think clean lines, sharp tailoring, and a youthful, modern sensibility.",
+                    "option1": "Ornate embroidery, flowing fabrics, and romantic silhouettes.",
+                    "option2": "Sharp tailoring, minimalist designs, and a focus on youth culture.",
+                    "option3": "Bell-bottom trousers, tie-dye patterns, and bohemian accessories.",
+                    "option4": "Platform shoes, glitter, and a disco-inspired aesthetic.",
+                    "solution": "1"
+                },
+                {
+                    "text": "What was the defining characteristic of 'Power Dressing' in the 1980s?",
+                    "hint": "This style was about projecting authority and success in the workplace.",
+                    "option1": "Loose, flowing garments and natural fabrics.",
+                    "option2": "Bold shoulders, tailored suits, and a confident silhouette.",
+                    "option3": "Bright colors, playful patterns, and a casual aesthetic.",
+                    "option4": "Minimalist designs and understated elegance.",
+                    "solution": "4"
+                },
+                {
+                    "text": "Deconstructionism, a significant movement in fashion during the 1990s, was largely influenced by which artistic and philosophical concept?",
+                    "hint": "This movement questioned traditional structures and embraced imperfection.",
+                    "option1": "Romanticism",
+                    "option2": "Minimalism",
+                    "option3": "Postmodernism",
+                    "option4": "Art Nouveau",
+                    "solution": "1"
+                }
+            ]
+        },
+        {
+            "name": "Adorned: A Century of Style",
+            "description": "Embark on a whirlwind tour through the 20th and 21st centuries of fashion! This quiz explores iconic trends, influential designers, and the cultural shifts that shaped what we wear. Test your knowledge of everything from flapper dresses to athleisure wear  are you a true fashion aficionado?",
+            "questions": [
+                {
+                    "text": "The 'S-bend' corset, popular in the early 1900s, dramatically altered the female silhouette. What was the primary purpose of this design?",
+                    "hint": "Think about the ideal body shape women were striving for at the time.",
+                    "option1": "To emphasize a straight, columnar figure.",
+                    "option2": "To create an hourglass shape by exaggerating the curves of the bust and hips.",
+                    "option3": "To provide maximum comfort and freedom of movement.",
+                    "option4": "To minimize the appearance of the waistline.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Christian Dior's 'New Look' collection, unveiled in 1947, revolutionized post-war fashion. Which of the following BEST describes the defining characteristics of this collection?",
+                    "hint": "Consider the reaction to the austerity of wartime clothing.",
+                    "option1": "A return to minimalist, utilitarian designs.",
+                    "option2": "Full skirts, a cinched waist, and rounded shoulders, emphasizing femininity and luxury.",
+                    "option3": "Short, boxy jackets and straight-legged trousers for women.",
+                    "option4": "Bold, geometric patterns and vibrant colors inspired by abstract art.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The 'Youthquake' movement of the 1960s significantly impacted fashion. Which designer is MOST closely associated with this cultural shift and its corresponding style?",
+                    "hint": "Think about London's vibrant fashion scene in the '60s.",
+                    "option1": "Coco Chanel",
+                    "option2": "Elsa Schiaparelli",
+                    "option3": "Mary Quant",
+                    "option4": "Cristobal Balenciaga",
+                    "solution": "1"
+                },
+                {
+                    "text": "Power dressing, characterized by sharp tailoring and strong silhouettes, became a prominent trend in the 1980s. What was the primary social and professional context that fueled this style?",
+                    "hint": "Consider the changing roles of women in the workplace.",
+                    "option1": "A desire to emulate the relaxed style of the 1970s.",
+                    "option2": "A reaction against the flamboyant styles of the disco era.",
+                    "option3": "Women entering and rising in corporate positions, seeking to project authority and confidence.",
+                    "option4": "A return to the romantic and flowing styles of the Victorian era.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The rise of 'athleisure' in the 2010s and 2020s blurred the lines between athletic wear and everyday fashion. Which of the following BEST explains the cultural factors contributing to this trend?",
+                    "hint": "Think about the increasing focus on health, wellness, and casual lifestyles.",
+                    "option1": "A decline in interest in traditional formal wear.",
+                    "option2": "A desire to emulate the styles of Hollywood celebrities.",
+                    "option3": "Increased emphasis on comfort, functionality, and a more relaxed approach to dressing.",
+                    "option4": "A resurgence of interest in vintage sportswear from the 1990s.",
+                    "solution": "2"
+                }
+            ]
+        },
+        {
+            "name": "Garb & Glory: A Millennial Style Mosaic",
+            "description": "Delve into the captivating evolution of fashion, from ancient civilizations to the dawn of the 21st century. This quiz explores the key trends, influential figures, and cultural shifts that have shaped our wardrobes. Test your knowledge of garments, accessories, and the stories they tell!",
+            "questions": [
+                {
+                    "text": "What was the primary function of the Minoan 'peplos' in Bronze Age Crete?",
+                    "hint": "Consider the climate and practicality of clothing in ancient Crete.",
+                    "option1": "A ceremonial garment worn only by priestesses.",
+                    "option2": "A simple, draped tunic worn by both men and women.",
+                    "option3": "A heavily embroidered robe signifying royal status.",
+                    "option4": "A protective layer worn during agricultural labor.",
+                    "solution": "2"
+                },
+                {
+                    "text": "The 'Watteau pleat' became a defining characteristic of what era in fashion?",
+                    "hint": "Think about the romantic and flowing styles of the 18th century.",
+                    "option1": "The Elizabethan Era",
+                    "option2": "The Rococo Period",
+                    "option3": "The Victorian Era",
+                    "option4": "The Edwardian Era",
+                    "solution": "4"
+                },
+                {
+                    "text": "Which of the following best describes the 'Directoire' style, popular in France during the late 1790s?",
+                    "hint": "This style was a reaction against the opulence of the previous era.",
+                    "option1": "Elaborate gowns with panniers and powdered wigs.",
+                    "option2": "Simple, neoclassical dresses inspired by ancient Greek and Roman styles.",
+                    "option3": "Corseted silhouettes with voluminous skirts and intricate embroidery.",
+                    "option4": "Dark, mourning attire reflecting the political climate.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The 'Gibson Girl' embodied which ideal of the early 1900s?",
+                    "hint": "Consider the societal expectations and representations of women during this period.",
+                    "option1": "A rebellious flapper challenging social norms.",
+                    "option2": "An athletic and independent woman pursuing professional careers.",
+                    "option3": "A refined and feminine woman representing domesticity and grace.",
+                    "option4": "A bohemian artist rejecting conventional beauty standards.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What was the significance of Coco Chanel's introduction of jersey fabric into high fashion?",
+                    "hint": "Think about the materials previously used in luxury garments and the impact of Chanel's innovation.",
+                    "option1": "It made clothing more durable and suitable for outdoor activities.",
+                    "option2": "It offered a comfortable and modern alternative to traditional, restrictive fabrics.",
+                    "option3": "It was a cheaper alternative to silk, making luxury fashion more accessible.",
+                    "option4": "It allowed for more intricate and detailed embroidery techniques.",
+                    "solution": "4"
+                },
+                {
+                    "text": "The 'New Look' by Christian Dior, launched in 1947, was a direct response to what prevailing fashion trend?",
+                    "hint": "Consider the austerity and practicality of wartime fashion.",
+                    "option1": "The flapper style of the 1920s.",
+                    "option2": "The utilitarian and streamlined styles of the 1940s.",
+                    "option3": "The bohemian and free-spirited looks of the 1950s.",
+                    "option4": "The futuristic and space-age designs of the 1960s.",
+                    "solution": "2"
+                },
+                {
+                    "text": "What is the defining characteristic of 'Mod' fashion, popular in the 1960s?",
+                    "hint": "Think about the youth culture and music scene of the era.",
+                    "option1": "Ornate, Victorian-inspired silhouettes and dark colors.",
+                    "option2": "Clean lines, geometric shapes, and bold, graphic prints.",
+                    "option3": "Flowing, bohemian styles with natural fabrics and earthy tones.",
+                    "option4": "Glamorous, sequined gowns and platform shoes.",
+                    "solution": "3"
+                },
+                {
+                    "text": "The 'Power Suit' of the 1980s was primarily associated with what societal shift?",
+                    "hint": "Consider the changing roles of women in the workplace.",
+                    "option1": "A rejection of traditional gender roles and a celebration of individuality.",
+                    "option2": "The rise of corporate culture and women's increasing presence in leadership positions.",
+                    "option3": "A return to more conservative and formal attire after a period of casual dressing.",
+                    "option4": "A focus on comfort and practicality in professional settings.",
+                    "solution": "2"
+                },
+                {
+                    "text": "Grunge fashion, emerging in the early 1990s, was a reaction against what prevailing aesthetic?",
+                    "hint": "Think about the polished and materialistic trends of the 1980s.",
+                    "option1": "The minimalist and understated styles of the 1970s.",
+                    "option2": "The glamorous and opulent trends of the 1980s.",
+                    "option3": "The romantic and flowing styles of the 1990s.",
+                    "option4": "The futuristic and technological designs of the early 40s.",
+                    "solution": "3"
+                },
+                {
+                    "text": "What is a key characteristic of 'Athleisure' fashion, a significant trend in the 2010s and beyond?",
+                    "hint": "Consider the blurring lines between athletic wear and everyday clothing.",
+                    "option1": "Formal tailoring and structured silhouettes.",
+                    "option2": "The fusion of athletic and leisure wear for both style and comfort.",
+                    "option3": "Elaborate embellishments and luxurious fabrics.",
+                    "option4": "Dark, monochromatic color palettes and minimalist designs.",
+                    "solution": "2"
+                }
+            ]
+        }
+    ]
+}

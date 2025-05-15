@@ -4,48 +4,81 @@ from django.db import migrations
 import json
 import random
 from pathlib import Path
-
+from django.utils import timezone
+import datetime
 
 def add_data(apps, schema_editor):
+    """
+    Adds quiz data to the database from JSON files.
+    """
+    # Get the current date and time
+    now = timezone.now()
+
+    # Get the models we need to work with
     quiz_model = apps.get_model('quizly', 'Quiz')
     category_model = apps.get_model('quizly', 'Category')
     user_model = apps.get_model('quizly', 'User')
     question_model = apps.get_model('quizly', 'Question')
-    
     users = list(user_model.objects.exclude(username='admin'))
     
-    migration_folder = Path(__file__).parent
-    json_file_path = migration_folder / 'quizzes.json'
-    
-    with open(json_file_path, 'r') as file:
-        quiz_data = json.load(file)
-    
-    for category_name, quizzes_list in quiz_data.items():
-        category = category_model.objects.get(name=category_name)
+    # Get the folder that contains the quiz JSON files
+    current_folder = Path(__file__).parent
+    json_folder = current_folder / 'source_data' / 'quizzes'
+
+    # Loop through all JSON files in the folder, each file holds quizzes for 
+    # a category.
+    for json_file in json_folder.glob('*.json'):
+
+        # Load the JSON file
+        with open(json_file, 'r') as file:
+            quiz_data = json.load(file)
         
-        for quiz_info in quizzes_list:
-            quiz = quiz_model.objects.create(
-                name=quiz_info.get('name', ''),
-                description=quiz_info.get('description', ''),
-                created_by=random.choice(users),
-                category=category
-            )
+        # Loop through each category in the JSON file
+        # and create quizzes and questions for each category
+        for category_name, quizzes_list in quiz_data.items():
+
+            # Get the category
+            category = category_model.objects.get(name=category_name)
             
-            questions = quiz_info.get('questions', [])
-            for question_data in questions:
-                question_model.objects.create(
-                    quiz=quiz,
-                    text=question_data.get('text', ''),
-                    hint=question_data.get('hint', ''),
-                    option1=question_data.get('option1', ''),
-                    option2=question_data.get('option2', ''),
-                    option3=question_data.get('option3', ''),
-                    option4=question_data.get('option4', ''),
-                    solution=question_data.get('solution', 1)
+            # Loop through each quiz in the category
+            for quiz_info in quizzes_list:
+
+                # Generate random date between 5 years ago and now
+                time_diff = datetime.timedelta(weeks=260).total_seconds()
+                random_seconds = random.randint(0, int(time_diff))
+                random_date = now - datetime.timedelta(seconds=random_seconds)
+
+                # Create a new quiz object
+                quiz = quiz_model.objects.create(
+                    name=quiz_info.get('name', ''),
+                    description=quiz_info.get('description', ''),
+                    created_by=random.choice(users),
+                    created_at=random_date,
+                    category=category
                 )
+                
+                # Get the questions for the quiz
+                questions = quiz_info.get('questions', [])
+
+                # Loop through each question and create a question object
+                # for each one.
+                for question_data in questions:
+                    question_model.objects.create(
+                        quiz=quiz,
+                        text=question_data.get('text', ''),
+                        hint=question_data.get('hint', ''),
+                        option1=question_data.get('option1', ''),
+                        option2=question_data.get('option2', ''),
+                        option3=question_data.get('option3', ''),
+                        option4=question_data.get('option4', ''),
+                        solution=question_data.get('solution', 1)
+                    )
 
 
 def remove_data(apps, schema_editor):
+    """
+    Removes all quiz data from the database.
+    """
     question_model = apps.get_model('quizly', 'Question')
     question_model.objects.all().delete()
 
