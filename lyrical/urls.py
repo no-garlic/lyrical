@@ -1,9 +1,18 @@
 
 from django.urls import path
 
-from . import views
+from .views.index import *
+from .views.account import *
 
 
 urlpatterns = [
-    path("", views.index, name="index")
+    # landing page
+    path("", index, name="index"),
+
+
+
+    # account management
+    path("login", login_view, name="login"),
+    path("logout", logout_view, name="logout"),
+    path("register", register, name="register")    
 ]

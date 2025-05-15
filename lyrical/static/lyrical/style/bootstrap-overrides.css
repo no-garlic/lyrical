@@ -1,0 +1,31 @@
+/* 
+ --------------------------------------------------------
+                   Button style overrides 
+ -------------------------------------------------------- 
+*/
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+}
+
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary.active {
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+    box-shadow: var(--shadow-focus) !important;
+}
+
+/* 
+ --------------------------------------------------------
+                    Text style overrides 
+ -------------------------------------------------------- 
+*/
+.text-primary {
+    color: var(--color-primary) !important;
+}

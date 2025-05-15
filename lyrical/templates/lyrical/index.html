@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Lyrical</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    </head>
-    <body>
+{% extends "lyrical/layout.html" %}
+{% load static %}
 
-        
-    </body>
-</html>
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lyrical/style/index.css' %}">
+    <script src="{% static 'lyrical/script/index.js' %}"></script>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block body %}
+    <div class="logo-container">
+        <img src="{% static 'lyrical/image/lyrical.jpeg' %}" alt="lyrical Logo" class="logo-large">
+    </div>
+
+    <div class="homepage-hero">
+        <div class="hero-text">
+            <h1 class="hero-heading">Quiz. Learn. Compete.</h1>
+            <p class="hero-subheading">Explore over 500 quizzes across 50 diverse categories—challenge yourself, compete on leaderboards, and track your knowledge growth in real-time.</p>
+            <button class="btn btn-primary hero-btn"><i class="bi bi-play-fill"></i> Start Here</button>
+        </div>
+    </div>
+
+    <section class="features-section">
+        <div class="feature">
+            <h2>Diverse Categories</h2>
+            <p>Discover quizzes across 50 categories including history, science, arts, sports, and much more.</p>
+        </div>
+        <div class="feature">
+            <h2>Challenge Yourself</h2>
+            <p>Test your knowledge with our library of over 500 quizzes and over 3000 questions created by our community of enthusiasts.</p>
+        </div>
+        <div class="feature">
+            <h2>Track Your Progress</h2>
+            <p>View leaderboards, earn points, and see your ranking improve as you become a quiz master.</p>
+        </div>
+    </section>
+{% endblock %}

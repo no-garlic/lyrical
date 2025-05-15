@@ -1,0 +1,249 @@
+/* 
+ --------------------------------------------------------
+                      Body styling 
+ -------------------------------------------------------- 
+*/
+body {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    margin-right: var(--space-lg);
+}
+
+/* 
+ --------------------------------------------------------
+                    Container styling 
+ -------------------------------------------------------- 
+*/
+.container {
+    width: 100%;
+    max-width: var(--max-width-container);
+}
+
+.content {
+    flex-grow: 1; 
+    margin-left: var(--space-lg);
+    box-sizing: border-box;
+    min-width: 0; 
+}
+
+.content .container {
+    max-width: 100%;
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    width: 100%;    
+    max-width: var(--max-width-page);
+    align-items: stretch; 
+    margin-top: 1rem; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-content {
+    height: 100%;
+    width: calc(100% - 16px);
+}
+
+/* 
+ --------------------------------------------------------
+                     Sidebar styling 
+ -------------------------------------------------------- 
+*/
+.sidebar-menu-text {
+    padding-left: var(--space-xs);
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    padding: var(--space-md);
+    margin-right: var(--space-sm);
+    margin-left: var(--space-md);
+    box-sizing: border-box;
+    position: sticky;
+    top: 1rem;
+    height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border: 1px solid var(--color-primary-transparent-44);
+    border-radius: var(--border-radius-lg);
+    background: var(--gradient-sidebar);
+    box-shadow: var(--shadow-md);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: var(--space-xs); 
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: var(--color-text-primary);
+    display: block; 
+    padding: var(--space-xs);
+}
+
+.sidebar a:hover {
+    background-color: var(--color-primary-transparent-77);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-white);
+    font-weight: var(--font-weight-bold);
+    transition: var(--transition-fast);
+}
+
+.sidebar-logo a:hover {
+    background-color: transparent;
+    border-radius: 0;
+    color: inherit;
+    font-weight: normal;
+}
+
+.sidebar-logo a {
+    padding: 0px;
+}
+
+.sidebar a.active-link {
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-white);
+    font-weight: var(--font-weight-bold);
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+}
+
+.sidebar a.inactive-link {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+}
+
+.sidebar-logo {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-white);
+    border: none;
+}
+
+.sidebar-logo:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-white);
+    border: none;
+}
+
+.sidebar-logo-large {
+    display: block;
+    width: 100%;
+}
+
+.sidebar-logo-small {
+    display: none;
+    width: 100%;
+}
+
+.sidebar-heading {
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-bg-tertiary);
+    display: block; 
+    padding: var(--space-xs);
+    margin-top: var(--space-xl);
+}
+
+/* 
+ --------------------------------------------------------
+                   Page heading styling 
+ -------------------------------------------------------- 
+*/
+.page-heading {
+    text-align: center;
+    margin-bottom: 35px;
+    margin-top: var(--space-md);
+}
+
+.page-heading h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    margin-bottom: 8px;
+}
+
+.page-heading p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* 
+ --------------------------------------------------------
+                 Responsive adjustments 
+ -------------------------------------------------------- 
+*/
+@media (max-width: 955px) {
+    .sidebar {
+        width: var(--sidebar-width-collapsed);
+    }
+
+    .sidebar ul {
+        padding: 0;
+    }
+
+    .sidebar a {
+        font-size: var(--font-size-xl);
+        text-align: center;
+    }
+
+    .sidebar-logo-large {
+        display: none;
+        width: 100%;
+    }
+
+    .sidebar-logo-small {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .sidebar-menu-text {
+        display: none;
+    }
+
+    .sidebar-heading {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-semibold);
+        text-align: center;
+        border-radius: var(--border-radius-md);
+        background-color: var(--color-bg-tertiary);
+        display: block; 
+        padding: 1px;
+        padding-left: var(--space-xs);
+        padding-right: var(--space-xs);
+        margin-top: var(--space-xs);
+        margin-bottom: var(--space-md);
+    }
+
+    .sidebar a.active-link {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-md);
+    }
+    
+    .sidebar a.inactive-link {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-md);
+    }
+
+    .sidebar hr {
+        display: none;
+    }
+
+    .content {
+        margin-left: var(--space-lg);
+    }
+}
