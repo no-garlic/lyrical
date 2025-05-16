@@ -28,9 +28,12 @@ def add_data(apps, schema_editor):
     anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
     google_api_key = os.getenv("GOOGLE_API_KEY")
 
-    user_api_key.objects.create(user=user.objects.get(username="mpetrou"), provider=llm_provider.objects.get(name="OpenAI"),api_key=open_ai_api_key)
-    user_api_key.objects.create(user=user.objects.get(username="mpetrou"), provider=llm_provider.objects.get(name="Anthropic"), api_key=anthropic_api_key)
-    user_api_key.objects.create(user=user.objects.get(username="mpetrou"), provider=llm_provider.objects.get(name="Google"), api_key=google_api_key)
+    user = user.objects.get(username="mpetrou")
+    user.default_model = llm.objects.get(name="Gemma3 4b")
+
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="OpenAI"),api_key=open_ai_api_key)
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="Anthropic"), api_key=anthropic_api_key)
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="Google"), api_key=google_api_key)
 
 
 def remove_data(apps, schema_editor):

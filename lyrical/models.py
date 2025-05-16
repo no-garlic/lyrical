@@ -3,13 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class User(AbstractUser):
-    pass
-
-    def __str__(self):
-        return f"{self.username} ({self.first_name} {self.last_name})"
-
-
+    
 class LLMProvider(models.Model):
     name = models.CharField(max_length=255)
 
@@ -24,6 +18,13 @@ class LLM(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.provider}: {self.model_name})"
+
+
+class User(AbstractUser):
+    default_model = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.username} ({self.first_name} {self.last_name})"
 
 
 class UserAPIKey(models.Model):
