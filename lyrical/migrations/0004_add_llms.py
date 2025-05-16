@@ -21,8 +21,8 @@ def add_data(apps, schema_editor):
     llm.objects.create(name="Claude 3.7", model_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(name="Anthropic"))
     llm.objects.create(name="Gemini 2.0", model_name="gemini-2.0-flash", provider=llm_provider.objects.get(name="Google"))
     llm.objects.create(name="Gemini 2.5", model_name="gemini-2.5-flash", provider=llm_provider.objects.get(name="Google"))
-    llm.objects.create(name="Gemma3 12b", model_name="gemma3-12b", provider=llm_provider.objects.get(name="Ollama"))
-    llm.objects.create(name="Gemma3 4b", model_name="gemma3-4b", provider=llm_provider.objects.get(name="Ollama"))
+    llm.objects.create(name="Gemma3 12b", model_name="gemma3:12b", provider=llm_provider.objects.get(name="Ollama"))
+    llm.objects.create(name="Gemma3 4b", model_name="gemma3:4b", provider=llm_provider.objects.get(name="Ollama"))
 
     open_ai_api_key = os.getenv("OPENAI_API_KEY")
     anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
