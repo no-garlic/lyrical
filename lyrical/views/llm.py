@@ -45,9 +45,11 @@ def call_llm_view(request):
             return JsonResponse({"error": "Default user for unauthenticated request not found."}, status=500)
 
     try:
-        llm_model = models.LLM.objects.get(internal_name="gemini-2.0-flash")
+        #llm_model = models.LLM.objects.get(internal_name="gemini-2.0-flash")
+        llm_model_name = "gemini-2.0-flash" # This should be dynamic based on user or request
+        llm_model = models.LLM.objects.get(internal_name=llm_model_name)
     except models.LLM.DoesNotExist:
-        print("Error: LLM model 'gemini-2.0-flash' not found in database.")
+        print(f"Error: LLM model '{llm_model_name}' not found in database.")
         return JsonResponse({"error": "LLM model configuration not found."}, status=500)
 
     # The llm_call service function is now a generator.
