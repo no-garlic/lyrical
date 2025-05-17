@@ -23,8 +23,18 @@ function handleHeroButtonClick() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            const element = document.querySelector('.hero-subheading')
-            element.innerHTML = data;
+            const container = document.querySelector('.json-data')
+            
+            data.forEach(element => {
+                const p = document.createElement('p')
+
+                p.className = "hero-subheading";
+                p.innerHTML = element.title;
+                
+                container.append(p);
+            });
+
+
         })
         .catch(error => {
             console.error('Error calling the llm: ', error);

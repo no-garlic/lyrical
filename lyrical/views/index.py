@@ -29,9 +29,7 @@ def call_llm(request):
 
     llm = models.LLM.objects.get(internal_name="gemini-2.0-flash")
     result = llm_call(user_message=user_message, user=request.user, llm=llm)
-
-    #result[0]["status"] = "success"
-    #print(result)
+    print(json.dumps(result, indent=4))
 
     print("LLM call complete, sending response")
     return JsonResponse(result, safe=False, status=200, content_type="application/json")
