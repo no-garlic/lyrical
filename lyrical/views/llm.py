@@ -64,7 +64,7 @@ def call_llm_view(request):
     # The client-side will need to handle assembling these chunks.
     
     # If llm_call yields JSON strings for each chunk (e.g., for structured streaming):
-    # return StreamingHttpResponse(response_stream_generator, content_type="application/x-ndjson")
+    return StreamingHttpResponse(response_stream_generator, content_type="application/x-ndjson") # Changed to application/x-ndjson
 
     # If llm_call yields raw text chunks that form a single JSON at the end:
-    return StreamingHttpResponse(response_stream_generator, content_type="application/json")
+    # return StreamingHttpResponse(response_stream_generator, content_type="application/json")

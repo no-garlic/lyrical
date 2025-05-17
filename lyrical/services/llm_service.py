@@ -76,8 +76,6 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
 
     if system_prompt is None:
         try:
-            # Construct path relative to this file, assuming prompts.yaml is at project root
-            # lyrical/services/llm_service.py -> lyrical_project_root/prompts.yaml
             current_dir = os.path.dirname(os.path.abspath(__file__))
             prompts_path = os.path.join(current_dir, "..", "..", "prompts.yaml")
             with open(prompts_path, "r") as f:
@@ -85,35 +83,65 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
             system_prompt = prompts.get("system_prompt")
         except Exception as e:
             print(f"LLM_SERVICE_ERROR: Could not load system_prompt from prompts.yaml: {e}")
-            yield json.dumps({"error": f"Failed to load system prompt: {e}", "raw_content": "", "status": "error"})
+            yield json.dumps({"error": f"Failed to load system prompt: {e}", "raw_content": "", "status": "error"}) + '\n'
             return
 
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_message}
     ]
-    
+
     try:
         kwargs = {
             "model": model_name,
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
-            "stream": True  # Enable streaming
+            "stream": True
         }
 
         if user_api_key and user_api_key.api_key:
             kwargs["api_key"] = user_api_key.api_key
         
-        if llm.json_response_format:
-            kwargs["response_format"] = {"type": "json_object"}
-
         response_stream = completion(**kwargs)
 
+        accumulated_line = ""
         for chunk in response_stream:
             if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
-                content_piece = chunk.choices[0].delta.content
-                yield normalize_to_ascii(content_piece)
+                content_piece = normalize_to_ascii(chunk.choices[0].delta.content)
+                accumulated_line += content_piece
+
+                while '\n' in accumulated_line:
+                    line_part, rest = accumulated_line.split('\n', 1)
+                    stripped_line = line_part.strip() # Strip whitespace for checking
+
+                    if stripped_line == "```json" or stripped_line == "```":
+                        # Ignore markdown fence lines
+                        pass
+                    elif stripped_line: # If not a fence and not empty
+                        try:
+                            json.loads(stripped_line) # Validate the stripped line
+                            yield stripped_line + '\n' # Yield the stripped line (which is a valid JSON object)
+                        except json.JSONDecodeError as e:
+                            print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
+                            error_payload = {"error": "Malformed JSON line from LLM", "raw_content": stripped_line, "details": str(e)}
+                            yield json.dumps(error_payload) + '\n'
+                    accumulated_line = rest
+        
+        # After loop, process any remaining data in accumulated_line (if it doesn't end with \n)
+        if accumulated_line.strip():
+            stripped_final_line = accumulated_line.strip()
+            if stripped_final_line == "```json" or stripped_final_line == "```":
+                # Ignore markdown fence lines
+                pass
+            elif stripped_final_line: # If not a fence and not empty
+                try:
+                    json.loads(stripped_final_line) # Validate the stripped final line
+                    yield stripped_final_line + '\n' # Yield the stripped final line
+                except json.JSONDecodeError as e:
+                    print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line (final): {stripped_final_line}, Error: {e}")
+                    error_payload = {"error": "Malformed JSON line from LLM (final)", "raw_content": stripped_final_line, "details": str(e)}
+                    yield json.dumps(error_payload) + '\n'
         
     except Exception as e:
         print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")

@@ -28,7 +28,6 @@ class Migration(migrations.Migration):
                 ('internal_name', models.CharField(max_length=255, unique=True)),
                 ('temperature', models.FloatField(default=0.5)),
                 ('max_tokens', models.IntegerField(default=1000)),
-                ('json_response_format', models.BooleanField(default=False)),
                 ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='llms', to='lyrical.llmprovider')),
             ],
         ),
