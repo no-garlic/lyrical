@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import yaml
 import unicodedata
 from typing import Dict, Any, Optional, Union
 from litellm import completion
@@ -91,9 +92,9 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
         os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
 
     if system_prompt is None:
-        system_prompt = """You are a helpful assistant that returns information in JSON format.
-                            Always respond with valid JSON that can be parsed by json.loads().
-                            Do not include any explanations or text outside of the JSON structure."""
+        with open("prompts.yaml", "r") as f:
+            prompts = yaml.safe_load(f)
+        system_prompt = prompts.get("system_prompt")
 
     # Prepare the messages for the model
     messages = [

@@ -1,4 +1,4 @@
-import time
+import yaml
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
@@ -28,21 +28,10 @@ def index(request):
 
 def call_llm(request):
     print("Received request to call LLM")
-    user_message = """Generate a list of 25 book names recommendations about artificial intelligence.
-                      For each book include: 
-                      1. the book title 
 
-                      Use the following json format:
-                      [
-                        {{
-                          "title": ""
-                        }},
-                        {{
-                          "title": ""
-                        }},
-                        ...
-                     ]
-                    """
+    with open("prompts.yaml", "r") as f:
+        prompts = yaml.safe_load(f)
+    user_message = prompts.get("book_names")
 
     llm_model = models.LLM.objects.get(internal_name="gemini-2.0-flash")  # Renamed llm to llm_model to avoid conflict
 

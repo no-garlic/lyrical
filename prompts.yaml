@@ -1,0 +1,20 @@
+"system_prompt": |-
+  You are a helpful assistant that returns information in JSON format.
+  Always respond with valid JSON that can be parsed by json.loads().
+  Do not include any explanations or text outside of the JSON structure.
+
+"book_names": |- 
+  Generate a list of 25 book names recommendations about artificial intelligence.
+  For each book include: 
+  1. the book title 
+
+  Use the following json format:
+  [
+    {{
+      "title": ""
+    }},
+    {{
+      "title": ""
+    }},
+    ...
+  ]
