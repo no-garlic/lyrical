@@ -10,16 +10,16 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class LLMProviderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('id', 'name')
-    ordering = ('name',)
+    list_display = ('id', 'display_name', 'internal_name')
+    search_fields = ('id', 'display_name', 'internal_name')
+    ordering = ('display_name',)
 
 
 class LLMAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'model_name', 'provider')
-    search_fields = ('id', 'name', 'model_name')
+    list_display = ('id', 'display_name', 'internal_name', 'provider')
+    search_fields = ('id', 'display_name', 'internal_name')
     list_filter = ('provider',)
-    ordering = ('name',)
+    ordering = ('display_name',)
 
 
 class UserAPIKeyAdmin(admin.ModelAdmin):

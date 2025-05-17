@@ -5,19 +5,23 @@ from django.utils import timezone
 
     
 class LLMProvider(models.Model):
-    name = models.CharField(max_length=255)
+    display_name = models.CharField(max_length=255, unique=True)
+    internal_name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.name
+        return self.display_name
 
 
 class LLM(models.Model):
-    name = models.CharField(max_length=255)
-    model_name = models.CharField(max_length=255)
+    display_name = models.CharField(max_length=255, unique=True)
+    internal_name = models.CharField(max_length=255, unique=True)
+    temperature = models.FloatField(default=0.5)
+    max_tokens = models.IntegerField(default=1000)
+    json_response_format = models.BooleanField(default=False)
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE, related_name='llms')
 
     def __str__(self):
-        return f"{self.name} ({self.provider}: {self.model_name})"
+        return f"{self.display_name}"
 
 
 class User(AbstractUser):
@@ -30,10 +34,10 @@ class User(AbstractUser):
 class UserAPIKey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='api_keys')
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE)
-    api_key = models.CharField(max_length=255, unique=True)
+    api_key = models.CharField(max_length=255, unique=False, default='')
 
     def __str__(self):
-        return f"{self.user.username} ({self.provider.name}: {self.api_key})"
+        return f"{self.user.username} ({self.provider.display_name}: {self.api_key})"
 
 
 

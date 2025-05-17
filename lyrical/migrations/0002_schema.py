@@ -16,15 +16,19 @@ class Migration(migrations.Migration):
             name='LLMProvider',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
+                ('display_name', models.CharField(max_length=255, unique=True)),
+                ('internal_name', models.CharField(max_length=255, unique=True)),
             ],
         ),
         migrations.CreateModel(
             name='LLM',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('model_name', models.CharField(max_length=255)),
+                ('display_name', models.CharField(max_length=255, unique=True)),
+                ('internal_name', models.CharField(max_length=255, unique=True)),
+                ('temperature', models.FloatField(default=0.5)),
+                ('max_tokens', models.IntegerField(default=1000)),
+                ('json_response_format', models.BooleanField(default=False)),
                 ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='llms', to='lyrical.llmprovider')),
             ],
         ),
@@ -32,7 +36,7 @@ class Migration(migrations.Migration):
             name='UserAPIKey',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('api_key', models.CharField(max_length=255, unique=True)),
+                ('api_key', models.CharField(max_length=255, unique=False, default='')),
                 ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lyrical.llmprovider')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='api_keys', to=settings.AUTH_USER_MODEL)),
             ],

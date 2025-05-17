@@ -3,131 +3,11 @@
 from django.db import migrations
 import os
 
+
 """
 for model in litellm.utils.get_valid_models():
     print(model)
-    
-omni-moderation-latest
-omni-moderation-latest-intents
-omni-moderation-2024-09-26
-gpt-4
-gpt-4.1
-gpt-4.1-2025-04-14
-gpt-4.1-mini
-gpt-4.1-mini-2025-04-14
-gpt-4.1-nano
-gpt-4.1-nano-2025-04-14
-gpt-4o
-gpt-4o-search-preview-2025-03-11
-gpt-4o-search-preview
-gpt-4.5-preview
-gpt-4.5-preview-2025-02-27
-gpt-4o-audio-preview
-gpt-4o-audio-preview-2024-12-17
-gpt-4o-audio-preview-2024-10-01
-gpt-4o-mini-audio-preview-2024-12-17
-gpt-4o-mini
-gpt-4o-mini-search-preview-2025-03-11
-gpt-4o-mini-search-preview
-gpt-4o-mini-2024-07-18
-o1-pro
-o1-pro-2025-03-19
-o1
-o1-mini
-o3
-o3-2025-04-16
-o3-mini
-o3-mini-2025-01-31
-o4-mini
-o4-mini-2025-04-16
-o1-mini-2024-09-12
-o1-preview
-o1-preview-2024-09-12
-o1-2024-12-17
-chatgpt-4o-latest
-gpt-4o-2024-05-13
-gpt-4o-2024-08-06
-gpt-4o-2024-11-20
-gpt-4o-realtime-preview-2024-10-01
-gpt-4o-realtime-preview
-gpt-4o-realtime-preview-2024-12-17
-gpt-4o-mini-realtime-preview
-gpt-4o-mini-realtime-preview-2024-12-17
-gpt-4-turbo-preview
-gpt-4-0314
-gpt-4-0613
-gpt-4-32k
-gpt-4-32k-0314
-gpt-4-32k-0613
-gpt-4-turbo
-gpt-4-turbo-2024-04-09
-gpt-4-1106-preview
-gpt-4-0125-preview
-gpt-4-vision-preview
-gpt-4-1106-vision-preview
-gpt-3.5-turbo
-gpt-3.5-turbo-0301
-gpt-3.5-turbo-0613
-gpt-3.5-turbo-1106
-gpt-3.5-turbo-0125
-gpt-3.5-turbo-16k
-gpt-3.5-turbo-16k-0613
-text-embedding-3-large
-text-embedding-3-small
-text-embedding-ada-002
-text-embedding-ada-002-v2
-text-moderation-stable
-text-moderation-007
-text-moderation-latest
-256-x-256/dall-e-2
-512-x-512/dall-e-2
-1024-x-1024/dall-e-2
-hd/1024-x-1792/dall-e-3
-hd/1792-x-1024/dall-e-3
-hd/1024-x-1024/dall-e-3
-standard/1024-x-1792/dall-e-3
-standard/1792-x-1024/dall-e-3
-standard/1024-x-1024/dall-e-3
-gpt-image-1
-low/1024-x-1024/gpt-image-1
-medium/1024-x-1024/gpt-image-1
-high/1024-x-1024/gpt-image-1
-low/1024-x-1536/gpt-image-1
-medium/1024-x-1536/gpt-image-1
-high/1024-x-1536/gpt-image-1
-low/1536-x-1024/gpt-image-1
-medium/1536-x-1024/gpt-image-1
-high/1536-x-1024/gpt-image-1
-gpt-4o-transcribe
-gpt-4o-mini-transcribe
-whisper-1
-tts-1
-tts-1-hd
-gpt-4o-mini-tts
-ft:davinci-002
-ft:babbage-002
-babbage-002
-davinci-002
-gpt-3.5-turbo-instruct
-gpt-3.5-turbo-instruct-0914
-claude-instant-1
-claude-instant-1.2
-claude-2
-claude-2.1
-claude-3-haiku-20240307
-claude-3-5-haiku-20241022
-claude-3-5-haiku-latest
-claude-3-opus-latest
-claude-3-opus-20240229
-claude-3-sonnet-20240229
-claude-3-5-sonnet-latest
-claude-3-5-sonnet-20240620
-claude-3-7-sonnet-latest
-claude-3-7-sonnet-20250219
-claude-3-5-sonnet-20241022
 """
-
-
 
 
 def add_data(apps, schema_editor):
@@ -136,31 +16,31 @@ def add_data(apps, schema_editor):
     user = apps.get_model("lyrical", "User")
     user_api_key = apps.get_model("lyrical", "UserAPIKey")
 
-    llm_provider.objects.create(name="OpenAI")
-    llm_provider.objects.create(name="Anthropic")
-    llm_provider.objects.create(name="Google")
-    llm_provider.objects.create(name="Ollama")
+    llm_provider.objects.create(display_name="OpenAI", internal_name="openai")
+    llm_provider.objects.create(display_name="Anthropic", internal_name="anthropic")
+    llm_provider.objects.create(display_name="Google", internal_name="gemini")
+    llm_provider.objects.create(display_name="Ollama", internal_name="ollama")
 
-    llm.objects.create(name="GPT 4.1", model_name="gpt-4.1", provider=llm_provider.objects.get(name="OpenAI"))
-    llm.objects.create(name="GPT 4o", model_name="gpt-4o", provider=llm_provider.objects.get(name="OpenAI"))
-    llm.objects.create(name="GPT 4o mini", model_name="gpt-4o-mini", provider=llm_provider.objects.get(name="OpenAI"))
-    llm.objects.create(name="Claude 3.5", model_name="claude-3-5-haiku-latest", provider=llm_provider.objects.get(name="Anthropic"))
-    llm.objects.create(name="Claude 3.7", model_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(name="Anthropic"))
-    llm.objects.create(name="Gemini 2.0", model_name="gemini-2.0-flash", provider=llm_provider.objects.get(name="Google"))
-    llm.objects.create(name="Gemini 2.5", model_name="gemini-2.5-flash", provider=llm_provider.objects.get(name="Google"))
-    llm.objects.create(name="Gemma3 12b", model_name="gemma3:12b", provider=llm_provider.objects.get(name="Ollama"))
-    llm.objects.create(name="Gemma3 4b", model_name="gemma3:4b", provider=llm_provider.objects.get(name="Ollama"))
+    llm.objects.create(display_name="GPT:4.1", internal_name="gpt-4.1", provider=llm_provider.objects.get(internal_name="openai"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="GPT:4o", internal_name="gpt-4o", provider=llm_provider.objects.get(internal_name="openai"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="GPT:4o-mini", internal_name="gpt-4o-mini", provider=llm_provider.objects.get(internal_name="openai"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Claude:3.5", internal_name="claude-3-5-haiku-latest", provider=llm_provider.objects.get(internal_name="anthropic"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Claude:3.7", internal_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Gemini-Flash:2.0", internal_name="gemini-2.0-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Gemini-Flash:2.5", internal_name="gemini-2.5-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Gemma3:12b", internal_name="gemma3:12b", provider=llm_provider.objects.get(internal_name="ollama"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Gemma3:4b", internal_name="gemma3:4b", provider=llm_provider.objects.get(internal_name="ollama"), temperature=0.2, max_tokens=1000, json_response_format=True)
 
     open_ai_api_key = os.getenv("OPENAI_API_KEY")
     anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
-    google_api_key = os.getenv("GOOGLE_API_KEY")
+    google_api_key = os.getenv("GEMINI_API_KEY")
 
     user = user.objects.get(username="mpetrou")
-    user.default_model = llm.objects.get(name="Gemma3 4b")
+    user.default_model = llm.objects.get(internal_name="gemma3:4b")
 
-    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="OpenAI"),api_key=open_ai_api_key)
-    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="Anthropic"), api_key=anthropic_api_key)
-    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(name="Google"), api_key=google_api_key)
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="openai"),api_key=open_ai_api_key)
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="anthropic"), api_key=anthropic_api_key)
+    user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="gemini"), api_key=google_api_key)
 
 
 def remove_data(apps, schema_editor):
