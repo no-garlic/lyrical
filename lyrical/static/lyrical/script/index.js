@@ -3,31 +3,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initHeroButton() {
-    // Set up the hero button click handler
     const heroButton = document.querySelector('.hero-btn');
     if (heroButton) {
-        // Pass the desired prompt name to the handler
-        // This could be made more dynamic if you have multiple buttons
-        // or a way for the user to select a prompt.
         heroButton.addEventListener('click', () => handleHeroButtonClick('book_names'));
     }
 }
+
+// Store original button HTML to restore it later
+const originalButtonHTML = new Map();
 
 function showLoadingIndicator(show) {
     const heroButton = document.querySelector('.hero-btn');
     const jsonDataContainer = document.querySelector('.json-data');
 
     if (show) {
-        // Disable button and show spinner (or text)
+        if (!originalButtonHTML.has(heroButton)) {
+            originalButtonHTML.set(heroButton, heroButton.innerHTML);
+        }
         heroButton.disabled = true;
         heroButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
-        
-        // Clear previous results
-        jsonDataContainer.innerHTML = ''; 
+        jsonDataContainer.innerHTML = ''; // Clear previous results
     } else {
-        // Enable button and restore original text
+        if (originalButtonHTML.has(heroButton)) {
+            heroButton.innerHTML = originalButtonHTML.get(heroButton);
+            originalButtonHTML.delete(heroButton); // Clean up map entry
+        }
         heroButton.disabled = false;
-        heroButton.innerHTML = '<i class="bi bi-play-fill"></i>Call LLM';
     }
 }
 
@@ -37,23 +38,36 @@ function displayResults(data) {
 
     if (data && data.error) {
         const p = document.createElement('p');
-        p.className = "hero-subheading text-danger"; // Added text-danger for errors
+        p.className = "hero-subheading text-danger";
         p.innerHTML = `Error: ${data.error}`;
-        if(data.raw_content) {
+        if (data.raw_content) {
             const pre = document.createElement('pre');
+            pre.style.whiteSpace = 'pre-wrap';
+            pre.style.wordBreak = 'break-all';
             pre.textContent = `Raw content: ${data.raw_content}`;
-            container.appendChild(pre);
+            p.appendChild(document.createElement('br'));
+            p.appendChild(pre);
         }
-        if(data.traceback) {
+        if (data.traceback) {
             const pre_tb = document.createElement('pre');
+            pre_tb.style.whiteSpace = 'pre-wrap';
+            pre_tb.style.wordBreak = 'break-all';
             pre_tb.textContent = `Traceback: ${data.traceback}`;
-            container.appendChild(pre_tb);
+            p.appendChild(document.createElement('br'));
+            p.appendChild(pre_tb);
         }
         container.appendChild(p);
         return;
     }
 
     if (Array.isArray(data)) {
+        if (data.length === 0) {
+            const p = document.createElement('p');
+            p.className = "hero-subheading";
+            p.innerHTML = "No results found.";
+            container.appendChild(p);
+            return;
+        }
         data.forEach(element => {
             const p = document.createElement('p');
             p.className = "hero-subheading";
@@ -63,63 +77,30 @@ function displayResults(data) {
     } else if (typeof data === 'object' && data !== null) {
         const p = document.createElement('p');
         p.className = "hero-subheading";
-        p.innerHTML = JSON.stringify(data, null, 2);
+        const pre = document.createElement('pre');
+        pre.style.whiteSpace = 'pre-wrap';
+        pre.style.wordBreak = 'break-all';
+        pre.textContent = JSON.stringify(data, null, 2);
+        p.appendChild(pre);
+        container.appendChild(p);
+    } else if (data) { // Handle other primitive types
+        const p = document.createElement('p');
+        p.className = "hero-subheading";
+        p.textContent = String(data);
         container.appendChild(p);
     } else {
         const p = document.createElement('p');
         p.className = "hero-subheading";
-        p.innerHTML = "Unexpected data format received.";
+        p.innerHTML = "Unexpected data format or empty response received.";
         container.appendChild(p);
     }
 }
 
-function pollForResult(taskId, csrfToken) {
-    const pollInterval = 2000; // Poll every 2 seconds
-
-    const poller = setInterval(() => {
-        fetch(`/llm_result/${taskId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken,
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Polling failed with status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Poll status:', data.status);
-            if (data.status === 'complete') {
-                clearInterval(poller);
-                showLoadingIndicator(false);
-                displayResults(data.data);
-            } else if (data.status === 'error') {
-                clearInterval(poller);
-                showLoadingIndicator(false);
-                displayResults(data.data);
-            } else if (data.status === 'not_found') {
-                clearInterval(poller);
-                showLoadingIndicator(false);
-                displayResults({ error: 'Task ID not found. The task may have expired or never existed.' });
-            }
-        })
-        .catch(error => {
-            console.error('Error polling for result:', error);
-            clearInterval(poller);
-            showLoadingIndicator(false);
-            displayResults({ error: `Error polling for results: ${error.message}` });
-        });
-    }, pollInterval);
-}
 
 function handleHeroButtonClick(promptName) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     showLoadingIndicator(true);
 
-    // Add the prompt name as a query parameter
     fetch(`/call_llm?prompt=${encodeURIComponent(promptName)}`, {
         method: 'GET',
         headers: {
@@ -128,29 +109,28 @@ function handleHeroButtonClick(promptName) {
     })
     .then(response => {
         if (!response.ok) {
-            // Try to parse error from JSON response, otherwise use statusText
-            return response.json().then(errData => {
-                throw new Error(`Failed to initiate LLM call: ${response.status} - ${errData.error || response.statusText}`);
-            }).catch(() => { // Catch if response.json() itself fails (e.g. not valid JSON)
-                 throw new Error(`Failed to initiate LLM call: ${response.status} - ${response.statusText}`);
-            });
+            // Attempt to parse error from server as JSON, otherwise use statusText
+            return response.json()
+                .then(errData => {
+                    throw new Error(`Server error: ${response.status} - ${errData.error || errData.detail || 'Unknown server error'}`);
+                })
+                .catch(() => {
+                    // If parsing JSON fails, use the status text
+                    throw new Error(`Server error: ${response.status} - ${response.statusText}`);
+                });
         }
-        return response.json();
+        // Since we expect a single JSON object at the end of the stream,
+        // we can attempt to parse it directly.
+        return response.json(); 
     })
     .then(data => {
-        console.log('LLM call initiated:', data);
-        if (data.task_id && data.status === 'processing') {
-            pollForResult(data.task_id, csrfToken);
-        } else if (data.error) {
-            // If the server returns an error directly (e.g., prompt not found before task creation)
-            throw new Error(data.error);
-        } else {
-            throw new Error('Failed to get a valid task ID from the server.');
-        }
+        console.log('LLM call complete, data received:', data);
+        showLoadingIndicator(false);
+        displayResults(data); // Display the final JSON data
     })
     .catch(error => {
-        console.error('Error calling the llm:', error);
+        console.error('Error calling the LLM or processing stream:', error);
         showLoadingIndicator(false);
-        displayResults({ error: error.message }); // Display the error message caught
+        displayResults({ error: error.message });
     });
 }

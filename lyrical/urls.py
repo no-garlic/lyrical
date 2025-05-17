@@ -10,8 +10,8 @@ urlpatterns = [
     # landing page
     path("", index, name="index"),
 
+    # call the LLM
     path("call_llm", call_llm, name="call_llm"),
-    path("llm_result/<str:task_id>", get_llm_result, name="get_llm_result"),
 
     # browse page
     path("browse", browse, name="browse"),
