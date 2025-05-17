@@ -57,107 +57,65 @@ def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
     return None
 
 
-def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_prompt: Optional[str] = None) -> Dict[str, Any]:
+def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_prompt: Optional[str] = None): # -> Generator[str, None, None]
     """
-    Call an LLM model and return the response as a JSON object.
-    
-    Args:
-        model_name: Name of the model (e.g., "anthropic/claude-3-5-sonnet-latest", "ollama/gemma3:12b")
-        user_message: The user's message/request
-        temperature: Temperature setting for response generation (0.0 to 1.0)
-        max_tokens: Maximum number of tokens to generate
-        system_prompt: Custom system prompt (uses default JSON prompt if None)
-        
-    Returns:
-        Parsed JSON response as a dictionary with ASCII-normalized values
-        
-    Raises:
-        ValueError: If JSON response couldn't be extracted or parsed
-        Exception: For API or connection errors
+    Call an LLM model and stream the response.
+    Yields chunks of text content from the LLM.
+    Handles errors by yielding an error JSON string.
     """
-    # If no LLM is provided, use the user's default model
     if llm is None:
         llm = user.default_model
 
-    # Get the values for model parameters
     model_name = f"{llm.provider.internal_name}/{llm.internal_name}"
     temperature = llm.temperature
     max_tokens = llm.max_tokens
-
-    # Get the API key for the user
     user_api_key = UserAPIKey.objects.filter(user=user, provider=llm.provider).first()
 
-    # Default Ollama API base if not set in environment
     if llm.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
         os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
 
     if system_prompt is None:
-        with open("prompts.yaml", "r") as f:
-            prompts = yaml.safe_load(f)
-        system_prompt = prompts.get("system_prompt")
+        try:
+            # Construct path relative to this file, assuming prompts.yaml is at project root
+            # lyrical/services/llm_service.py -> lyrical_project_root/prompts.yaml
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            prompts_path = os.path.join(current_dir, "..", "..", "prompts.yaml")
+            with open(prompts_path, "r") as f:
+                prompts = yaml.safe_load(f)
+            system_prompt = prompts.get("system_prompt")
+        except Exception as e:
+            print(f"LLM_SERVICE_ERROR: Could not load system_prompt from prompts.yaml: {e}")
+            yield json.dumps({"error": f"Failed to load system prompt: {e}", "raw_content": "", "status": "error"})
+            return
 
-    # Prepare the messages for the model
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_message}
     ]
     
     try:
-        # Configure response format parameter based on model provider
         kwargs = {
             "model": model_name,
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
+            "stream": True  # Enable streaming
         }
 
-        # Set API key if one is provided
         if user_api_key and user_api_key.api_key:
             kwargs["api_key"] = user_api_key.api_key
         
-        # Add response_format for models that support it (e.g., OpenAI)
-        # Each model has a flag in the database to indicate if it supports JSON response format
-        # so there is no need to check the provider here.
         if llm.json_response_format:
             kwargs["response_format"] = {"type": "json_object"}
 
-        # Make the call to LiteLLM
-        response = completion(**kwargs)
+        response_stream = completion(**kwargs)
 
-        # Extract content from response
-        # LiteLLM's response structure can vary slightly, but typically content is in choices[0].message.content
-        if response.choices and response.choices[0].message and response.choices[0].message.content:
-            content = response.choices[0].message.content
-        else:
-            # Handle cases where the expected content is not found
-            # This could be due to an error returned by the API or an unexpected response structure
-            # For now, we'll assume 'response.text' might contain error details or non-standard success messages
-            # It's better to inspect the raw 'response' object if 'content' is not where expected.
-            # If 'response' itself is a string (e.g. from an error), use it directly.
-            if isinstance(response, str):
-                 content = response
-            elif hasattr(response, 'text'): # some error objects might have a text attribute
-                 content = response.text
-            else: # Fallback if content cannot be determined
-                 content = str(response) # Convert the whole response object to string
-
-        # Try to parse the content as JSON
-        parsed_json = extract_json_from_text(content)
-        
-        if parsed_json is None:
-            # If JSON extraction fails, return a dictionary with the raw content and an error message
-            # This helps in debugging what the LLM actually returned.
-            error_message = "Failed to extract JSON from LLM response."
-            # Log the problematic content if possible
-            print(f"LLM_SERVICE_ERROR: {error_message} Raw content: {content[:500]}...") # Log first 500 chars
-            return {"error": error_message, "raw_content": content}
-
-        return normalize_to_ascii(parsed_json)
+        for chunk in response_stream:
+            if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
+                content_piece = chunk.choices[0].delta.content
+                yield normalize_to_ascii(content_piece)
         
     except Exception as e:
-        # Log the exception details
-        print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM call: {e}")
-        # Return a dictionary with error information
-        # This allows the caller to handle the error gracefully
+        print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
         import traceback
-        return {"error": str(e), "traceback": traceback.format_exc()}
+        yield json.dumps({"error": str(e), "traceback": traceback.format_exc(), "status": "error"})

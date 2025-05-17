@@ -11,7 +11,7 @@ urlpatterns = [
     path("", index, name="index"),
 
     # call the LLM
-    path("call_llm", call_llm, name="call_llm"),
+    path("call_llm", call_llm_view, name="call_llm"),
 
     # browse page
     path("browse", browse, name="browse"),

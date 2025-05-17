@@ -96,10 +96,11 @@ function displayResults(data) {
     }
 }
 
-
 function handleHeroButtonClick(promptName) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     showLoadingIndicator(true);
+    const jsonDataContainer = document.querySelector('.json-data'); // Get container once
+    jsonDataContainer.innerHTML = ''; // Clear previous results at the start
 
     fetch(`/call_llm?prompt=${encodeURIComponent(promptName)}`, {
         method: 'GET',
@@ -119,14 +120,50 @@ function handleHeroButtonClick(promptName) {
                     throw new Error(`Server error: ${response.status} - ${response.statusText}`);
                 });
         }
-        // Since we expect a single JSON object at the end of the stream,
-        // we can attempt to parse it directly.
-        return response.json(); 
-    })
-    .then(data => {
-        console.log('LLM call complete, data received:', data);
-        showLoadingIndicator(false);
-        displayResults(data); // Display the final JSON data
+        
+        // Handle streaming response
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let accumulatedData = '';
+
+        function readStream() {
+            return reader.read().then(({ done, value }) => {
+                if (done) {
+                    console.log('Stream complete.');
+                    try {
+                        const jsonData = JSON.parse(accumulatedData);
+                        displayResults(jsonData);
+                    } catch (e) {
+                        console.error('Error parsing final JSON from stream:', e, 'Accumulated data:', accumulatedData);
+                        displayResults({ error: 'Failed to parse JSON from stream.', raw_content: accumulatedData });
+                    }
+                    showLoadingIndicator(false);
+                    return;
+                }
+                const chunk = decoder.decode(value, { stream: true });
+                accumulatedData += chunk;
+                // Optional: Update UI progressively if chunks are meaningful on their own
+                // For now, we accumulate and parse at the end.
+                // Example for progressive update (if each chunk is a valid JSON object or part of a list):
+                // try {
+                //     // This assumes the stream sends newline-delimited JSON (ndjson)
+                //     // or that you have a way to identify complete JSON objects in the stream.
+                //     const potentialJsonObjects = accumulatedData.split('\n');
+                //     potentialJsonObjects.forEach(objStr => {
+                //         if (objStr.trim() !== '') {
+                //             const jsonObj = JSON.parse(objStr);
+                //             // Update display with jsonObj - this needs careful implementation
+                //             // For example, appending to a list or updating a specific element.
+                //         }
+                //     });
+                //     accumulatedData = ''; // Reset if objects are processed
+                // } catch (e) {
+                //     // Not a complete JSON object yet, or not ndjson, continue accumulating
+                // }
+                return readStream(); 
+            });
+        }
+        return readStream();
     })
     .catch(error => {
         console.error('Error calling the LLM or processing stream:', error);
