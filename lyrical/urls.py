@@ -10,6 +10,8 @@ urlpatterns = [
     # landing page
     path("", index, name="index"),
 
+    path("call_llm", call_llm, name="call_llm"),
+
     # browse page
     path("browse", browse, name="browse"),
 

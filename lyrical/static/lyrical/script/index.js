@@ -11,6 +11,24 @@ function initHeroButton() {
 }
 
 function handleHeroButtonClick() {
-    // Redirect to the browse page
-    window.location.href = '/browse';
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch('/call_llm', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken,
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const element = document.querySelector('.hero-subheading')
+            element.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error calling the llm: ', error);
+        });
+
+
 }

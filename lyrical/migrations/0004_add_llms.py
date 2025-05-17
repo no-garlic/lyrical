@@ -27,7 +27,7 @@ def add_data(apps, schema_editor):
     llm.objects.create(display_name="Claude:3.5", internal_name="claude-3-5-haiku-latest", provider=llm_provider.objects.get(internal_name="anthropic"), temperature=0.2, max_tokens=1000, json_response_format=True)
     llm.objects.create(display_name="Claude:3.7", internal_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"), temperature=0.2, max_tokens=1000, json_response_format=True)
     llm.objects.create(display_name="Gemini-Flash:2.0", internal_name="gemini-2.0-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000, json_response_format=True)
-    llm.objects.create(display_name="Gemini-Flash:2.5", internal_name="gemini-2.5-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000, json_response_format=True)
+    llm.objects.create(display_name="Gemini-Flash:1.5", internal_name="gemini-1.5-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000, json_response_format=True)
     llm.objects.create(display_name="Gemma3:12b", internal_name="gemma3:12b", provider=llm_provider.objects.get(internal_name="ollama"), temperature=0.2, max_tokens=1000, json_response_format=True)
     llm.objects.create(display_name="Gemma3:4b", internal_name="gemma3:4b", provider=llm_provider.objects.get(internal_name="ollama"), temperature=0.2, max_tokens=1000, json_response_format=True)
 
@@ -36,7 +36,7 @@ def add_data(apps, schema_editor):
     google_api_key = os.getenv("GEMINI_API_KEY")
 
     user = user.objects.get(username="mpetrou")
-    user.default_model = llm.objects.get(internal_name="gemma3:4b")
+    user.default_model = llm.objects.get(internal_name="gemini-2.0-flash")
 
     user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="openai"),api_key=open_ai_api_key)
     user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="anthropic"), api_key=anthropic_api_key)

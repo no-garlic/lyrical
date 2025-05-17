@@ -1,4 +1,6 @@
+import time
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
 from .. import models
 from ..services.llm_service import llm_call
@@ -10,31 +12,30 @@ def index(request):
     """
     if not (request.user != None and request.user.is_authenticated):
         request.user = models.User.objects.get(username="mpetrou")
-        user = authenticate(request, username="mpetrou", password="mike")
+        authenticate(request, username="mpetrou", password="mike")
         login(request, request.user)
 
-    user_message = """Generate a list of 3 book recommendations about artificial intelligence.
+    return render(request, "lyrical/index.html", {
+        "active_filter": "index"
+    })
+
+
+def call_llm(request):
+    print("Calling LLM")
+    user_message = """Generate a list of 10 book names recommendations about artificial intelligence.
                       For each book include: 
-                      1. title 
-                      2. author
-                      3. publication_year 
-                      4. rating (on a scale of 1-5)
-                      5. description (short summary)"""
-    
-    #model_name = "anthropic/claude-3-5-sonnet-latest"
-    #model_name = "ollama/gemma3:12b"
-    #model_name = "openai/gpt-4o-mini"
-    #model_name = "gemini/gemini-2.0-flash"
-    #model_name = "ollama/gemma3:12b"
+                      1. the book title 
+                      """
 
     llm = models.LLM.objects.get(internal_name="gemini-2.0-flash")
-
     result = llm_call(user_message=user_message, user=request.user, llm=llm)
 
-    return render(request, "lyrical/index.html", {
-        "active_filter": "index",
-        "json_data": json.dumps(result, indent=4),
-    })
+    #result[0]["status"] = "success"
+    #print(result)
+
+    print("LLM call complete, sending response")
+    return JsonResponse(result, safe=False, status=200, content_type="application/json")
+
 
 def browse(request):
     """
