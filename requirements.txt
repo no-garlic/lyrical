@@ -1,3 +1,5 @@
-Django
-python-dotenv
-litellm
+Django>=5.2.1
+python-dotenv>=1.1.0
+litellm>=1.14.0
+asgiref>=3.4.0
+asyncio>=3.4.3
