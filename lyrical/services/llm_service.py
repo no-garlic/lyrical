@@ -1,15 +1,11 @@
-import os, re, json, unicodedata
-from litellm import completion
-from lyrical.models import User, LLM, LLMProvider, UserAPIKey
-
 import os
-import json
 import re
+import json
 import unicodedata
 from typing import Dict, Any, Optional, Union
 from litellm import completion
+from lyrical.models import User, LLM, LLMProvider, UserAPIKey
 
-    
 
 def normalize_to_ascii(text):
     """
@@ -48,18 +44,14 @@ def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
     
     for pattern in json_patterns:
         matches = re.findall(pattern, text)
-        for match in matches:
-            if isinstance(match, tuple):  # Some regex patterns return tuples
-                match = next((m for m in match if m), "")
-            
-            # Clean up the matched text
-            # Remove common formatting issues that break JSON parsing
-            cleaned_match = match.strip()
-            
+        for match_str in matches:
+            # If the pattern captures multiple groups, re.findall might return tuples.
+            # We are interested in the captured JSON string.
+            actual_json_str = match_str if isinstance(match_str, str) else match_str[0]
             try:
-                return json.loads(cleaned_match)
+                return json.loads(actual_json_str)
             except json.JSONDecodeError:
-                continue
+                continue # Try next match or pattern
     
     return None
 
@@ -95,7 +87,7 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
     user_api_key = UserAPIKey.objects.filter(user=user, provider=llm.provider).first()
 
     # Default Ollama API base if not set in environment
-    if "OLLAMA_API_BASE" not in os.environ:
+    if llm.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
         os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
 
     if system_prompt is None:
@@ -119,34 +111,52 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
         }
 
         # Set API key if one is provided
-        if user_api_key:
+        if user_api_key and user_api_key.api_key:
             kwargs["api_key"] = user_api_key.api_key
         
-        # Add response_format parameter for models that support it
-        # (OpenAI and Anthropic models)
+        # Add response_format for models that support it (e.g., OpenAI)
+        # Each model has a flag in the database to indicate if it supports JSON response format
+        # so there is no need to check the provider here.
         if llm.json_response_format:
             kwargs["response_format"] = {"type": "json_object"}
-            
-        # Call the LLM through litellm
+
+        # Make the call to LiteLLM
         response = completion(**kwargs)
-        
+
         # Extract content from response
-        content = response.choices[0].message.content
+        # LiteLLM's response structure can vary slightly, but typically content is in choices[0].message.content
+        if response.choices and response.choices[0].message and response.choices[0].message.content:
+            content = response.choices[0].message.content
+        else:
+            # Handle cases where the expected content is not found
+            # This could be due to an error returned by the API or an unexpected response structure
+            # For now, we'll assume 'response.text' might contain error details or non-standard success messages
+            # It's better to inspect the raw 'response' object if 'content' is not where expected.
+            # If 'response' itself is a string (e.g. from an error), use it directly.
+            if isinstance(response, str):
+                 content = response
+            elif hasattr(response, 'text'): # some error objects might have a text attribute
+                 content = response.text
+            else: # Fallback if content cannot be determined
+                 content = str(response) # Convert the whole response object to string
+
+        # Try to parse the content as JSON
+        parsed_json = extract_json_from_text(content)
         
-        # Try to parse as JSON (with fallback extraction if needed)
-        json_data = extract_json_from_text(content)
-        
-        if json_data is None:
-            raise ValueError(f"Failed to extract valid JSON from the model response: {content[:200]}...")
-        
-        # Normalize Unicode characters to ASCII
-        normalized_data = normalize_to_ascii(json_data)
-        
-        return normalized_data
+        if parsed_json is None:
+            # If JSON extraction fails, return a dictionary with the raw content and an error message
+            # This helps in debugging what the LLM actually returned.
+            error_message = "Failed to extract JSON from LLM response."
+            # Log the problematic content if possible
+            print(f"LLM_SERVICE_ERROR: {error_message} Raw content: {content[:500]}...") # Log first 500 chars
+            return {"error": error_message, "raw_content": content}
+
+        return normalize_to_ascii(parsed_json)
         
     except Exception as e:
-        # Handle model-specific errors
-        if "ollama" in model_name.lower():
-            raise Exception(f"Ollama error: {str(e)}. Ensure Ollama is running and model '{model_name.split('/')[1]}' is pulled.")
-        else:
-            raise Exception(f"Error calling model {model_name}: {str(e)}")
+        # Log the exception details
+        print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM call: {e}")
+        # Return a dictionary with error information
+        # This allows the caller to handle the error gracefully
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}

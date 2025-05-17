@@ -1,4 +1,3 @@
-
 from django.urls import path
 
 from .views.index import *
@@ -11,6 +10,7 @@ urlpatterns = [
     path("", index, name="index"),
 
     path("call_llm", call_llm, name="call_llm"),
+    path("llm_result/<str:task_id>", get_llm_result, name="get_llm_result"),
 
     # browse page
     path("browse", browse, name="browse"),

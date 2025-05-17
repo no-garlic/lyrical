@@ -3,7 +3,6 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'lyrical/style/index.css' %}">
-    <script src="{% static 'lyrical/script/index.js' %}"></script>
 {% endblock %}
 
 {% block sidebar %}
@@ -24,4 +23,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'lyrical/script/index.js' %}"></script>
 {% endblock %}
