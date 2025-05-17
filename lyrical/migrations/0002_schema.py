@@ -29,6 +29,10 @@ class Migration(migrations.Migration):
                 ('temperature', models.FloatField(default=0.5)),
                 ('max_tokens', models.IntegerField(default=1000)),
                 ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='llms', to='lyrical.llmprovider')),
+                ('comments', models.TextField(default="")),
+                ('cost', models.FloatField(default=0.0)),
+                ('features', models.JSONField(default=dict)),
+                ('rating', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default=1)),
             ],
         ),
         migrations.CreateModel(

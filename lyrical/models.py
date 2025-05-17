@@ -18,7 +18,11 @@ class LLM(models.Model):
     temperature = models.FloatField(default=0.5)
     max_tokens = models.IntegerField(default=1000)
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE, related_name='llms')
-
+    features = models.JSONField(default=dict)
+    comments = models.TextField(default='')
+    cost = models.FloatField(default=0.0)
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=1)
+    
     def __str__(self):
         return f"{self.display_name}"
 
