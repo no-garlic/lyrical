@@ -6,7 +6,10 @@ function initHeroButton() {
     // Set up the hero button click handler
     const heroButton = document.querySelector('.hero-btn');
     if (heroButton) {
-        heroButton.addEventListener('click', handleHeroButtonClick);
+        // Pass the desired prompt name to the handler
+        // This could be made more dynamic if you have multiple buttons
+        // or a way for the user to select a prompt.
+        heroButton.addEventListener('click', () => handleHeroButtonClick('book_names'));
     }
 }
 
@@ -112,11 +115,12 @@ function pollForResult(taskId, csrfToken) {
     }, pollInterval);
 }
 
-function handleHeroButtonClick() {
+function handleHeroButtonClick(promptName) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     showLoadingIndicator(true);
 
-    fetch('/call_llm', {
+    // Add the prompt name as a query parameter
+    fetch(`/call_llm?prompt=${encodeURIComponent(promptName)}`, {
         method: 'GET',
         headers: {
             'X-CSRFToken': csrfToken,
@@ -124,9 +128,10 @@ function handleHeroButtonClick() {
     })
     .then(response => {
         if (!response.ok) {
+            // Try to parse error from JSON response, otherwise use statusText
             return response.json().then(errData => {
-                throw new Error(`Failed to initiate LLM call: ${response.status} - ${errData.error || 'Unknown error'}`);
-            }).catch(() => {
+                throw new Error(`Failed to initiate LLM call: ${response.status} - ${errData.error || response.statusText}`);
+            }).catch(() => { // Catch if response.json() itself fails (e.g. not valid JSON)
                  throw new Error(`Failed to initiate LLM call: ${response.status} - ${response.statusText}`);
             });
         }
@@ -136,6 +141,9 @@ function handleHeroButtonClick() {
         console.log('LLM call initiated:', data);
         if (data.task_id && data.status === 'processing') {
             pollForResult(data.task_id, csrfToken);
+        } else if (data.error) {
+            // If the server returns an error directly (e.g., prompt not found before task creation)
+            throw new Error(data.error);
         } else {
             throw new Error('Failed to get a valid task ID from the server.');
         }
@@ -143,6 +151,6 @@ function handleHeroButtonClick() {
     .catch(error => {
         console.error('Error calling the llm:', error);
         showLoadingIndicator(false);
-        displayResults({ error: `Error initiating LLM call: ${error.message}` });
+        displayResults({ error: error.message }); // Display the error message caught
     });
 }
