@@ -1,9 +1,6 @@
-import re, json, unicodedata
-from langchain_ollama import OllamaLLM
-from langchain_openai import OpenAI
-from langchain_anthropic import Anthropic
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import ChatPromptTemplate
+import os, re, json, unicodedata
+from litellm import acompletion, completion
+
 from lyrical.models import User, LLM, LLMProvider
 
 
@@ -43,32 +40,28 @@ def normalize_to_ascii(text):
     return text
 
 
-def invoke_json(llm_model, prompt, temperature=0.5, max_tokens=2000):
-    llm = None
-    if llm_model is None:
-        return None
+def invoke_json(user_message, temperature=0.2, max_tokens=1000):
     
-    if llm_model.provider.name == "OpenAI":
-        llm = OpenAI(model=llm_model.model_name, temperature=temperature, max_tokens=max_tokens)
-    elif llm_model.provider.name == "Anthropic":
-        llm = Anthropic(model=llm_model.model_name, temperature=temperature, max_tokens=max_tokens)
-    elif llm_model.provider.name == "Google":
-        llm = ChatGoogleGenerativeAI(model=llm_model.model_name, temperature=temperature, max_tokens=max_tokens)
-    elif llm_model.provider.name == "Ollama":
-        llm = OllamaLLM(model=llm_model.model_name, temperature=temperature, max_tokens=max_tokens)
-    
-    if not llm:
-        return None
-        
-    response = llm.invoke(prompt)
+    system_prompt = """You are a helpful assistant that returns information in JSON format.
+                       Always respond with valid JSON that can be parsed by json.loads().
+                       Do not include any explanations or text outside of the JSON structure."""
 
-    raw_json_data = extract_json(response)
+    response = completion(
+        model="anthropic/claude-3-5-sonnet-latest",  # Use Claude 3.5 Sonnet
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ],
+        temperature=0.2,  # Lower temperature for more consistent outputs
+        max_tokens=1000,
+        response_format={"type": "json_object"}  # Request JSON format
+    )
+
+    json_response = response.choices[0].message.content
+
+    raw_json_data = extract_json(json_response)
     json_data = normalize_to_ascii(raw_json_data)
 
     return json_data
-
-
-def invoke_json_with_user(user, prompt, temperature=0.5, max_tokens=2000):
-    return invoke_json(user.default_model, prompt, temperature, max_tokens)
 
 

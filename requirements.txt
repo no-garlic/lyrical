@@ -1,13 +1,3 @@
-# Django dependencies
 Django
 python-dotenv
-
-# LangChain core
-langchain
-langchain-core
-
-# LangChain integrations
-langchain-ollama
-langchain-openai
-langchain-anthropic
-langchain-google-genai
+litellm
