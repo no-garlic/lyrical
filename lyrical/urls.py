@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .views.llm import *
 from .views.index import *
 from .views.account import *
 from .views.profile import *
