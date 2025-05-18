@@ -49,4 +49,34 @@ class Migration(migrations.Migration):
             name='default_model',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='lyrical.llm'),
         ),
+        migrations.CreateModel(
+            name="Workspace",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=255)),
+                ("user", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="workspaces", to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name="Song",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("title", models.CharField(max_length=255)),
+                ("theme", models.TextField(default="")),
+                ("lyrics", models.TextField(default="")),
+                ("llm_temperature", models.FloatField(default=0.5)),
+                ("llm", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm")),
+                ("workspace", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="songs", to="lyrical.workspace")),
+            ],
+        ),
+        migrations.CreateModel(
+            name="Message",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("role", models.CharField(choices=[("system", "System"), ("user", "User"), ("assistant", "Assistant")], max_length=50)),
+                ("content", models.TextField()), 
+                ("llm", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm")),
+                ("song", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="messages", to="lyrical.song")),
+            ],
+        ),      
     ]

@@ -43,4 +43,32 @@ class UserAPIKey(models.Model):
         return f"{self.user.username} ({self.provider.display_name}: {self.api_key})"
 
 
+class Workspace(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workspaces')
+    name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.name} ({self.user.username})"
+
+
+class Song(models.Model):
+    title = models.CharField(max_length=255)
+    theme = models.TextField(default='')
+    lyrics = models.TextField(default='')
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name='songs')
+    llm = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+    llm_temperature = models.FloatField(default=0.5)
+
+    def __str__(self):
+        return f"{self.title} by {self.artist} ({self.workspace.name})"
+
+
+class Message(models.Model):
+    role = models.CharField(max_length=50, choices=[('system', 'System'), ('user', 'User'), ('assistant', 'Assistant')])
+    content = models.TextField()
+    llm = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')
+
+    def __str__(self):
+        return f"{self.role}: {self.content[:50]}... ({self.song.title})"
+    
