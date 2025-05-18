@@ -5,13 +5,13 @@ from ..services.utils.messages import MessageBuilder
 from .. import models
 
 
-def call_llm_view(request):
+def generate_song_names(request):
     print("Received request to call LLM (Streaming)")
     prompt_name = request.GET.get("prompt")
 
-    prompt_name = "song_names"
-    
     count = request.GET.get("count", 1)
+    min_words = request.GET.get("min_words", 1)
+    max_words = request.GET.get("max_words", 5)
     include_themes = "[" + request.GET.get("include_themes", None) + "]"
     exclude_themes = "[" + request.GET.get("exclude_themes", None) + "]"
     exclude_words = "[" + request.GET.get("exclude_words", None) + "]"
@@ -45,6 +45,8 @@ def call_llm_view(request):
         prompt_name=prompt_name, 
         llm=llm_model,
         count=count, 
+        min_words=min_words,
+        max_words=max_words,
         include_themes=include_themes, 
         exclude_themes=exclude_themes, 
         exclude_words=exclude_words, 

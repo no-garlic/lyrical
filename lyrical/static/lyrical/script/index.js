@@ -131,7 +131,7 @@ function initStreamHandler() {
     const heroButton = document.querySelector('.hero-btn');
     if (!heroButton) return;
 
-    streamHelper = new StreamHelper('/call_llm', {
+    streamHelper = new StreamHelper('/generate_song_names', {
         callbacks: {
             onPreRequest: () => {
                 console.log("Stream PreRequest");
@@ -165,6 +165,8 @@ function initStreamHandler() {
         const requestParams = {
             prompt: 'song_names',
             count: 5,
+            min_words: 1,
+            max_words: 5,
             include_themes: "inspirational, uplifting, motivational, positive",
             exclude_themes: "neon, cyber, digital, futuristic",
             exclude_words: "neon, cyber, endless"            

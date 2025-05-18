@@ -14,6 +14,7 @@
 
 "song_names" : |-
   Generate a list of {{ count }} song names for catchy pop songs.
+  Each song name should be between {{ min_words }} and {{ max_words }} words in length.
 
   The song names should use or more of the themes:
   {{ include_themes }}
@@ -43,11 +44,3 @@
   {"key": {"sub-key1": "val1", "sub-key2", "val2"}}
   As you can see, there is a complete and valid JSON structure on each individual line.
 
-
-"book_names": |- 
-  Generate a list of {{count}} book names recommendations about artificial intelligence.
-  For each book include only the book title.
-  Use the following NDJSON format:  
-    {"title": ""}
-    {"title": ""}
-    ...

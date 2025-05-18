@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.llm import *
+from .views.song_names import *
 from .views.index import *
 from .views.account import *
 from .views.profile import *
@@ -10,8 +10,10 @@ urlpatterns = [
     # landing page
     path("", index, name="index"),
 
-    # call the LLM
-    path("call_llm", call_llm_view, name="call_llm"),
+    # calls to the LLM
+    path("generate_song_names", generate_song_names, name="generate_song_names"),
+
+
 
     # browse page
     path("browse", browse, name="browse"),
