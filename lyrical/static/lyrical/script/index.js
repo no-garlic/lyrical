@@ -58,8 +58,22 @@ function appendElementToContainer(container, element) {
 
     if (typeof element === 'string') {
         p.innerHTML = element.replace(/\n/g, '<br>');
-    } else if (element && element.name) { // Example: prioritize 'title'
+    } else if (element && element.name) {
         p.innerHTML = String(element.name).replace(/\n/g, '<br>');
+        
+    } else if (element && element.verse1) {
+        p.innerHTML = 'verse1: ' + String(element.verse1).replace(/\n/g, '<br>');
+    } else if (element && element.verse2) {
+        p.innerHTML = 'verse2: ' + String(element.verse2).replace(/\n/g, '<br>');
+    } else if (element && element.pre_chorus) {
+        p.innerHTML = 'pre-chorus: ' + String(element.pre_chorus).replace(/\n/g, '<br>');
+    } else if (element && element.chorus) {
+        p.innerHTML = 'chorus: ' + String(element.chorus).replace(/\n/g, '<br>');
+    } else if (element && element.bridge) {
+        p.innerHTML = 'bridge: ' + String(element.bridge).replace(/\n/g, '<br>');
+    } else if (element && element.outro) {
+        p.innerHTML = 'outro: ' + String(element.outro).replace(/\n/g, '<br>');
+        
     } else if (typeof element === 'object' && element !== null) {
         // Fallback for other object structures: display as preformatted JSON
         const pre = document.createElement('pre');
@@ -131,7 +145,7 @@ function initStreamHandler() {
     const heroButton = document.querySelector('.hero-btn');
     if (!heroButton) return;
 
-    streamHelper = new StreamHelper('/generate_song_names', {
+    streamHelper = new StreamHelper('/generate_song', {
         callbacks: {
             onPreRequest: () => {
                 console.log("Stream PreRequest");
@@ -162,7 +176,7 @@ function initStreamHandler() {
 
     heroButton.addEventListener('click', () => {
         // Parameters for this specific request
-        const requestParams = {
+        const requestParamsSongName = {
             prompt: 'song_names',
             count: 5,
             min_words: 1,
@@ -171,6 +185,21 @@ function initStreamHandler() {
             exclude_themes: "neon, cyber, digital, futuristic",
             exclude_words: "neon, cyber, endless"            
         };
+
+        const requestParams = {
+            prompt: 'song',
+            song_name: 'In The Sunshine',
+            song_theme: 'A song about having fun by myself in the sunshine',
+            verse_count: 1,
+            verse_lines: 4,
+            pre_chorus_lines: 0,
+            chorus_lines: 6,
+            bridge_lines: 4,
+            outro_lines: 2,
+            syllables: 9
+        }
+
+
         streamHelper.initiateRequest(requestParams);
     });
 }

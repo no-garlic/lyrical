@@ -6,7 +6,6 @@ from .. import models
 
 
 def generate_song_names(request):
-    print("Received request to call LLM (Streaming)")
     prompt_name = request.GET.get("prompt")
 
     count = request.GET.get("count", 1)

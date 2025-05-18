@@ -44,3 +44,33 @@
   {"key": {"sub-key1": "val1", "sub-key2", "val2"}}
   As you can see, there is a complete and valid JSON structure on each individual line.
 
+"song": |-
+  Generate song lyrics for a song named "{{ song_name }}".
+  The song has the theme:
+  {{ song_theme }}
+
+  Generate the following song sections:
+  {% if verse_count %}- {{ verse_count }} verses, each with {{ verse_lines }} lines of lyrics{% endif %}
+  {% if pre_chorus_lines %}- a pre-chorus with {{ pre_chorus_lines }} lines of lyrics{% endif %}
+  {% if chorus_lines %}- a chorus with {{ chorus_lines }} lines of lyrics{% endif %}
+  {% if bridge_lines %}- a bridge with {{ bridge_lines }} lines of lyrics{% endif %}
+  {% if outro_lines %}- an outro with {{ outro_lines }} lines of lyrics{% endif %}
+  
+  Each line of lyrics should have approximately {{ syllables }} syllables.
+  Ensure that there is a high amount of rhyme and rhythm throughout the lyrics.
+
+  Use the following NDJSON format:
+  {% for i in range(verse_count) %}{"verse{{ loop.index }}": ["lyrics line 1", "lyrics line 2", ...]}
+  {% endfor %}{% if pre_chorus_lines %}{"pre-chorus": ...}
+  {% endif %}{% if chorus_lines %}{"chorus": ...}
+  {% endif %}{% if bridge_lines %}{"bridge": ...}
+  {% endif %}{% if outro_lines %}{"outro": ...}{% endif %}
+
+"song-with-separate-lines": |-
+  Use the following NDJSON format:
+  {% for i in range(verse_count) %}{"verse{{ loop.index }}": "lyrics line 1"}
+  {% endfor %}{% for i in range(verse_count) %}{"verse{{ loop.index }}": "lyrics line 2"}
+  {% endfor %}{% if pre_chorus_lines %}{"pre-chorus": ...}
+  {% endif %}{% if chorus_lines %}{"chorus": ...}
+  {% endif %}{% if bridge_lines %}{"bridge": ...}
+  {% endif %}{% if outro_lines %}{"outro": ...}{% endif %}

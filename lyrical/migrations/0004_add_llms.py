@@ -33,6 +33,7 @@ def add_data(apps, schema_editor):
 
     user = user.objects.get(username="mpetrou")
     user.default_model = llm.objects.get(internal_name="gemini-2.0-flash")
+    user.save()
 
     user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="openai"),api_key=open_ai_api_key)
     user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="anthropic"), api_key=anthropic_api_key)
