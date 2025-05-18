@@ -53,7 +53,8 @@ class Migration(migrations.Migration):
             name="Workspace",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255)),
+                ("display_name", models.CharField(max_length=255)),
+                ("internal_name", models.CharField(choices=[('default', 'Default'), ('archive', 'Archive'), ('custom', 'Custom')], max_length=50)),
                 ("user", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="workspaces", to=settings.AUTH_USER_MODEL)),
             ],
         ),
