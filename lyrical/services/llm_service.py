@@ -1,11 +1,11 @@
 import os
 import re
 import json
-import yaml
 import unicodedata
 from typing import Dict, Any, Optional, Union
 from litellm import completion
 from lyrical.models import User, LLM, LLMProvider, UserAPIKey
+from .utils import prompts
 
 
 def normalize_to_ascii(text):
@@ -75,16 +75,7 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
         os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
 
     if system_prompt is None:
-        try:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            prompts_path = os.path.join(current_dir, "..", "..", "prompts.yaml")
-            with open(prompts_path, "r") as f:
-                prompts = yaml.safe_load(f)
-            system_prompt = prompts.get("system_prompt")
-        except Exception as e:
-            print(f"LLM_SERVICE_ERROR: Could not load system_prompt from prompts.yaml: {e}")
-            yield json.dumps({"error": f"Failed to load system prompt: {e}", "raw_content": "", "status": "error"}) + '\n'
-            return
+        system_prompt = prompts.get("system_prompt", llm)
 
     messages = [
         {"role": "system", "content": system_prompt},

@@ -9,10 +9,8 @@ import json
 import time
 from .. import models
 from ..services.llm_service import llm_call
+from ..services.utils import prompts
 
-# Determine the base directory of the Django project
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-PROMPTS_FILE_PATH = os.path.join(BASE_DIR, "prompts.yaml")
 
 def call_llm_view(request):
     print("Received request to call LLM (Streaming)")
@@ -20,22 +18,6 @@ def call_llm_view(request):
 
     if not prompt_name:
         return JsonResponse({"error": "Prompt name not provided"}, status=400)
-
-    try:
-        with open(PROMPTS_FILE_PATH, "r") as f:
-            prompts = yaml.safe_load(f)
-    except FileNotFoundError:
-        print(f"Error: prompts.yaml not found at {PROMPTS_FILE_PATH}")
-        return JsonResponse({"error": "Prompts configuration file not found."}, status=500)
-    except yaml.YAMLError:
-        print(f"Error: Could not parse prompts.yaml at {PROMPTS_FILE_PATH}")
-        return JsonResponse({"error": "Error parsing prompts configuration file."}, status=500)
-
-    user_message = prompts.get(prompt_name)
-
-    if user_message is None:
-        print(f"Error: Prompt '{prompt_name}' not found in prompts.yaml")
-        return JsonResponse({"error": f"Prompt '{prompt_name}' not found"}, status=404)
 
     current_user = request.user
     if not current_user.is_authenticated:
@@ -51,6 +33,14 @@ def call_llm_view(request):
     except models.LLM.DoesNotExist:
         print(f"Error: LLM model '{llm_model_name}' not found in database.")
         return JsonResponse({"error": "LLM model configuration not found."}, status=500)
+
+    # Get the prompt from the YAML file
+    user_message = prompts.get(prompt_name, llm_model)
+
+    if user_message is None:
+        print(f"Error: Prompt '{prompt_name}' not found in prompts.yaml")
+        return JsonResponse({"error": f"Prompt '{prompt_name}' not found"}, status=404)
+
 
     # The llm_call service function is now a generator.
     # We pass this generator directly to StreamingHttpResponse.
