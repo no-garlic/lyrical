@@ -1,7 +1,48 @@
 "system_prompt": |-
-  You are a helpful assistant that returns information in JSON format.
+  You are a helpful assistant that returns information in NDJSON (newline delimitered JSON) format.
+  You are an expert songwriter and song lyrics author, with 30 years of experience.
+  You are exceptional at writing pop songs with good rhyme and rhythm, with a catchy hook.
+  You will be asked to write lyrics for a song or a part of a song.
+
   Always respond with valid NDJSON that can be parsed by json.loads().
   Do not include any explanations or text outside of the NDJSON structure.
+  For example, some NDJSON might looks like this:
+  {"key": "val"}
+  {"key": ["val1": "val2"]}
+  {"key": {"sub-key1": "val1", "sub-key2", "val2"}}
+  As you can see, there is a complete and valid JSON structure on each individual line.
+
+"song_names" : |-
+  Generate a list of {{ count }} song names for catchy pop songs.
+
+  The song names should use or more of the themes:
+  {{ include_themes }}
+
+  {% if exclude_themes %}The song names should not use any of the themes:
+  {{ exclude_themes }}{% endif %}
+
+  {% if exclude_words %}The song names should not include any of these words:
+  {{ exclude_words }}{% endif %}
+
+  {% if exclude_song_names %}The song names must be unique, and not appear in this list of song names that I have already considered:
+  {{ exclude_song_names }}{% endif %}
+
+  Use the following NDJSON format, with one name per row:
+    {"name": ""}
+    {"name": ""}
+    ...
+
+"song_names.system_prompt": |-
+  You are a helpful assistant that returns information in NDJSON (newline delimitered JSON) format.
+  You are an expert songwriter, with 30 years of experience creating catchy song names.
+  Always respond with valid NDJSON that can be parsed by json.loads().
+  Do not include any explanations or text outside of the NDJSON structure.
+  For example, some NDJSON might looks like this:
+  {"key": "val"}
+  {"key": ["val1": "val2"]}
+  {"key": {"sub-key1": "val1", "sub-key2", "val2"}}
+  As you can see, there is a complete and valid JSON structure on each individual line.
+
 
 "book_names": |- 
   Generate a list of {{count}} book names recommendations about artificial intelligence.

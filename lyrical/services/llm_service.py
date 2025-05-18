@@ -5,9 +5,10 @@ from litellm import completion
 from lyrical.models import User, LLM, UserAPIKey
 from .utils import prompts
 from .utils.text import normalize_to_ascii, process_line
+from .utils.messages import MessageBuilder
 
 
-def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_prompt: Optional[str] = None): # -> Generator[str, None, None]
+def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = None): # -> Generator[str, None, None]
     """
     Call an LLM model and stream the response.
     Yields chunks of text content from the LLM.
@@ -24,18 +25,10 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
     if llm.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
         os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
 
-    if system_prompt is None:
-        system_prompt = prompts.get("system_prompt", llm)
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_message}
-    ]
-
     try:
         kwargs = {
             "model": model_name,
-            "messages": messages,
+            "messages": prompt_messages.get(),
             "temperature": temperature,
             "max_tokens": max_tokens,
             "stream": True

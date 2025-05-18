@@ -16,4 +16,11 @@ class MessageBuilder:
 
     def get(self):
         return self.messages
+    
+    def __str__(self):
+        message_str = "\nMessageBuilder:\n---------------\n"
+        for message in self.messages:
+            message_str += f"\nrole: {message['role']}\n{message['content']}\n"
+        return message_str
+
 

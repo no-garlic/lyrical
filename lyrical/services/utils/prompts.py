@@ -7,31 +7,42 @@ from ...models import LLM
 DEFAULT_PROMPT_FILE = "defaults.yaml"
 PROMPTS_FILE_PATH = Path(__file__).parent.parent.parent / "prompts" 
 
-_prompts = None
+_default_prompts = None
 _model_prompts = {}
 
 
-def get_with_args(prompt_name: str, llm: LLM = None, **kwargs) -> str:
-    prompt = get(prompt_name, llm)
-
+def apply_prompt_args(prompt: str, **kwargs) -> str:
     if prompt is None:
         return None
-
-    print(f"Prompt '{prompt_name}' found in prompts.yaml.")
-    print(prompt)
 
     template = Template(prompt)
     rendered = template.render(**kwargs)
 
-    print(f"Rendered prompt for {prompt_name}:")
-    print(rendered)
-
     return rendered
 
 
-def get(prompt_name: str, llm: LLM = None) -> str:
+def get_system_prompt(prompt_name: str, llm: LLM = None) -> str:
+    custom_system_prompt_name = f"{prompt_name}.system_prompt"
+
+    custom_system_prompt = _get_prompt(custom_system_prompt_name, llm)
+    if custom_system_prompt:
+        print(f"Custom system prompt '{custom_system_prompt_name}' found.")
+        return custom_system_prompt
+    
+    print(f"Custom system prompt '{custom_system_prompt_name}' not found. Using default.")
+    system_prompt = _get_prompt("system_prompt", llm)
+    return system_prompt
+
+
+def get_user_prompt(prompt_name: str, llm: LLM = None, **kwargs) -> str:
+    prompt = _get_prompt(prompt_name, llm)
+    rendered_prompt = apply_prompt_args(prompt, **kwargs)
+    return rendered_prompt
+
+
+def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
     # Keep track of loaded prompts    
-    global _prompts
+    global _default_prompts
     global _model_prompts
 
     # Check if the prompt name is provided
@@ -39,11 +50,11 @@ def get(prompt_name: str, llm: LLM = None) -> str:
         return None
 
     # Check if the default prompts have been loaded
-    if _prompts is None:
+    if _default_prompts is None:
         try:
             print(f"Loading default prompts from {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
             with open(PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE, "r") as f:
-                _prompts = yaml.safe_load(f)
+                _default_prompts = yaml.safe_load(f)
         except FileNotFoundError:
             print(f"Error: default prompts not found at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
             return None
@@ -83,9 +94,9 @@ def get(prompt_name: str, llm: LLM = None) -> str:
             return model_prompts.get(prompt_name)
     
     # If the prompt is not found in the model-specific prompts, check the default prompts
-    if prompt_name in _prompts:
+    if prompt_name in _default_prompts:
         print(f"Prompt '{prompt_name}' found in default prompts.")
-        return _prompts.get(prompt_name)
+        return _default_prompts.get(prompt_name)
     
     print(f"Error: Prompt '{prompt_name}' not found in any prompt yaml file.")
     return None

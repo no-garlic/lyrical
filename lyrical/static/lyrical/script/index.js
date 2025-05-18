@@ -58,8 +58,8 @@ function appendElementToContainer(container, element) {
 
     if (typeof element === 'string') {
         p.innerHTML = element.replace(/\n/g, '<br>');
-    } else if (element && element.title) { // Example: prioritize 'title'
-        p.innerHTML = String(element.title).replace(/\n/g, '<br>');
+    } else if (element && element.name) { // Example: prioritize 'title'
+        p.innerHTML = String(element.name).replace(/\n/g, '<br>');
     } else if (element && element.text) { // Example: then 'text'
         p.innerHTML = String(element.text).replace(/\n/g, '<br>');
     } else if (element && element.content) { // Example: then 'content'
@@ -167,7 +167,7 @@ function initStreamHandler() {
     heroButton.addEventListener('click', () => {
         // Parameters for this specific request
         const requestParams = {
-            prompt: 'book_names',
+            prompt: 'song_names',
             count: 5
         };
         streamHelper.initiateRequest(requestParams);

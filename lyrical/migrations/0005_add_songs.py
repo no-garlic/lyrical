@@ -22,8 +22,8 @@ def add_data(apps, schema_editor):
         llm_temperature=0.5
     )
 
-    messages.create(role="system", content="you are a song writer", llm=llm, song=song1)
-    messages.create(role="system", content="create a pop song about love and loss", llm=llm, song=song1)
+    #messages.create(role="system", content="you are a song writer", llm=llm, song=song1)
+    #messages.create(role="system", content="create a pop song about love and loss", llm=llm, song=song1)
 
     
 
