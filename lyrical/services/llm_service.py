@@ -4,26 +4,7 @@ from typing import Optional
 from litellm import completion
 from lyrical.models import User, LLM, UserAPIKey
 from .utils import prompts
-from .utils.text import normalize_to_ascii
-
-
-def _process_line(line: str):
-    """
-    Processes a single line of text, validates if it's JSON, and yields it.
-    Handles errors by yielding an error JSON string.
-    """
-    stripped_line = line.strip()
-    if stripped_line == "```json" or stripped_line == "```":
-        # Ignore markdown fence lines
-        return
-    elif stripped_line:  # If not a fence and not empty
-        try:
-            json.loads(stripped_line)  # Validate the stripped line
-            yield stripped_line + '\n'  # Yield the stripped line (which is a valid JSON object)
-        except json.JSONDecodeError as e:
-            print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
-            error_payload = {"error": "Malformed JSON line from LLM", "raw_content": stripped_line, "details": str(e)}
-            yield json.dumps(error_payload) + '\n'
+from .utils.text import normalize_to_ascii, process_line
 
 
 def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_prompt: Optional[str] = None): # -> Generator[str, None, None]
@@ -73,12 +54,12 @@ def llm_call(user_message: str, user: User, llm: Optional[LLM] = None, system_pr
 
                 while '\n' in accumulated_line:
                     line_part, rest = accumulated_line.split('\n', 1)
-                    yield from _process_line(line_part)
+                    yield from process_line(line_part)
                     accumulated_line = rest
         
         # After loop, process any remaining data in accumulated_line (if it doesn't end with \n)
         if accumulated_line.strip():
-            yield from _process_line(accumulated_line)
+            yield from process_line(accumulated_line)
         
     except Exception as e:
         print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")

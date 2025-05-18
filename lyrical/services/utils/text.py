@@ -4,6 +4,25 @@ import unicodedata
 from typing import Dict, Any, Optional
 
 
+def process_line(line: str):
+    """
+    Processes a single line of text, validates if it's JSON, and yields it.
+    Handles errors by yielding an error JSON string.
+    """
+    stripped_line = line.strip()
+    if stripped_line == "```json" or stripped_line == "```":
+        # Ignore markdown fence lines
+        return
+    elif stripped_line:  # If not a fence and not empty
+        try:
+            json.loads(stripped_line)  # Validate the stripped line
+            yield stripped_line + '\n'  # Yield the stripped line (which is a valid JSON object)
+        except json.JSONDecodeError as e:
+            print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
+            error_payload = {"error": "Malformed JSON line from LLM", "raw_content": stripped_line, "details": str(e)}
+            yield json.dumps(error_payload) + '\n'
+
+
 def normalize_to_ascii(text):
     """
     Convert Unicode characters to closest ASCII equivalent.
