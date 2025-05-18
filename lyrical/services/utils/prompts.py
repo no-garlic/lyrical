@@ -1,6 +1,7 @@
 import yaml
 import os
 from pathlib import Path
+from jinja2 import Template
 from ...models import LLM
 
 DEFAULT_PROMPT_FILE = "defaults.yaml"
@@ -8,6 +9,25 @@ PROMPTS_FILE_PATH = Path(__file__).parent.parent.parent / "prompts"
 
 _prompts = None
 _model_prompts = {}
+
+
+def get_with_args(prompt_name: str, llm: LLM = None, **kwargs) -> str:
+    prompt = get(prompt_name, llm)
+
+    if prompt is None:
+        return None
+
+    print(f"Prompt '{prompt_name}' found in prompts.yaml.")
+    print(prompt)
+
+    template = Template(prompt)
+    rendered = template.render(**kwargs)
+
+    print(f"Rendered prompt for {prompt_name}:")
+    print(rendered)
+
+    return rendered
+
 
 def get(prompt_name: str, llm: LLM = None) -> str:
     # Keep track of loaded prompts    

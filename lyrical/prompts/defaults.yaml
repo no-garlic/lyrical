@@ -4,9 +4,9 @@
   Do not include any explanations or text outside of the NDJSON structure.
 
 "book_names": |- 
-  Generate a list of 25 book names recommendations about artificial intelligence.
+  Generate a list of {{count}} book names recommendations about artificial intelligence.
   For each book include only the book title.
   Use the following NDJSON format:  
-    {{"title": ""}}
-    {{"title": ""}}
+    {"title": ""}
+    {"title": ""}
     ...

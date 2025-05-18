@@ -167,9 +167,8 @@ function initStreamHandler() {
     heroButton.addEventListener('click', () => {
         // Parameters for this specific request
         const requestParams = {
-            prompt: 'book_names' // This was the original hardcoded prompt
-            // Add other dynamic parameters here if needed
-            // e.g., model: document.getElementById('modelSelector').value
+            prompt: 'book_names',
+            count: 5
         };
         streamHelper.initiateRequest(requestParams);
     });

@@ -7,6 +7,7 @@ from .. import models
 def call_llm_view(request):
     print("Received request to call LLM (Streaming)")
     prompt_name = request.GET.get("prompt")
+    count = request.GET.get("count", 1)
 
     if not prompt_name:
         return JsonResponse({"error": "Prompt name not provided"}, status=400)
@@ -26,7 +27,7 @@ def call_llm_view(request):
         return JsonResponse({"error": "LLM model configuration not found."}, status=500)
 
     # Get the prompt from the YAML file
-    user_message = prompts.get(prompt_name, llm_model)
+    user_message = prompts.get_with_args(prompt_name, llm_model, count=count)
 
     if user_message is None:
         print(f"Error: Prompt '{prompt_name}' not found in prompts.yaml")
