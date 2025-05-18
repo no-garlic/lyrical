@@ -45,7 +45,7 @@ class UserAPIKey(models.Model):
 class Workspace(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workspaces')
     display_name = models.CharField(max_length=255)
-    internal_name = models.CharField(max_length=50, choices=[('default', 'Default'), ('archive', 'Archive'), ('custom', 'Custom')])
+    internal_name = models.CharField(max_length=50, choices=[('new', 'New'), ('working', 'Working'), ('published', 'Published'), ('archive', 'Archive'), ('custom', 'Custom')])
 
     def __str__(self):
         return f"{self.name} ({self.user.username})"
@@ -72,3 +72,9 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.role}: {self.content[:50]}... ({self.song.title})"
     
+
+class ExcludeSongName(models.Model):
+    title = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return self.title

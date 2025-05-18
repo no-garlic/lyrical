@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='user',
+            model_name='User',
             name='default_model',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='lyrical.llm'),
         ),
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("display_name", models.CharField(max_length=255)),
-                ("internal_name", models.CharField(choices=[('default', 'Default'), ('archive', 'Archive'), ('custom', 'Custom')], max_length=50)),
+                ("internal_name", models.CharField(choices=[('new', 'New'), ('working', 'Working'), ('published', 'Published'), ('archive', 'Archive'), ('custom', 'Custom')], max_length=50)),
                 ("user", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="workspaces", to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -79,5 +79,12 @@ class Migration(migrations.Migration):
                 ("llm", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm")),
                 ("song", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="messages", to="lyrical.song")),
             ],
-        ),      
+        ),
+        migrations.CreateModel(
+            name="ExcludeSongName",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("title", models.CharField(max_length=64, unique=True)),
+            ],
+        ),
     ]

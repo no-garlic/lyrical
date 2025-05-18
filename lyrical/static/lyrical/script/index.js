@@ -60,10 +60,6 @@ function appendElementToContainer(container, element) {
         p.innerHTML = element.replace(/\n/g, '<br>');
     } else if (element && element.name) { // Example: prioritize 'title'
         p.innerHTML = String(element.name).replace(/\n/g, '<br>');
-    } else if (element && element.text) { // Example: then 'text'
-        p.innerHTML = String(element.text).replace(/\n/g, '<br>');
-    } else if (element && element.content) { // Example: then 'content'
-        p.innerHTML = String(element.content).replace(/\n/g, '<br>');
     } else if (typeof element === 'object' && element !== null) {
         // Fallback for other object structures: display as preformatted JSON
         const pre = document.createElement('pre');
@@ -168,7 +164,10 @@ function initStreamHandler() {
         // Parameters for this specific request
         const requestParams = {
             prompt: 'song_names',
-            count: 5
+            count: 5,
+            include_themes: "inspirational, uplifting, motivational, positive",
+            exclude_themes: "neon, cyber, digital, futuristic",
+            exclude_words: "neon, cyber, endless"            
         };
         streamHelper.initiateRequest(requestParams);
     });

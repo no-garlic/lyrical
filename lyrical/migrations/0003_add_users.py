@@ -11,7 +11,9 @@ def add_data(apps, schema_editor):
     users.objects.create(username='admin', password=make_password('admin'), email='admin@example.com', first_name='Admin', last_name='Admin', is_superuser=True, is_staff=True)
     users.objects.create(username='mpetrou', password=make_password('mike'), email='mike@example.com', first_name='Mike', last_name='Jones', is_superuser=True, is_staff=True)
 
-    workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='default', display_name='Default')
+    workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='new', display_name='New')
+    workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='working', display_name='Working')
+    workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='published', display_name='Published')
     workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='archive', display_name='Archive')
     workspaces.objects.create(user=users.objects.get(username='mpetrou'), internal_name='custom', display_name='Custom')
 

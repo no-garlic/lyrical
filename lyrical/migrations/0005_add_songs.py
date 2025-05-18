@@ -7,16 +7,17 @@ import os
 def add_data(apps, schema_editor):
     user = apps.get_model("lyrical", "User")
     song = apps.get_model("lyrical", "Song")
+    exclude_song_names = apps.get_model("lyrical", "ExcludeSongName")
     messages = apps.get_model("lyrical", "Message")
 
     user = user.objects.get(username="mpetrou")
     llm = user.default_model
-    workspace = user.workspaces.get(internal_name="default")
+    workspace = user.workspaces.get(internal_name="working")
 
     song1 = song.objects.create(
-        title="Song 1",
-        theme="A song about love and loss.",
-        lyrics="These are the lyrics for song 1.",
+        title="I Create",
+        theme="A song about being creative",
+        lyrics="I Create, oh I Create!",
         workspace=workspace,
         llm=llm,
         llm_temperature=0.5
@@ -25,13 +26,17 @@ def add_data(apps, schema_editor):
     #messages.create(role="system", content="you are a song writer", llm=llm, song=song1)
     #messages.create(role="system", content="create a pop song about love and loss", llm=llm, song=song1)
 
-    
+    # The default song names to exclude
+    exclude_song_names.objects.create(title="Finally Free")
+    exclude_song_names.objects.create(title="Morning Glow")
+    exclude_song_names.objects.create(title="From The Ashes")    
 
     
 
 
 def remove_data(apps, schema_editor):
-    apps.get_model("lyrical", "Song").objects.all().delete()
+    #TODO
+    pass
 
 
 class Migration(migrations.Migration):

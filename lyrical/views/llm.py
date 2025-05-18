@@ -10,12 +10,18 @@ def call_llm_view(request):
     prompt_name = request.GET.get("prompt")
 
     prompt_name = "song_names"
+    
     count = request.GET.get("count", 1)
-    include_themes = ["inspirational", "uplifting", "motivational", "positive"]
-    exclude_themes = ["neon", "cyber", "digital", "futuristic"]
-    exclude_words = ["neon", "cyber", "endless"]
-    exclude_song_names = ["Finally Free", "Morning Glow", "From The Ashes"]
+    include_themes = "[" + request.GET.get("include_themes", None) + "]"
+    exclude_themes = "[" + request.GET.get("exclude_themes", None) + "]"
+    exclude_words = "[" + request.GET.get("exclude_words", None) + "]"
 
+    # Get the list of song names to exclude from the database
+    qs_excluded = models.ExcludeSongName.objects.values('title')
+    qs_previous = models.Song.objects.values('title')
+    combined_titles_qs = qs_excluded.union(qs_previous)
+    exclude_song_names = [item['title'] for item in combined_titles_qs]
+    
     if not prompt_name:
         return JsonResponse({"error": "Prompt name not provided"}, status=400)
 
@@ -56,7 +62,6 @@ def call_llm_view(request):
     print(prompt_messages)
 
     # Call the LLM with the user message and stream the response
+    # llm_call yields JSON strings for each chunk (e.g., for structured streaming):
     response_stream_generator = llm_call(prompt_messages=prompt_messages, user=current_user, llm=llm_model)
-    
-    # If llm_call yields JSON strings for each chunk (e.g., for structured streaming):
     return StreamingHttpResponse(response_stream_generator, content_type="application/x-ndjson") # Changed to application/x-ndjson
