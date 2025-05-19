@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'lyrical/style/index.css' %}">
 {% endblock %}
 
 {% block sidebar %}
@@ -11,11 +10,11 @@
 {% block body %}
     {% csrf_token %}
 
-    <button class="generate-btn">Generate</button>
+    <button class="generate-btn btn btn-warning">Generate</button>
 
     <br>
     
-    <div class="json-data">
+    <div class="json-data text-xl">
     </div>
 
 {% endblock %}
