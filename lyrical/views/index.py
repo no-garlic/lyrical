@@ -16,11 +16,3 @@ def index(request):
         "active_filter": "index"
     })
 
-
-def browse(request):
-    """
-    Show the browse page.
-    """
-    return render(request, "lyrical/browse.html", {
-        "active_filter": "browse"
-    })

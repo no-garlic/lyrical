@@ -9,27 +9,27 @@ let streamHelper; // Declare globally for this script if needed, or manage scope
 // --- UI Update Functions ---
 
 function uiShowLoading(isLoading) {
-    const heroButton = document.querySelector('.hero-btn');
+    const generateButton = document.querySelector('.generate-btn');
     const jsonDataContainer = document.querySelector('.json-data');
 
     if (isLoading) {
-        if (heroButton && !originalButtonHTML.has(heroButton)) {
-            originalButtonHTML.set(heroButton, heroButton.innerHTML);
+        if (generateButton && !originalButtonHTML.has(generateButton)) {
+            originalButtonHTML.set(generateButton, generateButton.innerHTML);
         }
-        if (heroButton) {
-            heroButton.disabled = true;
-            heroButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+        if (generateButton) {
+            generateButton.disabled = true;
+            generateButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
         }
         if (jsonDataContainer) {
             jsonDataContainer.innerHTML = ''; // Clear previous results at the start of a new request
         }
     } else {
-        if (heroButton && originalButtonHTML.has(heroButton)) {
-            heroButton.innerHTML = originalButtonHTML.get(heroButton);
-            originalButtonHTML.delete(heroButton); // Clean up map entry
+        if (generateButton && originalButtonHTML.has(generateButton)) {
+            generateButton.innerHTML = originalButtonHTML.get(generateButton);
+            originalButtonHTML.delete(generateButton); // Clean up map entry
         }
-        if (heroButton) {
-            heroButton.disabled = false;
+        if (generateButton) {
+            generateButton.disabled = false;
         }
     }
 }
@@ -54,7 +54,7 @@ function uiDisplayStreamData(data) {
 
 function appendElementToContainer(container, element) {
     const p = document.createElement('p');
-    p.className = "hero-subheading"; // Assuming this class is appropriate for all data
+    p.className = "generate-subheading"; // Assuming this class is appropriate for all data
 
     if (typeof element === 'string') {
         p.innerHTML = element.replace(/\n/g, '<br>');
@@ -98,7 +98,7 @@ function uiDisplayError(error) {
     // container.innerHTML = ''; // This might be too aggressive if errors are per-chunk
 
     const p = document.createElement('p');
-    p.className = "hero-subheading text-danger"; // Use Bootstrap's text-danger for errors
+    p.className = "generate-subheading text-danger"; // Use Bootstrap's text-danger for errors
 
     let errorMessage = `Error: ${error.message || 'Unknown error'}`;
     if (error.type) errorMessage = `[${error.type}] ${errorMessage}`;
@@ -133,7 +133,7 @@ function uiHandleStreamEnd() {
     const container = document.querySelector('.json-data');
     if (container && container.children.length === 0) {
         const p = document.createElement('p');
-        p.className = "hero-subheading";
+        p.className = "generate-subheading";
         p.innerHTML = "No results found.";
         container.appendChild(p);
     }
@@ -144,8 +144,8 @@ function uiHandleStreamEnd() {
 // --- Stream Initialization and Event Binding ---
 
 function initStreamHandler() {
-    const heroButton = document.querySelector('.hero-btn');
-    if (!heroButton) return;
+    const generateButton = document.querySelector('.generate-btn');
+    if (!generateButton) return;
 
     streamHelper = new StreamHelper('/generate_song', {
         callbacks: {
@@ -176,7 +176,7 @@ function initStreamHandler() {
     // Example: Set a default parameter if needed, though prompt is request-specific here
     // streamHelper.setParameter('some_default_param', 'defaultValue');
 
-    heroButton.addEventListener('click', () => {
+    generateButton.addEventListener('click', () => {
         // Parameters for this specific request
         const requestParamsSongName = {
             prompt: 'song_names',

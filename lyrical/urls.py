@@ -3,8 +3,6 @@ from django.urls import path
 from .views.song_names import *
 from .views.song import *
 from .views.index import *
-from .views.account import *
-from .views.profile import *
 
 
 urlpatterns = [
@@ -17,17 +15,4 @@ urlpatterns = [
 
 
 
-    # browse page
-    path("browse", browse, name="browse"),
-
-
-
-
-    # user profile
-    path("profile/<str:username>", profile, name="profile"),
-
-    # account management
-    path("login", login_view, name="login"),
-    path("logout", logout_view, name="logout"),
-    path("register", register, name="register")    
 ]

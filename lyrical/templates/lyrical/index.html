@@ -11,16 +11,11 @@
 {% block body %}
     {% csrf_token %}
 
-    <div class="logo-container">
-        <img src="{% static 'lyrical/image/lyrical.jpeg' %}" alt="lyrical Logo" class="logo-large">
-    </div>
+    <button class="generate-btn">Generate</button>
+
+    <br>
     
-    <div class="homepage-hero">
-        <div class="hero-text">
-            <button class="btn btn-primary hero-btn"><i class="bi bi-play-fill"></i>Call LLM</button>
-            <div class="json-data">
-            </div>
-        </div>
+    <div class="json-data">
     </div>
 
 {% endblock %}
