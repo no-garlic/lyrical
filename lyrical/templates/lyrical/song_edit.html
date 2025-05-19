@@ -1,0 +1,66 @@
+{% extends "lyrical/layout.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+    /* Add some basic styling for the splitter */
+    .splitter {
+        width: 5px;
+        background-color: #ccc; /* daisyUI neutral or similar could be used via Tailwind */
+        cursor: col-resize;
+        flex-shrink: 0;
+    }
+    .panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Prevent content overflow during resize */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    {% csrf_token %}
+    <div id="song-edit-container" class="flex h-screen w-screen overflow-hidden">
+        <!-- Panel 1 (Fixed Width) -->
+        <div id="panel1" class="panel bg-base-200 w-64 flex-shrink-0 p-2">
+            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
+                Panel 1
+            </div>
+        </div>
+
+        <!-- Splitter 1 -->
+        <div class="splitter" id="splitter1"></div>
+
+        <!-- Panel 2 (Resizable) -->
+        <div id="panel2" class="panel bg-base-300 flex-1 p-2">
+            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
+                Panel 2
+            </div>
+        </div>
+
+        <!-- Splitter 2 -->
+        <div class="splitter" id="splitter2"></div>
+
+        <!-- Panel 3 (Resizable) -->
+        <div id="panel3" class="panel bg-base-200 flex-1 p-2">
+            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
+                Panel 3
+            </div>
+        </div>
+
+        <!-- Splitter 3 -->
+        <div class="splitter" id="splitter3"></div>
+
+        <!-- Panel 4 (Resizable) -->
+        <div id="panel4" class="panel bg-base-300 flex-1 p-2">
+            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
+                Panel 4
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'lyrical/script/song_edit.js' %}"></script>
+{% endblock %}

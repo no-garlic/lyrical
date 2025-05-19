@@ -11,6 +11,7 @@
     --spacing: 0.25rem;
     --text-xl: 1.25rem;
     --text-xl--line-height: calc(1.75 / 1.25);
+    --radius-lg: 0.5rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
@@ -5279,6 +5280,12 @@
       font-size: 0.6875rem;
     }
   }
+  .h-full {
+    height: 100%;
+  }
+  .h-screen {
+    height: 100vh;
+  }
   .btn-wide {
     width: 100%;
     max-width: calc(0.25rem * 64);
@@ -5385,7 +5392,25 @@
   .loading-xs {
     width: calc(var(--size-selector, 0.25rem) * 4);
   }
+  .w-64 {
+    width: calc(var(--spacing) * 64);
+  }
+  .w-full {
+    width: 100%;
+  }
+  .w-screen {
+    width: 100vw;
+  }
+  .flex-1 {
+    flex: 1;
+  }
   .flex-shrink {
+    flex-shrink: 1;
+  }
+  .flex-shrink-0 {
+    flex-shrink: 0;
+  }
+  .shrink {
     flex-shrink: 1;
   }
   .flex-grow {
@@ -5538,6 +5563,15 @@
   .flex-wrap {
     flex-wrap: wrap;
   }
+  .items-center {
+    align-items: center;
+  }
+  .justify-center {
+    justify-content: center;
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
   .tabs-box {
     background-color: var(--color-base-200);
     padding: calc(0.25rem * 1);
@@ -5643,6 +5677,9 @@
   }
   .rounded-field {
     border-radius: var(--radius-field);
+  }
+  .rounded-lg {
+    border-radius: var(--radius-lg);
   }
   .rounded-selector {
     border-radius: var(--radius-selector);
@@ -5902,6 +5939,9 @@
     color: var(--color-warning-content);
     --alert-color: var(--color-warning);
   }
+  .border-neutral {
+    border-color: var(--color-neutral);
+  }
   .glass {
     border: none;
     backdrop-filter: blur(var(--glass-blur, 40px));
@@ -5994,6 +6034,12 @@
         }
       }
     }
+  }
+  .bg-base-200 {
+    background-color: var(--color-base-200);
+  }
+  .bg-base-300 {
+    background-color: var(--color-base-300);
   }
   .divider-accent {
     &:before, &:after {
@@ -6166,6 +6212,9 @@
     &:is([type="radio"]) {
       --size: calc(var(--size-selector, 0.25rem) * 4);
     }
+  }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
   }
   .menu-title {
     padding-inline: calc(0.25rem * 3);
