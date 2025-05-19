@@ -60,7 +60,7 @@ function appendElementToContainer(container, element) {
         p.innerHTML = element.replace(/\n/g, '<br>');
     } else if (element && element.name) {
         p.innerHTML = String(element.name).replace(/\n/g, '<br>');
-        
+
     } else if (element && element.verse1) {
         p.innerHTML = 'verse1: ' + String(element.verse1).replace(/\n/g, '<br>');
     } else if (element && element.verse2) {
@@ -73,6 +73,8 @@ function appendElementToContainer(container, element) {
         p.innerHTML = 'bridge: ' + String(element.bridge).replace(/\n/g, '<br>');
     } else if (element && element.outro) {
         p.innerHTML = 'outro: ' + String(element.outro).replace(/\n/g, '<br>');
+    } else if (element && element.vocalisation) {
+        p.innerHTML = 'vocalisation: ' + String(element.vocalisation).replace(/\n/g, '<br>');
         
     } else if (typeof element === 'object' && element !== null) {
         // Fallback for other object structures: display as preformatted JSON
@@ -196,9 +198,11 @@ function initStreamHandler() {
             chorus_lines: 6,
             bridge_lines: 4,
             outro_lines: 2,
+            vocalisation_lines: 2,
+            vocalisation_terms: "oh, ooh, ah, ahh, whoa",
+            song_vocalisation_level: 3, // 0 is off, 1 is low, 2 is medium, 3 is high
             syllables: 9
         }
-
 
         streamHelper.initiateRequest(requestParams);
     });

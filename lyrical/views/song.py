@@ -16,6 +16,9 @@ def generate_song(request):
     chorus_lines = request.GET.get("chorus_lines", 4)
     bridge_lines = request.GET.get("bridge_lines", 4)
     outro_lines = request.GET.get("outro_lines", 4)
+    vocalisation_lines = request.GET.get("vocalisation_lines", 0)
+    vocalisation_terms = request.GET.get("vocalisation_terms", None)
+    song_vocalisation_level = request.GET.get("song_vocalisation_level", 0)
     syllables = request.GET.get("syllables", 8)
 
     if not prompt_name:
@@ -26,6 +29,8 @@ def generate_song(request):
         current_user = models.User.objects.get(username="mpetrou")
 
     llm_model = current_user.default_model
+
+    song_vocalisation_level_names = [None, "low", "medium", "high"]
 
     # Get the prompts from the YAML file
     system_message = get_system_prompt(prompt_name, llm_model)
@@ -40,6 +45,9 @@ def generate_song(request):
         chorus_lines=int(chorus_lines),
         bridge_lines=int(bridge_lines),
         outro_lines=int(outro_lines),
+        vocalisation_lines=int(vocalisation_lines),
+        vocalisation_terms=vocalisation_terms,
+        song_vocalisation_level=song_vocalisation_level_names[int(song_vocalisation_level)],
         syllables=int(syllables)
     )
 

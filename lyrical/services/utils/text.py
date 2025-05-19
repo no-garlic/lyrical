@@ -4,6 +4,18 @@ import unicodedata
 from typing import Dict, Any, Optional
 
 
+def collapse_blank_lines(text):
+    # Step 1: Strip leading/trailing whitespace from each line
+    lines = [line.strip() for line in text.splitlines()]
+    
+    # Step 2: Rejoin lines with newline characters
+    stripped_text = "\n".join(lines)
+    
+    # Step 3: Collapse multiple blank lines to a single blank line
+    cleaned_text = re.sub(r'\n{2,}', '\n\n', stripped_text)
+    return cleaned_text 
+
+
 def process_line(line: str):
     """
     Processes a single line of text, validates if it's JSON, and yields it.

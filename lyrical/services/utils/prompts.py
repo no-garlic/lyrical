@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 from jinja2 import Template
 from ...models import LLM
+from .text import collapse_blank_lines
+
 
 DEFAULT_PROMPT_FILE = "defaults.yaml"
 PROMPTS_FILE_PATH = Path(__file__).parent.parent.parent / "prompts" 
@@ -27,17 +29,17 @@ def get_system_prompt(prompt_name: str, llm: LLM = None) -> str:
     custom_system_prompt = _get_prompt(custom_system_prompt_name, llm)
     if custom_system_prompt:
         print(f"Custom system prompt '{custom_system_prompt_name}' found.")
-        return custom_system_prompt
+        return collapse_blank_lines(custom_system_prompt)
     
     print(f"Custom system prompt '{custom_system_prompt_name}' not found. Using default.")
     system_prompt = _get_prompt("system_prompt", llm)
-    return system_prompt
+    return collapse_blank_lines(system_prompt)
 
 
 def get_user_prompt(prompt_name: str, llm: LLM = None, **kwargs) -> str:
     prompt = _get_prompt(prompt_name, llm)
     rendered_prompt = apply_prompt_args(prompt, **kwargs)
-    return rendered_prompt
+    return collapse_blank_lines(rendered_prompt)
 
 
 def _get_prompt(prompt_name: str, llm: LLM = None) -> str:

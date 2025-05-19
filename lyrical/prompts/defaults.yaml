@@ -50,16 +50,47 @@
   {{ song_theme }}
 
   Generate the following song sections:
-  {% if verse_count %}- {{ verse_count }} verses, each with {{ verse_lines }} lines of lyrics{% endif %}
-  {% if pre_chorus_lines %}- a pre-chorus with {{ pre_chorus_lines }} lines of lyrics{% endif %}
-  {% if chorus_lines %}- a chorus with {{ chorus_lines }} lines of lyrics{% endif %}
-  {% if bridge_lines %}- a bridge with {{ bridge_lines }} lines of lyrics{% endif %}
-  {% if outro_lines %}- an outro with {{ outro_lines }} lines of lyrics{% endif %}
-  
+  {% if verse_count %}- {{ verse_count }} verses, each with {{ verse_lines }} lines of lyrics
+  {% endif %}{% if pre_chorus_lines %}- a pre-chorus with {{ pre_chorus_lines }} lines of lyrics
+  {% endif %}{% if chorus_lines %}- a chorus with {{ chorus_lines }} lines of lyrics
+  {% endif %}{% if bridge_lines %}- a bridge with {{ bridge_lines }} lines of lyrics
+  {% endif %}{% if outro_lines %}- an outro with {{ outro_lines }} lines of lyrics
+  {% endif %}{% if vocalisation_lines %}- a vocalisation section with {{ vocalisation_lines }} lines of lyrics{% endif %}
+    
   Each line of lyrics should have approximately {{ syllables }} syllables.
   Ensure that there is a high amount of rhyme and rhythm throughout the lyrics.
 
+  {% if vocalisation_lines %}Vocalisation lines should be complete lines, for example ooh-ooh-ooh, ah-ah, whoa.
+  vocalisation lines may be shorter then {{ syllables }} syllables.
+  {%  if vocalisation_terms %}Only use the vocalisation terms: [{{ vocalisation_terms }}]{% endif %}{% else %}{% endif %} 
+
+  {% if song_vocalisation_level %}
+  Also add a {{song_vocalisation_level}} amount of vocalisation to the song lyrics, at the start or end of the lines of lyrics.
+  Lead singer vocalisation is written as a part of the lyrics, eg: "Whoa, oh, the sunshine is here" or "take me higher, ooh-ah".
+  Backing singer vocalisation is written in brackets, eg: "The world is mine! (oh-oh-oh)".
+  {% endif %}
+
+  {% if (song_vocalisation_level or vocalisation_lines) and vocalisation_terms %}
+  Only use the vocalisation terms: [{{ vocalisation_terms }}].
+  {% endif %} 
+
   Use the following NDJSON format:
+  {"<section>": "<lyrics>"}
+  {"<section>": "<lyrics>"}
+  ...
+
+  The <section> is one of:
+  {% for i in range(verse_count) %}- "verse{{ loop.index }}"
+  {% endfor %}{% if pre_chorus_lines %}- "pre-chorus"
+  {% endif %}{% if chorus_lines %}- "chorus"
+  {% endif %}{% if bridge_lines %}- "bridge"
+  {% endif %}{% if outro_lines %}- "outro"
+  {% endif %}{% if vocalisation_lines %}- "vocalisation"{% endif %}
+
+  The <lyrics> is a single line of lyrics for the section, so ther will be multiple JSON lines for each section, one for each line of the section.
+  
+
+"song-format-2": |-
   {% for i in range(verse_count) %}{"verse{{ loop.index }}": ["lyrics line 1", "lyrics line 2", ...]}
   {% endfor %}{% if pre_chorus_lines %}{"pre-chorus": ...}
   {% endif %}{% if chorus_lines %}{"chorus": ...}
