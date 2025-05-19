@@ -10,5 +10,8 @@ if [ ! -f bin/tailwindcss ]; then
   chmod +x bin/tailwindcss
 fi
 
+# Stop any instance of tailwindcss that is already running
+pkill -f "tailwindcss"
+
 # Run tailwindcss in watch mode
 bin/tailwindcss -i lyrical/static/lyrical/style/styles.css -o lyrical/static/lyrical/style/twstyles.css --watch
