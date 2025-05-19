@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Tailwind CSS",
+      "type": "shell",
+      "command": "./tailwind.sh",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "panel": "dedicated",
+        "close": false,
+        "reveal": "always",
+        "clear": true
+      }
+    },
+    {
+      "label": "Lyrical",
+      "type": "shell",
+      "command": "./restart.sh",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "panel": "dedicated",
+        "close": false,
+        "reveal": "always",
+        "clear": true
+      }
+    },
+    {
+      "label": "Start Lyrical",
+      "dependsOn": ["Tailwind CSS", "Lyrical"],
+      "dependsOrder": "parallel"
+    },
+    {
+        "label": "Stop Lyrical",
+        "type": "shell",
+        "command": "./stop.sh",
+        "problemMatcher": [],
+        "presentation": {
+            "reveal": "never",
+            "panel": "dedicated"
+      }
+    }
+  ]
+}

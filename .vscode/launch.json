@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Start Lyrical",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "echo",
+      "postDebugTask": "Start Lyrical",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
