@@ -2,73 +2,64 @@
 {% load static %}
 
 {% block head %}
-<style>
-    /* Add some basic styling for the splitter */
-    .splitter {
-        width: 5px;
-        background-color: #aaa; /* daisyUI neutral or similar could be used via Tailwind */
-        flex-shrink: 0;
-        cursor: col-resize;
-    }
-    .panel {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden; /* Prevent content overflow during resize */
-    }
-</style>
 {% endblock %}
 
 {% block body %}
     {% csrf_token %}
     <div id="song-edit-container" class="flex h-screen w-screen overflow-hidden">
+
         <!-- Panel 1 (Fixed Width) -->
-        <div id="panel1" class="panel bg-base-200 w-64 flex-shrink-0 p-2">
-            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
+        <div id="panel1" class="bg-base-100 w-64 flex-shrink-0 p-2 flex justify-center items-center overflow-hidden">
+            <div class="h-full w-full flex items-center justify-center">
                 Panel 1
             </div>
         </div>
 
         <!-- Splitter 1 -->
-        <div class="splitter" id="splitter1"></div>
+        <div class="bg-red-500 w-[5px] shrink-0"></div>
 
-        <!-- Panel 2 (Resizable) -->
-        <div id="panel2" class="panel bg-base-300 flex-1 p-2">
-            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
-                <div class="mockup-code w-full h-full">
-                    <pre data-prefix="$"><code>npm i daisyui</code></pre>
-                    <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
-                    <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
+        <!-- Right content area: holds top bar and main resizable panels -->
+        <div id="right-content-area" class="flex flex-col flex-1 overflow-hidden">
+
+            <!-- Fixed height top bar spanning above panels 2, 3, 4 -->
+            <div id="top-bar-panel" class="h-16 bg-base-100 p-2 flex-shrink-0 flex justify-center items-center overflow-hidden">
+                <div class="h-full w-full flex items-center justify-center">
+                    Top Bar Panel
                 </div>
             </div>
-        </div>
 
-        <!-- Splitter 2 -->
-        <div class="splitter" id="splitter2"></div>
 
-        <!-- Panel 3 (Resizable) -->
-        <div id="panel3" class="panel bg-base-300 flex-1 p-2">
-            <div class="h-full w-full rounded-lg border bg-neutral-900 flex items-center justify-center border-orange-500">
-                <div class="mockup-browser border border-base-300 w-full h-full">
-                    <div class="mockup-browser-toolbar w-full">
-                        <p class="text-center w-full font-semibold">Edit Lyrics</p>
-                    </div>
-                    <div class="w-full h-full p-4">
-                        <pre data-prefix="$"><code>npm i daisyui</code></pre>
-                        <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
-                        <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
+            <div class="bg-red-500 h-[5px] shrink-0"></div>
+
+            <!-- Container for panels 2, 3, 4 and their splitters -->
+            <div id="main-panels-container" class="flex flex-1 overflow-hidden">
+
+                <!-- Panel 2 (Resizable) -->
+                <div id="panel2" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                    <div class="h-full w-full flex items-center justify-center">
+                        Panel 2
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Splitter 3 -->
-        <div class="splitter" id="splitter3"></div>
+                <!-- Splitter 2 -->
+                <div class="splitter bg-red-500 w-[5px] shrink-0" id="splitter2" style="cursor: col-resize;"></div>
 
-        <!-- Panel 4 (Resizable) -->
-        <div id="panel4" class="panel bg-base-300 flex-1 p-2">
-            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
-                Panel 4
+                <!-- Panel 3 (Resizable) -->
+                <div id="panel3" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                    <div class="h-full w-full flex items-center justify-center">
+                        Panel 3
+                    </div>
+                </div>
+
+                <!-- Splitter 3 -->
+                <div class="splitter bg-red-500 w-[5px] shrink-0" id="splitter3" style="cursor: col-resize;"></div>
+
+                <!-- Panel 4 (Resizable) -->
+                <div id="panel4" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                    <div class="h-full w-full flex items-center justify-center">
+                        Panel 4
+                    </div>
+                </div>
             </div>
         </div>
     </div>
