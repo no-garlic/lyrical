@@ -14,6 +14,15 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coiny&display=swap">
 
         <link rel="stylesheet" href="{% static 'lyrical/style/twstyles.css' %}">
+        <script>
+            // Immediately try to apply the theme from localStorage to avoid FOUC (Flash Of Unstyled Content)
+            // This script must be in the <head> and before any daisyUI CSS or theme-controller elements.
+            const THEME_STORAGE_KEY = 'daisyui_theme';
+            const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+            if (storedTheme) {
+                document.documentElement.setAttribute('data-theme', storedTheme);
+            }
+        </script>
         {% block head %}
         {% endblock %}
     </head>
@@ -26,6 +35,7 @@
         </div>
 
         <script src="{% static 'lyrical/script/stream.js' %}"></script>
+        <script src="{% static 'lyrical/script/theme_handler.js' %}"></script>
         
         {% block layout_scripts %}
         {% endblock %}
