@@ -12,7 +12,6 @@ def index(request):
         authenticate(request, username="mpetrou", password="mike")
         login(request, request.user)
 
-    return render(request, "lyrical/index.html", {
-        "active_filter": "index"
+    return render(request, "lyrical/_test_streaming.html", {
     })
 
