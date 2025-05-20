@@ -18,7 +18,7 @@
         {% endblock %}
     </head>
     <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
-        <div class="bg-linear-to-b from-[#0E0808] to-[#251110] to-125%">
+        <div class="bg-base-200">
             {% csrf_token %}
 
             {% block body %}

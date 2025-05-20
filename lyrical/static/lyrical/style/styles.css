@@ -1,4 +1,9 @@
+
 @import "tailwindcss";
-@plugin "./daisyui.js";
-@plugin "./daisyui-theme.js";
+@plugin "./daisyui.js" {
+  themes: cyberpunk, acid, black, dark --default, light, luxury, dracula, retro, lofi,
+   valentine, nord, lemonade, garden, aqua, corporate, pastel, bumblebee,
+    coffee, silk, sunset, synthwave, dim, abyss, forest, night, caramellatte,
+     autumn, emerald, cupcake, cmyk, business, winter, halloween;
+}
 @source "../../../templates";
