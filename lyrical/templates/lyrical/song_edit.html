@@ -6,10 +6,10 @@
 
 {% block body %}
     {% csrf_token %}
-    <div id="song-edit-container" class="flex h-screen w-screen overflow-hidden">
+    <div id="song-edit-container" class="flex h-screen w-screen overflow-hidden bg-black">
 
         <!-- Panel 1 (Fixed Width) -->
-        <div id="panel1" class="bg-base-100 w-64 flex-shrink-0 p-2 flex justify-center items-center overflow-hidden">
+        <div id="panel1" class="w-64 flex-shrink-0 p-2 flex justify-center items-center overflow-hidden">
             <div class="h-full w-full flex items-center justify-center">
                 Panel 1
             </div>
@@ -22,7 +22,7 @@
         <div id="right-content-area" class="flex flex-col flex-1 overflow-hidden">
 
             <!-- Fixed height top bar spanning above panels 2, 3, 4 -->
-            <div id="top-bar-panel" class="h-16 bg-base-100 p-2 flex-shrink-0 flex justify-center items-center overflow-hidden">
+            <div id="top-bar-panel" class="h-16 p-2 flex-shrink-0 flex justify-center items-center overflow-hidden">
                 <div class="h-full w-full flex items-center justify-center">
                     Top Bar Panel
                 </div>
@@ -35,7 +35,7 @@
             <div id="main-panels-container" class="flex flex-1 overflow-hidden">
 
                 <!-- Panel 2 (Resizable) -->
-                <div id="panel2" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                <div id="panel2" class="flex-1 p-2 flex justify-center items-center overflow-hidden">
                     <div class="h-full w-full flex items-center justify-center">
                         Panel 2
                     </div>
@@ -45,7 +45,7 @@
                 <div class="splitter bg-red-500 w-[5px] shrink-0" id="splitter2" style="cursor: col-resize;"></div>
 
                 <!-- Panel 3 (Resizable) -->
-                <div id="panel3" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                <div id="panel3" class="flex-1 p-2 flex justify-center items-center overflow-hidden">
                     <div class="h-full w-full flex items-center justify-center">
                         Panel 3
                     </div>
@@ -55,7 +55,7 @@
                 <div class="splitter bg-red-500 w-[5px] shrink-0" id="splitter3" style="cursor: col-resize;"></div>
 
                 <!-- Panel 4 (Resizable) -->
-                <div id="panel4" class="bg-base-100 flex-1 p-2 flex justify-center items-center overflow-hidden">
+                <div id="panel4" class="flex-1 p-2 flex justify-center items-center overflow-hidden">
                     <div class="h-full w-full flex items-center justify-center">
                         Panel 4
                     </div>

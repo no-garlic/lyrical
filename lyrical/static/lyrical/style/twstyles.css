@@ -6095,6 +6095,9 @@
   .bg-base-300 {
     background-color: var(--color-base-300);
   }
+  .bg-black {
+    background-color: var(--color-black);
+  }
   .bg-neutral-900 {
     background-color: var(--color-neutral-900);
   }
