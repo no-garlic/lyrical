@@ -1,12 +1,14 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="lyrical">
     <head>
         <title>{% block title %}Lyrical{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap">
@@ -14,15 +16,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coiny&display=swap">
 
         <link rel="stylesheet" href="{% static 'lyrical/style/twstyles.css' %}">
-        <script>
-            // Immediately try to apply the theme from localStorage to avoid FOUC (Flash Of Unstyled Content)
-            // This script must be in the <head> and before any daisyUI CSS or theme-controller elements.
-            const THEME_STORAGE_KEY = 'daisyui_theme';
-            const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-            if (storedTheme) {
-                document.documentElement.setAttribute('data-theme', storedTheme);
-            }
-        </script>
+
         {% block head %}
         {% endblock %}
     </head>
@@ -35,7 +29,6 @@
         </div>
 
         <script src="{% static 'lyrical/script/stream.js' %}"></script>
-        <script src="{% static 'lyrical/script/theme_handler.js' %}"></script>
         
         {% block layout_scripts %}
         {% endblock %}

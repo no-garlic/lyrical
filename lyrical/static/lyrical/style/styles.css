@@ -1,9 +1,41 @@
-
 @import "tailwindcss";
-@plugin "./daisyui.js" {
-  themes: cyberpunk, acid, black --default, dark, light, luxury, dracula, retro, lofi,
-   valentine, nord, lemonade, garden, aqua, corporate, pastel, bumblebee,
-    coffee, silk, sunset, synthwave, dim, abyss, forest, night, caramellatte,
-     autumn, emerald, cupcake, cmyk, business, winter, halloween;
+
+@plugin "./daisyui-theme.js" {
+  name: "lyrical";
+  color-scheme: "dark";
+  --color-base-100: oklch(14% 0 0);
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(26% 0 0);
+  --color-base-content: oklch(86% 0.005 56.366);
+  --color-primary: oklch(66% 0.179 58.318);
+  --color-primary-content: oklch(96% 0.059 95.617);
+  --color-secondary: oklch(51% 0.262 276.966);
+  --color-secondary-content: oklch(87% 0.065 274.039);
+  --color-accent: oklch(68% 0.162 75.834);
+  --color-accent-content: oklch(97% 0.071 103.193);
+  --color-neutral: oklch(43% 0 0);
+  --color-neutral-content: oklch(92% 0 0);
+  --color-info: oklch(78% 0.154 211.53);
+  --color-info-content: oklch(95% 0.045 203.388);
+  --color-success: oklch(84% 0.238 128.85);
+  --color-success-content: oklch(40% 0.101 131.063);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(41% 0.159 10.272);
+  --radius-selector: 0.5rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
 }
+
+@plugin "./daisyui.js" {
+  themes: lyrical --default --prefersdark;
+  logs: true;
+}
+
 @source "../../../templates";
