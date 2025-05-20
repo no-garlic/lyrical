@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const panel3 = document.getElementById('panel3');
     const panel4 = document.getElementById('panel4');
 
+    const splitter1 = document.getElementById('splitter1');
+    splitter1.style.cursor = 'default';
+
     const splitter2 = document.getElementById('splitter2');
     const splitter3 = document.getElementById('splitter3');
 

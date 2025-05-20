@@ -7,10 +7,16 @@
     'Noto Color Emoji';
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+    --color-orange-500: oklch(70.5% 0.213 47.604);
+    --color-neutral-800: oklch(26.9% 0 0);
+    --color-neutral-900: oklch(20.5% 0 0);
     --color-black: #000;
     --spacing: 0.25rem;
     --text-xl: 1.25rem;
     --text-xl--line-height: calc(1.75 / 1.25);
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
     --radius-lg: 0.5rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -5939,8 +5945,14 @@
     color: var(--color-warning-content);
     --alert-color: var(--color-warning);
   }
+  .border-base-300 {
+    border-color: var(--color-base-300);
+  }
   .border-neutral {
     border-color: var(--color-neutral);
+  }
+  .border-orange-500 {
+    border-color: var(--color-orange-500);
   }
   .glass {
     border: none;
@@ -6040,6 +6052,9 @@
   }
   .bg-base-300 {
     background-color: var(--color-base-300);
+  }
+  .bg-neutral-900 {
+    background-color: var(--color-neutral-900);
   }
   .divider-accent {
     &:before, &:after {
@@ -6216,6 +6231,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
   .menu-title {
     padding-inline: calc(0.25rem * 3);
     padding-block: calc(0.25rem * 2);
@@ -6304,6 +6322,9 @@
     &::file-selector-button {
       font-size: 1.375rem;
     }
+  }
+  .text-center {
+    text-align: center;
   }
   .file-input-lg {
     --size: calc(var(--size-field, 0.25rem) * 12);
@@ -6395,6 +6416,10 @@
   }
   .textarea-xs {
     font-size: 0.6875rem;
+  }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
   }
   .text-wrap {
     text-wrap: wrap;
@@ -6690,6 +6715,12 @@
     color: var(--color-success);
   }
   .progress-warning {
+    color: var(--color-warning);
+  }
+  .text-success {
+    color: var(--color-success);
+  }
+  .text-warning {
     color: var(--color-warning);
   }
   .uppercase {
@@ -7601,6 +7632,10 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-outline-style {
   syntax: "*";
   inherits: false;
@@ -7708,6 +7743,7 @@
       --tw-skew-x: initial;
       --tw-skew-y: initial;
       --tw-border-style: solid;
+      --tw-font-weight: initial;
       --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;

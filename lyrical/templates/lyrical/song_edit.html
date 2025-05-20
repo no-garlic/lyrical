@@ -6,9 +6,9 @@
     /* Add some basic styling for the splitter */
     .splitter {
         width: 5px;
-        background-color: #ccc; /* daisyUI neutral or similar could be used via Tailwind */
-        cursor: col-resize;
+        background-color: #aaa; /* daisyUI neutral or similar could be used via Tailwind */
         flex-shrink: 0;
+        cursor: col-resize;
     }
     .panel {
         display: flex;
@@ -35,7 +35,11 @@
         <!-- Panel 2 (Resizable) -->
         <div id="panel2" class="panel bg-base-300 flex-1 p-2">
             <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
-                Panel 2
+                <div class="mockup-code w-full h-full">
+                    <pre data-prefix="$"><code>npm i daisyui</code></pre>
+                    <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
+                    <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
+                </div>
             </div>
         </div>
 
@@ -43,9 +47,18 @@
         <div class="splitter" id="splitter2"></div>
 
         <!-- Panel 3 (Resizable) -->
-        <div id="panel3" class="panel bg-base-200 flex-1 p-2">
-            <div class="h-full w-full rounded-lg border border-neutral flex items-center justify-center">
-                Panel 3
+        <div id="panel3" class="panel bg-base-300 flex-1 p-2">
+            <div class="h-full w-full rounded-lg border bg-neutral-900 flex items-center justify-center border-orange-500">
+                <div class="mockup-browser border border-base-300 w-full h-full">
+                    <div class="mockup-browser-toolbar w-full">
+                        <p class="text-center w-full font-semibold">Edit Lyrics</p>
+                    </div>
+                    <div class="w-full h-full p-4">
+                        <pre data-prefix="$"><code>npm i daisyui</code></pre>
+                        <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
+                        <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -62,5 +75,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'lyrical/script/song_edit.js' %}"></script>
+    <script src="{% static 'lyrical/script/song_edit.js' %}?v={{ timestamp }}"></script>
 {% endblock %}
