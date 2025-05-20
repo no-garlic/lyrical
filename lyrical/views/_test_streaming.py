@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from .. import models
 
 
-def index(request):
+def test_streaming(request):
     """
     Show the index page with general information about the application.
     """
