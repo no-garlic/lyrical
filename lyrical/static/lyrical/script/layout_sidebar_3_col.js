@@ -1,18 +1,14 @@
-// filepath: /Users/michael/Dev/lyrical/lyrical/static/lyrical/script/song_edit.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const panel1 = document.getElementById('panel1');
     const panel2 = document.getElementById('panel2');
     const panel3 = document.getElementById('panel3');
-    const panel4 = document.getElementById('panel4');
 
     const splitter1 = document.getElementById('splitter1');
-    splitter1.style.cursor = 'default';
-
     const splitter2 = document.getElementById('splitter2');
-    const splitter3 = document.getElementById('splitter3');
 
-    makeResizable(panel3, splitter2, panel2, false); // panel2 is to the left of splitter2
-    makeResizable(panel4, splitter3, panel3, false); // panel3 is to the left of splitter3
+    makeResizable(panel2, splitter1, panel1, false);
+    makeResizable(panel3, splitter2, panel2, false);
 });
 
 function makeResizable(panelToResize, splitter, leftOrUpPanel, isResizingLeftPanel) {
@@ -73,7 +69,7 @@ function makeResizable(panelToResize, splitter, leftOrUpPanel, isResizingLeftPan
             panelToResize.style.userSelect = '';
             leftOrUpPanel.style.userSelect = '';
 
-            const flexiblePanels = [panel2, panel3, panel4];
+            const flexiblePanels = [panel1, panel2, panel3];
             const directlyResizedPanels = [leftOrUpPanel, panelToResize];
             const panelPixelWidths = {};
 

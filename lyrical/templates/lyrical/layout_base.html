@@ -15,8 +15,12 @@
         {% endblock %}
     </head>
     <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
-        {% block body %}
-        {% endblock %}
+        <div class="bg-linear-to-b from-[#0E0808] to-[#251110]">
+            {% csrf_token %}
+
+            {% block body %}
+            {% endblock %}
+        </div>
 
         <script src="{% static 'lyrical/script/stream.js' %}"></script>
         {% block scripts %}

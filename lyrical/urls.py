@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views.song_names import *
-from .views.song_edit import *
+from .views.lyrics import *
 from .views.song import *
 from .views.index import *
 
@@ -11,7 +11,7 @@ urlpatterns = [
     path("", index, name="index"),
 
     # song operations
-    path("song_edit", song_edit, name="song_edit"),
+    path("lyrics", show_lyrics_page, name="lyrics"),
 
     # calls to the LLM
     path("generate_song", generate_song, name="generate_song"),
