@@ -5,6 +5,51 @@
 {% endblock %}
 
 {% block body %}
+<div class="">
+    <div class="">
+        <div class="">
+            <img src="{% static 'lyrical/image/singer-transparent.png' %}" alt="lyrical Logo" class="w-60">
+            <h2>Register</h2>
+        </div>
+
+        {% if error_message %}
+            <div class="">{{ error_message }}</div>
+        {% endif %}
+
+        <form action="{% url 'register' %}" method="post" class="auth-form">
+            {% csrf_token %}
+            <div class="">
+                <label for="username">Username</label>
+                <input class="" type="text" name="username" id="username" autocomplete="off" autofocus required>
+            </div>
+            <div class="">
+                <label for="firstname">First Name</label>
+                <input class="" type="text" name="firstname" id="firstname" autocomplete="off" autofocus required>
+            </div>
+            <div class="">
+                <label for="lastname">Last Name</label>
+                <input class="" type="text" name="lastname" id="lastname" autocomplete="off" autofocus required>
+            </div>
+            <div class="">
+                <label for="email">Email</label>
+                <input class="" type="email" name="email" id="email" autocomplete="off" required>
+            </div>
+            <div class="">
+                <label for="password">Password</label>
+                <input class="" type="password" name="password" id="password" required>
+            </div>
+            <div class="">
+                <label for="confirmation">Confirm Password</label>
+                <input class="" type="password" name="confirmation" id="confirmation" required>
+            </div>
+            <button class="" type="submit">Register</button>
+        </form>
+        
+        <div class="link link-hover">
+            Already have an account? <a href="{% url 'login' %}">Log In</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

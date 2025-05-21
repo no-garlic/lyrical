@@ -22,6 +22,7 @@ urlpatterns = [
     # auth pages
     path("register", page_register, name="register"),
     path("login", page_login, name="login"),
+    path("logout", action_logout, name="logout"),
     path("profile", page_profile, name="profile"),
 
     # main pages

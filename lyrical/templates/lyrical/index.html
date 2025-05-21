@@ -5,14 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<div class="h-screen w-screen flex flex-col items-center justify-top">
-    <p class="mt-[5vh] mb-10 font-[Chango] text-[6vw]">LYRICAL</p>
-    
-    <img src="{% static 'lyrical/image/singer-transparent.png' %} " 
-    class="w-1/3 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
-
-    <a href="{% url 'lyrics' %}" class="mt-25 btn btn-xl btn-primary btn-wide">Start Here</a>
-
+<div class="h-screen w-screen flex flex-col items-center justify-center p-4 space-y-6 md:space-y-16">
+    <p class="font-[Chango] text-center text-[7vw] leading-tight max-h-[calc(100vh/10)] flex items-center justify-center">LYRICAL</p>
+    <img src="{% static 'lyrical/image/singer-transparent.png' %}" 
+         alt="Singer performing"
+         class="object-contain max-w-[100vw] max-h-[50vh] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
+    <a href="{% url 'login' %}" class="btn btn-xl btn-primary btn-wide mt-12 mb-4">Login</a>
+    <a href="{% url 'register' %}" class="link link-hover">No account? Register here.</a>
 </div>
 {% endblock %}
 
