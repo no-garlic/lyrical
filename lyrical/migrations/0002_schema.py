@@ -132,6 +132,7 @@ class Migration(migrations.Migration):
                     models.CharField(
                         choices=[
                             ("theme", "Theme"),
+                            ("hook", "Hook"),
                             ("verse", "Verse"),
                             ("chorus", "Chorus"),
                             ("bridge", "Bridge"),

@@ -64,6 +64,7 @@ class Section(models.Model):
     song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='sections')
     type = models.CharField(max_length=50, choices=[
         ('theme', 'Theme'),
+        ('hook', 'Hook'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),
         ('bridge', 'Bridge'),
