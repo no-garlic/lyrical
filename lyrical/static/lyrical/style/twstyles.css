@@ -5652,6 +5652,12 @@
       outline-offset: 2px;
     }
   }
+  .cursor-move {
+    cursor: move;
+  }
+  .cursor-row-resize {
+    cursor: row-resize;
+  }
   .resize {
     resize: both;
   }
