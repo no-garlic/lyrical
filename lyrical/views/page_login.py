@@ -17,7 +17,7 @@ def page_login(request):
             login(request, user)
             return HttpResponseRedirect(reverse("library"))
         else:
-            return render(request, "quizly/login.html", {
+            return render(request, "lyrical/login.html", {
                 "error_message": "Invalid username and/or password."
             })
     else:

@@ -4,8 +4,10 @@ from .. import models
 
 
 def page_names(request):
-    filename = Path(__file__).name.split(".")[0].replace("page_", "")
-    html_file = f"lyrical/{filename}.html"
+    page_name = Path(__file__).name.split(".")[0].replace("page_", "")
+    html_file = f"lyrical/{page_name}.html"
     print(html_file)
 
-    return render(request, html_file)
+    return render(request, html_file, {
+        "active_page": page_name        
+    })
