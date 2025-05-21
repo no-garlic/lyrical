@@ -21,7 +21,7 @@
                 
         <!-- Panel Header -->
         <c-panel-header title="SONG NAMES">
-            <c-panel-header-button>
+            <c-panel-header-button id="btn-edit-song-name">
                 Edit
             </c-panel-header-button>
         </c-panel-header>
@@ -73,13 +73,5 @@
 
 {% block scripts %}
     <script src="{% static 'lyrical/script/layout_slide_panel_header.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            makeVerticallyResizable(
-                document.getElementById('panel1-top-content'),
-                document.getElementById('panel1-vertical-splitter'),
-                document.getElementById('panel1-bottom-content')
-            );
-        });
-    </script>
+    <script src="{% static 'lyrical/script/library.js' %}"></script>
 {% endblock %}
