@@ -4575,8 +4575,17 @@
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
+  .mt-10 {
+    margin-top: calc(var(--spacing) * 10);
+  }
   .mt-12 {
     margin-top: calc(var(--spacing) * 12);
+  }
+  .mt-20 {
+    margin-top: calc(var(--spacing) * 20);
+  }
+  .mt-120 {
+    margin-top: calc(var(--spacing) * 120);
   }
   .breadcrumbs {
     max-width: 100%;
@@ -6543,6 +6552,9 @@
   }
   .font-\[poppins\] {
     font-family: poppins;
+  }
+  .font-\[red_hat_text\] {
+    font-family: red hat text;
   }
   .file-input-lg {
     --size: calc(var(--size-field, 0.25rem) * 12);
