@@ -8,6 +8,7 @@ from .views.page_library import *
 from .views.page_names import *
 from .views.page_profile import *
 from .views.page_lyrics import *
+from .views.page_structure import *
 
 from .views.generate_song import *
 from .views.generate_song_names import *
@@ -30,6 +31,7 @@ urlpatterns = [
     path("names", page_names, name="names"),
     path("themes", page_themes, name="themes"),
     path("lyrics", page_lyrics, name="lyrics"),
+    path("structure", page_structure, name="structure"),
 
     # llm calls
     path("generate_song", generate_song, name="generate_song"),
