@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block panel_1 %}
-    <div class="h-full w-full flex items-center justify-top card bg-base-100 border border-base-300 w-full p-1">
+    <div class="h-full w-full flex flex-col card bg-base-100 border border-base-300 w-full p-1">
                 
         <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row">
             <div class="flex flex-1 justify-start items-center pl-2">
@@ -31,11 +31,39 @@
         </div>
 
 
-        <div class="w-full h-[30%] bg-white">
-            Content
+        <div id="panel1-top-content" class="w-full h-[30%] bg-base-200 overflow-auto">
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>            
         </div>
 
-        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize">
+
+        <div id="panel1-vertical-splitter" class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize">
             <div class="flex flex-1 justify-start items-center pl-2">
                 SONG NAMES
             </div>
@@ -44,15 +72,40 @@
                     Edit
                 </a>
             </div>
+
         </div>
 
-        <div class="w-full h-full bg-white">
-            Content
+        <div id="panel1-bottom-content" class="w-full h-full bg-base-200 overflow-auto">
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+            <p>Content</p>
+
         </div>
-
-
-
-
     </div>
 {% endblock %}
 
@@ -80,4 +133,13 @@
 
 {% block scripts %}
     <script src="{% static 'lyrical/script/layout_slide_panel_header.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            makeVerticallyResizable(
+                document.getElementById('panel1-top-content'),
+                document.getElementById('panel1-vertical-splitter'),
+                document.getElementById('panel1-bottom-content')
+            );
+        });
+    </script>
 {% endblock %}

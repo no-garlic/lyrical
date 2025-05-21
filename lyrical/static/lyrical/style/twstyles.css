@@ -5382,6 +5382,9 @@
       font-size: 0.6875rem;
     }
   }
+  .h-3 {
+    height: calc(var(--spacing) * 3);
+  }
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
@@ -5786,6 +5789,9 @@
   }
   .self-start {
     align-self: flex-start;
+  }
+  .overflow-auto {
+    overflow: auto;
   }
   .overflow-hidden {
     overflow: hidden;
