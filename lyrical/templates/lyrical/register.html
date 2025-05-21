@@ -5,48 +5,65 @@
 {% endblock %}
 
 {% block body %}
-<div class="">
-    <div class="">
-        <div class="">
-            <img src="{% static 'lyrical/image/singer-transparent.png' %}" alt="lyrical Logo" class="w-60">
-            <h2>Register</h2>
-        </div>
+<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 p-4">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl p-6">
+        <div class="card-body items-center text-center p-2">
+            <p class="font-[Chango] text-4xl mb-4">LYRICAL</p>
+            <h2 class="card-title text-2xl font-bold mb-6">Register</h2>
 
-        {% if error_message %}
-            <div class="">{{ error_message }}</div>
-        {% endif %}
+            {% if error_message %}
+                <div class="alert alert-error mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2 2m2-2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{{ error_message }}</span>
+                </div>
+            {% endif %}
 
-        <form action="{% url 'register' %}" method="post" class="auth-form">
-            {% csrf_token %}
-            <div class="">
-                <label for="username">Username</label>
-                <input class="" type="text" name="username" id="username" autocomplete="off" autofocus required>
+            <form action="{% url 'register' %}" method="post" class="w-full space-y-4">
+                {% csrf_token %}
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 w-full">
+                        <span class="label-text self-start">Username</span>
+                    </div>
+                    <input type="text" name="username" id="username" placeholder="" class="input input-bordered w-full" autocomplete="off" autofocus required>
+                </label>
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 mt-4 w-full">
+                        <span class="label-text self-start">First Name</span>
+                    </div>
+                    <input type="text" name="firstname" id="firstname" placeholder="" class="input input-bordered w-full" autocomplete="off" required>
+                </label>
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 mt-4 w-full">
+                        <span class="label-text self-start">Last Name</span>
+                    </div>
+                    <input type="text" name="lastname" id="lastname" placeholder="" class="input input-bordered w-full" autocomplete="off" required>
+                </label>
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 mt-4 w-full">
+                        <span class="label-text self-start">Email</span>
+                    </div>
+                    <input type="email" name="email" id="email" placeholder="" class="input input-bordered w-full" autocomplete="off" required>
+                </label>
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 mt-4 w-full">
+                        <span class="label-text self-start">Password</span>
+                    </div>
+                    <input type="password" name="password" id="password" placeholder="" class="input input-bordered w-full" required>
+                </label>
+                <label class="form-control w-full">
+                    <div class="label justify-start mb-1 mt-4 w-full">
+                        <span class="label-text self-start">Confirm Password</span>
+                    </div>
+                    <input type="password" name="confirmation" id="confirmation" placeholder="" class="input input-bordered w-full" required>
+                </label>
+                <div class="card-actions justify-center w-full mt-8">
+                    <button class="btn btn-primary btn-wide" type="submit">Register</button>
+                </div>
+            </form>
+            
+            <div class="mt-8 text-sm">
+                Already have an account? <a href="{% url 'login' %}" class="link link-hover link-primary">Log In</a>
             </div>
-            <div class="">
-                <label for="firstname">First Name</label>
-                <input class="" type="text" name="firstname" id="firstname" autocomplete="off" autofocus required>
-            </div>
-            <div class="">
-                <label for="lastname">Last Name</label>
-                <input class="" type="text" name="lastname" id="lastname" autocomplete="off" autofocus required>
-            </div>
-            <div class="">
-                <label for="email">Email</label>
-                <input class="" type="email" name="email" id="email" autocomplete="off" required>
-            </div>
-            <div class="">
-                <label for="password">Password</label>
-                <input class="" type="password" name="password" id="password" required>
-            </div>
-            <div class="">
-                <label for="confirmation">Confirm Password</label>
-                <input class="" type="password" name="confirmation" id="confirmation" required>
-            </div>
-            <button class="" type="submit">Register</button>
-        </form>
-        
-        <div class="link link-hover">
-            Already have an account? <a href="{% url 'login' %}">Log In</a>
         </div>
     </div>
 </div>
