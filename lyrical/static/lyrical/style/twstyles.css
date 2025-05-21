@@ -4238,6 +4238,12 @@
   .m-2 {
     margin: calc(var(--spacing) * 2);
   }
+  .m-3 {
+    margin: calc(var(--spacing) * 3);
+  }
+  .m-5 {
+    margin: calc(var(--spacing) * 5);
+  }
   .m-12 {
     margin: calc(var(--spacing) * 12);
   }
@@ -5412,6 +5418,9 @@
   .h-\[20vh\] {
     height: 20vh;
   }
+  .h-\[30\%\] {
+    height: 30%;
+  }
   .h-\[50vh\] {
     height: 50vh;
   }
@@ -6480,6 +6489,9 @@
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
+  }
+  .p-3 {
+    padding: calc(var(--spacing) * 3);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
