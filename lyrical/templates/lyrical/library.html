@@ -17,46 +17,36 @@
 {% endblock %}
 
 {% block panel_1 %}
-    <div class="h-full w-full flex flex-col card bg-base-100 border border-base-300 w-full p-1">
+    <c-panel>
                 
         <!-- Panel Header -->
-        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row">
-            <div class="flex flex-1 justify-start items-center pl-2">
-                SONG NAMES
-            </div>
-            <div class="flex flex-0 justify-end items-center pr-2">                
-                <a class="btn btn-sm mt-1 mb-2 ml-2 btn-primary">
-                    Edit
-                </a>
-            </div>
-        </div>
+        <c-panel-header title="SONG NAMES">
+            <c-panel-header-button>
+                Edit
+            </c-panel-header-button>
+        </c-panel-header>
 
 
         <!-- Panel Container -->
-        <div id="panel1-top-content" class="w-full h-[30%] bg-base-200 overflow-auto">
-        </div>
+         <c-panel-container id="panel1-top-content" height="[30%]">
+            STUFF
+         </c-panel-container>
 
 
         <!-- Panel Slider -->
-        <div id="panel1-vertical-splitter" class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize">
-            <div class="flex flex-1 justify-start items-center pl-2">
-                SONG NAMES
-            </div>
-            <div class="flex flex-0 justify-end items-center pr-2">                
-                <a class="btn btn-sm mt-1 mb-2 ml-2 btn-primary">
-                    Edit
-                </a>
-            </div>
-        </div>
+         <c-panel-slider id="panel1-vertical-splitter" title="SONG THEMES">
+            <c-panel-header-button>
+                Generate
+            </c-panel-header-button>
+         </c-panel-slider>
 
+         
         <!-- Panel Container -->
-        <div id="panel1-bottom-content" class="w-full h-full bg-base-200 overflow-auto">
-        </div>
+         <c-panel-container id="panel1-bottom-content" height="full">
+            STUFF
+         </c-panel-container>
 
-
-
-
-    </div>
+    </c-panel>
 {% endblock %}
 
 {% block panel_2 %}
