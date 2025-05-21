@@ -17,9 +17,25 @@
 {% endblock %}
 
 {% block panel_1 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 1
-    </div>
+    <c-panel>
+        <c-panel-header title="SONG NAMES">            
+            <c-panel-header-button onclick="" id="edit-song-name">
+                Edit
+            </c-panel-header-button>
+        </c-panel-header>
+        
+        <div class="card h-[20%] w-full bg-transparent border-b border-base-300 rounded-none">
+            Content
+        </div>
+
+        <c-panel-header title="SONG NAMES">            
+            <c-panel-header-button onclick="" id="edit-song-name">
+                Edit
+            </c-panel-header-button>
+        </c-panel-header>
+
+
+    </c-panel>
 {% endblock %}
 
 {% block panel_2 %}
