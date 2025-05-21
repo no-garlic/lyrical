@@ -9,5 +9,6 @@ def page_structure(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": "lyrics"        
+        "active_page": "lyrics",
+        "page_title": "MANAGE SONG STRUCTURE",        
     })

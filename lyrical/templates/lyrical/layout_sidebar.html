@@ -14,7 +14,7 @@
                         alt="Singer performing"
                         class="object-contain mt-4 w-full [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
 
-                    <ul class="menu bg-base-200 w-full mt-10 menu-lg">
+                    <ul class="menu bg-base-200 w-full mt-10 menu-xl pl-10 pr-10">
                         <li class="mb-1">
                             <a class="{% if active_page == 'index' %}menu-active{% endif %}" href="{% url 'index' %}">
                                 Home
@@ -22,20 +22,15 @@
                         </li>
                         <li class="mb-1">
                             <a class="{% if active_page == 'library' %}menu-active{% endif %}" href="{% url 'library' %}">
-                                Library
+                                My Library
                             </a>
                         </li>
                         <li class="mb-1">
-                            <a class="{% if active_page == 'names' %}menu-active{% endif %}" href="{% url 'names' %}">
-                                Song Names
+                            <a class="{% if active_page == 'lyrics' %}menu-active{% endif %}" href="{% url 'names' %}">
+                                Create Lyrics
                             </a>
                         </li>
-                        <li class="mb-1">
-                            <a class="{% if active_page == 'lyrics' %}menu-active{% endif %}" href="{% url 'lyrics' %}">
-                                Song Lyrics
-                            </a>
-                        </li>
-                        <div class="mt-2 mb-2 ml-3 mr-3 border border-b border-1 border-neutral">
+                        <div class="mt-3 mb-3 ml-3 mr-3 border border-b border-1 border-neutral">
                         </div>
                         <li class="mb-1">
                             <a class="{% if active_page == 'profile' %}menu-active{% endif %}" href="{% url 'profile' %}">
@@ -65,19 +60,23 @@
                     <div class="flex w-full h-full items-end">
 
                         <!-- Left Item: Close Button -->
-                        <div class="w-full text-left ml-3 bg-red-200">
-                            <button class="btn btn-lg btn-secondary">X</button>
+                        <div class="w-[5%] text-left ml-3">
+                            <a href="{% url 'library' %}">
+                                <button class="btn btn-lg btn-secondary">X</button>
+                            </a>
                         </div>
 
                         <!-- Middle Item: Title -->
-                        <div class="w-full text-center bg-blue-200">
-                            <p class="text-3xl font-bold">TITLE</p>
+                        <div class="w-[65%] text-center">
+                            <p class="text-3xl font-bold">
+                                {% if page_title %}{{page_title}}{% else %}PAGE TITLE{% endif %}
+                            </p>
                         </div>
 
                         <!-- Right Items: LLM Selection & Next Button -->
-                        <div class="w-full text-right mr-3 bg-green-200">
+                        <div class="w-[34%] flex justify-end items-center gap-3 mr-3">
 
-                            <select class="flex-none select select-secondary w-[calc(100%-125px)] select-lg mr-3">
+                            <select class="flex-grow select select-secondary select-lg min-w-0">
                                 <option disabled selected>Select LLM</option>
                                 <option>OpenAI: Chat GPT 4.1</option>
                                 <option>Anthropic: Claude 3.7</option>

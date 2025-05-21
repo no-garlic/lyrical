@@ -9,5 +9,6 @@ def page_lyrics(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": page_name        
+        "active_page": "lyrics",
+        "page_title": "GENERATE SONG LYRICS",
     })

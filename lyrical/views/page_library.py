@@ -9,5 +9,6 @@ def page_library(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": page_name        
+        "active_page": "library",
+        "page_title": "MY SONG LIBRARY",  
     })
