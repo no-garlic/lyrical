@@ -14,50 +14,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dragDropSystem.init({
         onDragStart: (item, event) => {
-            console.log('Drag started:', item, event);
+            console.log('Drag started:', item.data.songName, 'from zone:', item.data.originalZone);
             // Add any specific logic when a drag starts on this page
+            item.element.classList.add('opacity-50'); // Example: make original more transparent
         },
         onDrop: (item, zone, event) => {
-            console.log('Dropped:', item, 'into zone:', zone, event);
+            console.log('Dropped:', item.data.songName, 'into zone:', zone.name);
             // IMPORTANT: Move the actual DOM element to the new zone
-            // The zone itself might be the direct parent, or you might have a specific child container within the zone.
-            // This example assumes the zone is the direct container.
-            zone.appendChild(item.element);
+            zone.element.appendChild(item.element); // This is a basic move, you might need more complex logic
+            item.element.classList.remove('opacity-50');
 
-            // Update song stage or send data to backend here
-            const songId = item.data.songId;
-            const newStage = zone.dataset.zoneName;
-            console.log(`Song ${songId} moved to stage ${newStage}`);
-            // Example: sendUpdateRequestToServer(songId, newStage);
+            // Here you would typically make an API call to update the song's stage on the backend
+            // For example: updateSongStage(item.data.songId, zone.name);
+            //alert(`Song ${item.data.songName} (ID: ${item.data.songId}) dropped into ${zone.name}`);
         },
         canDrop: (item, zone, event) => {
-            // Example: Prevent dropping a 'liked' item back into the 'liked' zone if it's already there.
-            // This is a basic check; more complex logic might be needed.
-            // if (item.data.songStage === zone.dataset.zoneName) {
-            //     console.log('Cannot drop item in the same zone it came from.');
+            // Example: Prevent dropping a song back into its original list if that's a rule
+            // if (item.data.originalZone === zone.name) {
+            //     console.log(`Cannot drop ${item.data.songName} back into ${zone.name}`);
             //     return false;
             // }
-            return true; // Allow drop by default
+            console.log(`Checking canDrop: ${item.data.songName} into ${zone.name}`);
+            return true; // Allow dropping anywhere for now
         },
         onDragEnterZone: (item, zone, event) => {
-            console.log('Entered zone:', zone.id);
-            // Add visual feedback or logic when item enters a drop zone
+            console.log('Entering zone:', zone.name, 'with item:', item.data.songName);
+            zone.element.classList.add('bg-primary-focus', 'opacity-50'); // Highlight drop zone
         },
         onDragLeaveZone: (item, zone, event) => {
-            console.log('Left zone:', zone.id);
-            // Remove visual feedback or logic when item leaves a drop zone
+            console.log('Leaving zone:', zone.name, 'with item:', item.data.songName);
+            zone.element.classList.remove('bg-primary-focus', 'opacity-50'); // Remove highlight
         }
     });
 
     // Register Draggable Items (Song Cards)
     document.querySelectorAll('.song-card').forEach(card => {
-        dragDropSystem.registerDraggable(card, {
-            id: card.dataset.songId, // Unique ID for the draggable item
-            songId: card.dataset.songId,
-            songName: card.dataset.songName,
-            songStage: card.dataset.songStage,
-            type: 'song-card' // Optional: type for filtering in canDrop
-        });
+        const songId = card.dataset.songId;
+        const songName = card.dataset.songName;
+        const originalZone = card.closest('[data-drop-zone="true"]').dataset.zoneName; // Get initial zone
+        dragDropSystem.registerDraggable(card, { songId, songName, originalZone });
     });
 
     // Register Drop Zones (Containers)
@@ -65,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const newContainer = document.getElementById('new-songs-container');
     const dislikedContainer = document.getElementById('disliked-songs-container');
 
-    if (likedContainer) dragDropSystem.registerDropZone(likedContainer, ['song-card']);
-    if (newContainer) dragDropSystem.registerDropZone(newContainer, ['song-card']);
-    if (dislikedContainer) dragDropSystem.registerDropZone(dislikedContainer, ['song-card']);
+    if (likedContainer) dragDropSystem.registerDropZone(likedContainer, { name: likedContainer.dataset.zoneName });
+    if (newContainer) dragDropSystem.registerDropZone(newContainer, { name: newContainer.dataset.zoneName });
+    if (dislikedContainer) dragDropSystem.registerDropZone(dislikedContainer, { name: dislikedContainer.dataset.zoneName });
 
 });
 

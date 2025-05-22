@@ -4,6 +4,7 @@ class DragDropSystem {
         this.ghostElement = null;
         this.initialOffsetX = 0;
         this.initialOffsetY = 0;
+        this.currentHoveredZoneForCallback = null; // Tracks the zone for enter/leave callbacks
         this.callbacks = {
             onDragStart: () => {},
             onDrop: () => {},
@@ -14,25 +15,23 @@ class DragDropSystem {
     }
 
     init(callbacks = {}) {
-        Object.assign(this.callbacks, callbacks);
-        document.addEventListener('dragover', (e) => this._handleGlobalDragOver(e));
-        document.addEventListener('drop', (e) => this._handleGlobalDrop(e));
-        document.addEventListener('dragend', (e) => this._handleGlobalDragEnd(e));
+        this.callbacks = { ...this.callbacks, ...callbacks };
+
+        document.addEventListener('dragover', (event) => this._handleGlobalDragOver(event));
+        document.addEventListener('drop', (event) => this._handleGlobalDrop(event));
+        document.addEventListener('dragend', (event) => this._handleGlobalDragEnd(event));
     }
 
     registerDraggable(element, data = {}) {
-        element.draggable = true;
-        element.dataset.dragDropId = data.id || Math.random().toString(36).substring(7);
-        element.addEventListener('dragstart', (e) => this._handleDragStart(e, element, data));
+        element.setAttribute('draggable', true);
+        element.dataset.dragDropId = data.id || Math.random().toString(36).substring(7); // Ensure data has an id for the item
+        element.addEventListener('dragstart', (event) => this._handleDragStart(event, element, data));
     }
 
-    registerDropZone(element, acceptedTypes = []) {
+    registerDropZone(element, data = { name: '', acceptedTypes: [] }) {
         element.dataset.dropZone = 'true';
-        element.dataset.acceptedTypes = JSON.stringify(acceptedTypes);
-
-        element.addEventListener('dragenter', (e) => this._handleDragEnter(e, element));
-        element.addEventListener('dragleave', (e) => this._handleDragLeave(e, element));
-        // dragover and drop are handled globally to allow ghost element positioning
+        element.dataset.zoneName = data.name || element.id || '';
+        element.dataset.acceptedTypes = JSON.stringify(data.acceptedTypes || []);
     }
 
     _createGhostElement(originalElement) {
@@ -83,20 +82,48 @@ class DragDropSystem {
 
     _handleGlobalDragOver(event) {
         event.preventDefault(); // Necessary to allow dropping
-        this._updateGhostPosition(event);
-        document.body.style.cursor = 'grabbing';
 
-        const dropZone = this._getDropZoneUnderMouse(event.target);
-        if (dropZone) {
-            if (this.callbacks.canDrop && this.callbacks.canDrop(this.draggedItem, dropZone, event)) {
+        if (!this.draggedItem || !this.ghostElement) {
+            event.dataTransfer.dropEffect = 'none';
+            // Avoid constantly setting body cursor if not dragging.
+            // The cursor should be set during dragStart and reset during dragEnd.
+            return;
+        }
+
+        this._updateGhostPosition(event);
+
+        const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+        const newHoveredZoneElement = this._getDropZoneUnderMouse(targetElement);
+
+        // Manage onDragEnterZone and onDragLeaveZone callbacks
+        if (this.currentHoveredZoneForCallback !== newHoveredZoneElement) {
+            if (this.currentHoveredZoneForCallback) {
+                if (this.callbacks.onDragLeaveZone) {
+                    this.callbacks.onDragLeaveZone(this.draggedItem, { element: this.currentHoveredZoneForCallback, name: this.currentHoveredZoneForCallback.dataset.zoneName }, event);
+                }
+            }
+            if (newHoveredZoneElement) {
+                if (this.callbacks.onDragEnterZone) {
+                    this.callbacks.onDragEnterZone(this.draggedItem, { element: newHoveredZoneElement, name: newHoveredZoneElement.dataset.zoneName }, event);
+                }
+            }
+            this.currentHoveredZoneForCallback = newHoveredZoneElement;
+        }
+
+        // Determine drop effect and cursor
+        if (newHoveredZoneElement) {
+            const zoneData = { element: newHoveredZoneElement, name: newHoveredZoneElement.dataset.zoneName };
+            if (this.callbacks.canDrop(this.draggedItem, zoneData, event)) {
                 event.dataTransfer.dropEffect = 'move';
-                dropZone.classList.add('drag-over'); // Visual feedback for valid drop target
+                document.body.style.cursor = 'grabbing';
             } else {
                 event.dataTransfer.dropEffect = 'none';
-                dropZone.classList.remove('drag-over');
+                document.body.style.cursor = 'no-drop';
             }
         } else {
-             event.dataTransfer.dropEffect = 'none';
+            // Not over any registered drop zone
+            event.dataTransfer.dropEffect = 'none';
+            document.body.style.cursor = 'no-drop';
         }
     }
 
@@ -111,55 +138,52 @@ class DragDropSystem {
         return null;
     }
 
-
-    _handleDragEnter(event, zoneElement) {
-        event.preventDefault();
-        if (!this.draggedItem) return;
-
-        const canDrop = this.callbacks.canDrop ? this.callbacks.canDrop(this.draggedItem, zoneElement, event) : true;
-        if (canDrop) {
-            zoneElement.classList.add('drag-over');
-            if (this.callbacks.onDragEnterZone) {
-                this.callbacks.onDragEnterZone(this.draggedItem, zoneElement, event);
-            }
-        }
-    }
-
-    _handleDragLeave(event, zoneElement) {
-        event.preventDefault();
-        if (!this.draggedItem) return;
-
-        // Check if the mouse is still over a child of the zoneElement or the zoneElement itself
-        if (!zoneElement.contains(event.relatedTarget) && event.target === zoneElement) {
-            zoneElement.classList.remove('drag-over');
-            if (this.callbacks.onDragLeaveZone) {
-                this.callbacks.onDragLeaveZone(this.draggedItem, zoneElement, event);
-            }
-        }
-    }
-
     _handleGlobalDrop(event) {
         event.preventDefault();
-        const dropZone = this._getDropZoneUnderMouse(event.target);
 
-        if (this.draggedItem && dropZone) {
-            dropZone.classList.remove('drag-over');
-            if (this.callbacks.canDrop && this.callbacks.canDrop(this.draggedItem, dropZone, event)) {
-                // Move the original dragged item to the new parent (dropZone)
-                // The actual DOM manipulation might be handled by the onDrop callback
-                // For example, if the dropZone is a container for these items.
-                // dropZone.appendChild(this.draggedItem.element);
-
-                if (this.callbacks.onDrop) {
-                    this.callbacks.onDrop(this.draggedItem, dropZone, event);
-                }
-            }
+        if (!this.draggedItem) {
+            return; // Should ideally be cleaned up by dragend
         }
-        this._cleanupDragState();
+
+        // Use the zone identified by the last dragover event
+        const dropZoneElement = this.currentHoveredZoneForCallback;
+
+        if (dropZoneElement) {
+            const zoneData = { element: dropZoneElement, name: dropZoneElement.dataset.zoneName };
+            // Final check, though dragover should have set dropEffect appropriately
+            if (this.callbacks.canDrop(this.draggedItem, zoneData, event)) {
+                if (this.callbacks.onDrop) {
+                    this.callbacks.onDrop(this.draggedItem, zoneData, event);
+                }
+            } else {
+                console.warn("Drop attempted on a zone where canDrop is false. This should ideally be prevented by dragover's dropEffect.");
+            }
+        } else {
+            console.log("Dropped outside of a valid zone.");
+        }
+        // Actual cleanup of visual state (ghost, original item opacity) is handled in _handleGlobalDragEnd
     }
 
     _handleGlobalDragEnd(event) {
-        this._cleanupDragState();
+        if (this.draggedItem && this.draggedItem.element) {
+            this.draggedItem.element.classList.remove('opacity-50');
+        }
+        if (this.ghostElement) {
+            this.ghostElement.remove();
+            this.ghostElement = null;
+        }
+
+        // If drag ends (successfully or not) while over a zone, call onDragLeaveZone
+        if (this.currentHoveredZoneForCallback) {
+             if (this.callbacks.onDragLeaveZone) {
+                // Pass the item that was being dragged and the zone it was last over
+                this.callbacks.onDragLeaveZone(this.draggedItem, { element: this.currentHoveredZoneForCallback, name: this.currentHoveredZoneForCallback.dataset.zoneName }, event);
+            }
+        }
+
+        document.body.style.cursor = ''; // Reset body cursor to default
+        this.draggedItem = null;
+        this.currentHoveredZoneForCallback = null; // Reset this tracker
     }
 
     _cleanupDragState() {
