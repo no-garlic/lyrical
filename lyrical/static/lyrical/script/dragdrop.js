@@ -45,13 +45,15 @@ class DragDropSystem {
         this.ghostElement.style.opacity = '0.75';
         this.ghostElement.style.zIndex = '1000';
         this.ghostElement.classList.add('dragging-ghost'); // For additional styling
+        this.ghostElement.style.width = `${originalElement.offsetWidth}px`;
+        this.ghostElement.style.height = `${originalElement.offsetHeight}px`;
         document.body.appendChild(this.ghostElement);
     }
 
     _updateGhostPosition(event) {
         if (this.ghostElement) {
-            this.ghostElement.style.left = `${event.clientX - this.initialOffsetX}px`;
-            this.ghostElement.style.top = `${event.clientY - this.initialOffsetY}px`;
+            this.ghostElement.style.left = `${event.pageX - this.initialOffsetX}px`;
+            this.ghostElement.style.top = `${event.pageY - this.initialOffsetY}px`;
         }
     }
 
@@ -63,12 +65,12 @@ class DragDropSystem {
         img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         event.dataTransfer.setDragImage(img, 0, 0);
 
-        // Calculate offset from mouse pointer to top-left of the element
-        const rect = itemElement.getBoundingClientRect();
-        this.initialOffsetX = event.clientX - rect.left;
-        this.initialOffsetY = event.clientY - rect.top;
-
         this._createGhostElement(itemElement);
+
+        // Calculate offset from the center of the ghost element
+        this.initialOffsetX = this.ghostElement.offsetWidth / 2;
+        this.initialOffsetY = this.ghostElement.offsetHeight / 2;
+
         this._updateGhostPosition(event); // Initial position
 
         itemElement.classList.add('opacity-50'); // Indicate the original item is being dragged
