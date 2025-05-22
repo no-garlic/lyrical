@@ -15,18 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     dragDropSystem.init({
         onDragStart: (item, event) => {
             console.log('Drag started:', item.data.songName, 'from zone:', item.data.originalZone);
-            // Add any specific logic when a drag starts on this page
-            item.element.classList.add('opacity-50'); // Example: make original more transparent
+            
+            item.element.classList.add('opacity-50');
         },
         onDrop: (item, zone, event) => {
             console.log('Dropped:', item.data.songName, 'into zone:', zone.name);
-            // IMPORTANT: Move the actual DOM element to the new zone
-            zone.element.appendChild(item.element); // This is a basic move, you might need more complex logic
+
+            zone.element.appendChild(item.element);
             item.element.classList.remove('opacity-50');
 
-            // Here you would typically make an API call to update the song's stage on the backend
-            // For example: updateSongStage(item.data.songId, zone.name);
-            //alert(`Song ${item.data.songName} (ID: ${item.data.songId}) dropped into ${zone.name}`);
+            // TODO: Make an API call to update the song on the backend
         },
         canDrop: (item, zone, event) => {
             // Example: Prevent dropping a song back into its original list if that's a rule
@@ -39,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         onDragEnterZone: (item, zone, event) => {
             console.log('Entering zone:', zone.name, 'with item:', item.data.songName);
-            zone.element.classList.add('bg-primary-focus', 'opacity-50'); // Highlight drop zone
+            zone.element.classList.add('bg-primary-focus', 'opacity-50');
         },
         onDragLeaveZone: (item, zone, event) => {
             console.log('Leaving zone:', zone.name, 'with item:', item.data.songName);
-            zone.element.classList.remove('bg-primary-focus', 'opacity-50'); // Remove highlight
+            zone.element.classList.remove('bg-primary-focus', 'opacity-50');
         }
     });
 

@@ -204,6 +204,3 @@ class DragDropSystem {
         document.querySelectorAll('[data-drop-zone="true"]').forEach(dz => dz.classList.remove('drag-over'));
     }
 }
-
-// Export if using modules, otherwise it's globally available
-// export default DragDropSystem;

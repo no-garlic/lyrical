@@ -5643,6 +5643,15 @@
   .cursor-grab {
     cursor: grab;
   }
+  .cursor-grabbing {
+    cursor: grabbing;
+  }
+  .cursor-no-drop {
+    cursor: no-drop;
+  }
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
   .cursor-row-resize {
     cursor: row-resize;
   }
