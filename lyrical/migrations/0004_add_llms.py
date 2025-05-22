@@ -21,18 +21,18 @@ def add_data(apps, schema_editor):
     llm_provider.objects.create(display_name="Google", internal_name="gemini")
     llm_provider.objects.create(display_name="Ollama", internal_name="ollama")
 
-    llm.objects.create(display_name="GPT:4.1", internal_name="gpt-4.1", provider=llm_provider.objects.get(internal_name="openai"), temperature=0.2, max_tokens=1000)
-    llm.objects.create(display_name="Claude:3.7", internal_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"), temperature=0.2, max_tokens=1000)
-    llm.objects.create(display_name="Gemini-Flash:2.0", internal_name="gemini-2.0-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000)
-    llm.objects.create(display_name="Gemini-Flash:1.5", internal_name="gemini-1.5-flash", provider=llm_provider.objects.get(internal_name="gemini"), temperature=0.2, max_tokens=1000)
-    llm.objects.create(display_name="Gemma3:4b", internal_name="gemma3:4b", provider=llm_provider.objects.get(internal_name="ollama"), temperature=0.2, max_tokens=1000)
+    llm.objects.create(display_name="GPT:4.1", internal_name="gpt-4.1", provider=llm_provider.objects.get(internal_name="openai"))
+    llm.objects.create(display_name="Claude:3.7", internal_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"))
+    llm.objects.create(display_name="Gemini-Flash:2.0", internal_name="gemini-2.0-flash", provider=llm_provider.objects.get(internal_name="gemini"))
+    llm.objects.create(display_name="Gemini-Flash:1.5", internal_name="gemini-1.5-flash", provider=llm_provider.objects.get(internal_name="gemini"))
+    llm.objects.create(display_name="Gemma3:4b", internal_name="gemma3:4b", provider=llm_provider.objects.get(internal_name="ollama"))
 
     open_ai_api_key = os.getenv("OPENAI_API_KEY")
     anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
     google_api_key = os.getenv("GEMINI_API_KEY")
 
     user = user.objects.get(username="mpetrou")
-    user.default_model = llm.objects.get(internal_name="gemini-2.0-flash")
+    user.llm_model = llm.objects.get(internal_name="gemini-2.0-flash")
     user.save()
 
     user_api_key.objects.create(user=user, provider=llm_provider.objects.get(internal_name="openai"),api_key=open_ai_api_key)

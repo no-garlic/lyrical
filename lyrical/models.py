@@ -14,20 +14,16 @@ class LLMProvider(models.Model):
 class LLM(models.Model):
     display_name = models.CharField(max_length=255, unique=True)
     internal_name = models.CharField(max_length=255, unique=True)
-    temperature = models.FloatField(default=0.5)
-    max_tokens = models.IntegerField(default=1000)
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE, related_name='llms')
-    features = models.JSONField(default=dict)
-    comments = models.TextField(default='')
-    cost = models.FloatField(default=0.0)
-    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=1)
     
     def __str__(self):
         return f"{self.display_name}"
 
 
 class User(AbstractUser):
-    default_model = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+    llm_model = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+    llm_temperature = models.FloatField(default=0.5)
+    llm_max_tokens = models.IntegerField(default=1000)
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
@@ -44,9 +40,8 @@ class UserAPIKey(models.Model):
 
 class Song(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='songs')
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     theme = models.TextField(default='')
-    lyrics = models.TextField(default='')
     structure = models.TextField(default='')
     stage = models.CharField(max_length=50, choices=[
         ('new', 'New'),             # song has just been created
@@ -59,6 +54,20 @@ class Song(models.Model):
     def __str__(self):
         return f"{self.title} ({self.stage})"
     
+
+class Lyrics(models.Model):
+    song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='lyrics')
+    type = models.CharField(max_length=50, choices=[
+        ('verse', 'Verse'),
+        ('chorus', 'Chorus'),
+        ('bridge', 'Bridge'),
+        ('pre-chorus', 'Pre-Chorus'),
+        ('outro', 'Outro'),
+    ])
+    index = models.IntegerField(default=0)
+    lyrics = models.TextField(default='')
+    created_at = models.DateTimeField(auto_now_add=True)    
+
 
 class Section(models.Model):
     song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='sections')
