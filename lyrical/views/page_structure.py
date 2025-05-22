@@ -9,6 +9,11 @@ def page_structure(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": "lyrics",
-        "page_title": "MANAGE SONG STRUCTURE",        
+        "active_page": "edit",
+        "navigation": [
+            {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
+            {"name": "PREPARE", "url": "prepare", "active": True, "selected": False, "enabled": True},
+            {"name": "LYRICS", "url": "lyrics", "active": True, "selected": False, "enabled": True},
+            {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
+        ],
     })

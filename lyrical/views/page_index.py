@@ -9,5 +9,4 @@ def page_index(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": page_name        
     })

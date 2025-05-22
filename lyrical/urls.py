@@ -2,10 +2,11 @@ from django.urls import path
 
 from .views.page_index import *
 from .views.page_register import *
-from .views.page_themes import *
+from .views.page_prepare import *
 from .views.page_login import *
 from .views.page_library import *
 from .views.page_names import *
+from .views.page_song import *
 from .views.page_profile import *
 from .views.page_lyrics import *
 from .views.page_structure import *
@@ -29,7 +30,10 @@ urlpatterns = [
     # main pages
     path("library", page_library, name="library"),
     path("names", page_names, name="names"),
-    path("themes", page_themes, name="themes"),
+
+    # edit pages
+    path("song", page_song, name="song"),
+    path("prepare", page_prepare, name="prepare"),
     path("lyrics", page_lyrics, name="lyrics"),
     path("structure", page_structure, name="structure"),
 

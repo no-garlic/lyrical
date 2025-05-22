@@ -9,6 +9,5 @@ def page_profile(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": "profile",
-        "page_title": "MY PROFILE",        
+        "active_page": "profile"
     })

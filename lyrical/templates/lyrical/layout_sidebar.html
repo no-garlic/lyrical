@@ -30,18 +30,13 @@
                             </a>
                         </li>
                         <li class="mb-1">
-                            <a class="{% if active_page == 'lyrics' %}menu-active{% endif %}" href="{% url 'names' %}">
+                            <a class="{% if active_page == 'names' %}menu-active{% endif %}" href="{% url 'names' %}">
+                                Names
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="{% if active_page == 'edit' %}menu-active{% endif %}" href="{% url 'song' %}">
                                 Edit
-                            </a>
-                        </li>
-                        <li class="mb-1">
-                            <a class="{% if active_page == 'explore' %}menu-active{% endif %}" href="{% url 'index' %}">
-                                Explore
-                            </a>
-                        </li>
-                        <li class="mb-1">
-                            <a class="{% if active_page == 'help' %}menu-active{% endif %}" href="{% url 'index' %}">
-                                Help
                             </a>
                         </li>
                     </ul>
@@ -139,12 +134,20 @@
                         <!-- Middle Item: Pages -->
                         <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center mt-1">
                             <ul class="steps w-250">
-
-                                <li class="step step-secondary text-xs"><a href="{% url 'names' %}">NAME</a></li>
-                                <li class="step step-secondary text-md font-bold"><a href="{% url 'themes' %}">THEME</a></li>
-                                <li class="step text-xs"><a href="{% url 'themes' %}">HOOK</a></li>
-                                <li class="step text-xs"><a href="{% url 'lyrics' %}">LYRICS</a></li>
-                                <li class="step text-xs"><a href="{% url 'structure' %}">STRUCTURE</a></li>
+                                {% for page in navigation %}
+                                    <li 
+                                    id="navigation-{{ forloop.counter }}"
+                                    class="step 
+                                    {% if page.active %}step-secondary {% endif %}
+                                    {% if page.selected %}text-md font-bold {% endif %}
+                                    {% if not page.enabled %}text-neutral {% endif %}">
+                                        {% if page.enabled %}
+                                            <a href="{% url page.url %}">{{page.name}}</a>
+                                        {% else %}
+                                            {{page.name}}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
 

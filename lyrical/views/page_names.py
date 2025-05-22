@@ -9,6 +9,5 @@ def page_names(request):
     print(html_file)
 
     return render(request, html_file, {
-        "active_page": "lyrics",
-        "page_title": "GENERATE SONG NAMES",        
+        "active_page": "names"
     })
