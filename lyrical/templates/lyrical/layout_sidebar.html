@@ -123,37 +123,35 @@
         <div id="right-content-area" class="flex flex-col flex-1 overflow-hidden">
 
             <!-- Fixed height top bar -->
-            <div id="top-bar-panel" class="h-13 flex-shrink-0 flex w-full mt-2">
+            <div id="top-bar-panel" class="h-16 flex-shrink-0 flex w-full mt-2">
                 <div class="h-full w-full flex">
 
                     <!-- Top Bar Container -->
-                    <div class="flex w-full h-full items-end">
+                    <div class="flex w-full h-full items-center">
 
                         <!-- Left Item: Close Button -->
-                        <div class="w-[5%] text-left ml-3">
-                            <a href="{% url 'library' %}">
-                                <button class="btn btn-lg btn-secondary">X</button>
-                            </a>
-                        </div>
-
-                        <!-- Middle Item: Title -->
-                        <div class="w-[65%] text-center">
+                        <div class="text-left ml-3">
                             <p class="text-3xl font-bold">
-                                {% if page_title %}{{page_title}}{% else %}PAGE TITLE{% endif %}
+                                SONG TITLE
                             </p>
                         </div>
 
+                        <!-- Middle Item: Pages -->
+                        <div class="text-center flex-grow justify-center mt-1">
+                            <ul class="steps w-[80%] max-w-200">
+                                <li class="step step-secondary text-xs">NAME</li>
+                                <li class="step step-secondary text-xs">THEME</li>
+                                <li class="step text-xs">HOOK</li>
+                                <li class="step text-xs">LYRICS</li>
+                                <li class="step text-xs">STRUCTURE</li>
+                            </ul>
+                        </div>
+
                         <!-- Right Items: LLM Selection & Next Button -->
-                        <div class="w-[34%] flex justify-end items-center gap-3 mr-3">
-
-                            <select class="flex-grow select select-secondary select-lg min-w-0">
-                                <option disabled selected>Select LLM</option>
-                                <option>OpenAI: Chat GPT 4.1</option>
-                                <option>Anthropic: Claude 3.7</option>
-                                <option>Google: Gemini 2.0 Flash</option>
-
-                            </select>
-                            <button class="flex-none btn btn-lg btn-secondary">Next &nbsp; ></button>
+                        <div class="flex-0 items-center mr-3">
+                            <a href="{% url 'library' %}">
+                                <button class="btn btn-lg btn-secondary">X</button>
+                            </a>
                         </div>
 
 
