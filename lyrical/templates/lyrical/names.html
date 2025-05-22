@@ -22,12 +22,12 @@
 
          
         <!-- Panel Container -->
-         <c-panel-container>
+         <c-panel-container id="liked-songs-container" data-drop-zone="true" data-zone-name="liked">
             
-            drag-drop-here
+            {% comment %} drag-drop-here {% endcomment %}
             
             {% for song in liked_songs %}
-                <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200">
+                <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab" data-song-id="{{ song.id }}" data-song-name="{{ song.name }}" data-song-stage="liked">
                     {{song.name}}
                 </div>
             {% endfor %}
@@ -49,12 +49,12 @@
 
 
         <!-- Panel Container -->
-         <c-panel-container id="panel-top-content">
+         <c-panel-container id="new-songs-container" data-drop-zone="true" data-zone-name="new">
 
-            drag-drop-here
+            {% comment %} drag-drop-here {% endcomment %}
 
             {% for song in new_songs %}
-                <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200">
+                 <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab" data-song-id="{{ song.id }}" data-song-name="{{ song.name }}" data-song-stage="new">
                     {{song.name}}
                 </div>
             {% endfor %}
@@ -90,12 +90,12 @@
 
          
         <!-- Panel Container -->
-         <c-panel-container>       
+         <c-panel-container id="disliked-songs-container" data-drop-zone="true" data-zone-name="disliked">       
 
-            drag-drop-here
+            {% comment %} drag-drop-here {% endcomment %}
 
             {% for song in disliked_songs %}
-                <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200">
+                <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab" data-song-id="{{ song.id }}" data-song-name="{{ song.name }}" data-song-stage="disliked">
                     {{song.name}}
                 </div>
             {% endfor %}
@@ -107,5 +107,6 @@
 
 {% block scripts %}
     <script src="{% static 'lyrical/script/layout_slide_panel_header.js' %}"></script>
+    <script src="{% static 'lyrical/script/dragdrop.js' %}"></script>
     <script src="{% static 'lyrical/script/names.js' %}"></script>
 {% endblock %}
