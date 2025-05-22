@@ -22,10 +22,11 @@ class DragDropSystem {
         this.dragPreviewCanvas.style.top = '-9999px';    // Position off-screen
         document.body.appendChild(this.dragPreviewCanvas); // Add to the DOM
 
+        // Make the canvas transparent
         const ctx = this.dragPreviewCanvas.getContext('2d');
         if (ctx) {
-            ctx.fillStyle = 'green'; // Changed to green for this attempt
-            ctx.fillRect(0, 0, 10, 10);
+            ctx.clearRect(0, 0, this.dragPreviewCanvas.width, this.dragPreviewCanvas.height); // Ensure it's transparent
+            console.log('Drag preview canvas is now transparent.');
         }
     }
 
@@ -79,8 +80,8 @@ class DragDropSystem {
         event.dataTransfer.effectAllowed = 'move';
 
         try {
-            event.dataTransfer.setDragImage(this.dragPreviewCanvas, 5, 5); // Use the pre-rendered canvas
-            console.log('Setting drag image to a 10x10 green square (pre-rendered and DOM-attached).');
+            event.dataTransfer.setDragImage(this.dragPreviewCanvas, 0, 0); // Use the transparent pre-rendered canvas
+            console.log('Setting drag image to transparent pre-rendered canvas.');
         } catch (e) {
             console.error("Failed to set drag image with pre-rendered canvas:", e);
             // Fallback to a simple image if canvas somehow fails
@@ -89,14 +90,13 @@ class DragDropSystem {
             event.dataTransfer.setDragImage(img, 0, 0);
         }
 
-        // Temporarily comment out custom ghost element logic
-        // this._createGhostElement(itemElement);
+        this._createGhostElement(itemElement);
 
-        // // Calculate offset from the center of the ghost element
-        // this.initialOffsetX = this.ghostElement.offsetWidth / 2;
-        // this.initialOffsetY = this.ghostElement.offsetHeight / 2;
+        // Calculate offset from the center of the ghost element
+        this.initialOffsetX = this.ghostElement.offsetWidth / 2;
+        this.initialOffsetY = this.ghostElement.offsetHeight / 2;
 
-        // this._updateGhostPosition(event); // Initial position
+        this._updateGhostPosition(event); // Initial position
 
         itemElement.classList.add('opacity-50');
         document.body.classList.add('cursor-grabbing');
@@ -110,21 +110,21 @@ class DragDropSystem {
     _handleGlobalDragOver(event) {
         event.preventDefault(); 
 
-        if (!this.draggedItem) { // Removed check for this.ghostElement
+        if (!this.draggedItem || !this.ghostElement) { // Restored check for this.ghostElement
             event.dataTransfer.dropEffect = 'none';
             return;
         }
 
-        // Temporarily comment out ghost position update
-        // if (this.ghostElement) { // Check if ghostElement exists before trying to update it
-        //     this._updateGhostPosition(event);
-        // }
+        // Restore ghost position update
+        if (this.ghostElement) { // Check if ghostElement exists before trying to update it
+            this._updateGhostPosition(event);
+        }
         
-        // Temporarily hide ghost to correctly identify element underneath
-        // const originalGhostDisplay = this.ghostElement ? this.ghostElement.style.display : '';
-        // if (this.ghostElement) this.ghostElement.style.display = 'none';
+        // Restore temporary hide ghost to correctly identify element underneath
+        const originalGhostDisplay = this.ghostElement ? this.ghostElement.style.display : '';
+        if (this.ghostElement) this.ghostElement.style.display = 'none';
         const targetElement = document.elementFromPoint(event.clientX, event.clientY);
-        // if (this.ghostElement) this.ghostElement.style.display = originalGhostDisplay; // Restore ghost display
+        if (this.ghostElement) this.ghostElement.style.display = originalGhostDisplay; // Restore ghost display
 
         const newHoveredZoneElement = this._getDropZoneUnderMouse(targetElement);
 
