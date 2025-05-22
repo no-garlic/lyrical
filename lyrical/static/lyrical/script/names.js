@@ -18,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // TODO: Validation
             // TODO: Stop drag and drop when editing
+            // TODO: Only show edit & delete buttons when hovering the card
+            // TODO: When editing, hide all other edit and delete buttons when hovering
+            // TODO: Save song status when drag-dropping
+            // TODO: Refactor code, tidy up, rename apis, etc
+            // TODO: Create README with TODO list
+            // TODO: Remove SONG TITLE on names page, put MANAGE SONG NAMES in middle of the page or something
+            // TODO: Generate Song Names button -> make it work with parameters
+            // TODO: Message history when calling the LLM for Generate Names
+            // TODO: Panel Slider is not implemented
+            // TODO: Save Column Widths
+            
 
             console.log(`editing song_id: ${songId}`);
 
