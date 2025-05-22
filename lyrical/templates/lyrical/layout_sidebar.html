@@ -10,7 +10,7 @@
                 <div class="h-full w-full flex flex-col items-top justify-top border-r border-base-300">
 
                     <!-- Title -->
-                    <p class="pt-5 text-center mb-10 mt-2 text-4xl font-[Chango]">LYRICAL</p>
+                    <p class="pt-5 text-center mb-10 mt-0 text-4xl font-[Chango]">LYRICAL</p>
 
                     <!-- Image -->
                     <img src="{% static 'lyrical/image/singer-transparent.png' %}" 
@@ -127,40 +127,35 @@
                 <div class="h-full w-full flex">
 
                     <!-- Top Bar Container -->
-                    <div class="flex w-full h-full items-center">
+                    <div class="relative flex w-full h-full items-center">
 
                         <!-- Left Item: Close Button -->
                         <div class="text-left ml-3">
                             <p class="text-3xl font-bold">
-                                SONG TITLE
+                                {% if song_title %}{{song_title}}{% else %}SONG TITLE{% endif %}
                             </p>
                         </div>
 
                         <!-- Middle Item: Pages -->
-                        <div class="text-center flex-grow justify-center mt-1">
-                            <ul class="steps w-[80%] max-w-200">
-                                <li class="step step-secondary text-xs">NAME</li>
-                                <li class="step step-secondary text-xs">THEME</li>
-                                <li class="step text-xs">HOOK</li>
-                                <li class="step text-xs">LYRICS</li>
-                                <li class="step text-xs">STRUCTURE</li>
+                        <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center mt-1">
+                            <ul class="steps w-250">
+
+                                <li class="step step-secondary text-xs"><a href="{% url 'names' %}">NAME</a></li>
+                                <li class="step step-secondary text-md font-bold"><a href="{% url 'themes' %}">THEME</a></li>
+                                <li class="step text-xs"><a href="{% url 'themes' %}">HOOK</a></li>
+                                <li class="step text-xs"><a href="{% url 'lyrics' %}">LYRICS</a></li>
+                                <li class="step text-xs"><a href="{% url 'structure' %}">STRUCTURE</a></li>
                             </ul>
                         </div>
 
                         <!-- Right Items: LLM Selection & Next Button -->
-                        <div class="flex-0 items-center mr-3">
+                        <div class="flex-0 items-center mr-3 ml-auto">
                             <a href="{% url 'library' %}">
                                 <button class="btn btn-lg btn-secondary">X</button>
                             </a>
                         </div>
 
-
-                        {% block stopbar %}
-                        {% endblock %}
                     </div>
-
-
-
                 </div>
             </div>
 
@@ -171,12 +166,13 @@
             </div>
 
             <!-- Fixed height footer -->
-            <div id="footer-panel" class="h-16 flex-shrink-0 flex justify-center items-center overflow-hidden">
+            <!--div id="footer-panel" class="h-8 flex-shrink-0 flex justify-center items-center overflow-hidden">
                 <div class="h-full w-full flex items-center justify-center">
-                {% block footer %}
-                {% endblock %}
+                    <div class="h-full w-full flex justify-left lm-2 border-t border-base-300 bg-base-200">
+                        Footer
+                    </div>
                 </div>
-            </div>
+            </div-->
 
         </div>
     </div>
