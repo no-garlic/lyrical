@@ -85,14 +85,17 @@ class DragDropSystem {
 
         if (!this.draggedItem || !this.ghostElement) {
             event.dataTransfer.dropEffect = 'none';
-            // Avoid constantly setting body cursor if not dragging.
-            // The cursor should be set during dragStart and reset during dragEnd.
             return;
         }
 
         this._updateGhostPosition(event);
 
+        // Temporarily hide ghost to correctly identify element underneath
+        const originalGhostDisplay = this.ghostElement.style.display;
+        this.ghostElement.style.display = 'none';
         const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+        this.ghostElement.style.display = originalGhostDisplay; // Restore ghost display
+
         const newHoveredZoneElement = this._getDropZoneUnderMouse(targetElement);
 
         // Manage onDragEnterZone and onDragLeaveZone callbacks
