@@ -1,4 +1,5 @@
 import { api_song_delete } from './api_song_delete.js';
+import { api_song_edit } from './api_song_edit.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     makeVerticallyResizable(
@@ -13,7 +14,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Array.from(document.getElementsByClassName('btn-song-edit')).forEach(element => {
         element.onclick = () => {
-            console.log(`editing song_id: ${element.dataset.songId}`);
+            const songId = element.dataset.songId;
+
+            // TODO: Validation
+            // TODO: Stop drag and drop when editing
+
+            console.log(`editing song_id: ${songId}`);
+
+            document.getElementById(`song-input-${songId}`).classList.remove('hidden');
+            document.getElementById(`song-text-${songId}`).classList.add('hidden');
+
+            document.getElementById(`song-edit-${songId}`).classList.add('hidden');
+            document.getElementById(`song-delete-${songId}`).classList.add('hidden');
+            document.getElementById(`song-save-${songId}`).classList.remove('hidden');
+            document.getElementById(`song-cancel-${songId}`).classList.remove('hidden');
+
+            document.getElementById(`song-input-${songId}`).focus();
+
+            document.getElementById(`song-save-${songId}`).onclick = (event) => {
+
+                const inputField = `song-input-${songId}`;
+                const songName = document.getElementById(inputField).value;
+                console.log(`api call: change song name to ${songName}`);
+
+                if (api_song_edit(songId, songName)) {
+                    document.getElementById(`song-text-${songId}`).innerHTML = songName;
+
+                    document.getElementById(`song-input-${songId}`).classList.add('hidden');
+                    document.getElementById(`song-text-${songId}`).classList.remove('hidden');
+                    document.getElementById(`song-edit-${songId}`).classList.remove('hidden');
+                    document.getElementById(`song-delete-${songId}`).classList.remove('hidden');
+                    document.getElementById(`song-save-${songId}`).classList.add('hidden');
+                    document.getElementById(`song-cancel-${songId}`).classList.add('hidden');
+                }
+            }
+
+            document.getElementById(`song-cancel-${songId}`).onclick = (event) => {
+                document.getElementById(`song-input-${songId}`).classList.add('hidden');
+                document.getElementById(`song-text-${songId}`).classList.remove('hidden');
+                document.getElementById(`song-edit-${songId}`).classList.remove('hidden');
+                document.getElementById(`song-delete-${songId}`).classList.remove('hidden');
+                document.getElementById(`song-save-${songId}`).classList.add('hidden');
+                document.getElementById(`song-cancel-${songId}`).classList.add('hidden');
+            }
+
         }
     });    
 

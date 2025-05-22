@@ -12,6 +12,7 @@ from .views.page_lyrics import *
 from .views.page_structure import *
 
 from .views.api_song_delete import *
+from .views.api_song_edit import *
 
 from .views.generate_song import *
 from .views.generate_song_names import *
@@ -41,6 +42,7 @@ urlpatterns = [
 
     # api pages
     path("api_song_delete", api_song_delete, name="api_song_delete"),
+    path("api_song_edit", api_song_edit, name="api_song_edit"),
 
     # llm calls
     path("generate_song", generate_song, name="generate_song"),
