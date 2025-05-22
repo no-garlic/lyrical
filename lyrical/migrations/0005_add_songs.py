@@ -12,6 +12,20 @@ def add_data(apps, schema_editor):
 
     user = users.objects.get(username="mpetrou")
 
+    songs.objects.create(user=user, name="Chasing Dreams", stage="new")
+    songs.objects.create(user=user, name="The End Of Me", stage="new")
+    songs.objects.create(user=user, name="Dance With Me Tonight", stage="new")
+
+    songs.objects.create(user=user, name="From The Ashes", stage="liked")
+    songs.objects.create(user=user, name="Dancing On My Own", stage="liked")
+    songs.objects.create(user=user, name="How To Shine", stage="liked")
+    songs.objects.create(user=user, name="Find Your Fire", stage="liked")
+
+    songs.objects.create(user=user, name="Move Myself", stage="disliked")
+    songs.objects.create(user=user, name="Dream Of Me", stage="disliked")
+    songs.objects.create(user=user, name="Sound Of Summer", stage="disliked")
+    songs.objects.create(user=user, name="Dont Hold Back", stage="disliked")
+
 
     
 
@@ -20,7 +34,6 @@ def remove_data(apps, schema_editor):
     users = apps.get_model("lyrical", "User")
     songs = apps.get_model("lyrical", "Song")
 
-    users.objects.all().delete()
     songs.objects.all().delete()
 
 

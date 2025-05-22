@@ -1,13 +1,20 @@
 from django.shortcuts import render
-from pathlib import Path
+from django.contrib.auth.decorators import login_required
 from .. import models
 
 
+@login_required
 def page_names(request):
-    page_name = Path(__file__).name.split(".")[0].replace("page_", "")
-    html_file = f"lyrical/{page_name}.html"
-    print(html_file)
 
-    return render(request, html_file, {
-        "active_page": "names"
+    new_songs = models.Song.objects.filter(user=request.user, stage='new')
+    liked_songs = models.Song.objects.filter(user=request.user, stage='liked')
+    disliked_songs = models.Song.objects.filter(user=request.user, stage='disliked')
+
+
+
+    return render(request, "lyrical/names.html", {
+        "active_page": "names",
+        "new_songs": new_songs,
+        "liked_songs": liked_songs,
+        "disliked_songs": disliked_songs,
     })
