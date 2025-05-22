@@ -40,6 +40,8 @@ class DragDropSystem {
         }
         this.ghostElement = originalElement.cloneNode(true);
         this.ghostElement.style.position = 'absolute';
+        this.ghostElement.style.left = '-9999px'; // Position off-screen initially
+        this.ghostElement.style.top = '-9999px';  // Position off-screen initially
         this.ghostElement.style.pointerEvents = 'none';
         this.ghostElement.style.opacity = '0.75';
         this.ghostElement.style.zIndex = '1000';
@@ -58,6 +60,7 @@ class DragDropSystem {
 
     _handleDragStart(event, itemElement, itemData) {
         this.draggedItem = { element: itemElement, data: itemData };
+        event.dataTransfer.setData('text/plain', itemData.id || itemElement.dataset.dragDropId || 'draggable_item'); // Add this line
         event.dataTransfer.effectAllowed = 'move';
         // Use a transparent image as drag image to hide default browser ghost
         const img = new Image();
