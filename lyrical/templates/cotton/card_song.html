@@ -1,0 +1,18 @@
+<div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between"
+     data-song-id="{{ song.id }}"
+     data-song-name="{{ song.name }}"
+     data-song-stage="{{ song.stage }}">
+
+     <div class="flex-grow truncate mr-2">
+        {{ song.name }}
+    </div>
+
+     <div class="flex items-center gap-x-[5px] flex-shrink-0">
+        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary" {{ attrs }}>
+            Edit
+        </a>
+        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary" {{ attrs }}>
+            Delete
+        </a>
+    </div>
+</div>
