@@ -73,7 +73,8 @@ class DragDropSystem {
         this._updateGhostPosition(event); // Initial position
 
         itemElement.classList.add('opacity-50'); // Indicate the original item is being dragged
-        document.body.style.cursor = 'grabbing';
+        document.body.classList.add('cursor-grabbing');
+        document.body.classList.remove('cursor-no-drop'); // Ensure no-drop is not present
 
         if (this.callbacks.onDragStart) {
             this.callbacks.onDragStart(this.draggedItem, event);
@@ -118,15 +119,18 @@ class DragDropSystem {
             const zoneData = { element: newHoveredZoneElement, name: newHoveredZoneElement.dataset.zoneName };
             if (this.callbacks.canDrop(this.draggedItem, zoneData, event)) {
                 event.dataTransfer.dropEffect = 'move';
-                document.body.style.cursor = 'grabbing';
+                document.body.classList.add('cursor-grabbing');
+                document.body.classList.remove('cursor-no-drop');
             } else {
                 event.dataTransfer.dropEffect = 'none';
-                document.body.style.cursor = 'no-drop';
+                document.body.classList.add('cursor-no-drop');
+                document.body.classList.remove('cursor-grabbing');
             }
         } else {
             // Not over any registered drop zone
             event.dataTransfer.dropEffect = 'none';
-            document.body.style.cursor = 'no-drop';
+            document.body.classList.add('cursor-no-drop');
+            document.body.classList.remove('cursor-grabbing');
         }
     }
 
@@ -184,7 +188,8 @@ class DragDropSystem {
             }
         }
 
-        document.body.style.cursor = ''; // Reset body cursor to default
+        document.body.classList.remove('cursor-grabbing');
+        document.body.classList.remove('cursor-no-drop');
         this.draggedItem = null;
         this.currentHoveredZoneForCallback = null; // Reset this tracker
     }
@@ -198,7 +203,8 @@ class DragDropSystem {
             this.ghostElement = null;
         }
         this.draggedItem = null;
-        document.body.style.cursor = 'default';
+        document.body.classList.remove('cursor-grabbing');
+        document.body.classList.remove('cursor-no-drop');
 
         // Remove drag-over from all potential zones
         document.querySelectorAll('[data-drop-zone="true"]').forEach(dz => dz.classList.remove('drag-over'));
