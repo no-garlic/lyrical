@@ -11,6 +11,30 @@
 {% endblock %}
 
 {% block panel_1 %}
+
+
+
+    <!-- Open the modal using ID.showModal() method -->
+    <!--button class="btn" onclick="my_modal_1.showModal()">open modal</button-->
+    <dialog id="my_modal_1" class="modal">
+    <div class="modal-box bg-base-300">
+        <h3 class="text-lg font-bold">Confirm</h3>
+        <p class="py-4">Are you sure you want to delete the song: SONG NAME?</p>
+        <div class="modal-action">
+        <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn" id="my_modal_1_no">No</button>
+            <button class="btn" id="my_modal_1_yes">Yes</button>
+        </form>
+        </div>
+    </div>
+    </dialog>
+
+
+
+
+
+
     <c-panel>
                 
         <!-- Panel Header -->
@@ -84,5 +108,5 @@
 {% block scripts %}
     <script src="{% static 'lyrical/script/layout_slide_panel_header.js' %}"></script>
     <script src="{% static 'lyrical/script/dragdrop.js' %}"></script>
-    <script src="{% static 'lyrical/script/names.js' %}"></script>
+    <script type="module" src="{% static 'lyrical/script/names.js' %}"></script>
 {% endblock %}

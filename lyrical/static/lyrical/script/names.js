@@ -1,3 +1,5 @@
+import { api_song_delete } from './api_song_delete.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     makeVerticallyResizable(
         document.getElementById('panel-top-content'),
@@ -8,6 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-generate-song-names').onclick = (event) => {
         alert("clicked!")
     }
+
+    Array.from(document.getElementsByClassName('btn-song-edit')).forEach(element => {
+        element.onclick = () => {
+            console.log(`editing song_id: ${element.dataset.songId}`);
+        }
+    });    
+
+    Array.from(document.getElementsByClassName('btn-song-delete')).forEach(element => {
+        element.onclick = () => {
+
+            document.getElementById('my_modal_1_yes').onclick = (event) => {
+
+                if (api_song_delete(element.dataset.songId)) {
+                    const card = element.parentElement.parentElement;
+                    const container = card.parentElement;
+                    container.removeChild(card);
+                }
+            }
+
+            document.getElementById('my_modal_1').showModal();
+        }
+    });    
+
 
     // Initialize Drag and Drop
     const dragDropSystem = new DragDropSystem();

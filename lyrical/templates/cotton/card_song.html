@@ -8,10 +8,10 @@
     </div>
 
      <div class="flex items-center gap-x-[5px] flex-shrink-0">
-        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary" {{ attrs }}>
+        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-edit" {{ attrs }} data-song-id="{{ song.id }}">
             Edit
         </a>
-        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary" {{ attrs }}>
+        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-delete" {{ attrs }} data-song-id="{{ song.id }}">
             Delete
         </a>
     </div>
