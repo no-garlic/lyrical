@@ -12,6 +12,21 @@ class DragDropSystem {
             onDragEnterZone: () => {},
             onDragLeaveZone: () => {},
         };
+
+        // Create a persistent canvas for the drag image
+        this.dragPreviewCanvas = document.createElement('canvas');
+        this.dragPreviewCanvas.width = 10;
+        this.dragPreviewCanvas.height = 10;
+        this.dragPreviewCanvas.style.position = 'absolute';
+        this.dragPreviewCanvas.style.left = '-9999px'; // Position off-screen
+        this.dragPreviewCanvas.style.top = '-9999px';    // Position off-screen
+        document.body.appendChild(this.dragPreviewCanvas); // Add to the DOM
+
+        const ctx = this.dragPreviewCanvas.getContext('2d');
+        if (ctx) {
+            ctx.fillStyle = 'green'; // Changed to green for this attempt
+            ctx.fillRect(0, 0, 10, 10);
+        }
     }
 
     init(callbacks = {}) {
@@ -60,24 +75,32 @@ class DragDropSystem {
 
     _handleDragStart(event, itemElement, itemData) {
         this.draggedItem = { element: itemElement, data: itemData };
-        event.dataTransfer.setData('text/plain', itemData.id || itemElement.dataset.dragDropId || 'draggable_item'); // Add this line
+        event.dataTransfer.setData('text/plain', itemData.id || itemElement.dataset.dragDropId || 'draggable_item');
         event.dataTransfer.effectAllowed = 'move';
-        // Use a transparent image as drag image to hide default browser ghost
-        const img = new Image();
-        img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-        event.dataTransfer.setDragImage(img, 0, 0);
 
-        this._createGhostElement(itemElement);
+        try {
+            event.dataTransfer.setDragImage(this.dragPreviewCanvas, 5, 5); // Use the pre-rendered canvas
+            console.log('Setting drag image to a 10x10 green square (pre-rendered and DOM-attached).');
+        } catch (e) {
+            console.error("Failed to set drag image with pre-rendered canvas:", e);
+            // Fallback to a simple image if canvas somehow fails
+            const img = new Image();
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Fallback to transparent
+            event.dataTransfer.setDragImage(img, 0, 0);
+        }
 
-        // Calculate offset from the center of the ghost element
-        this.initialOffsetX = this.ghostElement.offsetWidth / 2;
-        this.initialOffsetY = this.ghostElement.offsetHeight / 2;
+        // Temporarily comment out custom ghost element logic
+        // this._createGhostElement(itemElement);
 
-        this._updateGhostPosition(event); // Initial position
+        // // Calculate offset from the center of the ghost element
+        // this.initialOffsetX = this.ghostElement.offsetWidth / 2;
+        // this.initialOffsetY = this.ghostElement.offsetHeight / 2;
 
-        itemElement.classList.add('opacity-50'); // Indicate the original item is being dragged
+        // this._updateGhostPosition(event); // Initial position
+
+        itemElement.classList.add('opacity-50');
         document.body.classList.add('cursor-grabbing');
-        document.body.classList.remove('cursor-no-drop'); // Ensure no-drop is not present
+        document.body.classList.remove('cursor-no-drop');
 
         if (this.callbacks.onDragStart) {
             this.callbacks.onDragStart(this.draggedItem, event);
@@ -85,20 +108,23 @@ class DragDropSystem {
     }
 
     _handleGlobalDragOver(event) {
-        event.preventDefault(); // Necessary to allow dropping
+        event.preventDefault(); 
 
-        if (!this.draggedItem || !this.ghostElement) {
+        if (!this.draggedItem) { // Removed check for this.ghostElement
             event.dataTransfer.dropEffect = 'none';
             return;
         }
 
-        this._updateGhostPosition(event);
-
+        // Temporarily comment out ghost position update
+        // if (this.ghostElement) { // Check if ghostElement exists before trying to update it
+        //     this._updateGhostPosition(event);
+        // }
+        
         // Temporarily hide ghost to correctly identify element underneath
-        const originalGhostDisplay = this.ghostElement.style.display;
-        this.ghostElement.style.display = 'none';
+        // const originalGhostDisplay = this.ghostElement ? this.ghostElement.style.display : '';
+        // if (this.ghostElement) this.ghostElement.style.display = 'none';
         const targetElement = document.elementFromPoint(event.clientX, event.clientY);
-        this.ghostElement.style.display = originalGhostDisplay; // Restore ghost display
+        // if (this.ghostElement) this.ghostElement.style.display = originalGhostDisplay; // Restore ghost display
 
         const newHoveredZoneElement = this._getDropZoneUnderMouse(targetElement);
 

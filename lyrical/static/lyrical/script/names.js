@@ -16,31 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         element.onclick = () => {
             const songId = element.dataset.songId;
 
-            // TODO: Validation
-            // TODO: Stop drag and drop when editing
-            // TODO: Only show edit & delete buttons when hovering the card
-            // TODO: When editing, hide all other edit and delete buttons when hovering
-            // TODO: Save song status when drag-dropping
-            // TODO: Refactor code, tidy up, rename apis, etc
-            // TODO: Create README with TODO list
-            // TODO: Remove SONG TITLE on names page, put MANAGE SONG NAMES in middle of the page or something
-            // TODO: Generate Song Names button -> make it work with parameters
-            // TODO: Message history when calling the LLM for Generate Names
-            // TODO: Panel Slider is not implemented
-            // TODO: Save Column Widths
-            // TODO: Bug with floating circle from top left corner, likely in my drag-drop code
-            // TODO: Hide girl in media query for short page
-            // TODO: Simple filter in LIKED and DISLIKED headers
-            // TODO: Refactor song-card javascript out of names, so it can be reused
-            // TODO: Able to create a song-card disabling the edit / delete behavior
-            // TODO: Set cursor to the end of the field when setting focus, or select all
-            // TODO: Look at changing Temperature and Max Tokens to orange or blue
-            // TODO: Look at changing the timeline to orange
-            // TODO: Show the selected LLM cost per 1M tokens on the sidebar
-            // TODO: Look at fonts and font sizes for the panel titles
-            // TODO: Login Required for all pages
-            
-
             console.log(`editing song_id: ${songId}`);
 
             document.getElementById(`song-input-${songId}`).classList.remove('hidden');
