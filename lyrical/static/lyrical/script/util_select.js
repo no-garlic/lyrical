@@ -1,127 +1,500 @@
 /*
  * Select System
  *
- * This system manages a list of selectable elements, and which element is selected.
- * Only one element can be selected at a time.
- * 
- * The following configuration parameters are available when creating the system:
- * - allowMultiSelect: If true, multiple elements can be selected at once. Default is false.
- * - allowSelectOnClick: If true, an element can be selected by clicking on it. Default is true.
- * - allowDeselectOnClick: If true, an element can be deselected by clicking on it again (unless it is the only selected element and allowNoSelection is false). Default is false, 
- * - allowNoSelection: If true, it is possible to have no element selected. Default is false.
- * - autoSelectFirstElement: If true, the first element in the list will be selected as soon as it is added. Default is false.
- * - canDeselectOnEscape: If true, the selected element can be deselected by pressing the Escape key. Default is true.
- * - canDeselectOnClickAway: If true, the selected element can be deselected by clicking on no element at all (somewhere else on the page). Default is false.
- * 
+ * Manages a collection of selectable HTML elements and tracks which element(s) are currently selected.
+ * It supports single or multiple selection modes, and various ways to select/deselect elements
+ * (click, keyboard, programmatically).
+ *
+ * Configuration options (passed to constructor or init):
+ * - allowMultiSelect (boolean, default: false): If true, multiple elements can be selected simultaneously.
+ *   If false (default), only one element can be selected at a time.
+ * - allowSelectOnClick (boolean, default: true): If true, elements can be selected by clicking on them.
+ * - allowDeselectOnClick (boolean, default: false): If true, clicking a selected element deselects it.
+ *   - Edge case: If allowMultiSelect is false and allowNoSelection is false, the last selected element
+ *     cannot be deselected by click (as it would leave no selection).
+ * - allowNoSelection (boolean, default: false): If true, it's possible to have no elements selected.
+ *   - If false, the system attempts to ensure at least one element is selected if selectable elements are present.
+ *   - This affects deselection: the last item cannot be deselected if it would result in no selection,
+ *     unless allowNoSelection is true.
+ * - autoSelectFirstElement (boolean, default: false): If true, the first element added to the system
+ *   will be automatically selected, provided no other element is already selected.
+ *   If allowNoSelection is false, the first element added will be selected regardless of this setting
+ *   if it's the only selectable element.
+ * - canDeselectOnEscape (boolean, default: true): If true, pressing the Escape key attempts to deselect
+ *   the currently selected element(s). This respects the allowNoSelection rule.
+ * - canDeselectOnClickAway (boolean, default: false): If true, clicking outside of any selectable
+ *   element attempts to deselect the currently selected element(s). This respects allowNoSelection.
+ *
+ * Callbacks (passed to constructor or init, all are optional):
+ * - onElementAdded: (element: HTMLElement) => void
+ *   Called after an element has been successfully added to the list of selectable items.
+ * - onElementRemoved: (element: HTMLElement) => void
+ *   Called after an element has been successfully removed.
+ * - canSelectElement: (elementToSelect: HTMLElement, currentlySelectedElements: Set<HTMLElement>) => boolean
+ *   Called before an element is selected. Return false to prevent selection.
+ * - canDeselectElement: (elementToDeselect: HTMLElement, currentlySelectedElements: Set<HTMLElement>) => boolean
+ *   Called before an element is deselected. Return false to prevent deselection.
+ * - onBeforeElementChanged: (changedElement: HTMLElement, currentSelectedElements: Set<HTMLElement>, action: 'select' | 'deselect') => void
+ *   Called just before an element's selection state changes (either selected or deselected).
+ *   `changedElement` is the element whose state is about to change.
+ *   `currentSelectedElements` is the set of selected elements *before* this change.
+ * - onAfterElementChanged: (currentSelectedElements: Set<HTMLElement>, changedElement: HTMLElement, action: 'select' | 'deselect') => void
+ *   Called just after an element's selection state has changed.
+ *   `currentSelectedElements` is the set of selected elements *after* this change.
+ *   `changedElement` is the element whose state changed.
+ * - onElementSelected: (element: HTMLElement, allSelectedElements: Set<HTMLElement>) => void
+ *   Called after an element has been selected. `allSelectedElements` includes the newly selected element.
+ * - onElementDeselected: (element: HTMLElement, allSelectedElements: Set<HTMLElement>) => void
+ *   Called after an element has been deselected. `allSelectedElements` reflects the set after deselection.
  */
 export class SelectSystem {
 
-    constructor() {
+    /**
+     * Creates an instance of SelectSystem.
+     * @param {object} [initialConfig={}] Initial configuration options.
+     * @param {object} [initialCallbacks={}] Initial callback functions.
+     */
+    constructor(initialConfig = {}, initialCallbacks = {}) {
+        this.config = {
+            allowMultiSelect: false,
+            allowSelectOnClick: true,
+            allowDeselectOnClick: false,
+            allowNoSelection: false,
+            autoSelectFirstElement: false,
+            canDeselectOnEscape: true,
+            canDeselectOnClickAway: false,
+            ...initialConfig
+        };
 
         this.callbacks = {
-            onElementAdded: () => {},          // Callback function when an element is added to the system
-            onElementRemoved: () => {},        // Callback function when an element is removed from the system
-            canSelectElement: () => true,      // Callback function to check if an element can be selected (takes current and new element as parameters)
-            canDeselectElement: () => true,    // Callback function to check if an element can be deselected (takes current element as a parameter)
-            onBeforeElementChanged: () => {},  // Callback function before the selected element changes (takes current and new element as parameters)
-            onAfterElementChanged: () => {},   // Callback function after the selected element changes (takes current and new element as parameters)
-            onElementSelected: () => {},       // Callback function when an element is selected so the caller can change the style of the element
-            onElementDeselected: () => {}      // Callback function when an element is deselected so the caller can change the style of the element
+            onElementAdded: () => {},
+            onElementRemoved: () => {},
+            canSelectElement: () => true,
+            canDeselectElement: () => true,
+            onBeforeElementChanged: () => {},
+            onAfterElementChanged: () => {},
+            onElementSelected: () => {},
+            onElementDeselected: () => {},
+            ...initialCallbacks
         };
+
+        this.selectableElements = new Set();
+        this.selectedElements = new Set();
+
+        // Bind methods that will be used as event handlers to ensure 'this' context
+        this._handleElementClick = this._handleElementClick.bind(this);
+        this._handleDocumentClick = this._handleDocumentClick.bind(this);
+        this._handleKeyDown = this._handleKeyDown.bind(this);
     }
 
-
-    /*
-     * Initialise the system with the given callbacks
-     * @param {Dictionary}
+    /**
+     * Initializes or re-initializes the system with new configuration and callbacks.
+     * Removes and re-adds global event listeners based on the new configuration.
+     * @param {object} [config={}] Configuration options to merge with existing ones.
+     * @param {object} [callbacks={}] Callback functions to merge with existing ones.
      */
-    init(callbacks = {}) {
-            this.callbacks = { ...this.callbacks, ...callbacks };
-        }
+    init(config = {}, callbacks = {}) {
+        this.config = { ...this.config, ...config };
+        this.callbacks = { ...this.callbacks, ...callbacks };
 
-    /*
-     * Add a new selectable element to the system
-     * @param {HTMLElement}
+        // Remove existing global listeners before adding new ones to prevent duplicates
+        document.removeEventListener('keydown', this._handleKeyDown);
+        document.removeEventListener('click', this._handleDocumentClick, true); // Use capture for click away
+
+        if (this.config.canDeselectOnEscape) {
+            document.addEventListener('keydown', this._handleKeyDown);
+        }
+        if (this.config.canDeselectOnClickAway) {
+            document.addEventListener('click', this._handleDocumentClick, true); // Use capture for click away
+        }
+    }
+
+    /**
+     * Adds an HTML element to the list of selectable items.
+     * Attaches a click listener if allowSelectOnClick is true.
+     * Handles auto-selection based on configuration.
+     * @param {HTMLElement} element The HTML element to make selectable.
+     * @returns {boolean} True if the element was successfully added, false otherwise.
      */
     addElement(element) {
-        // TODO: Check the element is not already in the list, if so then return false
+        if (!(element instanceof HTMLElement)) {
+            console.error("SelectSystem: Element to add must be an HTMLElement.", element);
+            return false;
+        }
+        if (this.selectableElements.has(element)) {
+            // console.warn("SelectSystem: Element already added and selectable.", element);
+            return false; // Not added again
+        }
 
-        // TODO: Check the element is a valid selectable element, if not then return false
+        this.selectableElements.add(element);
 
-        // TODO: Add the element to the list of elements
+        if (this.config.allowSelectOnClick) {
+            element.addEventListener('click', this._handleElementClick);
+        }
 
-        // TODO: Call the callback function        
+        this.callbacks.onElementAdded(element);
+
+        if (this.config.autoSelectFirstElement && this.selectedElements.size === 0) {
+            this.selectElement(element);
+        } else if (!this.config.allowNoSelection && this.selectedElements.size === 0 && this.selectableElements.size === 1) {
+            // If no selection is disallowed, and this is the very first element, select it.
+            this.selectElement(element);
+        }
+        return true;
     }
 
-
-    /*
-     * Remove a selectable element from the system
-     * @param {HTMLElement}
+    /**
+     * Removes an element from the list of selectable items.
+     * Deselects it if it was selected and removes its event listener.
+     * If allowNoSelection is false, attempts to select another element if the removed
+     * element was the last selected one.
+     * @param {HTMLElement} element The HTML element to remove.
+     * @returns {boolean} True if the element was successfully removed, false otherwise.
      */
     removeElement(element) {
-        // TODO: Undo what addElement does
+        if (!(element instanceof HTMLElement)) {
+            console.error("SelectSystem: Element to remove must be an HTMLElement.", element);
+            return false;
+        }
+        if (!this.selectableElements.has(element)) {
+            // console.warn("SelectSystem: Element not found in selectable list.", element);
+            return false;
+        }
+
+        // If the element is currently selected, deselect it first.
+        // This specific deselection bypasses some rules like allowNoSelection because the element is being removed.
+        if (this.selectedElements.has(element)) {
+            const oldSelected = new Set(this.selectedElements);
+            this.callbacks.onBeforeElementChanged(element, oldSelected, 'deselect');
+            this.selectedElements.delete(element);
+            this.callbacks.onElementDeselected(element, new Set(this.selectedElements));
+            this.callbacks.onAfterElementChanged(new Set(this.selectedElements), element, 'deselect');
+        }
+
+        this.selectableElements.delete(element);
+        if (this.config.allowSelectOnClick) {
+            element.removeEventListener('click', this._handleElementClick);
+        }
+
+        this.callbacks.onElementRemoved(element);
+
+        // If allowNoSelection is false, and removing this element resulted in no selection,
+        // try to select another available element.
+        if (!this.config.allowNoSelection && this.selectedElements.size === 0 && this.selectableElements.size > 0) {
+            const firstAvailable = this.selectableElements.values().next().value;
+            if (firstAvailable) {
+                this.selectElement(firstAvailable);
+            }
+        }
+        return true;
     }
 
-
-    /*
-     * Get the currently selected element, or the first element in the list if multiple
-     * elements are selected
-     * @returns {HTMLElement} The currently selected element
-     */
-    getSelectedElement() {
-    }
-
-   
-    /*
-     * Get the list of currently selected elements
-     * @returns {Array} The currently selected elements
-     */
-    getSelectedElements() {
-    }
-
-
-    /*
-     * Select an element
-     * @param {HTMLElement}
+    /**
+     * Selects the given element.
+     * If allowMultiSelect is false, any previously selected element will be deselected.
+     * @param {HTMLElement} element The element to select.
+     * @returns {boolean} True if the element was successfully selected, false otherwise.
      */
     selectElement(element) {
-        // TODO: Check the element is in the list of elements, if not then return false
+        if (!element || !this.selectableElements.has(element)) {
+            // console.warn("SelectSystem: Attempted to select an element not in the selectable list or invalid element.", element);
+            return false;
+        }
 
-        // TODO: Deselect the currently selected element
-     
-        // TODO: Call the callback function
+        if (this.selectedElements.has(element)) {
+            // If it's already selected:
+            // - In single-select mode, it's a no-op, considered successful.
+            // - In multi-select mode, also a no-op for "selection". Toggling is handled by _handleElementClick.
+            return true;
+        }
 
-        // TODO: Select the new element
+        if (!this.callbacks.canSelectElement(element, new Set(this.selectedElements))) {
+            return false;
+        }
 
-        // TODO: Call the callback function
+        const oldSelected = new Set(this.selectedElements);
+        this.callbacks.onBeforeElementChanged(element, oldSelected, 'select');
+
+        if (!this.config.allowMultiSelect) {
+            // Deselect all currently selected elements.
+            // Create a copy for iteration as selectedElements will be modified.
+            const currentSelections = Array.from(this.selectedElements);
+            currentSelections.forEach(selectedEl => {
+                // This is an implicit deselection due to a new single selection.
+                // No need to check canDeselectElement or allowNoSelection here.
+                this.selectedElements.delete(selectedEl);
+                this.callbacks.onElementDeselected(selectedEl, new Set(this.selectedElements));
+            });
+        }
+
+        this.selectedElements.add(element);
+        this.callbacks.onElementSelected(element, new Set(this.selectedElements));
+        this.callbacks.onAfterElementChanged(new Set(this.selectedElements), element, 'select');
+        return true;
     }
 
-
-    selectElements(elements) {  
-    }
-
-    /*
-     * Deselect an element
-     * @param {HTMLElement}
+    /**
+     * Deselects the given element.
+     * Respects allowNoSelection configuration.
+     * @param {HTMLElement} element The element to deselect.
+     * @returns {boolean} True if the element was successfully deselected, false otherwise.
      */
     deselectElement(element) {
+        if (!element || !this.selectedElements.has(element)) {
+            // console.warn("SelectSystem: Attempted to deselect an element that is not selected or invalid.", element);
+            return false;
+        }
+
+        // Check if this is the last selected element and no selection is disallowed.
+        if (!this.config.allowNoSelection && this.selectedElements.size === 1 && this.selectedElements.has(element)) {
+            // console.log("SelectSystem: Cannot deselect the last element when allowNoSelection is false.");
+            return false;
+        }
+
+        if (!this.callbacks.canDeselectElement(element, new Set(this.selectedElements))) {
+            return false;
+        }
+
+        const oldSelected = new Set(this.selectedElements);
+        this.callbacks.onBeforeElementChanged(element, oldSelected, 'deselect');
+
+        this.selectedElements.delete(element);
+        this.callbacks.onElementDeselected(element, new Set(this.selectedElements));
+        this.callbacks.onAfterElementChanged(new Set(this.selectedElements), element, 'deselect');
+        return true;
     }
 
+    /**
+     * Selects multiple elements.
+     * If allowMultiSelect is false, it attempts to select the first valid element from the list.
+     * If allowMultiSelect is true, it attempts to select all valid elements from the list.
+     * @param {HTMLElement[]} elements An array of elements to select.
+     * @returns {boolean} True if all (or one in single-select) elements were selected successfully, false otherwise.
+     */
+    selectElements(elements) {
+        if (!Array.isArray(elements)) {
+            console.error("SelectSystem: elements to select must be an array.", elements);
+            return false;
+        }
+        if (elements.length === 0) return true; // No elements to select, considered success.
 
-    /*
-     * Deselect elements
+        if (!this.config.allowMultiSelect) {
+            // Single-select mode: try to select the first valid element.
+            // selectElement will handle deselecting the current one.
+            for (const el of elements) {
+                if (this.selectableElements.has(el)) {
+                    if (this.selectElement(el)) {
+                        return true; // Successfully selected one
+                    }
+                }
+            }
+            return false; // No element from the list could be selected
+        } else {
+            // Multi-select mode: attempt to select all.
+            let allSucceeded = true;
+            elements.forEach(el => {
+                if (this.selectableElements.has(el)) {
+                    if (!this.selectElement(el)) { // selectElement adds to selection in multi-mode
+                        allSucceeded = false;
+                    }
+                } else {
+                    allSucceeded = false; // Element not even selectable
+                }
+            });
+            return allSucceeded;
+        }
+    }
+
+    /**
+     * Deselects multiple elements.
+     * @param {HTMLElement[]} elements An array of elements to deselect.
+     * @returns {boolean} True if all specified elements that were selected were successfully deselected, false otherwise.
      */
     deselectElements(elements) {
+        if (!Array.isArray(elements)) {
+            console.error("SelectSystem: elements to deselect must be an array.", elements);
+            return false;
+        }
+        if (elements.length === 0) return true;
+
+        let allSucceeded = true;
+        elements.forEach(el => {
+            if (this.selectedElements.has(el)) { // Only attempt to deselect if actually selected
+                if (!this.deselectElement(el)) {
+                    allSucceeded = false;
+                }
+            }
+        });
+        return allSucceeded;
     }
 
-
-    /*
-     * Deselect all elements
+    /**
+     * Deselects all currently selected elements.
+     * Respects allowNoSelection configuration (i.e., might not deselect the last item).
+     * @returns {boolean} True if all possible elements were deselected according to rules, false if some remained selected due to rules.
      */
     deselectAllElements() {
+        if (this.selectedElements.size === 0) return true;
+
+        // If !allowNoSelection and single-select mode with 1 item, it cannot be deselected.
+        if (!this.config.allowNoSelection && !this.config.allowMultiSelect && this.selectedElements.size === 1) {
+            return false;
+        }
+
+        const elementsToTryDeselecting = Array.from(this.selectedElements);
+        let allSuccessfullyDeselected = true;
+        elementsToTryDeselecting.forEach(el => {
+            if (!this.deselectElement(el)) { // deselectElement respects allowNoSelection for the last item
+                allSuccessfullyDeselected = false;
+            }
+        });
+        // Returns true if the set is now empty or couldn't be emptied further due to rules.
+        // If allSuccessfullyDeselected is false, it means some items that were targeted for deselection
+        // could not be deselected (e.g. the last item when allowNoSelection is false).
+        return allSuccessfullyDeselected;
     }
 
+    /**
+     * Gets the currently selected element.
+     * If multiple elements are selected (allowMultiSelect is true), it returns the first one added to the selection.
+     * @returns {HTMLElement | null} The selected element, or null if no element is selected.
+     */
+    getSelectedElement() {
+        if (this.selectedElements.size === 0) {
+            return null;
+        }
+        // Return the first element encountered in the Set's iteration order
+        return this.selectedElements.values().next().value;
+    }
 
+    /**
+     * Gets an array of all currently selected elements.
+     * @returns {HTMLElement[]} An array of the selected HTML elements.
+     */
+    getSelectedElements() {
+        return Array.from(this.selectedElements);
+    }
 
+    /**
+     * Checks if a specific element is currently selected.
+     * @param {HTMLElement} element The element to check.
+     * @returns {boolean} True if the element is selected, false otherwise.
+     */
+    isElementSelected(element) {
+        return this.selectedElements.has(element);
+    }
 
+    /**
+     * Gets an array of all elements that are registered as selectable.
+     * @returns {HTMLElement[]} An array of all selectable HTML elements.
+     */
+    getSelectableElements() {
+        return Array.from(this.selectableElements);
+    }
+
+    /**
+     * Cleans up the system by removing all event listeners and clearing internal state.
+     * Call this when the SelectSystem is no longer needed to prevent memory leaks.
+     * @returns {boolean} True upon successful destruction.
+     */
+    destroy() {
+        // Remove global event listeners
+        document.removeEventListener('keydown', this._handleKeyDown);
+        document.removeEventListener('click', this._handleDocumentClick, true); // Match capture phase
+
+        // Remove event listeners from all selectable elements
+        this.selectableElements.forEach(element => {
+            if (this.config.allowSelectOnClick) {
+                element.removeEventListener('click', this._handleElementClick);
+            }
+        });
+
+        // Clear internal sets
+        this.selectableElements.clear();
+        this.selectedElements.clear();
+
+        // Optionally reset callbacks and config to initial state or nullify
+        this.callbacks = {}; // Or reset to default placeholders
+        this.config = {};    // Or reset to default values
+
+        // console.log("SelectSystem destroyed.");
+        return true;
+    }
+
+    // --- Private Helper Methods ---
+
+    /**
+     * Handles click events on selectable elements.
+     * @private
+     * @param {MouseEvent} event The click event.
+     */
+    _handleElementClick(event) {
+        const element = event.currentTarget; // Element the listener was attached to
+        if (!this.selectableElements.has(element) || !this.config.allowSelectOnClick) {
+            return; // Should not happen if listeners are managed correctly or if clicks are disabled
+        }
+
+        event.stopPropagation(); // Prevent click from bubbling to document for click-away logic
+
+        if (this.selectedElements.has(element)) {
+            // Element is already selected, check if it can be deselected by click
+            if (this.config.allowDeselectOnClick) {
+                this.deselectElement(element);
+            }
+        } else {
+            // Element is not selected, try to select it
+            this.selectElement(element);
+        }
+    }
+
+    /**
+     * Handles click events on the document (for click-away deselection).
+     * @private
+     * @param {MouseEvent} event The click event.
+     */
+    _handleDocumentClick(event) {
+        if (!this.config.canDeselectOnClickAway || this.selectedElements.size === 0) {
+            return;
+        }
+
+        // Check if the click target is one of the selectable elements or their children.
+        // If so, the element's own click handler (_handleElementClick) should manage it.
+        // _handleElementClick calls event.stopPropagation(), so this won't run for clicks on selectable items.
+        // This check is a fallback or for cases where stopPropagation might not be used by other handlers.
+        let target = event.target;
+        let clickedOnSelectableOrChild = false;
+        while (target && target !== document.body) {
+            if (this.selectableElements.has(target)) {
+                clickedOnSelectableOrChild = true;
+                break;
+            }
+            target = target.parentElement;
+        }
+
+        if (!clickedOnSelectableOrChild) {
+            // Clicked away from any selectable element
+            // Attempt to deselect all, respecting allowNoSelection rules.
+            if (!this.config.allowNoSelection && !this.config.allowMultiSelect && this.selectedElements.size === 1) {
+                // Do not deselect the last item in single-select mode if no selection is disallowed.
+                return;
+            }
+            this.deselectAllElements();
+        }
+    }
+
+    /**
+     * Handles keydown events on the document (for Escape key deselection).
+     * @private
+     * @param {KeyboardEvent} event The keydown event.
+     */
+    _handleKeyDown(event) {
+        if (event.key === 'Escape' && this.config.canDeselectOnEscape && this.selectedElements.size > 0) {
+            // Attempt to deselect all, respecting allowNoSelection rules.
+             if (!this.config.allowNoSelection && !this.config.allowMultiSelect && this.selectedElements.size === 1) {
+                // Do not deselect the last item in single-select mode if no selection is disallowed.
+                return;
+            }
+            this.deselectAllElements();
+        }
+    }
 }
