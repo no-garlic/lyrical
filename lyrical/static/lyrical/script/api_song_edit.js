@@ -1,5 +1,5 @@
 
-export function api_song_edit(songId, songName) {
+export function apiSongEdit(songId, songName) {
     // Log the operation
     console.log(`editing song_id: ${songId} to new name: ${songName}`);
 

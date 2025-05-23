@@ -1,5 +1,5 @@
 
-export function api_song_delete(songId) {
+export function apiSongDelete(songId) {
     // Log the operation
     console.log(`deleting song_id: ${songId}`);
 

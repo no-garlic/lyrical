@@ -1,5 +1,5 @@
-import { api_song_delete } from './api_song_delete.js';
-import { api_song_edit } from './api_song_edit.js';
+import { apiSongDelete } from './api_song_delete.js';
+import { apiSongEdit } from './api_song_edit.js';
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const songName = document.getElementById(inputField).value;
                 console.log(`api call: change song name to ${songName}`);
 
-                if (api_song_edit(songId, songName)) {
+                if (apiSongEdit(songId, songName)) {
                     document.getElementById(`song-text-${songId}`).innerHTML = songName;
 
                     document.getElementById(`song-input-${songId}`).classList.add('hidden');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('my_modal_1_yes').onclick = (event) => {
 
-                if (api_song_delete(element.dataset.songId)) {
+                if (apiSongDelete(element.dataset.songId)) {
                     const card = element.parentElement.parentElement;
                     const container = card.parentElement;
                     container.removeChild(card);
