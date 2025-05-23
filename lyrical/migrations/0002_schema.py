@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
                 ),
                 ("display_name", models.CharField(max_length=255, unique=True)),
                 ("internal_name", models.CharField(max_length=255, unique=True)),
+                ("cost_per_1m_tokens", models.FloatField(default=0.0)),
             ],
         ),
         migrations.CreateModel(

@@ -14,6 +14,7 @@ def page_names(request):
 
     return render(request, "lyrical/names.html", {
         "active_page": "names",
+        "page_name": "SONG NAMES",
         "new_songs": new_songs,
         "liked_songs": liked_songs,
         "disliked_songs": disliked_songs,

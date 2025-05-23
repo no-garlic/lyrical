@@ -14,6 +14,7 @@ class LLMProvider(models.Model):
 class LLM(models.Model):
     display_name = models.CharField(max_length=255, unique=True)
     internal_name = models.CharField(max_length=255, unique=True)
+    cost_per_1m_tokens = models.FloatField(default=0.0)
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE, related_name='llms')
     
     def __str__(self):

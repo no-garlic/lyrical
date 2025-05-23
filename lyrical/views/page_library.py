@@ -10,4 +10,5 @@ def page_library(request):
 
     return render(request, html_file, {
         "active_page": "library",
+        "page_name": "SONG LIBRARY",
     })
