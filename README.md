@@ -36,8 +36,10 @@
 
 
 ## Backlog
+ - Try moving edit and delete buttons to the header, edit can then show a modal.
  - Validation for song name editing
  - Stop drag and drop when editing
  - When editing, hide all other edit and delete buttons when hovering
  - Drag and drop not showing custom cursors
  - Hide girl in media query for short page
+ - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
