@@ -14,8 +14,8 @@ from .views.page_structure import *
 from .views.api_song_delete import *
 from .views.api_song_edit import *
 
-from .views.generate_song import *
-from .views.generate_song_names import *
+from .views.api_gen_song import *
+from .views.api_gen_song_names import *
 
 from .views.api_test_streaming import *
 
@@ -45,8 +45,8 @@ urlpatterns = [
     path("api_song_edit", api_song_edit, name="api_song_edit"),
 
     # llm calls
-    path("generate_song", generate_song, name="generate_song"),
-    path("generate_song_names", generate_song_names, name="generate_song_names"),
+    path("generate_song", api_gen_song, name="generate_song"),
+    path("generate_song_names", api_gen_song_names, name="generate_song_names"),
 
     # test pages
     path("api_test_streaming", test_streaming, name="test_streaming"),

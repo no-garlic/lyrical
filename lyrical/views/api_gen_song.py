@@ -5,7 +5,7 @@ from ..services.utils.messages import MessageBuilder
 from .. import models
 
 
-def generate_song(request):
+def api_gen_song(request):
     prompt_name = request.GET.get("prompt")
 
     song_name = request.GET.get("song_name", None)
