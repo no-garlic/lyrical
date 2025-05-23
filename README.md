@@ -12,12 +12,12 @@
  - Show the selected LLM cost per 1M tokens on the sidebar
  - Remove SONG TITLE on names page, put MANAGE SONG NAMES in middle of the page or something
  - Rename util_streamhelper to util_stream_helper
-
-## Todo
  - Save song status when drag-dropping
  - Refactor song-card javascript out of names.js into util_card_song, so it can be reused
- - Able to create a song name disabling the edit / delete behavior
 
+## Todo
+ - Able to create a song name disabling the edit / delete behavior
+ - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - Generate Song Names button -> make it work with parameters
  - Message history when calling the LLM for Generate Names
 

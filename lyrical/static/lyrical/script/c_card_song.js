@@ -32,6 +32,24 @@ export function initSongCards() {
 
 
 /*
+ * Initialise a new song card
+ */
+export function initNewSongCard(newSongCard) {
+    // Get the song ID from the card
+    const songId = newSongCard.dataset.songId;
+
+    // Show the song card hover elements when hovering over the card
+    newSongCard.onmouseover = (event) => {
+        showSongCardElements(['hover'], songId);
+    }
+    // Hide the song card hover elements when not hovering over the card
+    newSongCard.onmouseout = (event) => {
+        hideSongCardElements(['hover'], songId);
+    }
+}
+
+
+/*
  * Show the song card elements
  * @param {Array} elementNameList - List of element names to show
  * @param {string} songId - The ID of the song
@@ -104,7 +122,7 @@ function songEditButtonClick(element) {
 
 
 /*
- * Handle the click event for the delete button on a song card
+ * Handle the click event for the delete button on the modal
  * @param {HTMLElement} element - The delete button element
  */
 function songDeleteButtonClick(element) {

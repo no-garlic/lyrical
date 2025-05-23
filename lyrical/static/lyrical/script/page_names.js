@@ -1,5 +1,6 @@
-import { initSongCards } from './c_card_song.js'
+import { initSongCards, initNewSongCard } from './c_card_song.js'
 import { apiSongStage } from './api_song_stage.js';
+import { apiSongAdd } from './api_song_add.js';
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bind the generate song names button
     document.getElementById('btn-generate-song-names').onclick = generateSongNames;
+    document.getElementById('btn-add-song-name').onclick = addSongName;
 
     // Register the song cards
     initSongCards();
@@ -18,6 +20,69 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Drag and Drop
     initDragDropSystem();
 });
+
+
+/*
+ * Add a new song name
+ */
+function addSongName(element) {
+    document.getElementById('modal-textinput-ok').onclick = (event) => {
+        const newSongName = document.getElementById('modal-textinput-text').value;
+        console.log(`New song name: ${newSongName}.`)
+
+        if (apiSongAdd(newSongName)) {
+            //window.location.reload();
+            addNewSongCard(newSongName);
+        } else {
+            // TODO: Handle the error
+            console.log('Failed to add the new song name.');
+        }
+    }
+
+    document.getElementById('modal-textinput-cancel').onclick = (event) => {
+        // stop the validator from triggering and close the modal
+        document.getElementById('modal-textinput-text').value = ' ';
+        document.getElementById('modal-textinput').close();
+    }
+
+    // set the dialog params
+    document.getElementById('modal-textinput-title').innerHTML = 'Add Song Name';
+    document.getElementById('modal-textinput-message').innerHTML = 'Enter the new song name:'
+    
+    // show the dialog and set focus to the input field after 50ms delay
+    document.getElementById('modal-textinput').showModal();
+    setTimeout(() => { document.getElementById('modal-textinput-text').focus(); }, 50);
+}
+
+
+/*
+ * Add a new song card to the page
+ * @param {string} songName - The name of the song to add
+ */
+function addNewSongCard(songName) {
+    cardContainer = document.getElementById('panel-top-content');
+
+    // Create a new song card
+    const newCard = null;
+
+    // TODO: need to create a new card from the cotton template in card_song.html
+
+    
+    // Add the new card to the container
+    cardContainer.appendChild(newCard);
+
+    // TODO: Get the drag and drop system, needs to refactor this
+    // to be a global variable or something better than that maybe
+    dragDropSystem = null;
+
+
+    // Register the new song card for drag and drop
+    registerCardForDragDrop(newCard, dragDropSystem);
+
+    // Bind the button events for the new card
+    initNewSongCard(newCard, songName);
+}
+
 
 
 /*
