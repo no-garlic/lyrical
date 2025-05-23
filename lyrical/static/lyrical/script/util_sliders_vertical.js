@@ -1,4 +1,5 @@
-function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
+
+export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
     let isResizing = false;
 
     splitter.addEventListener('mousedown', (e) => {

@@ -1,17 +1,5 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    const panel1 = document.getElementById('panel1');
-    const panel2 = document.getElementById('panel2');
-    const panel3 = document.getElementById('panel3');
-
-    const splitter1 = document.getElementById('splitter1');
-    const splitter2 = document.getElementById('splitter2');
-
-    makeResizable(panel2, splitter1, panel1, false);
-    makeResizable(panel3, splitter2, panel2, false);
-});
-
-function makeResizable(panelToResize, splitter, leftOrUpPanel, isResizingLeftPanel) {
+export function makeHorizontallyResizable(panelToResize, splitter, leftOrUpPanel, isResizingLeftPanel) {
     let isResizing = false;
 
     splitter.addEventListener('mousedown', (e) => {

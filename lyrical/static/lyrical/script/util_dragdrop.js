@@ -1,4 +1,4 @@
-class DragDropSystem {
+export class DragDropSystem {
     constructor() {
         this.draggedItem = null;
         this.ghostElement = null;

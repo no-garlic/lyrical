@@ -1,5 +1,9 @@
 import { api_song_delete } from './api_song_delete.js';
 import { api_song_edit } from './api_song_edit.js';
+import { makeVerticallyResizable } from './util_sliders_vertical.js'
+import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
+import { DragDropSystem } from './util_dragdrop.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
     makeVerticallyResizable(
@@ -7,6 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('panel-vertical-splitter'),
         document.getElementById('panel-bottom-content')
     );
+    makeHorizontallyResizable(
+        document.getElementById('panel2'), 
+        document.getElementById('splitter1'), 
+        document.getElementById('panel1'), 
+        false);
+    makeHorizontallyResizable(
+        document.getElementById('panel3'), 
+        document.getElementById('splitter2'), 
+        document.getElementById('panel2'), 
+        false);
 
     document.getElementById('btn-generate-song-names').onclick = (event) => {
         alert("clicked!")

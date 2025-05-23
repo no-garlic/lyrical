@@ -30,8 +30,9 @@
             {% endblock %}
         </div>
 
-        <script src="{% static 'lyrical/script/stream.js' %}"></script>
-        
+        <script type="module" src="{% static 'lyrical/script/util_streamhelper.js' %}"></script>
+        <script type="module" src="{% static 'lyrical/script/util_dragdrop.js' %}"></script>
+
         {% block layout_scripts %}
         {% endblock %}
 

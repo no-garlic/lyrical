@@ -1,4 +1,4 @@
-class StreamHelper {
+export class StreamHelper {
     constructor(baseUrl, options = {}) {
         this.baseUrl = baseUrl;
         this.params = new URLSearchParams(); // For default/persistent params

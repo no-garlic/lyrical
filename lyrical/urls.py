@@ -17,7 +17,7 @@ from .views.api_song_edit import *
 from .views.generate_song import *
 from .views.generate_song_names import *
 
-from .views._test_streaming import *
+from .views.api_test_streaming import *
 
 
 urlpatterns = [
@@ -49,6 +49,6 @@ urlpatterns = [
     path("generate_song_names", generate_song_names, name="generate_song_names"),
 
     # test pages
-    path("_test_streaming", test_streaming, name="test_streaming"),
+    path("api_test_streaming", test_streaming, name="test_streaming"),
 
 ]
