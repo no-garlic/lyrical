@@ -101,6 +101,8 @@ export class DragDropSystem {
         itemElement.classList.add('opacity-50');
         document.body.classList.add('cursor-grabbing');
         document.body.classList.remove('cursor-no-drop');
+        
+        this.draggedItem.element.classList.add('opacity-50');
 
         if (this.callbacks.onDragStart) {
             this.callbacks.onDragStart(this.draggedItem, event);
@@ -134,8 +136,10 @@ export class DragDropSystem {
                 if (this.callbacks.onDragLeaveZone) {
                     this.callbacks.onDragLeaveZone(this.draggedItem, { element: this.currentHoveredZoneForCallback, name: this.currentHoveredZoneForCallback.dataset.zoneName }, event);
                 }
+                this.currentHoveredZoneForCallback.classList.remove('bg-primary-focus', 'opacity-50');
             }
             if (newHoveredZoneElement) {
+                newHoveredZoneElement.classList.add('bg-primary-focus', 'opacity-50');
                 if (this.callbacks.onDragEnterZone) {
                     this.callbacks.onDragEnterZone(this.draggedItem, { element: newHoveredZoneElement, name: newHoveredZoneElement.dataset.zoneName }, event);
                 }
@@ -188,8 +192,12 @@ export class DragDropSystem {
             const zoneData = { element: dropZoneElement, name: dropZoneElement.dataset.zoneName };
             // Final check, though dragover should have set dropEffect appropriately
             if (this.callbacks.canDrop(this.draggedItem, zoneData, event)) {
+                this.draggedItem.element.classList.remove('opacity-50');
+                zoneData.element.appendChild(this.draggedItem.element);
+
                 if (this.callbacks.onDrop) {
                     this.callbacks.onDrop(this.draggedItem, zoneData, event);
+                    zoneData.element.classList.remove('bg-primary-focus', 'opacity-50');
                 }
             } else {
                 console.warn("Drop attempted on a zone where canDrop is false. This should ideally be prevented by dragover's dropEffect.");

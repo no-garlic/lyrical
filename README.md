@@ -21,6 +21,8 @@
  - Generate Song Names button -> make it work with parameters
  - Message history when calling the LLM for Generate Names
 
+ - Filtering & sorting song names
+
 
 ## Next
  - API call and update UI for showing the current LLM details, and changing to a different LLM

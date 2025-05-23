@@ -1,4 +1,5 @@
 import { initSongCards } from './c_card_song.js'
+import { apiSongStage } from './api_song_stage.js';
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
@@ -60,17 +61,21 @@ function initDragDropSystem() {
     // Initialise it
     dragDropSystem.init({
         onDragStart: (item, event) => {
-            // TODO: Move to system
-            item.element.classList.add('opacity-50');
         },
         onDrop: (item, zone, event) => {
-            // TODO: Move to system
-            zone.element.appendChild(item.element);
-            item.element.classList.remove('opacity-50');
-
-            // Make an API call to update the song on the backend
+            // Check if the song is being dropped into a new zone or not
             if (item.data.originalZone != zone.name) {
-                // TODO:
+                item.data.originalZone = zone.name;
+
+                // Get the song Id and the name of the new stage
+                const songId = item.element.dataset.songId;
+                const songStage = zone.name;
+
+                // Call the API
+                console.log(`moving song ${songId} to stage ${songStage}.`)
+                if (!apiSongStage(songId, songStage)) {
+                    console.log(`failed to move song ${songId} to stage ${songStage}.`)
+                }
             }
         },
         canDrop: (item, zone, event) => {
@@ -78,10 +83,8 @@ function initDragDropSystem() {
             return true;
         },
         onDragEnterZone: (item, zone, event) => {
-            zone.element.classList.add('bg-primary-focus', 'opacity-50');
         },
         onDragLeaveZone: (item, zone, event) => {
-            zone.element.classList.remove('bg-primary-focus', 'opacity-50');
         }
     });
 
