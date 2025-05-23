@@ -1,3 +1,5 @@
+import { StreamHelper } from "./util_stream_helper.js";
+
 document.addEventListener('DOMContentLoaded', function () {
     initStreamHandler();
 });
@@ -147,7 +149,7 @@ function initStreamHandler() {
     const generateButton = document.querySelector('.generate-btn');
     if (!generateButton) return;
 
-    streamHelper = new StreamHelper('/generate_song', {
+    streamHelper = new StreamHelper('/api_gen_song', {
         callbacks: {
             onPreRequest: () => {
                 console.log("Stream PreRequest");

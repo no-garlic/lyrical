@@ -45,8 +45,8 @@ urlpatterns = [
     path("api_song_edit", api_song_edit, name="api_song_edit"),
 
     # llm calls
-    path("generate_song", api_gen_song, name="generate_song"),
-    path("generate_song_names", api_gen_song_names, name="generate_song_names"),
+    path("api_gen_song", api_gen_song, name="api_gen_song"),
+    path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
 
     # test pages
     path("api_test_streaming", test_streaming, name="test_streaming"),

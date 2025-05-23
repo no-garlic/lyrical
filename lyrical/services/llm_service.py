@@ -18,8 +18,8 @@ def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = N
         llm = user.default_model
 
     model_name = f"{llm.provider.internal_name}/{llm.internal_name}"
-    temperature = llm.temperature
-    max_tokens = llm.max_tokens
+    temperature = 0.2
+    max_tokens = 1000
     user_api_key = UserAPIKey.objects.filter(user=user, provider=llm.provider).first()
 
     if llm.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:

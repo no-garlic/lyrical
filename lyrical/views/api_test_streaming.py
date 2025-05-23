@@ -12,6 +12,6 @@ def test_streaming(request):
         authenticate(request, username="mpetrou", password="mike")
         login(request, request.user)
 
-    return render(request, "lyrical/_test_streaming.html", {
+    return render(request, "lyrical/api_test_streaming.html", {
     })
 

@@ -28,7 +28,7 @@ def api_gen_song(request):
     if not current_user.is_authenticated:
         current_user = models.User.objects.get(username="mpetrou")
 
-    llm_model = current_user.default_model
+    llm_model = current_user.llm_model
 
     song_vocalisation_level_names = [None, "low", "medium", "high"]
 
