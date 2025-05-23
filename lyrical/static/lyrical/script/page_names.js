@@ -5,15 +5,16 @@ import { apiRenderComponent } from './api_render_component.js';
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
+import { SelectSystem } from './util_select.js';
 
 
-/*
+/**
  * Declare dragDropSystem at the module level
  */
 let dragDropSystem; 
 
 
-/*
+/**
  * Initialize the page when the DOM is fully loaded
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,10 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Drag and Drop
     initDragDropSystem();
+
+    // Initialize Select System
+    initSelectSystem();
 });
 
 
-/*
+/**
  * Add a new song name
  */
 function addSongName(element) {
@@ -70,7 +74,7 @@ function addSongName(element) {
 }
 
 
-/*
+/**
  * Add a new song card to the page
  * @param {string} songName - The name of the song to add
  */
@@ -107,7 +111,7 @@ function initNewSongCard(songId, songName) {
 }
 
 
-/*
+/**
  * Generate song names
  */
 function generateSongNames() {
@@ -115,7 +119,7 @@ function generateSongNames() {
 }
 
 
-/*
+/**
  * Setup the horizontal and vertical resizable elements
  */
 function setupResizeElements() {    
@@ -138,7 +142,7 @@ function setupResizeElements() {
 }
 
 
-/*
+/**
  * Initialize the drag and drop system
  */
 function initDragDropSystem() {
@@ -187,7 +191,7 @@ function initDragDropSystem() {
 }
 
 
-/*
+/**
  * Register a drop zone for the drag and drop system
  * @param {string} zoneId - The ID of the drop zone element
  * @param {DragDropSystem} dragDropSystem - The drag and drop system instance
@@ -200,7 +204,7 @@ function registerZoneForDragDrop(zoneId, dragDropSystem) {
 }
 
 
-/*
+/**
  * Register a card for the drag and drop system
  * @param {HTMLElement} card - The card element to register
  * @param {DragDropSystem} dragDropSystem - The drag and drop system instance
@@ -211,5 +215,14 @@ function registerCardForDragDrop(card, dragDropSystem) {
     const originalZone = card.closest('[data-drop-zone="true"]').dataset.zoneName; // Get initial zone
     dragDropSystem.registerDraggable(card, { songId, songName, originalZone });
 }
+
+
+/**
+ * Initialize the select system
+ */
+function initSelectSystem() {
+}
+
+
 
 
