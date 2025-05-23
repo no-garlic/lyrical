@@ -1,5 +1,5 @@
 
-export function makeHorizontallyResizable(panelToResize, splitter, leftOrUpPanel, isResizingLeftPanel) {
+export function makeHorizontallyResizable(panelToResize, splitter, leftOrUpPanel) {
     let isResizing = false;
 
     splitter.addEventListener('mousedown', (e) => {
@@ -24,12 +24,8 @@ export function makeHorizontallyResizable(panelToResize, splitter, leftOrUpPanel
             const deltaX = moveEvent.clientX - initialMouseX;
             let newPanelWidth, newLeftPanelWidth;
 
-            if (isResizingLeftPanel) { // This case is for when the panel to the *left* of the splitter is the one being directly resized by the splitter
-                newPanelWidth = initialPanelWidth - deltaX;
-            } else {
-                newLeftPanelWidth = initialLeftPanelWidth + deltaX;
-                newPanelWidth = initialPanelWidth - deltaX;
-            }
+            newLeftPanelWidth = initialLeftPanelWidth + deltaX;
+            newPanelWidth = initialPanelWidth - deltaX;
 
             // Basic boundary checks (e.g., min width for panels)
             const minWidth = 50; // Minimum width in pixels
@@ -38,15 +34,10 @@ export function makeHorizontallyResizable(panelToResize, splitter, leftOrUpPanel
                 return; // Don't resize if it makes a panel too small
             }
 
-            if (isResizingLeftPanel) {
-                panelToResize.style.flexBasis = `${newPanelWidth}px`;
-                panelToResize.style.flexGrow = '0'; // Stop it from growing to fill space if others shrink
-            } else {
-                leftOrUpPanel.style.flexBasis = `${newLeftPanelWidth}px`;
-                panelToResize.style.flexBasis = `${newPanelWidth}px`;
-                leftOrUpPanel.style.flexGrow = '0';
-                panelToResize.style.flexGrow = '0';
-            }
+            leftOrUpPanel.style.flexBasis = `${newLeftPanelWidth}px`;
+            panelToResize.style.flexBasis = `${newPanelWidth}px`;
+            leftOrUpPanel.style.flexGrow = '0';
+            panelToResize.style.flexGrow = '0';
         };
 
         const onMouseUp = () => {
