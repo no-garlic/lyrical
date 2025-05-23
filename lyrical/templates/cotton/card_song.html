@@ -1,4 +1,4 @@
-<div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between"
+<div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 h-12 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between"
      data-song-id="{{ song.id }}"
      data-song-name="{{ song.name }}"
      data-song-stage="{{ song.stage }}">
@@ -9,17 +9,19 @@
     </div>
 
      <div class="flex items-center gap-x-[5px] flex-shrink-0">
-        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-edit" {{ attrs }} id="song-edit-{{ song.id }}" data-song-id="{{ song.id }}">
-            Edit
-        </a>
+        <div id="song-hover-{{ song.id }}" class="hidden">
+            <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-edit" {{ attrs }} id="song-edit-{{ song.id }}" data-song-id="{{ song.id }}">
+                Edit
+            </a>
+            <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-delete" {{ attrs }} id="song-delete-{{ song.id }}" data-song-id="{{ song.id }}">
+                Delete
+            </a>
+        </div>    
         <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-save hidden" {{ attrs }} id="song-save-{{ song.id }}" data-song-id="{{ song.id }}">
             Save
         </a>
         <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-cancel hidden" {{ attrs }} id="song-cancel-{{ song.id }}" data-song-id="{{ song.id }}">
             Cancel
-        </a>
-        <a class="btn btn-xs mt-1 mb-2 ml-2 btn-secondary btn-song-delete" {{ attrs }} id="song-delete-{{ song.id }}" data-song-id="{{ song.id }}">
-            Delete
         </a>
     </div>
 </div>

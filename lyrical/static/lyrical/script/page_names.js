@@ -127,11 +127,27 @@ function registerCardForDragDrop(card, dragDropSystem) {
  * Register the song cards' edit and delete buttons
  */
 function registerSongCards() {
+    // Bind the click events for the song edit and delete buttons
     Array.from(document.getElementsByClassName('btn-song-edit')).forEach(element => {
         element.onclick = (event) => { songEditButtonClick(element) };
     });
     Array.from(document.getElementsByClassName('btn-song-delete')).forEach(element => {
         element.onclick = (event) => { songDeleteButtonClick(element) };
+    });
+    
+    // Bind the hover events for the song cards
+    document.querySelectorAll('.song-card').forEach(card => {
+        // Get the song ID from the card
+        const songId = card.dataset.songId;
+
+        // Show the song card hover elements when hovering over the card
+        card.onmouseover = (event) => {
+            showSongCardElements(['hover'], songId);
+        }
+        // Hide the song card hover elements when not hovering over the card
+        card.onmouseout = (event) => {
+            hideSongCardElements(['hover'], songId);
+        }
     });
 }
 
