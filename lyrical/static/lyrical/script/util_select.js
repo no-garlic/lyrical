@@ -10,6 +10,8 @@
  * - allowDeselectOnClick: If true, an element can be deselected by clicking on it again (unless it is the only selected element and allowNoSelection is false). Default is false, 
  * - allowNoSelection: If true, it is possible to have no element selected. Default is false.
  * - autoSelectFirstElement: If true, the first element in the list will be selected as soon as it is added. Default is false.
+ * - canDeselectOnEscape: If true, the selected element can be deselected by pressing the Escape key. Default is true.
+ * - canDeselectOnClickAway: If true, the selected element can be deselected by clicking on no element at all (somewhere else on the page). Default is false.
  * 
  */
 export class SelectSystem {
@@ -95,9 +97,29 @@ export class SelectSystem {
     }
 
 
+    selectElements(elements) {  
+    }
+
+    /*
+     * Deselect an element
+     * @param {HTMLElement}
+     */
+    deselectElement(element) {
+    }
 
 
+    /*
+     * Deselect elements
+     */
+    deselectElements(elements) {
+    }
 
+
+    /*
+     * Deselect all elements
+     */
+    deselectAllElements() {
+    }
 
 
 
