@@ -19,18 +19,19 @@
 
 ## Todo
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
- - Generate Song Names button -> make it work with parameters
- - Message history when calling the LLM for Generate Names
  - Filtering & sorting song names
+ - Refactor other apiXxx javascript files to return a promise
+ - Work out how to show errors and implement that for all current api calls (eg, duplicate song name)
+ - Generate Song Names (basic functionality) and add them to the NEW section
+ - API call and update UI for showing the current LLM details, and changing to a different LLM
+ - API call and update UI for showing LLM parameters (temperature and max tokens)
+ - Generate Song Names with parameters
+ - Generate Song Names with message history when calling the LLM
 
 
 ## Next
- - API call and update UI for showing the current LLM details, and changing to a different LLM
- - API call and update UI for showing LLM parameters (temperature and nax tokens)
  - Refactor js code, tidy up, rename apis, etc
- - Panel Slider is not implemented
  - Save Column Widths
- - Simple filter in LIKED and DISLIKED headers
  - Login Required for all pages
 
 
