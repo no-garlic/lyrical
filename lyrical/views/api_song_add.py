@@ -35,4 +35,4 @@ def api_song_add(request):
     song.save()
 
     print(f"Song with name '{song_name}' created successfully.")    
-    return JsonResponse({"status": "success"}, status=200)
+    return JsonResponse({"status": "success", "song_id": song.id }, status=200)

@@ -1,11 +1,21 @@
-import { initSongCards, initNewSongCard } from './c_card_song.js'
+import { initSongCards, initSongCard } from './c_card_song.js'
 import { apiSongStage } from './api_song_stage.js';
 import { apiSongAdd } from './api_song_add.js';
+import { apiRenderComponent } from './api_render_component.js'; 
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
 
 
+/*
+ * Declare dragDropSystem at the module level
+ */
+let dragDropSystem; 
+
+
+/*
+ * Initialize the page when the DOM is fully loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // Setup the resize elements of the page
     setupResizeElements();
@@ -30,13 +40,17 @@ function addSongName(element) {
         const newSongName = document.getElementById('modal-textinput-text').value;
         console.log(`New song name: ${newSongName}.`)
 
-        if (apiSongAdd(newSongName)) {
-            //window.location.reload();
-            addNewSongCard(newSongName);
-        } else {
-            // TODO: Handle the error
-            console.log('Failed to add the new song name.');
-        }
+        apiSongAdd(newSongName)
+            .then(songId => {
+                // If apiSongAdd resolves, songId should be valid.
+                // If songId were missing or invalid, apiSongAdd should have thrown an error,
+                // which would be caught by the .catch block below.
+                addNewSongCard(songId, newSongName);
+            })
+            .catch(error => {
+                // TODO: Handle the error (e.g., show a user-friendly message)
+                console.log('Failed to add the new song name:', error);
+            });
     }
 
     document.getElementById('modal-textinput-cancel').onclick = (event) => {
@@ -48,6 +62,7 @@ function addSongName(element) {
     // set the dialog params
     document.getElementById('modal-textinput-title').innerHTML = 'Add Song Name';
     document.getElementById('modal-textinput-message').innerHTML = 'Enter the new song name:'
+    document.getElementById('modal-textinput-text').value = ''
     
     // show the dialog and set focus to the input field after 50ms delay
     document.getElementById('modal-textinput').showModal();
@@ -59,30 +74,37 @@ function addSongName(element) {
  * Add a new song card to the page
  * @param {string} songName - The name of the song to add
  */
-function addNewSongCard(songName) {
-    cardContainer = document.getElementById('panel-top-content');
+function addNewSongCard(songId, songName) {
+    apiRenderComponent('card_song', 'panel-top-content', { song: { id: songId, name: songName, stage: 'new' }})
+        .then(html => {
+            // Assuming initNewSongCard needs the songId and songName, 
+            // and potentially the newly added HTML element if it can be identified.
+            // For now, it just calls initNewSongCard with songId and songName as before.
+            initNewSongCard(songId, songName);
+        })
+        .catch(error => {
+            console.error('Failed to render or initialize new song card:', error);
+            // TODO: Implement user-facing error handling here, e.g., show an alert.
+        });
+}
 
-    // Create a new song card
-    const newCard = null;
 
-    // TODO: need to create a new card from the cotton template in card_song.html
+function initNewSongCard(songId, songName) {
+    // Get the new song card
+    const newCard = document.querySelector(`.song-card[data-song-id="${songId}"]`);
 
+    // Check we found the new card
+    if (!newCard) {
+        console.error('Could not find the newly added song card for songId:', songId);
+        return;
+    }
     
-    // Add the new card to the container
-    cardContainer.appendChild(newCard);
-
-    // TODO: Get the drag and drop system, needs to refactor this
-    // to be a global variable or something better than that maybe
-    dragDropSystem = null;
-
+    // Initialize the new song card
+    initSongCard(newCard);
 
     // Register the new song card for drag and drop
     registerCardForDragDrop(newCard, dragDropSystem);
-
-    // Bind the button events for the new card
-    initNewSongCard(newCard, songName);
 }
-
 
 
 /*
@@ -120,8 +142,8 @@ function setupResizeElements() {
  * Initialize the drag and drop system
  */
 function initDragDropSystem() {
-    // Create the drag and drop system
-    const dragDropSystem = new DragDropSystem();
+    // Create the drag and drop system and assign to module-level variable
+    dragDropSystem = new DragDropSystem();
 
     // Initialise it
     dragDropSystem.init({

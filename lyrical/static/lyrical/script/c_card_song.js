@@ -34,18 +34,26 @@ export function initSongCards() {
 /*
  * Initialise a new song card
  */
-export function initNewSongCard(newSongCard) {
+export function initSongCard(songCard) {
     // Get the song ID from the card
-    const songId = newSongCard.dataset.songId;
+    const songId = songCard.dataset.songId;
 
     // Show the song card hover elements when hovering over the card
-    newSongCard.onmouseover = (event) => {
+    songCard.onmouseover = (event) => {
         showSongCardElements(['hover'], songId);
     }
     // Hide the song card hover elements when not hovering over the card
-    newSongCard.onmouseout = (event) => {
+    songCard.onmouseout = (event) => {
         hideSongCardElements(['hover'], songId);
     }
+
+    // Get the edit and delete buttons from the card
+    const btnEdit = document.getElementById(`song-edit-${songId}`);
+    const btnDelete = document.getElementById(`song-delete-${songId}`);
+
+    // Bind the click events for the song edit and delete buttons
+    btnEdit.onclick = (event) => { songEditButtonClick(btnEdit) };
+    btnDelete.onclick = (event) => { songDeleteButtonClick(btnDelete) };
 }
 
 
@@ -87,20 +95,21 @@ function songEditButtonClick(element) {
     showSongCardElements(['input', 'save', 'cancel'], songId);
 
     // set focus to the input control
-    document.getElementById(`song-input-${songId}`).focus();
-    document.getElementById(`song-input-${songId}`).select();
+    const songInput = document.getElementById(`song-input-${songId}`);
+    songInput.focus();
+    songInput.select();
 
-    // event handler for clicking the save button
-    document.getElementById(`song-save-${songId}`).onclick = (event) => {
-
+    // Function to handle saving the song name
+    const saveSongName = () => {
         // get the new song name that was entered
-        const inputField = `song-input-${songId}`;
-        const songName = document.getElementById(inputField).value;
+        const songName = songInput.value;
 
         // call the API to update the song name on the backend
         if (apiSongEdit(songId, songName)) {
             // update the text on the song card
             document.getElementById(`song-text-${songId}`).innerHTML = songName;
+            // Update the data-song-name attribute on the card itself for consistency
+            songInput.closest('.song-card').dataset.songName = songName;
 
             // swap the visible elements of the card back to the default
             hideSongCardElements(['input', 'save', 'cancel'], songId);
@@ -109,7 +118,18 @@ function songEditButtonClick(element) {
             // API call returned and error, do nothing
             console.log('apiSongEdit() returned an error, check the log.')
         }
-    }
+    };
+
+    // event handler for clicking the save button
+    document.getElementById(`song-save-${songId}`).onclick = saveSongName;
+
+    // event handler for pressing Enter in the input field
+    songInput.onkeydown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission if any
+            saveSongName();
+        }
+    };
 
     // event handler for clicking the cancel button
     document.getElementById(`song-cancel-${songId}`).onclick = (event) => {

@@ -14,13 +14,13 @@
  - Rename util_streamhelper to util_stream_helper
  - Save song status when drag-dropping
  - Refactor song-card javascript out of names.js into util_card_song, so it can be reused
+ - Able to create a new song name
+
 
 ## Todo
- - Able to create a song name disabling the edit / delete behavior
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - Generate Song Names button -> make it work with parameters
  - Message history when calling the LLM for Generate Names
-
  - Filtering & sorting song names
 
 
