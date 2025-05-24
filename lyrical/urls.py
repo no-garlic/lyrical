@@ -15,7 +15,6 @@ from .views.api_render_component import *
 from .views.api_song_delete import *
 from .views.api_song_edit import *
 from .views.api_song_add import *
-from .views.api_song_stage import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
@@ -48,7 +47,6 @@ urlpatterns = [
     path("api_song_delete", api_song_delete, name="api_song_delete"),
     path("api_song_edit", api_song_edit, name="api_song_edit"),
     path("api_song_add", api_song_add, name="api_song_add"),
-    path("api_song_stage", api_song_stage, name="api_song_stage"),
 
     # llm calls
     path("api_gen_song", api_gen_song, name="api_gen_song"),

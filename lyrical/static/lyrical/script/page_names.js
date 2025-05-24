@@ -1,4 +1,3 @@
-import { apiSongStage } from './api_song_stage.js';
 import { apiSongAdd } from './api_song_add.js';
 import { apiSongDelete } from './api_song_delete.js';
 import { apiSongEdit } from './api_song_edit.js';
@@ -186,7 +185,7 @@ function initDragDropSystem() {
 
                 // Call the API
                 console.log(`moving song ${songId} to stage ${songStage}.`)
-                apiSongStage(songId, songStage)
+                apiSongEdit(songId, { song_stage: songStage })
                     .then(() => {
                         console.log(`successfully moved song ${songId} to stage ${songStage}.`)
                         updateButtonStylesForSelection(selectSystem.getSelectedElement());
@@ -366,7 +365,7 @@ function editSongName() {
         const newSongName = document.getElementById('modal-textinput-text').value;
         console.log(`New song name: ${newSongName}.`)
 
-        apiSongEdit(songId, newSongName)
+        apiSongEdit(songId, { song_name: newSongName })
             .then(songId => {
                 // update the text on the song card
                 console.log(`Successfully updated song name for songId: ${songId}`);

@@ -18,27 +18,37 @@ def api_song_edit(request):
 
     song_id = edit_data.get("song_id")
     song_name = edit_data.get("song_name")
+    song_stage = edit_data.get("song_stage")
 
     if not song_id:
         print("No song ID provided")
         return JsonResponse({"status": "failure", "error": "Song ID not provided"}, status=400)
 
-    if not song_name:
-        print("No song name provided")
-        return JsonResponse({"status": "failure", "error": "Song name not provided"}, status=400)
+    # Must provide either song_name or song_stage (or both)
+    if not song_name and not song_stage:
+        print("No song name or stage provided")
+        return JsonResponse({"status": "failure", "error": "Song name or stage must be provided"}, status=400)
 
     if not request.user or not request.user.is_authenticated:
         return JsonResponse({"status": "failure", "error": "User not authenticated"}, status=401)
     
-    print(f"Renaming song with ID: {song_id} to '{song_name}'")
-
-    song = models.Song.objects.get(id=song_id)
-    if not song:
-        print(f"Song with ID {song_id} not found.")
+    try:
+        song = models.Song.objects.get(id=song_id, user=request.user)
+    except models.Song.DoesNotExist:
+        print(f"Song with ID {song_id} not found for user {request.user.username}.")
         return JsonResponse({"status": "failure", "error": "Song not found"}, status=404)
 
-    song.name = song_name
+    # Update fields based on what was provided
+    updates = []
+    if song_name:
+        song.name = song_name
+        updates.append(f"name to '{song_name}'")
+    
+    if song_stage:
+        song.stage = song_stage
+        updates.append(f"stage to '{song_stage}'")
+    
     song.save()
-    print(f"Song with ID {song_id} renamed to '{song_name}'.")
+    print(f"Song with ID {song_id} updated: {', '.join(updates)}.")
 
     return JsonResponse({"status": "success", "song_id": song.id}, status=200)
