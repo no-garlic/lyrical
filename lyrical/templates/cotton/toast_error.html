@@ -1,0 +1,20 @@
+<div class="toast toast-top toast-end z-50 pointer-events-none">
+    <div class="alert alert-error min-w-[400px] w-max max-w-lg relative shadow-lg pointer-events-auto">
+        <!-- Close button -->
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">
+            ✕
+        </button>
+        
+        <!-- Header with icon and title -->
+        <div class="flex items-center absolute left-4 top-2">
+            <h3 class="font-bold text-lg">Error</h3>
+        </div>
+        
+        <!-- Error content -->
+        <div class="flex flex-col flex-1 pt-8">
+            <div class="text-sm whitespace-wrap break-words">
+                {{ slot }}
+            </div>
+        </div>
+    </div>
+</div>
