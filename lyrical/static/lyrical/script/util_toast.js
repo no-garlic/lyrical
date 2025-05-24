@@ -62,6 +62,13 @@ function closeToast(toastId) {
     const toastElement = document.getElementById(toastId);
     if (!toastElement) return;
     
+    // Get the height of the toast being removed (including margin)
+    const toastHeight = toastElement.offsetHeight + parseInt(getComputedStyle(toastElement).marginBottom);
+    
+    // Get all toasts and find the index of the one being removed
+    const allToasts = Array.from(toastContainer.querySelectorAll('.alert'));
+    const removedIndex = allToasts.indexOf(toastElement);
+    
     // Fade out animation
     toastElement.classList.remove('opacity-100');
     toastElement.classList.add('opacity-0', 'transform', 'scale-95');
@@ -71,19 +78,34 @@ function closeToast(toastId) {
         if (toastElement.parentNode) {
             toastElement.parentNode.removeChild(toastElement);
         }
-        // Animate remaining toasts up
-        animateToastsUp();
+        // Animate remaining toasts up (only those that were below the removed toast)
+        animateToastsUp(toastHeight, removedIndex);
     }, 300);
 }
 
 // Animate remaining toasts to fill gaps
-function animateToastsUp() {
-    const toasts = toastContainer.querySelectorAll('.alert');
-    toasts.forEach((toast, index) => {
-        // Add a smooth transition for repositioning
-        toast.style.transition = 'transform 0.3s ease-in-out';
-        toast.style.transform = 'translateY(0)';
+function animateToastsUp(removedHeight, removedIndex) {
+    const toasts = Array.from(toastContainer.querySelectorAll('.alert'));
+    
+    // Only animate toasts that were originally below the removed toast
+    const toastsToAnimate = toasts.slice(removedIndex); // All toasts from the removed index onward
+    
+    // First, temporarily move only the affected toasts down by the height of the removed toast
+    toastsToAnimate.forEach((toast) => {
+        toast.style.transition = 'none'; // Disable transition for immediate positioning
+        toast.style.transform = `translateY(${removedHeight}px)`;
     });
+    
+    // Force a reflow to ensure the immediate positioning takes effect
+    toastContainer.offsetHeight;
+    
+    // Then animate them back to their natural positions
+    setTimeout(() => {
+        toastsToAnimate.forEach((toast) => {
+            toast.style.transition = 'transform 0.2s ease-in-out';
+            toast.style.transform = 'translateY(0)';
+        });
+    }, 10);
 }
 
 // Utility function to escape HTML
