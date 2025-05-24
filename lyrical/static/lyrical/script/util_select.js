@@ -80,6 +80,7 @@ export class SelectSystem {
 
         this.selectableElements = new Set();
         this.selectedElements = new Set();
+        this.clickAwayElements = new Set();
 
         // Bind methods that will be used as event handlers to ensure 'this' context
         this._handleElementClick = this._handleElementClick.bind(this);
@@ -188,6 +189,45 @@ export class SelectSystem {
         }
         return true;
     }
+
+
+    /**
+     * Adds an element to the list of click away elements.
+     * When canDeselectOnClickAway is true and clickAwayElements are registered,
+     * clicking on these specific elements will trigger deselection instead of
+     * clicking anywhere on the page.
+     * @param {HTMLElement} element The element to add as a click away trigger.
+     * @returns {boolean} True if the element was successfully added, false otherwise.
+     */
+    addClickAwayElement(element) {
+        if (!(element instanceof HTMLElement)) {
+            console.error("SelectSystem: Click away element must be an HTMLElement.", element);
+            return false;
+        }
+        if (this.clickAwayElements.has(element)) {
+            return false; // Already added
+        }
+        this.clickAwayElements.add(element);
+        return true;
+    }
+
+    /**
+     * Removes an element from the list of click away elements.
+     * @param {HTMLElement} element The element to remove from click away triggers.
+     * @returns {boolean} True if the element was successfully removed, false otherwise.
+     */
+    removeClickAwayElement(element) {
+        if (!(element instanceof HTMLElement)) {
+            console.error("SelectSystem: Click away element must be an HTMLElement.", element);
+            return false;
+        }
+        if (!this.clickAwayElements.has(element)) {
+            return false; // Not found
+        }
+        this.clickAwayElements.delete(element);
+        return true;
+    }
+    
 
     /**
      * Selects the given element.
@@ -412,6 +452,7 @@ export class SelectSystem {
         // Clear internal sets
         this.selectableElements.clear();
         this.selectedElements.clear();
+        this.clickAwayElements.clear();
 
         // Optionally reset callbacks and config to initial state or nullify
         this.callbacks = {}; // Or reset to default placeholders
@@ -472,7 +513,24 @@ export class SelectSystem {
         }
 
         if (!clickedOnSelectableOrChild) {
-            // Clicked away from any selectable element
+            // If we have specific click away elements registered, only deselect when clicking those
+            if (this.clickAwayElements.size > 0) {
+                let clickedOnClickAwayElement = false;
+                target = event.target;
+                while (target && target !== document.body) {
+                    if (this.clickAwayElements.has(target)) {
+                        clickedOnClickAwayElement = true;
+                        break;
+                    }
+                    target = target.parentElement;
+                }
+                
+                if (!clickedOnClickAwayElement) {
+                    return; // Don't deselect unless clicked on a registered click away element
+                }
+            }
+            
+            // Clicked away from any selectable element (and on a click away element if specified)
             // Attempt to deselect all, respecting allowNoSelection rules.
             if (!this.config.allowNoSelection && !this.config.allowMultiSelect && this.selectedElements.size === 1) {
                 // Do not deselect the last item in single-select mode if no selection is disallowed.

@@ -211,24 +211,6 @@ function initDragDropSystem() {
     document.querySelectorAll('.song-card').forEach(card => {
         registerCardForDragDrop(card, dragDropSystem);
     });
-
-    // Register Drop Zones (Containers)
-    registerZoneForDragDrop('liked-songs-container', dragDropSystem);
-    registerZoneForDragDrop('new-songs-container', dragDropSystem);
-    registerZoneForDragDrop('disliked-songs-container', dragDropSystem);
-}
-
-
-/**
- * Register a drop zone for the drag and drop system.
- * @param {string} zoneId - The ID of the drop zone element.
- * @param {DragDropSystem} dragDropSystem - The drag and drop system instance.
- */
-function registerZoneForDragDrop(zoneId, dragDropSystem) {
-    const container = document.getElementById(zoneId);
-    if (container) dragDropSystem.registerDropZone(container, { 
-        name: container.dataset.zoneName 
-    });
 }
 
 
@@ -309,6 +291,11 @@ function initSelectSystem() {
     document.querySelectorAll('.song-card').forEach(card => {
         selectSystem.addElement(card);
     });
+
+    // Register click away elements
+    selectSystem.addClickAwayElement(document.getElementById('liked-songs-container'));
+    selectSystem.addClickAwayElement(document.getElementById('disliked-songs-container'));
+    selectSystem.addClickAwayElement(document.getElementById('panel-top-content'));
 }
 
 
