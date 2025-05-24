@@ -26,36 +26,31 @@ export class ToastSystem {
         this.toastCounter++;
         const toastId = `toast-${this.toastCounter}`;
         
-        // Create the toast element
-        const toastElement = document.createElement('div');
-        toastElement.id = toastId;
-        toastElement.className = 'alert alert-error w-[400px] relative shadow-lg pointer-events-auto mb-2 opacity-0 transform translate-x-full transition-all duration-300 ease-in-out';
+        // Get the toast template
+        const template = document.getElementById('toast-template');
+        if (!template) {
+            console.error('Toast template not found');
+            return null;
+        }
         
-        toastElement.innerHTML = `
-            <!-- Close button -->
-            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">
-                ✕
-            </button>
-            
-            <!-- Header with icon and title -->
-            <div class="flex items-center absolute left-4 top-2">
-                <h3 class="font-bold text-lg">Error</h3>
-            </div>
-            
-            <!-- Error content -->
-            <div class="flex flex-col flex-1 pt-8">
-                <div class="text-sm whitespace-wrap break-words">
-                    ${this.escapeHtml(message)}
-                </div>
-            </div>
-        `;
+        // Clone the template content
+        const toastElement = template.content.firstElementChild.cloneNode(true);
+        toastElement.id = toastId;
+        
+        // Customize the cloned element
+        const messageElement = toastElement.querySelector('.toast-message');
+        if (messageElement) {
+            messageElement.textContent = message;
+        }
         
         // Add to container
         this.toastContainer.appendChild(toastElement);
         
         // Bind the close button click event
-        const closeButton = toastElement.querySelector('.btn-circle');
-        closeButton.addEventListener('click', () => this.closeToast(toastId));
+        const closeButton = toastElement.querySelector('.toast-close-btn');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => this.closeToast(toastId));
+        }
         
         // Trigger animation to slide in
         setTimeout(() => {
@@ -113,11 +108,5 @@ export class ToastSystem {
                 toast.style.transform = 'translateY(0)';
             });
         }, 10);
-    }
-
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
     }
 }
