@@ -105,19 +105,21 @@ function songEditButtonClick(element) {
         const songName = songInput.value;
 
         // call the API to update the song name on the backend
-        if (apiSongEdit(songId, songName)) {
-            // update the text on the song card
-            document.getElementById(`song-text-${songId}`).innerHTML = songName;
-            // Update the data-song-name attribute on the card itself for consistency
-            songInput.closest('.song-card').dataset.songName = songName;
+        apiSongEdit(songId, songName)
+            .then(() => {
+                // update the text on the song card
+                document.getElementById(`song-text-${songId}`).innerHTML = songName;
+                // Update the data-song-name attribute on the card itself for consistency
+                songInput.closest('.song-card').dataset.songName = songName;
 
-            // swap the visible elements of the card back to the default
-            hideSongCardElements(['input', 'save', 'cancel'], songId);
-            showSongCardElements(['text', 'edit', 'delete'], songId);
-        } else {
-            // API call returned and error, do nothing
-            console.log('apiSongEdit() returned an error, check the log.')
-        }
+                // swap the visible elements of the card back to the default
+                hideSongCardElements(['input', 'save', 'cancel'], songId);
+                showSongCardElements(['text', 'edit', 'delete'], songId);
+            })
+            .catch(error => {
+                console.error('Failed to edit song:', error);
+                // TODO: Add visual error display to user
+            });
     };
 
     // event handler for clicking the save button
@@ -147,11 +149,16 @@ function songEditButtonClick(element) {
  */
 function songDeleteButtonClick(element) {
     document.getElementById('modal-delete-yes').onclick = (event) => {
-        if (apiSongDelete(element.dataset.songId)) {
-            const card = element.parentElement.parentElement.parentElement;
-            const container = card.parentElement;
-            container.removeChild(card);
-        }
+        apiSongDelete(element.dataset.songId)
+            .then(() => {
+                const card = element.parentElement.parentElement.parentElement;
+                const container = card.parentElement;
+                container.removeChild(card);
+            })
+            .catch(error => {
+                console.error('Failed to delete song:', error);
+                // TODO: Add visual error display to user
+            });
     }
     const card = element.parentElement.parentElement;
     document.getElementById('modal-delete-message').innerHTML = `Are you sure you want to delete the song: '${card.dataset.songName}'?`;

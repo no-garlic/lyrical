@@ -193,9 +193,14 @@ function initDragDropSystem() {
 
                 // Call the API
                 console.log(`moving song ${songId} to stage ${songStage}.`)
-                if (!apiSongStage(songId, songStage)) {
-                    console.log(`failed to move song ${songId} to stage ${songStage}.`)
-                }
+                apiSongStage(songId, songStage)
+                    .then(() => {
+                        console.log(`successfully moved song ${songId} to stage ${songStage}.`)
+                    })
+                    .catch(error => {
+                        console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
+                        // TODO: Add visual error display to user
+                    });
             }
         },
         canDrop: (item, zone, event) => {
@@ -373,19 +378,21 @@ function editSongName() {
         const songName = songInput.value;
 
         // call the API to update the song name on the backend
-        if (apiSongEdit(songId, songName)) {
-            // update the text on the song card
-            document.getElementById(`song-text-${songId}`).innerHTML = songName;
-            // Update the data-song-name attribute on the card itself for consistency
-            songInput.closest('.song-card').dataset.songName = songName;
+        apiSongEdit(songId, songName)
+            .then(() => {
+                // update the text on the song card
+                document.getElementById(`song-text-${songId}`).innerHTML = songName;
+                // Update the data-song-name attribute on the card itself for consistency
+                songInput.closest('.song-card').dataset.songName = songName;
 
-            // swap the visible elements of the card back to the default
-            hideSongCardElements(['input', 'save', 'cancel'], songId);
-            showSongCardElements(['text', 'edit', 'delete'], songId);
-        } else {
-            // API call returned and error, do nothing
-            console.log('apiSongEdit() returned an error, check the log.')
-        }
+                // swap the visible elements of the card back to the default
+                hideSongCardElements(['input', 'save', 'cancel'], songId);
+                showSongCardElements(['text', 'edit', 'delete'], songId);
+            })
+            .catch(error => {
+                console.error('Failed to edit song:', error);
+                // TODO: Add visual error display to user
+            });
     };
 
     // event handler for clicking the save button
@@ -429,10 +436,15 @@ function deleteSongName() {
 
     // set the event handler for the delete confirmation dialog
     document.getElementById('modal-delete-yes').onclick = (event) => {
-        if (apiSongDelete(songId)) {
-            const container = card.parentElement;
-            container.removeChild(card);
-        }
+        apiSongDelete(songId)
+            .then(() => {
+                const container = card.parentElement;
+                container.removeChild(card);
+            })
+            .catch(error => {
+                console.error('Failed to delete song:', error);
+                // TODO: Add visual error display to user
+            });
     }
 
     // show the delete confirmation dialog
