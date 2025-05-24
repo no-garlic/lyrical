@@ -66,8 +66,8 @@ function addSongName(event) {
                 addNewSongCard(songId, newSongName);
             })
             .catch(error => {
-                // TODO: Handle the error (e.g., show a user-friendly message)
-                console.log('Failed to add the new song name:', error);
+                console.error('Failed to add the new song name:', error);
+                showErrorToast('Failed to add the song. Please try again.');
             });
     }
 
@@ -103,7 +103,7 @@ function addNewSongCard(songId, songName) {
         })
         .catch(error => {
             console.error('Failed to render or initialize new song card:', error);
-            // TODO: Implement user-facing error handling here, e.g., show an alert.
+            showErrorToast('Failed to display the new song. Please refresh the page.');
         });
 }
 
@@ -193,7 +193,7 @@ function initDragDropSystem() {
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
-                        // TODO: Add visual error display to user
+                        showErrorToast('Failed to move the song. Please try again.');
                     });
             }
         },
@@ -374,8 +374,8 @@ function editSongName() {
                 card.dataset.songName = newSongName;
             })
             .catch(error => {
-                // TODO: Handle the error (e.g., show a user-friendly message)
-                console.log('Failed to add the new song name:', error);
+                console.error('Failed to edit the song name:', error);
+                showErrorToast('Failed to update the song name. Please try again.');
             });
     }
 
@@ -433,7 +433,7 @@ function deleteSongName() {
             })
             .catch(error => {
                 console.error('Failed to delete song:', error);
-                // TODO: Add visual error display to user
+                showErrorToast('Failed to delete the song. Please try again.');
             });
     }
 

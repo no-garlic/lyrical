@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=255)),
+                ("name", models.CharField(max_length=255, unique=True)),
                 ("theme", models.TextField(default="")),
                 ("structure", models.TextField(default="")),
                 (

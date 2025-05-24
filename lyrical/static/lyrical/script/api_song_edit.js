@@ -35,7 +35,7 @@ export function apiSongEdit(songId, songName) {
     })
     .catch(error => {
         console.error('Error editing song:', error);
-        // TODO: Add visual error display to user
+        // Error will be caught and displayed by caller using toast
         throw error; // Re-throw the error to be caught by the caller
     });
 }

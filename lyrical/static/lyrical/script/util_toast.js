@@ -119,6 +119,7 @@ function escapeHtml(text) {
 window.showErrorToast = showErrorToast;
 window.closeToast = closeToast;
 
+/*
 // ===============================
 // TEST CODE - DELETE AFTER TESTING
 // ===============================
@@ -154,3 +155,4 @@ if (document.readyState === 'loading') {
 // ===============================
 // END TEST CODE
 // ===============================
+*/

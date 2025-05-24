@@ -35,7 +35,7 @@ export function apiSongStage(songId, songStage) {
     })
     .catch(error => {
         console.error('Error updating song stage:', error);
-        // TODO: Add visual error display to user
+        // Error will be caught and displayed by caller using toast
         throw error; // Re-throw the error to be caught by the caller
     });
 }
