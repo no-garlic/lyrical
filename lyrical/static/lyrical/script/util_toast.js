@@ -21,6 +21,40 @@ export class ToastSystem {
     }
 
     showError(message) {
+        return this._showToast('error', 'Error', message);
+    }
+
+    /**
+     * Show an info toast
+     * @param {string} message - The info message to display
+     */
+    showInfo(message) {
+        return this._showToast('info', 'Info', message);
+    }
+
+    /**
+     * Show a warning toast
+     * @param {string} message - The warning message to display
+     */
+    showWarning(message) {
+        return this._showToast('warning', 'Warning', message);
+    }
+
+    /**
+     * Show a success toast
+     * @param {string} message - The success message to display
+     */
+    showSuccess(message) {
+        return this._showToast('success', 'Success', message);
+    }
+
+    /**
+     * Internal method to show a toast of any type
+     * @param {string} type - The toast type (error, info, warning, success)
+     * @param {string} title - The toast title
+     * @param {string} message - The toast message
+     */
+    _showToast(type, title, message) {
         this.initToastContainer();
         
         this.toastCounter++;
@@ -37,8 +71,16 @@ export class ToastSystem {
         const toastElement = template.content.firstElementChild.cloneNode(true);
         toastElement.id = toastId;
         
-        // Customize the cloned element
+        // Remove default alert-error class and add type-specific alert class
+        toastElement.classList.remove('alert-error');
+        toastElement.classList.add(`alert-${type}`);
+        
+        // Set title and message using textContent for XSS safety
+        const titleElement = toastElement.querySelector('.toast-title');
         const messageElement = toastElement.querySelector('.toast-message');
+        if (titleElement) {
+            titleElement.textContent = title;
+        }
         if (messageElement) {
             messageElement.textContent = message;
         }
@@ -57,6 +99,11 @@ export class ToastSystem {
             toastElement.classList.remove('opacity-0', 'translate-x-full');
             toastElement.classList.add('opacity-100', 'translate-x-0');
         }, 50);
+        
+        // Auto-hide after 10 seconds
+        setTimeout(() => {
+            this.closeToast(toastId);
+        }, 10000);
         
         return toastId;
     }
