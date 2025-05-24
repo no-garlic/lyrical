@@ -5161,6 +5161,9 @@
   .block {
     display: block;
   }
+  .contents {
+    display: contents;
+  }
   .divider-end {
     &:after {
       display: none;

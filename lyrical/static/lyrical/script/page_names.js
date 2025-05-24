@@ -6,6 +6,7 @@ import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
 import { SelectSystem } from './util_select.js';
+import { ToastSystem } from './util_toast.js';
 
 
 /**
@@ -21,11 +22,20 @@ let selectSystem;
 
 
 /**
+ * Declare the toast system at the module level
+ */
+let toastSystem;
+
+
+/**
  * Initialize the page when the DOM is fully loaded
  */
 document.addEventListener('DOMContentLoaded', () => {
     // Setup the resize elements of the page
     setupResizeElements();
+
+    // Initialize the toast system
+    initToastSystem();
 
     // Bind the generate song names and add song buttons
     document.getElementById('btn-generate-song-names').onclick = generateSongNames;
@@ -47,6 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function initToastSystem() {
+    // Create the toast system and assign to module-level variable
+    toastSystem = new ToastSystem();
+
+    // Initialize the toast system
+    toastSystem.init();
+}
+
+
 /**
  * Add a new song name.
  * This function is typically called as an event handler for a button click.
@@ -66,7 +85,7 @@ function addSongName(event) {
             })
             .catch(error => {
                 console.error('Failed to add the new song name:', error);
-                showErrorToast('Failed to add the song. Please try again.');
+                toastSystem.showError('Failed to add the song. Please try again.');
             });
     }
 
@@ -102,7 +121,7 @@ function addNewSongCard(songId, songName) {
         })
         .catch(error => {
             console.error('Failed to render or initialize new song card:', error);
-            showErrorToast('Failed to display the new song. Please refresh the page.');
+            toastSystem.showError('Failed to display the new song. Please refresh the page.');
         });
 }
 
@@ -192,7 +211,7 @@ function initDragDropSystem() {
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
-                        showErrorToast('Failed to move the song. Please try again.');
+                        toastSystem.showError('Failed to move the song. Please try again.');
                     });
             }
         },
@@ -374,7 +393,7 @@ function editSongName() {
             })
             .catch(error => {
                 console.error('Failed to edit the song name:', error);
-                showErrorToast('Failed to update the song name. Please try again.');
+                toastSystem.showError('Failed to update the song name. Please try again.');
             });
     }
 
@@ -432,7 +451,7 @@ function deleteSongName() {
             })
             .catch(error => {
                 console.error('Failed to delete song:', error);
-                showErrorToast('Failed to delete the song. Please try again.');
+                toastSystem.showError('Failed to delete the song. Please try again.');
             });
     }
 
