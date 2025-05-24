@@ -5,16 +5,19 @@
 {% endblock %}
 
 
+<!-- LIKED SONG NAMES -->
 {% block panel_1 %}
-
-
-
     <c-panel>
                 
         <!-- Panel Header -->
         <c-panel-header title="LIKED">
+            <c-panel-header-button id="btn-liked-edit-song-name">
+                EDIT
+            </c-panel-header-button>
+            <c-panel-header-button id="btn-liked-delete-song-name">
+                DELETE
+            </c-panel-header-button>
         </c-panel-header>
-
          
         <!-- Panel Container -->
          <c-panel-container id="liked-songs-container" data-drop-zone="true" data-zone-name="liked">
@@ -26,14 +29,19 @@
     </c-panel>
 {% endblock %}
 
+
+<!-- NEW SONG NAMES -->
 {% block panel_2 %}
         <c-panel>
                 
         <!-- Panel Header -->
-        <c-panel-header title="NEW">
-            <c-panel-header-button id="btn-add-song-name">
-                Add
+        <c-panel-header title="NEW"> 
+            <c-panel-header-button id="btn-new-edit-song-name">
+                EDIT
             </c-panel-header-button>
+            <c-panel-header-button id="btn-new-delete-song-name">
+                DELETE
+            </c-panel-header-button>            
         </c-panel-header>
 
 
@@ -47,8 +55,11 @@
 
         <!-- Panel Slider -->
          <c-panel-slider id="panel-vertical-splitter" title="GENERATE NAMES">
+            <c-panel-header-button id="btn-add-song-name">
+                ADD
+            </c-panel-header-button>
             <c-panel-header-button id="btn-generate-song-names">
-                Generate
+                GENERATE
             </c-panel-header-button>
          </c-panel-slider>
 
@@ -61,11 +72,18 @@
     </c-panel>
 {% endblock %}
 
+<!-- DISLIKED SONG NAMES -->
 {% block panel_3 %}
         <c-panel>
                 
         <!-- Panel Header -->
         <c-panel-header title="DISLIKED">
+            <c-panel-header-button id="btn-disliked-edit-song-name">
+                EDIT
+            </c-panel-header-button>
+            <c-panel-header-button id="btn-disliked-delete-song-name">
+                DELETE
+            </c-panel-header-button>
         </c-panel-header>
 
          
@@ -78,6 +96,7 @@
 
     </c-panel>
 {% endblock %}
+
 
 {% block scripts %}
     <script type="module" src="{% static 'lyrical/script/page_names.js' %}"></script>

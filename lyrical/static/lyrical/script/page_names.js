@@ -241,8 +241,9 @@ function registerCardForDragDrop(card, dragDropSystem) {
  * @param {SelectSystem} selectSystem - The select system instance.
  */
 function registerCardForSelect(card, selectSystem) {
-    if (selectSystem && newCard) {
-        selectSystem.addElement(newCard);
+    if (selectSystem && card) {
+        selectSystem.addElement(card);
+        selectSystem.selectElement(card);
     }
 }
 
@@ -274,6 +275,8 @@ function initSelectSystem() {
             onElementSelected: (element, allSelectedElements) => {
                 element.classList.add(...selectionStyleToAdd);
                 element.classList.remove(...selectionStyleToRemove);
+
+                updateButtonStylesForSelection(element);
             },
             onElementDeselected: (element, allSelectedElements) => {
                 element.classList.add(...selectionStyleToRemove);
@@ -288,6 +291,35 @@ function initSelectSystem() {
     });
 }
 
+
+/**
+ * Update the button styles based on the selected song card.
+ * @param {HTMLElement} selectedElement - the selected song card element
+ */
+function updateButtonStylesForSelection(selectedElement) {
+    // Get the parent container of the selected element
+    const parentContainer = selectedElement.parentElement;
+
+    const associatedButtons = [
+        {'liked-songs-container': ['liked', 'disliked', 'new']},
+        {'disliked-songs-container': ['disliked', 'liked', 'new']},
+        {'panel-top-content': ['new', 'liked', 'disliked']}
+      ];
+
+      associatedButtons.forEach(button => {
+        const containerId = Object.keys(button)[0];
+        const buttonTypes = button[containerId];
+
+        if (parentContainer.id === containerId) {        
+            document.getElementById(`btn-${buttonTypes[0]}-edit-song-name`).classList.remove('btn-disabled');
+            document.getElementById(`btn-${buttonTypes[0]}-delete-song-name`).classList.remove('btn-disabled');
+            document.getElementById(`btn-${buttonTypes[1]}-edit-song-name`).classList.add('btn-disabled');
+            document.getElementById(`btn-${buttonTypes[1]}-delete-song-name`).classList.add('btn-disabled');
+            document.getElementById(`btn-${buttonTypes[2]}-edit-song-name`).classList.add('btn-disabled');
+            document.getElementById(`btn-${buttonTypes[2]}-delete-song-name`).classList.add('btn-disabled');
+        }
+    });
+}
 
 
 
