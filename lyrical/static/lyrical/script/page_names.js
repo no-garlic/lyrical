@@ -13,6 +13,11 @@ import { SelectSystem } from './util_select.js';
  */
 let dragDropSystem; 
 
+/**
+ * Declare selectSystem at the module level
+ */
+let selectSystem;
+
 
 /**
  * Initialize the page when the DOM is fully loaded
@@ -37,9 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /**
- * Add a new song name
+ * Add a new song name.
+ * This function is typically called as an event handler for a button click.
+ * @param {Event} event - The click event that triggered the function.
  */
-function addSongName(element) {
+function addSongName(event) {
     document.getElementById('modal-textinput-ok').onclick = (event) => {
         const newSongName = document.getElementById('modal-textinput-text').value;
         console.log(`New song name: ${newSongName}.`)
@@ -75,8 +82,9 @@ function addSongName(element) {
 
 
 /**
- * Add a new song card to the page
- * @param {string} songName - The name of the song to add
+ * Add a new song card to the page by rendering it and then initializing it.
+ * @param {string} songId - The ID of the song to add.
+ * @param {string} songName - The name of the song to add.
  */
 function addNewSongCard(songId, songName) {
     apiRenderComponent('card_song', 'panel-top-content', { song: { id: songId, name: songName, stage: 'new' }})
@@ -93,6 +101,12 @@ function addNewSongCard(songId, songName) {
 }
 
 
+/**
+ * Initializes a newly added song card.
+ * This includes setting up its interactions like drag-and-drop and selection.
+ * @param {string} songId - The ID of the new song card.
+ * @param {string} songName - The name of the new song.
+ */
 function initNewSongCard(songId, songName) {
     // Get the new song card
     const newCard = document.querySelector(`.song-card[data-song-id="${songId}"]`);
@@ -108,11 +122,14 @@ function initNewSongCard(songId, songName) {
 
     // Register the new song card for drag and drop
     registerCardForDragDrop(newCard, dragDropSystem);
+
+    // Register the new song card for selection
+    registerCardForSelect(newCard, selectSystem);
 }
 
 
 /**
- * Generate song names
+ * Generate song names (placeholder function).
  */
 function generateSongNames() {
     alert("Generate Song Names")
@@ -120,7 +137,7 @@ function generateSongNames() {
 
 
 /**
- * Setup the horizontal and vertical resizable elements
+ * Setup the horizontal and vertical resizable elements on the page.
  */
 function setupResizeElements() {    
     // Make the panel header resizable
@@ -143,7 +160,8 @@ function setupResizeElements() {
 
 
 /**
- * Initialize the drag and drop system
+ * Initialize the drag and drop system.
+ * Sets up callbacks for drag events and registers draggable items and drop zones.
  */
 function initDragDropSystem() {
     // Create the drag and drop system and assign to module-level variable
@@ -192,9 +210,9 @@ function initDragDropSystem() {
 
 
 /**
- * Register a drop zone for the drag and drop system
- * @param {string} zoneId - The ID of the drop zone element
- * @param {DragDropSystem} dragDropSystem - The drag and drop system instance
+ * Register a drop zone for the drag and drop system.
+ * @param {string} zoneId - The ID of the drop zone element.
+ * @param {DragDropSystem} dragDropSystem - The drag and drop system instance.
  */
 function registerZoneForDragDrop(zoneId, dragDropSystem) {
     const container = document.getElementById(zoneId);
@@ -205,9 +223,9 @@ function registerZoneForDragDrop(zoneId, dragDropSystem) {
 
 
 /**
- * Register a card for the drag and drop system
- * @param {HTMLElement} card - The card element to register
- * @param {DragDropSystem} dragDropSystem - The drag and drop system instance
+ * Register a card for the drag and drop system.
+ * @param {HTMLElement} card - The card element to register.
+ * @param {DragDropSystem} dragDropSystem - The drag and drop system instance.
  */
 function registerCardForDragDrop(card, dragDropSystem) {
     const songId = card.dataset.songId;
@@ -218,9 +236,56 @@ function registerCardForDragDrop(card, dragDropSystem) {
 
 
 /**
- * Initialize the select system
+ * Register a card for the select system.
+ * @param {HTMLElement} card - The card element to register.
+ * @param {SelectSystem} selectSystem - The select system instance.
+ */
+function registerCardForSelect(card, selectSystem) {
+    if (selectSystem && newCard) {
+        selectSystem.addElement(newCard);
+    }
+}
+
+
+/**
+ * Initialize the select system.
+ * Sets up configuration and callbacks for selecting song cards.
  */
 function initSelectSystem() {
+    // Set the selection style for the song cards
+    const selectionStyleToAdd = ['border-2', 'border-primary']; // ['outline-4', 'outline-offset-0', 'outline-primary'];
+    const selectionStyleToRemove = ['border-base-300'];
+
+    // Create the select system and assign to module-level variable
+    selectSystem = new SelectSystem();
+
+    // Initialise the select system
+    selectSystem.init(
+        {
+            allowMultiSelect: false,
+            allowSelectOnClick: true,
+            allowDeselectOnClick: false,
+            allowNoSelection: false,
+            autoSelectFirstElement: true,
+            canDeselectOnEscape: false,
+            canDeselectOnClickAway: false
+        },
+        {
+            onElementSelected: (element, allSelectedElements) => {
+                element.classList.add(...selectionStyleToAdd);
+                element.classList.remove(...selectionStyleToRemove);
+            },
+            onElementDeselected: (element, allSelectedElements) => {
+                element.classList.add(...selectionStyleToRemove);
+                element.classList.remove(...selectionStyleToAdd);
+            }
+        }
+    );
+
+    // Register existing song cards with the select system
+    document.querySelectorAll('.song-card').forEach(card => {
+        selectSystem.addElement(card);
+    });
 }
 
 

@@ -2,6 +2,20 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Git Difftool (Araxis)",
+      "type": "shell",
+      "command": "git difftool",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Git Mergetool (Araxis)",
+      "type": "shell",
+      "command": "git mergetool",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
       "label": "css",
       "type": "shell",
       "command": "./tailwind.sh",
