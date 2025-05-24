@@ -450,6 +450,7 @@ function deleteSongName() {
                 container.removeChild(card);
             })
             .catch(error => {
+                // handle the error if the API call fails
                 console.error('Failed to delete song:', error);
                 toastSystem.showError('Failed to delete the song. Please try again.');
             });
