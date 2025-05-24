@@ -361,7 +361,7 @@ function editSongName() {
 
     // show a new dialog with the current song name
     return;
-    
+
     // set focus to the input control
     const songInput = document.getElementById(`song-input-${songId}`);
     songInput.focus();
@@ -442,6 +442,8 @@ function deleteSongName() {
     // TODO: Remove from the drag and drop system
 
     // TODO: Remove from the select system
+
+    // TODO: Make sure a new song card is selected, otherwise disable all edit and delete buttons
 
 }
 
