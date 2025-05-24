@@ -41,4 +41,4 @@ def api_song_stage(request):
     song.save()
     print(f"Song with ID {song_id} moved to stage '{song_stage}'.")
 
-    return JsonResponse({"status": "success"}, status=200)
+    return JsonResponse({"status": "success", "song_id": song.id}, status=200)

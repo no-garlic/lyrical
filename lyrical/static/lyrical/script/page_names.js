@@ -1,4 +1,3 @@
-import { initSongCards, initSongCard } from './c_card_song.js'
 import { apiSongStage } from './api_song_stage.js';
 import { apiSongAdd } from './api_song_add.js';
 import { apiSongDelete } from './api_song_delete.js';
@@ -40,9 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-disliked-delete-song-name').onclick = deleteSongName;
     document.getElementById('btn-new-edit-song-name').onclick = editSongName;
     document.getElementById('btn-new-delete-song-name').onclick = deleteSongName;
-
-    // Register the song cards
-    initSongCards();
 
     // Initialize Drag and Drop
     initDragDropSystem();
@@ -128,9 +124,6 @@ function initNewSongCard(songId, songName) {
         return;
     }
     
-    // Initialize the new song card
-    initSongCard(newCard);
-
     // Register the new song card for drag and drop
     registerCardForDragDrop(newCard, dragDropSystem);
 
@@ -196,6 +189,7 @@ function initDragDropSystem() {
                 apiSongStage(songId, songStage)
                     .then(() => {
                         console.log(`successfully moved song ${songId} to stage ${songStage}.`)
+                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
@@ -281,11 +275,11 @@ function initSelectSystem() {
         {
             allowMultiSelect: false,
             allowSelectOnClick: true,
-            allowDeselectOnClick: false,
-            allowNoSelection: false,
-            autoSelectFirstElement: true,
-            canDeselectOnEscape: false,
-            canDeselectOnClickAway: false
+            allowDeselectOnClick: true,
+            allowNoSelection: true,
+            autoSelectFirstElement: false,
+            canDeselectOnEscape: true,
+            canDeselectOnClickAway: true
         },
         {
             onElementSelected: (element, allSelectedElements) => {
@@ -297,9 +291,19 @@ function initSelectSystem() {
             onElementDeselected: (element, allSelectedElements) => {
                 element.classList.add(...selectionStyleToRemove);
                 element.classList.remove(...selectionStyleToAdd);
+            },
+            onAfterElementChanged: (allSelectedElements, changedElement) => {
+                // If no elements are selected, update the button styles to disabled
+                const selectedElement = selectSystem.getSelectedElement();
+                if (selectedElement === null) {
+                    updateButtonStylesForSelection(null);
+                }
             }
         }
     );
+
+    // Begin with all buttons disabled
+    updateButtonStylesForSelection(null)
 
     // Register existing song cards with the select system
     document.querySelectorAll('.song-card').forEach(card => {
@@ -313,19 +317,33 @@ function initSelectSystem() {
  * @param {HTMLElement} selectedElement - the selected song card element
  */
 function updateButtonStylesForSelection(selectedElement) {
+    if (selectedElement === null) {
+        // Use querySelectorAll with attribute selectors to find all relevant edit and delete buttons
+        // and add the 'btn-disabled' class to them
+        document.querySelectorAll('[id$="-edit-song-name"], [id$="-delete-song-name"]').forEach(button => {
+            button.classList.add('btn-disabled');
+        });
+        
+        return;
+    }
+
     // Get the parent container of the selected element
     const parentContainer = selectedElement.parentElement;
 
+    // Associate buttons with their respective containers
     const associatedButtons = [
         {'liked-songs-container': ['liked', 'disliked', 'new']},
         {'disliked-songs-container': ['disliked', 'liked', 'new']},
         {'panel-top-content': ['new', 'liked', 'disliked']}
       ];
 
+    // Loop through the associated buttons and update their styles based on the selected element's parent container
       associatedButtons.forEach(button => {
         const containerId = Object.keys(button)[0];
         const buttonTypes = button[containerId];
 
+        // Check if the parent container matches the current containerId
+        // and update the button styles accordingly
         if (parentContainer.id === containerId) {        
             document.getElementById(`btn-${buttonTypes[0]}-edit-song-name`).classList.remove('btn-disabled');
             document.getElementById(`btn-${buttonTypes[0]}-delete-song-name`).classList.remove('btn-disabled');
@@ -336,15 +354,6 @@ function updateButtonStylesForSelection(selectedElement) {
         }
     });
 }
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -362,62 +371,48 @@ function editSongName() {
 
     // get the song id from the card
     const songId = card.dataset.songId;
-    console.log(`Editing the song name for songId: ${songId}`);
+    const songName = card.dataset.songName;
+    console.log(`Editing the song name [${songName}] for songId: ${songId}`);
 
-    // show a new dialog with the current song name
-    return;
+    // handle the ok button click
+    document.getElementById('modal-textinput-ok').onclick = (event) => {
+        const newSongName = document.getElementById('modal-textinput-text').value;
+        console.log(`New song name: ${newSongName}.`)
 
-    // set focus to the input control
-    const songInput = document.getElementById(`song-input-${songId}`);
-    songInput.focus();
-    songInput.select();
-
-    // Function to handle saving the song name
-    const saveSongName = () => {
-        // get the new song name that was entered
-        const songName = songInput.value;
-
-        // call the API to update the song name on the backend
-        apiSongEdit(songId, songName)
-            .then(() => {
+        apiSongEdit(songId, newSongName)
+            .then(songId => {
                 // update the text on the song card
-                document.getElementById(`song-text-${songId}`).innerHTML = songName;
-                // Update the data-song-name attribute on the card itself for consistency
-                songInput.closest('.song-card').dataset.songName = songName;
-
-                // swap the visible elements of the card back to the default
-                hideSongCardElements(['input', 'save', 'cancel'], songId);
-                showSongCardElements(['text', 'edit', 'delete'], songId);
+                console.log(`Successfully updated song name for songId: ${songId}`);
+                document.getElementById(`song-text-${songId}`).innerHTML = newSongName;
+                card.dataset.songName = newSongName;
             })
             .catch(error => {
-                console.error('Failed to edit song:', error);
-                // TODO: Add visual error display to user
+                // TODO: Handle the error (e.g., show a user-friendly message)
+                console.log('Failed to add the new song name:', error);
             });
-    };
-
-    // event handler for clicking the save button
-    document.getElementById(`song-save-${songId}`).onclick = saveSongName;
-
-    // event handler for pressing Enter in the input field
-    songInput.onkeydown = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent default form submission if any
-            saveSongName();
-        }
-    };
-
-    // event handler for clicking the cancel button
-    document.getElementById(`song-cancel-${songId}`).onclick = (event) => {
-
-        // swap the visible elements of the card back to the default
-        hideSongCardElements(['input', 'save', 'cancel'], songId);
-        showSongCardElements(['text', 'edit', 'delete'], songId);
     }
+
+    // handle the cancel button click
+    document.getElementById('modal-textinput-cancel').onclick = (event) => {
+        // stop the validator from triggering and close the modal
+        if (document.getElementById('modal-textinput-text').value === '') {
+            document.getElementById('modal-textinput-text').value = ' ';
+        }
+        document.getElementById('modal-textinput').close();
+    }
+
+    // set the dialog params
+    document.getElementById('modal-textinput-title').innerHTML = 'Add Song Name';
+    document.getElementById('modal-textinput-message').innerHTML = 'Enter the new song name:'
+    document.getElementById('modal-textinput-text').value = songName;
+    
+    // show the dialog and set focus to the input field after 50ms delay
+    document.getElementById('modal-textinput').showModal();
+    setTimeout(() => { document.getElementById('modal-textinput-text').focus(); }, 50);
 }
 
 
 /*
- * 
  * 
  */
 function deleteSongName() {
@@ -438,6 +433,14 @@ function deleteSongName() {
     document.getElementById('modal-delete-yes').onclick = (event) => {
         apiSongDelete(songId)
             .then(() => {
+                // deselect the song card and update button styles
+                selectSystem.removeElement(card);
+                updateButtonStylesForSelection(selectSystem.getSelectedElement());
+
+                // Remove from the drag and drop system
+                dragDropSystem.unregisterDraggable(card);
+
+                // remove the song card from the DOM
                 const container = card.parentElement;
                 container.removeChild(card);
             })
@@ -450,13 +453,6 @@ function deleteSongName() {
     // show the delete confirmation dialog
     document.getElementById('modal-delete-message').innerHTML = `Are you sure you want to delete the song: '${card.dataset.songName}'?`;
     document.getElementById('modal-delete').showModal();
-
-    // TODO: Remove from the drag and drop system
-
-    // TODO: Remove from the select system
-
-    // TODO: Make sure a new song card is selected, otherwise disable all edit and delete buttons
-
 }
 
 

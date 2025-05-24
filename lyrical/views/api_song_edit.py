@@ -41,4 +41,4 @@ def api_song_edit(request):
     song.save()
     print(f"Song with ID {song_id} renamed to '{song_name}'.")
 
-    return JsonResponse({"status": "success"}, status=200)
+    return JsonResponse({"status": "success", "song_id": song.id}, status=200)

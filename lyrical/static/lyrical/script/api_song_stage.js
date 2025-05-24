@@ -27,7 +27,7 @@ export function apiSongStage(songId, songStage) {
     .then(data => {
         if (data.status === 'success') {
             console.log('update song stage operation returned success');
-            return true; // Resolve with success
+            return data.song_id; // Resolve with song_id
         } else {
             console.log('no data.status received');
             throw new Error('Failed to update song stage');

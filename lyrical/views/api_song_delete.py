@@ -31,4 +31,4 @@ def api_song_delete(request):
         print(f"Song with ID {song_id} not found or already deleted.")
         return JsonResponse({"status": "failure", "error": "Song not found or already deleted"}, status=404)
 
-    return JsonResponse({"status": "success"}, status=200)
+    return JsonResponse({"status": "success", "song_id": song_id}, status=200)

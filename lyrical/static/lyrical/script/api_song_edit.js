@@ -27,7 +27,7 @@ export function apiSongEdit(songId, songName) {
     .then(data => {
         if (data.status === 'success') {
             console.log('edit operation returned success');
-            return true; // Resolve with success
+            return data.song_id; // Resolve with song_id
         } else {
             console.log('no data.status received');
             throw new Error('Failed to edit song');

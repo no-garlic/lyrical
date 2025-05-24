@@ -44,6 +44,12 @@ export class DragDropSystem {
         element.addEventListener('dragstart', (event) => this._handleDragStart(event, element, data));
     }
 
+    unregisterDraggable(element) {
+        element.removeAttribute('draggable');
+        element.removeEventListener('dragstart', (event) => this._handleDragStart(event, element));
+        element.classList.remove('opacity-50'); // Remove any styles applied during drag
+    }
+
     registerDropZone(element, data = { name: '', acceptedTypes: [] }) {
         element.dataset.dropZone = 'true';
         element.dataset.zoneName = data.name || element.id || '';
