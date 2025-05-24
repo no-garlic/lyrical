@@ -15,13 +15,17 @@
  - Save song status when drag-dropping
  - Refactor song-card javascript out of names.js into util_card_song, so it can be reused
  - Able to create a new song name
+ - Refactor other apiXxx javascript files to return a promise
+ - Work out how to show errors and implement that for all current api calls (eg, duplicate song name)
+ - Try moving edit and delete buttons to the header, edit can then show a modal.
+ - Validation for song name editing
+ - Stop drag and drop when editing
+ - When editing, hide all other edit and delete buttons when hovering
 
 
 ## Todo
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - Filtering & sorting song names
- - Refactor other apiXxx javascript files to return a promise
- - Work out how to show errors and implement that for all current api calls (eg, duplicate song name)
  - Generate Song Names (basic functionality) and add them to the NEW section
  - API call and update UI for showing the current LLM details, and changing to a different LLM
  - API call and update UI for showing LLM parameters (temperature and max tokens)
@@ -33,13 +37,6 @@
  - Refactor js code, tidy up, rename apis, etc
  - Save Column Widths
  - Login Required for all pages
-
-
-## Backlog
- - Try moving edit and delete buttons to the header, edit can then show a modal.
- - Validation for song name editing
- - Stop drag and drop when editing
- - When editing, hide all other edit and delete buttons when hovering
  - Drag and drop not showing custom cursors
  - Hide girl in media query for short page
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
