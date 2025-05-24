@@ -1,6 +1,8 @@
 import { initSongCards, initSongCard } from './c_card_song.js'
 import { apiSongStage } from './api_song_stage.js';
 import { apiSongAdd } from './api_song_add.js';
+import { apiSongDelete } from './api_song_delete.js';
+import { apiSongEdit } from './api_song_edit.js';
 import { apiRenderComponent } from './api_render_component.js'; 
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
@@ -12,6 +14,7 @@ import { SelectSystem } from './util_select.js';
  * Declare dragDropSystem at the module level
  */
 let dragDropSystem; 
+
 
 /**
  * Declare selectSystem at the module level
@@ -26,9 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup the resize elements of the page
     setupResizeElements();
 
-    // Bind the generate song names button
+    // Bind the generate song names and add song buttons
     document.getElementById('btn-generate-song-names').onclick = generateSongNames;
     document.getElementById('btn-add-song-name').onclick = addSongName;
+
+    // Bind the click events for the song edit and delete buttons
+    document.getElementById('btn-liked-edit-song-name').onclick = editSongName;
+    document.getElementById('btn-liked-delete-song-name').onclick = deleteSongName;
+    document.getElementById('btn-disliked-edit-song-name').onclick = editSongName;
+    document.getElementById('btn-disliked-delete-song-name').onclick = deleteSongName;
+    document.getElementById('btn-new-edit-song-name').onclick = editSongName;
+    document.getElementById('btn-new-delete-song-name').onclick = deleteSongName;
 
     // Register the song cards
     initSongCards();
@@ -320,6 +331,120 @@ function updateButtonStylesForSelection(selectedElement) {
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * 
+ */
+function editSongName() {
+    // get the selected song card
+    const card = selectSystem.getSelectedElement();
+
+    // check that a card is selected
+    if (!card) {
+        console.error('No song card is selected for edit.');
+        return;
+    }
+
+    // get the song id from the card
+    const songId = card.dataset.songId;
+    console.log(`Editing the song name for songId: ${songId}`);
+
+    // show a new dialog with the current song name
+    return;
+    
+    // set focus to the input control
+    const songInput = document.getElementById(`song-input-${songId}`);
+    songInput.focus();
+    songInput.select();
+
+    // Function to handle saving the song name
+    const saveSongName = () => {
+        // get the new song name that was entered
+        const songName = songInput.value;
+
+        // call the API to update the song name on the backend
+        if (apiSongEdit(songId, songName)) {
+            // update the text on the song card
+            document.getElementById(`song-text-${songId}`).innerHTML = songName;
+            // Update the data-song-name attribute on the card itself for consistency
+            songInput.closest('.song-card').dataset.songName = songName;
+
+            // swap the visible elements of the card back to the default
+            hideSongCardElements(['input', 'save', 'cancel'], songId);
+            showSongCardElements(['text', 'edit', 'delete'], songId);
+        } else {
+            // API call returned and error, do nothing
+            console.log('apiSongEdit() returned an error, check the log.')
+        }
+    };
+
+    // event handler for clicking the save button
+    document.getElementById(`song-save-${songId}`).onclick = saveSongName;
+
+    // event handler for pressing Enter in the input field
+    songInput.onkeydown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission if any
+            saveSongName();
+        }
+    };
+
+    // event handler for clicking the cancel button
+    document.getElementById(`song-cancel-${songId}`).onclick = (event) => {
+
+        // swap the visible elements of the card back to the default
+        hideSongCardElements(['input', 'save', 'cancel'], songId);
+        showSongCardElements(['text', 'edit', 'delete'], songId);
+    }
+}
+
+
+/*
+ * 
+ * 
+ */
+function deleteSongName() {
+    // get the selected song card
+    const card = selectSystem.getSelectedElement();
+
+    // check that a card is selected
+    if (!card) {
+        console.error('No song card is selected for deletion.');
+        return;
+    }
+
+    // get the song id from the card
+    const songId = card.dataset.songId;
+    console.log(`Deleting song name for songId: ${songId}`);
+
+    // set the event handler for the delete confirmation dialog
+    document.getElementById('modal-delete-yes').onclick = (event) => {
+        if (apiSongDelete(songId)) {
+            const container = card.parentElement;
+            container.removeChild(card);
+        }
+    }
+
+    // show the delete confirmation dialog
+    document.getElementById('modal-delete-message').innerHTML = `Are you sure you want to delete the song: '${card.dataset.songName}'?`;
+    document.getElementById('modal-delete').showModal();
+
+    // TODO: Remove from the drag and drop system
+
+    // TODO: Remove from the select system
+
+}
+
 
 
 
