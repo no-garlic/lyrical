@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bind the add song names button
     document.getElementById('btn-add-song-name').onclick = addSongName;
+    document.getElementById('btn-dislike-all-new-song-names').onclick = dislikeAllNewSongNames;
 
     // Bind the click events for the song edit and delete buttons
     document.getElementById('btn-liked-edit-song-name').onclick = editSongName;
@@ -177,14 +178,6 @@ function initNewSongCard(songId, songName) {
 
     // register the new song card for selection
     registerCardForSelect(newCard, selectSystem);
-}
-
-
-/**
- * Generate song names (placeholder function).
- */
-function generateSongNames() {
-    alert("Generate Song Names")
 }
 
 
@@ -353,6 +346,17 @@ function initSelectSystem() {
  * @param {HTMLElement} selectedElement - the selected song card element
  */
 function updateButtonStylesForSelection(selectedElement) {
+    // if there are no items left in the 'new' song names container, then disable the dislike all button,
+    // otherwise enable it.
+    const newItemsPanel = document.getElementById('panel-top-content');
+    if (newItemsPanel) {
+        if (newItemsPanel.childElementCount === 0) {
+            document.getElementById('btn-dislike-all-new-song-names').classList.add('btn-disabled');
+        } else {
+            document.getElementById('btn-dislike-all-new-song-names').classList.remove('btn-disabled');
+        }
+    }
+
     if (selectedElement === null) {
         // use querySelectorAll with attribute selectors to find all relevant edit and delete buttons
         // and add the 'btn-disabled' class to them
@@ -389,6 +393,44 @@ function updateButtonStylesForSelection(selectedElement) {
             document.getElementById(`btn-${buttonTypes[2]}-delete-song-name`).classList.add('btn-disabled');
         }
     });
+}
+
+
+function dislikeAllNewSongNames() {
+    const newItemsPanel = document.getElementById('panel-top-content');
+    const dislikedItemsPanel = document.getElementById('disliked-songs-container');
+
+    if (newItemsPanel && dislikedItemsPanel) {
+        newItemsPanel.childNodes.forEach(child => {
+            console.log(child);
+
+            if (child.nodeType === Node.ELEMENT_NODE && child.classList.contains('song-card')) {
+                const songId = child.dataset.songId;
+                apiSongEdit(songId, { song_stage: 'disliked' })
+                    .then(() => {
+
+                        // TODO: Make a function called moveSongCard() and fix it
+
+                        console.log(`Successfully moved song ${songId} to disliked.`);
+                        dislikedItemsPanel.appendChild(child);
+
+                        // Update the originalZone for dragDropSystem if the item is registered
+                        const dragItem = dragDropSystem.getDraggableItem(child);
+                        if (dragItem) {
+                            dragItem.data.originalZone = 'disliked';
+                        }
+                        // Potentially re-select or update selection if needed
+                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
+                    })
+                    .catch(error => {
+                        console.error(`Failed to move song ${songId} to disliked:`, error);
+                        toastSystem.showError('Failed to move one or more songs. Please try again.');
+                    });
+            }
+
+
+        });
+    }
 }
 
 
@@ -539,6 +581,15 @@ function initStreamHandler() {
 
 
 /**
+ * handles the generate button click event
+ */
+function handleGenerateClick() {
+    const requestParams = buildRequestParams();
+    streamHelper.initiateRequest(requestParams);
+}
+
+
+/**
  * creates and configures the stream helper
  * @returns {StreamHelper} configured stream helper instance
  */
@@ -549,7 +600,8 @@ function createStreamHelper() {
                 console.log("stream prerequest");
             },
             onIncomingData: (data) => {
-                console.log(`incoming stream data ${data}`);
+                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                handleIncomingData(data);
             },
             onStreamEnd: () => {
                 console.log("stream end");
@@ -566,22 +618,13 @@ function createStreamHelper() {
 
 
 /**
- * handles the generate button click event
- */
-function handleGenerateClick() {
-    const requestParams = buildRequestParams();
-    streamHelper.initiateRequest(requestParams);
-}
-
-
-/**
  * builds the request parameters for the stream
  * @returns {object} request parameters
  */
 function buildRequestParams() {
     return {
         prompt: 'song_names',
-        count: 8,
+        count: 1,
         min_words: 1,
         max_words: 5,
         include_themes: 'ocean and the beach, dancing',
@@ -591,5 +634,8 @@ function buildRequestParams() {
 }
 
 
+function handleIncomingData(data) {
+    addNewSongCard(data.id, data.name);
+}
 
 
