@@ -1,5 +1,4 @@
 
-
 /**
  * makes panels vertically resizable using a splitter element
  * @param {HTMLElement} topPanel - the top panel element
@@ -200,10 +199,6 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options
             const bottomContent = bottomPanel.firstElementChild;
             if (!bottomContent) return;
             
-            // Temporarily remove height constraints to measure natural content height
-            const originalBottomHeight = bottomPanel.style.height;
-            const originalTopHeight = topPanel.style.height;
-            
             bottomPanel.style.height = 'auto';
             topPanel.style.height = 'auto';
             
@@ -212,7 +207,8 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options
             const minTopHeight = 100; // Minimum height for top panel
             
             // Calculate optimal heights
-            let bottomHeight = Math.min(naturalBottomHeight, availableHeight - minTopHeight);
+            // Mike: added 24px for a bit of padding below the form
+            let bottomHeight = Math.min(naturalBottomHeight, availableHeight - minTopHeight) + 24;
             let topHeight = availableHeight - bottomHeight;
             
             // Ensure we don't make the top panel too small
