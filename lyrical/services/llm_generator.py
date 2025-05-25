@@ -261,7 +261,8 @@ class LLMGenerator(ABC):
             response_stream_generator = llm_call(
                 prompt_messages=self.prompt_messages,
                 user=self.user,
-                llm=self.llm_model
+                llm=self.llm_model,
+                generator=self
             )
             
             logger.info(f"generation stream started for user '{self.user.username}'")
@@ -357,5 +358,21 @@ class LLMGenerator(ABC):
         Log generation parameters for debugging.
         """
         pass
+    
+    def preprocess_ndjson(self, ndjson_line: str) -> str:
+        """
+        Preprocess individual NDJSON lines before streaming to client.
+        
+        Subclasses can override this method to modify the NDJSON content
+        before it's sent to the client. This is useful for adding metadata,
+        transforming data, or filtering content.
+        
+        Args:
+            ndjson_line: A single line of NDJSON (already validated as valid JSON)
+            
+        Returns:
+            Modified NDJSON line (must remain valid JSON)
+        """
+        return ndjson_line
 
 

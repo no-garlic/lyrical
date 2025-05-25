@@ -16,10 +16,14 @@ def collapse_blank_lines(text):
     return cleaned_text 
 
 
-def process_line(line: str):
+def process_line(line: str, generator=None):
     """
     Processes a single line of text, validates if it's JSON, and yields it.
     Handles errors by yielding an error JSON string.
+    
+    Args:
+        line: The line of text to process
+        generator: Optional LLMGenerator instance for preprocessing NDJSON
     """
     stripped_line = line.strip()
     if stripped_line == "```json" or stripped_line == "```":
@@ -28,7 +32,15 @@ def process_line(line: str):
     elif stripped_line:  # If not a fence and not empty
         try:
             json.loads(stripped_line)  # Validate the stripped line
-            yield stripped_line + '\n'  # Yield the stripped line (which is a valid JSON object)
+            
+            # Apply preprocessing if generator is provided
+            processed_line = stripped_line
+            if generator and hasattr(generator, 'preprocess_ndjson'):
+                processed_line = generator.preprocess_ndjson(stripped_line)
+                # Validate that the processed line is still valid JSON
+                json.loads(processed_line)
+            
+            yield processed_line + '\n'  # Yield the processed line
         except json.JSONDecodeError as e:
             print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
             error_payload = {"error": "Malformed JSON line from LLM", "raw_content": stripped_line, "details": str(e)}

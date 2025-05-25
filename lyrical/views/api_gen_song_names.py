@@ -1,8 +1,11 @@
 import logging
+import json
+import random
 from typing import Dict, Any, Optional
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from ..services.llm_generator import LLMGenerator
+from ..services.utils.text import normalize_to_ascii
 from .. import models
 
 
@@ -128,6 +131,62 @@ class SongNamesGenerator(LLMGenerator):
         params = self.extracted_params
         logger.debug(f"generation parameters: count={params['count']}, "
                     f"min_words={params['min_words']}, max_words={params['max_words']}")
+    
+    
+    def preprocess_ndjson(self, ndjson_line: str) -> str:
+        """
+        Preprocess NDJSON lines to add a random ID to each song name object.
+        
+        Args:
+            ndjson_line: A single line of NDJSON (already validated as valid JSON)
+            
+        Returns:
+            Modified NDJSON line with added 'id' field containing a random integer
+        """
+        try:
+            # Parse the JSON line
+            data = json.loads(ndjson_line)
+            
+            # Get the name field
+            if "name" not in data:
+                raise KeyError("Missing 'name' field in NDJSON line")
+            name = data["name"]
+            
+            # Validate the name field
+            if not isinstance(name, str):
+                raise ValueError("Invalid song name in NDJSON line")
+
+            # Normalize the song name to ASCII
+            data["name"] = normalize_to_ascii(name)
+
+            # Ensure name is not empty after normalization
+            if not data["name"]:
+                raise ValueError("Invalid song name in NDJSON line")
+
+            try:
+                # Create a new song with the normalized name
+                song = models.Song.objects.create(name=data["name"], user=self.request.user)
+
+            except Exception as e:
+                logger.error(f"Failed to create song with name '{data['name']}': {e}")
+                return None
+
+            # Log the creation of the song
+            logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
+
+            # Add the ID to the NDJSON data
+            data['id'] = song.id
+
+            # Log the preprocessing step            
+            print(f"Preprocessed NDJSON line: {data}")  # Debug output
+
+            # Return the modified JSON line (without newline, it will be added by process_line)
+            return json.dumps(data)
+            
+        except (json.JSONDecodeError, KeyError) as e:
+            # If there's an issue parsing or modifying, log it and return original
+            logger.warning(f"Failed to preprocess NDJSON line: {ndjson_line}, Error: {e}")
+            return ndjson_line
 
 
 @login_required

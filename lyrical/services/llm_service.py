@@ -8,11 +8,17 @@ from .utils.text import normalize_to_ascii, process_line
 from .utils.messages import MessageBuilder
 
 
-def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = None): # -> Generator[str, None, None]
+def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = None, generator=None): # -> Generator[str, None, None]
     """
     Call an LLM model and stream the response.
     Yields chunks of text content from the LLM.
     Handles errors by yielding an error JSON string.
+    
+    Args:
+        prompt_messages: MessageBuilder containing the conversation
+        user: User making the request
+        llm: Optional LLM model to use
+        generator: Optional LLMGenerator instance for preprocessing NDJSON
     """
     if llm is None:
         llm = user.default_model
@@ -47,12 +53,12 @@ def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = N
 
                 while '\n' in accumulated_line:
                     line_part, rest = accumulated_line.split('\n', 1)
-                    yield from process_line(line_part)
+                    yield from process_line(line_part, generator)
                     accumulated_line = rest
         
         # After loop, process any remaining data in accumulated_line (if it doesn't end with \n)
         if accumulated_line.strip():
-            yield from process_line(accumulated_line)
+            yield from process_line(accumulated_line, generator)
         
     except Exception as e:
         print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
