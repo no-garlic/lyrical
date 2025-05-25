@@ -13,36 +13,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="LLM",
+            name="LLMProvider",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("display_name", models.CharField(max_length=255, unique=True)),
-                ("internal_name", models.CharField(max_length=255, unique=True)),
-                ("cost_per_1m_tokens", models.FloatField(default=0.0)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('display_name', models.CharField(max_length=255, unique=True)),
+                ('internal_name', models.CharField(max_length=255, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name="LLMProvider",
+            name="LLM",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("display_name", models.CharField(max_length=255, unique=True)),
-                ("internal_name", models.CharField(max_length=255, unique=True)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('display_name', models.CharField(max_length=255, unique=True)),
+                ('internal_name', models.CharField(max_length=255, unique=True)),
+                ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="llms", to="lyrical.llmprovider")),
+                ('cost_per_1m_tokens', models.FloatField(default=0.0)),
             ],
         ),
         migrations.AddField(
@@ -58,216 +43,64 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="user",
             name="llm_model",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="lyrical.llm",
-            ),
-        ),
-        migrations.AddField(
-            model_name="llm",
-            name="provider",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="llms",
-                to="lyrical.llmprovider",
-            ),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm"),
         ),
         migrations.CreateModel(
             name="Song",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255, unique=True)),
-                ("theme", models.TextField(default="")),
-                ("hook", models.TextField(default="")),
-                ("structure", models.TextField(default="")),
-                (
-                    "stage",
-                    models.CharField(
-                        choices=[
-                            ("new", "New"),
-                            ("liked", "Liked"),
-                            ("disliked", "Disliked"),
-                            ("generated", "Generated"),
-                        ],
-                        default="new",
-                        max_length=50,
-                    ),
-                ),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="songs",
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255, unique=True)),
+                ('theme', models.TextField(default="")),
+                ('hook', models.TextField(default="")),
+                ('structure', models.TextField(default="")),
+                ('stage', models.CharField(choices=[("new", "New"), ("liked", "Liked"), ("disliked", "Disliked"), ("generated", "Generated")], default="new", max_length=50)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="songs", to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name="Section",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "type",
-                    models.CharField(
-                        choices=[
-                            ("theme", "Theme"),
-                            ("hook", "Hook"),
-                            ("verse", "Verse"),
-                            ("chorus", "Chorus"),
-                            ("bridge", "Bridge"),
-                            ("pre-chorus", "Pre-Chorus"),
-                            ("outro", "Outro"),
-                            ("vocalisation", "Vocalisation"),
-                        ],
-                        max_length=50,
-                    ),
-                ),
-                ("lyrics", models.TextField(default="")),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "song",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="sections",
-                        to="lyrical.song",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('type', models.CharField(choices=[("theme", "Theme"), ("hook", "Hook"), ("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro"), ("vocalisation", "Vocalisation")], max_length=50)),
+                ('lyrics', models.TextField(default="")),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="sections", to="lyrical.song")),
             ],
         ),
         migrations.CreateModel(
             name="Message",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "role",
-                    models.CharField(
-                        choices=[
-                            ("system", "System"),
-                            ("user", "User"),
-                            ("assistant", "Assistant"),
-                        ],
-                        max_length=50,
-                    ),
-                ),
-                ("content", models.TextField()),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "llm",
-                    models.ForeignKey(
-                        blank=True,
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        to="lyrical.llm",
-                    ),
-                ),
-                (
-                    "song",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="messages",
-                        to="lyrical.song",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('role', models.CharField(choices=[("system", "System"), ("user", "User"), ("assistant", "Assistant")], max_length=50)),
+                ('content', models.TextField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('llm', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm")),
+                ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="messages", to="lyrical.song")),
             ],
         ),
         migrations.CreateModel(
             name="Lyrics",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "type",
-                    models.CharField(
-                        choices=[
-                            ("verse", "Verse"),
-                            ("chorus", "Chorus"),
-                            ("bridge", "Bridge"),
-                            ("pre-chorus", "Pre-Chorus"),
-                            ("outro", "Outro"),
-                        ],
-                        max_length=50,
-                    ),
-                ),
-                ("index", models.IntegerField(default=0)),
-                ("lyrics", models.TextField(default="")),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "song",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="lyrics",
-                        to="lyrical.song",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('type', models.CharField(choices=[("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro")], max_length=50)),
+                ('index', models.IntegerField(default=0)),
+                ('lyrics', models.TextField(default="")),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="lyrics", to="lyrical.song")),
             ],
         ),
         migrations.CreateModel(
             name="UserAPIKey",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("api_key", models.CharField(default="", max_length=255)),
-                (
-                    "provider",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="lyrical.llmprovider",
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="api_keys",
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('api_key', models.CharField(default="", max_length=255)),
+                ('provider', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="lyrical.llmprovider")),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="api_keys", to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
