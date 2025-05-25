@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="user",
             name="llm_model",
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to="lyrical.llm"),
+            field=models.ForeignKey(blank=False, null=False, on_delete=django.db.models.deletion.PROTECT, to="lyrical.llm"),
         ),
         migrations.CreateModel(
             name="Song",

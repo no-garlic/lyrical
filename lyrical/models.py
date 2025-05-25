@@ -22,7 +22,7 @@ class LLM(models.Model):
 
 
 class User(AbstractUser):
-    llm_model = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
+    llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
     llm_temperature = models.FloatField(default=0.5)
     llm_max_tokens = models.IntegerField(default=1000)
 

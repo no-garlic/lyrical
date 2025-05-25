@@ -52,6 +52,7 @@ def page_names(request):
             logger.error(f"database error fetching songs for user '{request.user.username}': {str(db_error)}")
             return render(request, "lyrical/names.html", {
                 "active_page": "names",
+                "llm_models": models.LLM.objects.all(),
                 "page_name": "SONG NAMES",
                 "new_songs": [],
                 "liked_songs": [],
@@ -62,6 +63,7 @@ def page_names(request):
         # prepare context data for template
         context = {
             "active_page": "names",
+            "llm_models": models.LLM.objects.all(),
             "page_name": "SONG NAMES",
             "new_songs": new_songs,
             "liked_songs": liked_songs,

@@ -40,7 +40,7 @@ def remove_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("lyrical", "0004_add_llms"),
+        ("lyrical", "0004_add_users"),
     ]
 
     operations = [
