@@ -5912,6 +5912,9 @@
   .overflow-x-auto {
     overflow-x: auto;
   }
+  .overflow-y-hidden {
+    overflow-y: hidden;
+  }
   .tabs-box {
     background-color: var(--color-base-200);
     padding: calc(0.25rem * 1);
