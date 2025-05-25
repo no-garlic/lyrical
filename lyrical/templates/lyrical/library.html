@@ -7,31 +7,21 @@
 
 {% block panel_1 %}
     <c-panel>
-                
-        <!-- Panel Header -->
-        <c-panel-header title="SONG NAMES">
-            <c-panel-header-button id="btn-edit-song-name">
-                Edit
-            </c-panel-header-button>
-        </c-panel-header>
-
-
         <!-- Panel Container -->
-         <c-panel-container id="panel1-top-content">
-            STUFF
+         <c-panel-container id="panel-top-content">
+            TOP
          </c-panel-container>
 
-
         <!-- Panel Slider -->
-         <c-panel-slider id="panel1-vertical-splitter" title="SONG THEMES">
+         <c-panel-slider id="panel-vertical-splitter" title="SLIDER">
             <c-panel-header-button>
                 Generate
             </c-panel-header-button>
          </c-panel-slider>
-
          
         <!-- Panel Container -->
-         <c-panel-container-form id="panel1-bottom-content">
+         <c-panel-container-form id="panel-bottom-content">
+            BOTTOM
          </c-panel-container>
 
     </c-panel>
@@ -47,18 +37,9 @@
 {% block panel_3 %}
     <c-panel>
         Panel 3
-
-        <c-card title="Trees">
-            We have the best trees
-        </c-card>
-
-        <c-card title="Spades">
-            The best spades in the land
-        </c-card>
-
     </c-panel>
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'lyrical/script/page_library.js' %}"></script>
+    <script type="module" src="{% static 'lyrical/script/page_library.js' %}"></script>
 {% endblock %}
