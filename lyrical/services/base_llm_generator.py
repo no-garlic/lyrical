@@ -11,10 +11,8 @@ This provides a standardized pattern for endpoints that:
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from django.http import JsonResponse, StreamingHttpResponse
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from ..services.llm_service import llm_call
 from ..services.utils.prompts import get_system_prompt, get_user_prompt
 from ..services.utils.messages import MessageBuilder
@@ -34,6 +32,7 @@ class BaseLLMGenerator(ABC):
     - Prompt building
     """
     
+
     def __init__(self, request):
         """
         Initialize the generator with the Django request.
@@ -46,6 +45,7 @@ class BaseLLMGenerator(ABC):
         self.llm_model = None
         self.extracted_params = {}
         
+
     def generate(self) -> StreamingHttpResponse:
         """
         Main method that orchestrates the generation process.
@@ -89,6 +89,7 @@ class BaseLLMGenerator(ABC):
                 "error": "an unexpected error occurred during generation"
             }, status=500)
     
+
     def _extract_and_validate_parameters(self) -> Optional[JsonResponse]:
         """
         Extract and validate request parameters.
@@ -119,6 +120,7 @@ class BaseLLMGenerator(ABC):
                 "error": "failed to process request parameters"
             }, status=400)
     
+    
     def _authenticate_user(self) -> Optional[JsonResponse]:
         """
         Authenticate the user with fallback for development.
@@ -130,31 +132,11 @@ class BaseLLMGenerator(ABC):
             self.user = self.request.user
             
             if not self.user.is_authenticated:
-                # only allow fallback authentication in development
-                if not getattr(settings, 'DEBUG', False):
-                    logger.warning("unauthenticated generation attempt in production")
-                    return JsonResponse({
-                        "success": False,
-                        "error": "authentication required"
-                    }, status=401)
-                
-                # get fallback user from subclass
-                fallback_username = self.get_fallback_username()
-                if not fallback_username:
-                    return JsonResponse({
-                        "success": False,
-                        "error": "authentication required"
-                    }, status=401)
-                
-                try:
-                    self.user = models.User.objects.get(username=fallback_username)
-                    logger.info(f"using fallback test user '{fallback_username}'")
-                except models.User.DoesNotExist:
-                    logger.error(f"fallback test user '{fallback_username}' not found")
-                    return JsonResponse({
-                        "success": False,
-                        "error": "authentication required and fallback user not available"
-                    }, status=401)
+                logger.warning("unauthenticated generation attempt")
+                return JsonResponse({
+                    "success": False,
+                    "error": "authentication required"
+                }, status=401)
             
             return None
             
@@ -165,6 +147,7 @@ class BaseLLMGenerator(ABC):
                 "error": "authentication failed"
             }, status=500)
     
+
     def _get_llm_model(self) -> Optional[JsonResponse]:
         """
         Get the LLM model configuration.
@@ -191,6 +174,7 @@ class BaseLLMGenerator(ABC):
                 "error": "failed to load llm model configuration"
             }, status=500)
     
+
     def _query_database(self) -> Optional[JsonResponse]:
         """
         Query database for additional data needed for prompts.
@@ -209,6 +193,7 @@ class BaseLLMGenerator(ABC):
                 "success": False,
                 "error": "failed to retrieve required data"
             }, status=500)
+    
     
     def _build_prompts(self) -> Optional[JsonResponse]:
         """
@@ -262,6 +247,7 @@ class BaseLLMGenerator(ABC):
                 "error": "failed to build prompts for generation"
             }, status=500)
     
+
     def _call_llm_and_stream(self) -> StreamingHttpResponse:
         """
         Call LLM service and return streaming response.
@@ -289,6 +275,7 @@ class BaseLLMGenerator(ABC):
                 "error": "failed to generate content, please try again later"
             }, status=500)
     
+
     # abstract methods that subclasses must implement
     
     @abstractmethod

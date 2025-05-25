@@ -211,7 +211,7 @@ function initStreamHandler() {
  * @returns {StreamHelper} configured stream helper instance
  */
 function createStreamHelper() {
-    return new StreamHelper('/api_gen_song', {
+    return new StreamHelper('/api_gen_song_names', {
         callbacks: {
             onPreRequest: () => {
                 console.log("stream prerequest");
@@ -250,6 +250,17 @@ function handleGenerateClick() {
  */
 function buildRequestParams() {
     return {
+        prompt: 'song_names',
+        count: 8,
+        min_words: 1,
+        max_words: 5,
+        include_themes: 'ocean and the beach, dancing',
+        exclude_themes: 'neon, cyber, phones and technology, robots, AI, futuristic, space, stars, aliens, sci-fi',
+        exclude_words: 'neon, endless, chasing'
+    };
+    
+    /*
+    return {
         prompt: 'song',
         song_name: 'In The Sunshine',
         song_theme: 'A song about having fun by myself in the sunshine',
@@ -264,4 +275,5 @@ function buildRequestParams() {
         song_vocalisation_level: 3,
         syllables: 9
     };
+    */
 }

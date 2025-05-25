@@ -1,6 +1,7 @@
 import logging
 from typing import Dict, Any, Optional
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 from ..services.base_llm_generator import BaseLLMGenerator
 from .. import models
 
@@ -48,6 +49,7 @@ class SongNamesGenerator(BaseLLMGenerator):
             'exclude_words': exclude_words
         }
     
+
     def validate_parameters(self, params: Dict[str, Any]) -> Optional[str]:
         """
         validate extracted parameters.
@@ -81,15 +83,14 @@ class SongNamesGenerator(BaseLLMGenerator):
         
         return None
     
+
     def query_database_data(self) -> Dict[str, Any]:
         """
         get excluded song names from database.
         """
         # get excluded song names from database
-        qs_excluded = models.ExcludeSongName.objects.values('title')
-        qs_previous = models.Song.objects.values('title')
-        combined_titles_qs = qs_excluded.union(qs_previous)
-        exclude_song_names = [item['title'] for item in combined_titles_qs]
+        all_songs = models.Song.objects.values('name')
+        exclude_song_names = [item['name'] for item in all_songs]
         
         logger.debug(f"excluding {len(exclude_song_names)} existing song names from generation")
         
@@ -97,12 +98,14 @@ class SongNamesGenerator(BaseLLMGenerator):
             'exclude_song_names': exclude_song_names
         }
     
+
     def get_prompt_name(self) -> str:
         """
         get the prompt name from extracted parameters.
         """
         return self.extracted_params['prompt_name']
     
+
     def build_user_prompt_params(self) -> Dict[str, Any]:
         """
         build parameters for the user prompt.
@@ -117,6 +120,7 @@ class SongNamesGenerator(BaseLLMGenerator):
             'exclude_song_names': self.extracted_params['exclude_song_names']
         }
     
+    
     def log_generation_params(self) -> None:
         """
         log generation parameters for debugging.
@@ -126,6 +130,7 @@ class SongNamesGenerator(BaseLLMGenerator):
                     f"min_words={params['min_words']}, max_words={params['max_words']}")
 
 
+@login_required
 @require_http_methods(["GET"])
 def api_gen_song_names(request):
     """

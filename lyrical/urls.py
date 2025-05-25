@@ -12,14 +12,14 @@ from .views.page_lyrics import *
 from .views.page_structure import *
 
 from .views.api_render_component import *
+from .views.api_user_llm import *
+
 from .views.api_song_add import *
 from .views.api_song_edit import *
 from .views.api_song_delete import *
-from .views.api_song_gen_names import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
-from .views.api_user_llm import *
 
 from .views.api_test_streaming import *
 
@@ -46,6 +46,7 @@ urlpatterns = [
 
     # api pages
     path("api_render_component/<str:component_name>", api_render_component, name="api_render_component"),
+    path("api_user_llm", api_user_llm, name="api_user_llm"),
     path("api_song_delete", api_song_delete, name="api_song_delete"),
     path("api_song_edit", api_song_edit, name="api_song_edit"),
     path("api_song_add", api_song_add, name="api_song_add"),
@@ -53,8 +54,7 @@ urlpatterns = [
     # llm calls
     path("api_gen_song", api_gen_song, name="api_gen_song"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
-    path("api_user_llm", api_user_llm, name="api_user_llm"),
-
+    
     # test pages
     path("api_test_streaming", test_streaming, name="test_streaming"),
 
