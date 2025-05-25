@@ -34,6 +34,7 @@
 {% endblock %}
 
 {% block layout_scripts %}
+    {{ block.super }}
     <script type="module" src="{% static 'lyrical/script/util_sliders_vertical.js' %}"></script>
     <script type="module" src="{% static 'lyrical/script/util_sliders_horizontal.js' %}"></script>
 {% endblock %}

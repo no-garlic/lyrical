@@ -61,6 +61,7 @@ def page_library(request):
         # prepare template context
         context = {
             "active_page": "library",
+            "llm_models": models.LLM.objects.all(),
             "page_name": "SONG LIBRARY",
             "songs": user_songs,
             "songs_count": songs_count,

@@ -52,9 +52,9 @@
                             MODEL PARAMETERS
                         </p>
                         <div class="w-full p-4">
-                            <select class="flex-grow select select-base">
+                            <select id="sidebar-model-select" class="flex-grow select select-base">
                                 {% for model in llm_models %}
-                                    <option value="{{ model.id }}" {% if user.llm_model.id == model.id %}selected{% endif %}>
+                                    <option value="{{ model.id }}" data-cost="{{ model.cost_per_1m_tokens }}" {% if user.llm_model.id == model.id %}selected{% endif %}>
                                         {{ model.display_name }}
                                     </option>
                                 {% endfor %}
@@ -64,7 +64,7 @@
                                 TEMPERATURE:
                             </p>
                             <div class="w-full max-w-xs">
-                                <input type="range" min="0" max="1" value="{{ user.llm_temperature }}" class="range range-primary" step="0.1" />
+                                <input id="sidebar-temperature-range" type="range" min="0" max="1" value="{{ user.llm_temperature }}" class="range range-primary" step="0.1" />
                                 <div class="flex justify-between px-2.5 mt-2 text-xs">
                                     <span>|</span>
                                     <span>|</span>
@@ -81,7 +81,7 @@
                                 MAX TOKENS:
                             </p>
                             <div class="w-full max-w-xs">
-                                <input type="range" min="1000" max="5000" value="{{ user.llm_max_tokens }}" class="range range-primary"/>
+                                <input id="sidebar-max-tokens-range" type="range" min="1000" max="5000" value="{{ user.llm_max_tokens }}" class="range range-primary"/>
                                 <div class="flex justify-between px-2.5 mt-2 text-xs">
                                     <span>|</span>
                                     <span>|</span>
@@ -100,7 +100,7 @@
                             <p class="text-xs ml-1 mb-1 mt-7">
                                 COST PER 1M TOKENS:
                             </p>
-                            <p class="text-2xl ml-1 font-bold text-primary">
+                            <p id="sidebar-cost-display" class="text-2xl ml-1 font-bold text-primary">
                                 ${{ user.llm_model.cost_per_1m_tokens|floatformat:2 }}
                             </p>
                         </div>
@@ -201,4 +201,9 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block layout_scripts %}
+    {{ block.super }}
+    <script type="module" src="{% static 'lyrical/script/util_sidebar.js' %}"></script>
 {% endblock %}

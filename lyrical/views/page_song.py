@@ -78,6 +78,7 @@ def page_song(request):
         # prepare template context
         context = {
             "active_page": "edit",
+            "llm_models": models.LLM.objects.all(),
             "navigation": navigation_items,
             "user_songs": user_songs,
             "songs_count": songs_count,

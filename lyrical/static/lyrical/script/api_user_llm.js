@@ -13,9 +13,9 @@ export function apiUserLLM(updates = {}) {
 
     // build request body with only provided fields
     const requestBody = { };
-    if (llm_model_id) requestBody.llm_model_id = llmModelId;
-    if (llm_temperature) requestBody.llm_temperature = llmTemperature;
-    if (llm_max_tokens) requestBody.llm_max_tokens = llmMaxTokens;
+    if (llmModelId) requestBody.llm_model_id = llmModelId;
+    if (llmTemperature !== undefined) requestBody.llm_temperature = llmTemperature;
+    if (llmMaxTokens) requestBody.llm_max_tokens = llmMaxTokens;
 
     // send the request to the server
     return fetch('/api_user_llm', {
@@ -35,7 +35,7 @@ export function apiUserLLM(updates = {}) {
     .then(data => {
         if (data.status === 'success') {
             console.log('edit operation returned success');
-            return data.song_id;
+            return data.llm_model_id;
         } else {
             console.log('no data.status received');
             throw new Error('Failed to edit the user llm settings');

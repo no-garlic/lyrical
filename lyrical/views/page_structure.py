@@ -65,6 +65,7 @@ def page_structure(request):
         # prepare template context
         context = {
             "active_page": "edit",
+            "llm_models": models.LLM.objects.all(),
             "navigation": navigation_items,
         }
         

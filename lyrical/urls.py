@@ -18,6 +18,7 @@ from .views.api_song_add import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
+from .views.api_user_llm import *
 
 from .views.api_test_streaming import *
 
@@ -51,6 +52,7 @@ urlpatterns = [
     # llm calls
     path("api_gen_song", api_gen_song, name="api_gen_song"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
+    path("api_user_llm", api_user_llm, name="api_user_llm"),
 
     # test pages
     path("api_test_streaming", test_streaming, name="test_streaming"),

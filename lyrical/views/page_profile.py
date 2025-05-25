@@ -66,6 +66,7 @@ def page_profile(request):
         # prepare template context with user information
         context = {
             "active_page": "profile",
+            "llm_models": models.LLM.objects.all(),
             "user": request.user,
             "user_songs_count": user_songs_count,
             "user_new_songs_count": user_new_songs_count,
