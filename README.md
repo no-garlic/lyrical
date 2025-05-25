@@ -32,6 +32,7 @@
 
 
 ## Next
+ - Change Toast system to be a singleton
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - Filtering & sorting song names
  - Save Column Widths

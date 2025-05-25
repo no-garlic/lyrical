@@ -1,10 +1,17 @@
 import { apiUserLLM } from './api_user_llm.js';
-import { showToast } from './util_toast.js';
+import { ToastSystem } from './util_toast.js';
+
+/**
+ * Declare the toast system at the module level
+ */
+let toastSystem;
 
 /**
  * Initialize sidebar event listeners for LLM parameters
  */
 export function initSidebar() {
+    // Initialize the toast system
+    initToastSystem();
     // Initialize model selector
     const modelSelect = document.querySelector('#sidebar-model-select');
     if (modelSelect) {
@@ -18,7 +25,7 @@ export function initSidebar() {
                 // Update cost display if successful
                 if (result) {
                     updateCostDisplay(modelId);
-                    showToast('LLM model updated successfully', 'success');
+                    toastSystem.showSuccess('LLM model updated successfully');
                 }
             } catch (error) {
                 console.error('Error updating LLM model:', error);
@@ -28,7 +35,7 @@ export function initSidebar() {
                 this.value = previousValue;
                 
                 // Show error toast to user
-                showToast('Failed to update LLM model. Please try again.', 'error');
+                toastSystem.showError('Failed to update LLM model. Please try again.');
             }
             
             // Store the current value for potential future reversion
@@ -59,7 +66,7 @@ export function initSidebar() {
                 this.value = previousValue;
                 
                 // Show error toast to user
-                showToast('Failed to update temperature. Please try again.', 'error');
+                toastSystem.showError('Failed to update temperature. Please try again.');
             }
         }, 500));
         
@@ -87,13 +94,21 @@ export function initSidebar() {
                 this.value = previousValue;
                 
                 // Show error toast to user
-                showToast('Failed to update max tokens. Please try again.', 'error');
+                toastSystem.showError('Failed to update max tokens. Please try again.');
             }
         }, 500));
         
         // Store initial value for potential reversion
         maxTokensRange.dataset.previousValue = maxTokensRange.value;
     }
+}
+
+/**
+ * Initialize the toast system
+ */
+function initToastSystem() {
+    toastSystem = new ToastSystem();
+    toastSystem.init();
 }
 
 /**
