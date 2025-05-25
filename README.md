@@ -22,13 +22,13 @@
  - Stop drag and drop when editing
  - When editing, hide all other edit and delete buttons when hovering
  - Refactor js code, tidy up, rename apis, etc
+ - API call and update UI for showing the current LLM details, and changing to a different LLM
+ - API call and update UI for showing LLM parameters (temperature and max tokens)
 
 
 ## Todo
  - Generate Song Names (basic functionality) and add them to the NEW section
  - Generate Song Names with parameters and exclusion list
- - API call and update UI for showing the current LLM details, and changing to a different LLM
- - API call and update UI for showing LLM parameters (temperature and max tokens)
 
 
 ## Next
@@ -38,5 +38,5 @@
  - Save Column Widths
  - Login Required for all pages
  - Drag and drop not showing custom cursors
- - Hide girl in media query for short page
+ - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
