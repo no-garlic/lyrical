@@ -183,11 +183,12 @@ function generateSongNames() {
  * Setup the horizontal and vertical resizable elements on the page.
  */
 function setupResizeElements() {    
-    // Make the panel header resizable
+    // Make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
         document.getElementById('panel-top-content'),
         document.getElementById('panel-vertical-splitter'),
-        document.getElementById('panel-bottom-content')
+        document.getElementById('panel-bottom-content'),
+        { autoSizeToFitBottomContent: true }
     );
     // Make the first panel splitter resizable
     makeHorizontallyResizable(

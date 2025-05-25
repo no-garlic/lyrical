@@ -5,13 +5,20 @@
  * @param {HTMLElement} topPanel - the top panel element
  * @param {HTMLElement} splitter - the splitter element
  * @param {HTMLElement} bottomPanel - the bottom panel element
+ * @param {object} options - configuration options
+ * @param {boolean} options.autoSizeToFitBottomContent - if true, initially size to fit bottom panel content
  */
-export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
+export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options = {}) {
     let isResizing = false;
 
     splitter.addEventListener('mousedown', (e) => {
         handleMouseDown(e, topPanel, splitter, bottomPanel);
     });
+
+    // Auto-size to fit bottom content if requested
+    if (options.autoSizeToFitBottomContent) {
+        initializeAutoSizing(topPanel, splitter, bottomPanel);
+    }
 
     /**
      * handles mouse down event on the splitter
@@ -174,6 +181,50 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
     function removeMouseEventListeners(onMouseMove, onMouseUp) {
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    /**
+     * initializes auto-sizing to fit bottom panel content
+     * @param {HTMLElement} topPanel - the top panel element
+     * @param {HTMLElement} splitter - the splitter element
+     * @param {HTMLElement} bottomPanel - the bottom panel element
+     */
+    function initializeAutoSizing(topPanel, splitter, bottomPanel) {
+        // Wait for DOM to be fully laid out
+        setTimeout(() => {
+            const container = topPanel.parentElement;
+            const containerHeight = container.offsetHeight;
+            const splitterHeight = splitter.offsetHeight;
+            
+            // Get the natural height of the bottom panel content
+            const bottomContent = bottomPanel.firstElementChild;
+            if (!bottomContent) return;
+            
+            // Temporarily remove height constraints to measure natural content height
+            const originalBottomHeight = bottomPanel.style.height;
+            const originalTopHeight = topPanel.style.height;
+            
+            bottomPanel.style.height = 'auto';
+            topPanel.style.height = 'auto';
+            
+            const naturalBottomHeight = bottomContent.scrollHeight;
+            const availableHeight = containerHeight - splitterHeight;
+            const minTopHeight = 100; // Minimum height for top panel
+            
+            // Calculate optimal heights
+            let bottomHeight = Math.min(naturalBottomHeight, availableHeight - minTopHeight);
+            let topHeight = availableHeight - bottomHeight;
+            
+            // Ensure we don't make the top panel too small
+            if (topHeight < minTopHeight) {
+                topHeight = minTopHeight;
+                bottomHeight = availableHeight - topHeight;
+            }
+            
+            // Apply the calculated heights
+            topPanel.style.height = `${topHeight}px`;
+            bottomPanel.style.height = `${bottomHeight}px`;
+        }, 0);
     }
 }
 
