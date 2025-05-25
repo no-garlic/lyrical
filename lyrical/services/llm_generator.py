@@ -13,16 +13,16 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 from django.http import JsonResponse, StreamingHttpResponse
-from ..services.llm_service import llm_call
-from ..services.utils.prompts import get_system_prompt, get_user_prompt
-from ..services.utils.messages import MessageBuilder
+from .llm_service import llm_call
+from .utils.prompts import get_system_prompt, get_user_prompt
+from .utils.messages import MessageBuilder
 from .. import models
 
 
 logger = logging.getLogger(__name__)
 
 
-class BaseLLMGenerator(ABC):
+class LLMGenerator(ABC):
     """
     Base class for LLM generation endpoints.
     

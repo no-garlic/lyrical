@@ -7,6 +7,7 @@ import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
 import { SelectSystem } from './util_select.js';
 import { ToastSystem } from './util_toast.js';
+import { StreamHelper } from "./util_stream_helper.js";
 
 
 /**
@@ -28,6 +29,12 @@ let toastSystem;
 
 
 /**
+ * Declare the stream helper at the module level
+ */
+let streamHelper;
+
+
+/**
  * Initialize the page when the DOM is fully loaded
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,8 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the toast system
     initToastSystem();
 
-    // Bind the generate song names and add song buttons
-    document.getElementById('btn-generate-song-names').onclick = generateSongNames;
+    // Bind the add song names button
     document.getElementById('btn-add-song-name').onclick = addSongName;
 
     // Bind the click events for the song edit and delete buttons
@@ -54,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Select System
     initSelectSystem();
+
+    // Initialise the Stream Handler
+    initStreamHandler();
 });
 
 
@@ -514,6 +523,71 @@ function handleDeleteSongConfirm(event) {
             console.error('Failed to delete song:', error);
             toastSystem.showError('Failed to delete the song. Please try again.');
         });
+}
+
+
+/**
+ * initializes the stream handler and sets up event listeners
+ */
+function initStreamHandler() {
+    const generateButton = document.getElementById('btn-generate-song-names');
+    if (!generateButton) return;
+
+    streamHelper = createStreamHelper();
+    generateButton.addEventListener('click', handleGenerateClick);
+}
+
+
+/**
+ * creates and configures the stream helper
+ * @returns {StreamHelper} configured stream helper instance
+ */
+function createStreamHelper() {
+    return new StreamHelper('/api_gen_song_names', {
+        callbacks: {
+            onPreRequest: () => {
+                console.log("stream prerequest");
+            },
+            onIncomingData: (data) => {
+                console.log(`incoming stream data ${data}`);
+            },
+            onStreamEnd: () => {
+                console.log("stream end");
+            },
+            onComplete: () => {
+                console.log("stream complete");
+            },
+            onError: (error) => {
+                console.error("stream error:", error);
+            }
+        }
+    });
+}
+
+
+/**
+ * handles the generate button click event
+ */
+function handleGenerateClick() {
+    const requestParams = buildRequestParams();
+    streamHelper.initiateRequest(requestParams);
+}
+
+
+/**
+ * builds the request parameters for the stream
+ * @returns {object} request parameters
+ */
+function buildRequestParams() {
+    return {
+        prompt: 'song_names',
+        count: 8,
+        min_words: 1,
+        max_words: 5,
+        include_themes: 'ocean and the beach, dancing',
+        exclude_themes: 'neon, cyber, phones and technology, robots, AI, futuristic, space, stars, aliens, sci-fi',
+        exclude_words: 'neon, endless, chasing'
+    };
 }
 
 

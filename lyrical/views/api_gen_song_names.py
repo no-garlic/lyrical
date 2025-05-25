@@ -2,14 +2,14 @@ import logging
 from typing import Dict, Any, Optional
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from ..services.base_llm_generator import BaseLLMGenerator
+from ..services.llm_generator import LLMGenerator
 from .. import models
 
 
 logger = logging.getLogger(__name__)
 
 
-class SongNamesGenerator(BaseLLMGenerator):
+class SongNamesGenerator(LLMGenerator):
     """
     generates song names using llm based on user parameters and themes.
     """
