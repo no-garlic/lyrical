@@ -12,6 +12,7 @@ let toastSystem;
 export function initSidebar() {
     // Initialize the toast system
     initToastSystem();
+
     // Initialize model selector
     const modelSelect = document.querySelector('#sidebar-model-select');
     if (modelSelect) {
@@ -25,7 +26,6 @@ export function initSidebar() {
                 // Update cost display if successful
                 if (result) {
                     updateCostDisplay(modelId);
-                    toastSystem.showSuccess('LLM model updated successfully');
                 }
             } catch (error) {
                 console.error('Error updating LLM model:', error);
@@ -50,20 +50,21 @@ export function initSidebar() {
     const temperatureRange = document.querySelector('#sidebar-temperature-range');
     if (temperatureRange) {
         temperatureRange.addEventListener('input', debounce(async function(event) {
-            const temperature = parseFloat(event.target.value);
-            const previousValue = this.dataset.previousValue || this.min;
+            const element = event.target;
+            const temperature = parseFloat(element.value);
+            const previousValue = element.dataset.previousValue || element.min;
             
             try {
                 // Call API to update user's LLM temperature
                 await apiUserLLM({ llm_temperature: temperature });
                 
                 // Update stored value on success
-                this.dataset.previousValue = this.value;
+                element.dataset.previousValue = element.value;
             } catch (error) {
                 console.error('Error updating LLM temperature:', error);
                 
                 // Revert the range to previous value on error
-                this.value = previousValue;
+                element.value = previousValue;
                 
                 // Show error toast to user
                 toastSystem.showError('Failed to update temperature. Please try again.');
@@ -78,20 +79,21 @@ export function initSidebar() {
     const maxTokensRange = document.querySelector('#sidebar-max-tokens-range');
     if (maxTokensRange) {
         maxTokensRange.addEventListener('input', debounce(async function(event) {
-            const maxTokens = parseInt(event.target.value);
-            const previousValue = this.dataset.previousValue || this.min;
+            const element = event.target;
+            const maxTokens = parseInt(element.value);
+            const previousValue = element.dataset.previousValue || element.min;
             
             try {
                 // Call API to update user's LLM max tokens
                 await apiUserLLM({ llm_max_tokens: maxTokens });
                 
                 // Update stored value on success
-                this.dataset.previousValue = this.value;
+                element.dataset.previousValue = element.value;
             } catch (error) {
                 console.error('Error updating LLM max tokens:', error);
                 
                 // Revert the range to previous value on error
-                this.value = previousValue;
+                element.value = previousValue;
                 
                 // Show error toast to user
                 toastSystem.showError('Failed to update max tokens. Please try again.');
