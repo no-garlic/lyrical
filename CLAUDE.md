@@ -57,9 +57,10 @@ python manage.py migrate
 
 ### Frontend Architecture
 - **Vanilla JavaScript with ES6 modules**: No build tools, modular organization
-- **DaisyUI + Tailwind CSS**: Component-based styling
-- **System classes**: Reusable JavaScript systems (SelectSystem, drag-drop, streaming)
+- **DaisyUI + Tailwind CSS**: Component-based styling with custom theme
+- **System classes**: Reusable JavaScript systems (SelectSystem, DragDropSystem, streaming)
 - **Component rendering**: Server-side component rendering via AJAX using django-cotton
+- **Toast notifications**: Global error/success feedback using `util_toast.js`
 
 ### LLM Integration
 - **LiteLLM**: Unified interface for multiple AI providers (Gemini, OpenAI, etc.)
@@ -77,9 +78,10 @@ python manage.py migrate
 
 ### Frontend Module System
 - Import modules using: `import { functionName } from './module_name.js'`
-- API modules in `api_*.js` handle backend communication
-- Utility modules (`util_*.js`) provide reusable functionality
-- Page modules coordinate feature initialization
+- **API modules** (`api_*.js`): Return promises with consistent error handling
+- **Utility modules** (`util_*.js`): Reusable systems (drag-drop, selection, toasts)
+- **Page modules**: Coordinate feature initialization and event binding
+- **Error handling**: All API calls show toast notifications on failure
 
 ### Component System
 - Use django-cotton components in `templates/cotton/`
@@ -107,3 +109,31 @@ python manage.py migrate
 - Views: `lyrical/views/`
 - Services: `lyrical/services/` (LLM integration)
 - Components: `lyrical/templates/cotton/`
+
+## Key Development Notes
+
+### API Design Pattern
+- **Unified editing**: `api_song_edit` handles both name and stage updates via optional parameters
+- **Promise-based**: All APIs return promises for consistent async handling
+- **Error propagation**: Errors thrown by APIs are caught and displayed as toast notifications
+
+### Interactive Systems
+- **SelectSystem**: Manages card selection with configurable click-away behavior
+- **DragDropSystem**: Custom drag-and-drop with ghost elements and cursor management
+- **Specialized cursors**: Aggressive browser override for consistent drag cursor behavior
+
+### Styling Architecture
+- **CSS specificity management**: Uses `!important` and descendant selectors for drag cursors
+- **Custom theme**: DaisyUI theme customization in `styles.css`
+- **Responsive design**: Tailwind utilities with custom CSS overrides
+
+### Toast System
+- **Global error handling**: `showErrorToast()` function available globally
+- **User feedback**: All API failures show user-friendly error messages
+- **Animation system**: Slide-in animations with proper cleanup
+
+### LLM Generation Pattern
+- **BaseLLMGenerator**: Base class for standardized LLM API endpoints
+- **Template available**: `_template_generator.py` for creating new generators
+- **Structured workflow**: Parameter extraction → validation → database queries → prompt building → LLM streaming
+- **Error handling**: Consistent error responses and logging throughout the pipeline

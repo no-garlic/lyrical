@@ -12,9 +12,10 @@ from .views.page_lyrics import *
 from .views.page_structure import *
 
 from .views.api_render_component import *
-from .views.api_song_delete import *
-from .views.api_song_edit import *
 from .views.api_song_add import *
+from .views.api_song_edit import *
+from .views.api_song_delete import *
+from .views.api_song_gen_names import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
