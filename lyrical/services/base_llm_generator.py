@@ -233,6 +233,8 @@ class BaseLLMGenerator(ABC):
             self.prompt_messages = MessageBuilder()
             self.prompt_messages.add_system(system_message)
             self.prompt_messages.add_user(user_message)
+
+            # print(self.prompt_messages)
             
             # log generation start
             logger.info(f"starting generation for user '{self.user.username}' with prompt '{prompt_name}'")

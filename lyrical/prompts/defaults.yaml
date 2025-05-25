@@ -14,7 +14,8 @@
 
 "song_names" : |-
   Generate a list of {{ count }} song names for catchy pop songs.
-  Each song name should be between {{ min_words }} and {{ max_words }} words in length.
+  
+  I want a variety of different length song names, each between {{ min_words }} and {{ max_words }} words in length.
 
   The song names should use or more of the themes:
   {{ include_themes }}
