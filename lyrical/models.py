@@ -51,6 +51,7 @@ class Song(models.Model):
         ('generated', 'Generated')  # song is no longer a song name, but now a full song
     ], default='new')
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.title} ({self.stage})"
@@ -67,7 +68,8 @@ class Lyrics(models.Model):
     ])
     index = models.IntegerField(default=0)
     lyrics = models.TextField(default='')
-    created_at = models.DateTimeField(auto_now_add=True)    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Section(models.Model):
@@ -84,6 +86,7 @@ class Section(models.Model):
     ])
     lyrics = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Message(models.Model):
@@ -92,6 +95,7 @@ class Message(models.Model):
     llm = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.role}: {self.content[:50]}... ({self.song.title})"

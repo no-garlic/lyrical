@@ -82,7 +82,7 @@ export class SelectSystem {
         this.selectedElements = new Set();
         this.clickAwayElements = new Set();
 
-        // Bind methods that will be used as event handlers to ensure 'this' context
+        // bind methods that will be used as event handlers to ensure 'this' context
         this._handleElementClick = this._handleElementClick.bind(this);
         this._handleDocumentClick = this._handleDocumentClick.bind(this);
         this._handleKeyDown = this._handleKeyDown.bind(this);
@@ -98,15 +98,15 @@ export class SelectSystem {
         this.config = { ...this.config, ...config };
         this.callbacks = { ...this.callbacks, ...callbacks };
 
-        // Remove existing global listeners before adding new ones to prevent duplicates
+        // remove existing global listeners before adding new ones to prevent duplicates
         document.removeEventListener('keydown', this._handleKeyDown);
-        document.removeEventListener('click', this._handleDocumentClick, true); // Use capture for click away
+        document.removeEventListener('click', this._handleDocumentClick, true); // use capture for click away
 
         if (this.config.canDeselectOnEscape) {
             document.addEventListener('keydown', this._handleKeyDown);
         }
         if (this.config.canDeselectOnClickAway) {
-            document.addEventListener('click', this._handleDocumentClick, true); // Use capture for click away
+            document.addEventListener('click', this._handleDocumentClick, true); // use capture for click away
         }
     }
 
@@ -124,7 +124,7 @@ export class SelectSystem {
         }
         if (this.selectableElements.has(element)) {
             // console.warn("SelectSystem: Element already added and selectable.", element);
-            return false; // Not added again
+            return false; // not added again
         }
 
         this.selectableElements.add(element);
@@ -138,7 +138,7 @@ export class SelectSystem {
         if (this.config.autoSelectFirstElement && this.selectedElements.size === 0) {
             this.selectElement(element);
         } else if (!this.config.allowNoSelection && this.selectedElements.size === 0 && this.selectableElements.size === 1) {
-            // If no selection is disallowed, and this is the very first element, select it.
+            // if no selection is disallowed, and this is the very first element, select it.
             this.selectElement(element);
         }
         return true;
@@ -162,8 +162,8 @@ export class SelectSystem {
             return false;
         }
 
-        // If the element is currently selected, deselect it first.
-        // This specific deselection bypasses some rules like allowNoSelection because the element is being removed.
+        // if the element is currently selected, deselect it first.
+        // this specific deselection bypasses some rules like allowNoSelection because the element is being removed.
         if (this.selectedElements.has(element)) {
             const oldSelected = new Set(this.selectedElements);
             this.callbacks.onBeforeElementChanged(element, oldSelected, 'deselect');
@@ -179,7 +179,7 @@ export class SelectSystem {
 
         this.callbacks.onElementRemoved(element);
 
-        // If allowNoSelection is false, and removing this element resulted in no selection,
+        // if allowNoSelection is false, and removing this element resulted in no selection,
         // try to select another available element.
         if (!this.config.allowNoSelection && this.selectedElements.size === 0 && this.selectableElements.size > 0) {
             const firstAvailable = this.selectableElements.values().next().value;
@@ -205,7 +205,7 @@ export class SelectSystem {
             return false;
         }
         if (this.clickAwayElements.has(element)) {
-            return false; // Already added
+            return false; // already added
         }
         this.clickAwayElements.add(element);
         return true;
@@ -222,7 +222,7 @@ export class SelectSystem {
             return false;
         }
         if (!this.clickAwayElements.has(element)) {
-            return false; // Not found
+            return false; // not found
         }
         this.clickAwayElements.delete(element);
         return true;
@@ -242,9 +242,9 @@ export class SelectSystem {
         }
 
         if (this.selectedElements.has(element)) {
-            // If it's already selected:
-            // - In single-select mode, it's a no-op, considered successful.
-            // - In multi-select mode, also a no-op for "selection". Toggling is handled by _handleElementClick.
+            // if it's already selected:
+            // - in single-select mode, it's a no-op, considered successful.
+            // - in multi-select mode, also a no-op for "selection". toggling is handled by _handleElementClick.
             return true;
         }
 
@@ -256,12 +256,12 @@ export class SelectSystem {
         this.callbacks.onBeforeElementChanged(element, oldSelected, 'select');
 
         if (!this.config.allowMultiSelect) {
-            // Deselect all currently selected elements.
-            // Create a copy for iteration as selectedElements will be modified.
+            // deselect all currently selected elements.
+            // create a copy for iteration as selectedElements will be modified.
             const currentSelections = Array.from(this.selectedElements);
             currentSelections.forEach(selectedEl => {
-                // This is an implicit deselection due to a new single selection.
-                // No need to check canDeselectElement or allowNoSelection here.
+                // this is an implicit deselection due to a new single selection.
+                // no need to check canDeselectElement or allowNoSelection here.
                 this.selectedElements.delete(selectedEl);
                 this.callbacks.onElementDeselected(selectedEl, new Set(this.selectedElements));
             });
@@ -285,7 +285,7 @@ export class SelectSystem {
             return false;
         }
 
-        // Check if this is the last selected element and no selection is disallowed.
+        // check if this is the last selected element and no selection is disallowed.
         if (!this.config.allowNoSelection && this.selectedElements.size === 1 && this.selectedElements.has(element)) {
             // console.log("SelectSystem: Cannot deselect the last element when allowNoSelection is false.");
             return false;
@@ -316,21 +316,21 @@ export class SelectSystem {
             console.error("SelectSystem: elements to select must be an array.", elements);
             return false;
         }
-        if (elements.length === 0) return true; // No elements to select, considered success.
+        if (elements.length === 0) return true; // no elements to select, considered success.
 
         if (!this.config.allowMultiSelect) {
-            // Single-select mode: try to select the first valid element.
+            // single-select mode: try to select the first valid element.
             // selectElement will handle deselecting the current one.
             for (const el of elements) {
                 if (this.selectableElements.has(el)) {
                     if (this.selectElement(el)) {
-                        return true; // Successfully selected one
+                        return true; // successfully selected one
                     }
                 }
             }
-            return false; // No element from the list could be selected
+            return false; // no element from the list could be selected
         } else {
-            // Multi-select mode: attempt to select all.
+            // multi-select mode: attempt to select all.
             let allSucceeded = true;
             elements.forEach(el => {
                 if (this.selectableElements.has(el)) {
@@ -338,7 +338,7 @@ export class SelectSystem {
                         allSucceeded = false;
                     }
                 } else {
-                    allSucceeded = false; // Element not even selectable
+                    allSucceeded = false; // element not even selectable
                 }
             });
             return allSucceeded;
@@ -359,7 +359,7 @@ export class SelectSystem {
 
         let allSucceeded = true;
         elements.forEach(el => {
-            if (this.selectedElements.has(el)) { // Only attempt to deselect if actually selected
+            if (this.selectedElements.has(el)) { // only attempt to deselect if actually selected
                 if (!this.deselectElement(el)) {
                     allSucceeded = false;
                 }
@@ -376,7 +376,7 @@ export class SelectSystem {
     deselectAllElements() {
         if (this.selectedElements.size === 0) return true;
 
-        // If !allowNoSelection and single-select mode with 1 item, it cannot be deselected.
+        // if !allowNoSelection and single-select mode with 1 item, it cannot be deselected.
         if (!this.config.allowNoSelection && !this.config.allowMultiSelect && this.selectedElements.size === 1) {
             return false;
         }
@@ -388,8 +388,8 @@ export class SelectSystem {
                 allSuccessfullyDeselected = false;
             }
         });
-        // Returns true if the set is now empty or couldn't be emptied further due to rules.
-        // If allSuccessfullyDeselected is false, it means some items that were targeted for deselection
+        // returns true if the set is now empty or couldn't be emptied further due to rules.
+        // if allSuccessfullyDeselected is false, it means some items that were targeted for deselection
         // could not be deselected (e.g. the last item when allowNoSelection is false).
         return allSuccessfullyDeselected;
     }
@@ -403,7 +403,7 @@ export class SelectSystem {
         if (this.selectedElements.size === 0) {
             return null;
         }
-        // Return the first element encountered in the Set's iteration order
+        // return the first element encountered in the Set's iteration order
         return this.selectedElements.values().next().value;
     }
 

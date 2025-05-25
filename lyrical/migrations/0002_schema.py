@@ -103,6 +103,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
                 (
                     "user",
                     models.ForeignKey(
@@ -143,6 +144,7 @@ class Migration(migrations.Migration):
                 ),
                 ("lyrics", models.TextField(default="")),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
                 (
                     "song",
                     models.ForeignKey(
@@ -178,6 +180,7 @@ class Migration(migrations.Migration):
                 ),
                 ("content", models.TextField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
                 (
                     "llm",
                     models.ForeignKey(
@@ -225,6 +228,7 @@ class Migration(migrations.Migration):
                 ("index", models.IntegerField(default=0)),
                 ("lyrics", models.TextField(default="")),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
                 (
                     "song",
                     models.ForeignKey(

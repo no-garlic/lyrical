@@ -1,9 +1,16 @@
+/**
+ * Render a component via API call and insert it into a target element.
+ * @param {string} componentName - The name of the component to render.
+ * @param {string} targetElement - The ID of the target element to insert the component into.
+ * @param {Object} props - Properties to pass to the component.
+ * @returns {Promise<string>} Promise that resolves to the rendered HTML.
+ */
 export function apiRenderComponent(componentName, targetElement, props) {
-    // Get the CSRF token
+    // get the CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // Get the component HTML from the server
-    return fetch(`/api_render_component/${componentName}`, { // Add return here
+    // get the component HTML from the server
+    return fetch(`/api_render_component/${componentName}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -18,9 +25,9 @@ export function apiRenderComponent(componentName, targetElement, props) {
         return response.json();
     })
     .then(data => {
-        if (data && data.html !== undefined) { // Check if data and data.html exist
+        if (data && data.html !== undefined) {
             document.getElementById(targetElement).insertAdjacentHTML('beforeend', data.html);
-            return data.html; // Resolve with the HTML content or a success indicator
+            return data.html;
         } else {
             console.error('Error rendering component: Invalid data received', data);
             throw new Error('Failed to render component: Invalid data received');
@@ -28,6 +35,6 @@ export function apiRenderComponent(componentName, targetElement, props) {
     })
     .catch(error => {
         console.error('Error rendering component:', error);
-        throw error; // Re-throw the error to be caught by the caller
+        throw error;
     });
 }

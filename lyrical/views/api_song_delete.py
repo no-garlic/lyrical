@@ -1,34 +1,52 @@
-from django.http import JsonResponse, StreamingHttpResponse, QueryDict
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from ..services.llm_service import llm_call
-from ..services.utils.prompts import get_system_prompt, get_user_prompt
-from ..services.utils.messages import MessageBuilder
 from .. import models
 import json
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
 def api_song_delete(request):
-
-    if request.method != 'DELETE':
-        return JsonResponse({"status": "failure", "error": "Invalid request method"}, status=405)
-
-    # Parse the request body for DELETE requests
-    delete_data = json.loads(request.body.decode('utf-8'))
-    song_id = delete_data.get("song_id")
-
-    if not song_id:
-        print("No song ID provided")
-        return JsonResponse({"status": "failure", "error": "Song ID not provided"}, status=400)
-
-    if not request.user or not request.user.is_authenticated:
-        return JsonResponse({"status": "failure", "error": "User not authenticated"}, status=401)
+    """
+    Delete a song by ID.
     
-    print(f"Deleting song with ID: {song_id}")
+    Args:
+        request: The HTTP request object containing DELETE data with song_id
+    
+    Returns:
+        JsonResponse: Success/error response
+    """
+    # validate request method
+    if request.method != 'DELETE':
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
-    result = models.Song.objects.get(id=song_id).delete()
-    if result[0] == 0:
-        print(f"Song with ID {song_id} not found or already deleted.")
-        return JsonResponse({"status": "failure", "error": "Song not found or already deleted"}, status=404)
+    try:
+        # parse the request body for DELETE requests
+        delete_data = json.loads(request.body.decode('utf-8'))
+        song_id = delete_data.get("song_id")
 
-    return JsonResponse({"status": "success", "song_id": song_id}, status=200)
+        # validate song ID is provided
+        if not song_id:
+            return JsonResponse({"error": "Song ID must be provided"}, status=400)
+
+        # get the song object and verify ownership
+        try:
+            song = models.Song.objects.get(id=song_id, user=request.user)
+        except models.Song.DoesNotExist:
+            return JsonResponse({"error": f"Song with ID {song_id} not found or you don't have permission to delete it"}, status=404)
+
+        # delete the song
+        song_name = song.name
+        song.delete()
+
+        logger.info(f"User {request.user.username} deleted song '{song_name}' with ID {song_id}")
+        return JsonResponse({"status": "success", "song_id": song_id}, status=200)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON data provided"}, status=400)
+    except Exception as e:
+        logger.error(f"Failed to delete song for user {request.user.username}: {str(e)}")
+        return JsonResponse({"error": "Failed to delete song. Please try again."}, status=500)

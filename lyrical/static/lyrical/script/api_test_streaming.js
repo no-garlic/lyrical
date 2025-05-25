@@ -1,69 +1,107 @@
 import { StreamHelper } from "./util_stream_helper.js";
 
+/**
+ * initializes the streaming test page when dom is loaded
+ */
 document.addEventListener('DOMContentLoaded', function () {
     initStreamHandler();
 });
 
-// Store original button HTML to restore it later
+// store original button html to restore it later
 const originalButtonHTML = new Map();
-let streamHelper; // Declare globally for this script if needed, or manage scope appropriately
+let streamHelper;
 
-// --- UI Update Functions ---
-
+/**
+ * shows or hides loading state in the ui
+ * @param {boolean} isLoading - whether to show loading state
+ */
 function uiShowLoading(isLoading) {
     const generateButton = document.querySelector('.generate-btn');
     const jsonDataContainer = document.querySelector('.json-data');
 
     if (isLoading) {
-        if (generateButton && !originalButtonHTML.has(generateButton)) {
-            originalButtonHTML.set(generateButton, generateButton.innerHTML);
-        }
-        if (generateButton) {
-            generateButton.disabled = true;
-            generateButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
-        }
-        if (jsonDataContainer) {
-            jsonDataContainer.innerHTML = ''; // Clear previous results at the start of a new request
-        }
+        handleLoadingStart(generateButton, jsonDataContainer);
     } else {
-        if (generateButton && originalButtonHTML.has(generateButton)) {
-            generateButton.innerHTML = originalButtonHTML.get(generateButton);
-            originalButtonHTML.delete(generateButton); // Clean up map entry
-        }
-        if (generateButton) {
-            generateButton.disabled = false;
-        }
+        handleLoadingEnd(generateButton);
     }
 }
 
+/**
+ * handles ui changes when loading starts
+ * @param {HTMLElement} generateButton - the generate button element
+ * @param {HTMLElement} jsonDataContainer - the data container element
+ */
+function handleLoadingStart(generateButton, jsonDataContainer) {
+    if (generateButton && !originalButtonHTML.has(generateButton)) {
+        originalButtonHTML.set(generateButton, generateButton.innerHTML);
+    }
+    if (generateButton) {
+        generateButton.disabled = true;
+        generateButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+    }
+    if (jsonDataContainer) {
+        jsonDataContainer.innerHTML = '';
+    }
+}
+
+/**
+ * handles ui changes when loading ends
+ * @param {HTMLElement} generateButton - the generate button element
+ */
+function handleLoadingEnd(generateButton) {
+    if (generateButton && originalButtonHTML.has(generateButton)) {
+        generateButton.innerHTML = originalButtonHTML.get(generateButton);
+        originalButtonHTML.delete(generateButton);
+    }
+    if (generateButton) {
+        generateButton.disabled = false;
+    }
+}
+
+/**
+ * displays incoming stream data in the ui
+ * @param {any} data - the data received from the stream
+ */
 function uiDisplayStreamData(data) {
     const container = document.querySelector('.json-data');
     if (!container) return;
 
-    // This function now only handles appending a single piece of incoming data.
-    // Error display and "no results" are handled by uiDisplayError and potentially onComplete.
-
     if (Array.isArray(data)) {
-        // If the stream sends an array as a single item (less common for NDJSON line-by-line)
         data.forEach(element => appendElementToContainer(container, element));
     } else if (typeof data === 'object' && data !== null) {
         appendElementToContainer(container, data);
-    } else if (data) { // Handle primitive types (e.g., a string directly from a simpler stream)
+    } else if (data) {
         appendElementToContainer(container, data);
     }
-    // If data is null or undefined, we simply do nothing for this chunk.
 }
 
+/**
+ * appends a data element to the container
+ * @param {HTMLElement} container - the container element
+ * @param {any} element - the element to append
+ */
 function appendElementToContainer(container, element) {
     const p = document.createElement('p');
-    p.className = "generate-subheading"; // Assuming this class is appropriate for all data
+    p.className = "generate-subheading";
 
     if (typeof element === 'string') {
         p.innerHTML = element.replace(/\n/g, '<br>');
     } else if (element && element.name) {
         p.innerHTML = String(element.name).replace(/\n/g, '<br>');
+    } else {
+        handleSpecificElementTypes(p, element);
+    }
+    
+    container.appendChild(p);
+}
 
-    } else if (element && element.verse1) {
+/**
+ * handles specific element types for display
+ * @param {HTMLElement} p - the paragraph element to populate
+ * @param {any} element - the element to process
+ */
+function handleSpecificElementTypes(p, element) {
+    if (element && element.verse1) {
         p.innerHTML = 'verse1: ' + String(element.verse1).replace(/\n/g, '<br>');
     } else if (element && element.verse2) {
         p.innerHTML = 'verse2: ' + String(element.verse2).replace(/\n/g, '<br>');
@@ -77,135 +115,153 @@ function appendElementToContainer(container, element) {
         p.innerHTML = 'outro: ' + String(element.outro).replace(/\n/g, '<br>');
     } else if (element && element.vocalisation) {
         p.innerHTML = 'vocalisation: ' + String(element.vocalisation).replace(/\n/g, '<br>');
-        
     } else if (typeof element === 'object' && element !== null) {
-        // Fallback for other object structures: display as preformatted JSON
-        const pre = document.createElement('pre');
-        pre.style.whiteSpace = 'pre-wrap';
-        pre.style.wordBreak = 'break-all';
-        pre.textContent = JSON.stringify(element, null, 2);
-        p.appendChild(pre);
+        createJsonDisplay(p, element);
     } else {
-        // For other unexpected data types, or if element is null/undefined after checks
-        p.textContent = "Received non-displayable data chunk.";
+        p.textContent = "received non-displayable data chunk.";
     }
-    container.appendChild(p);
+}
+
+/**
+ * creates a json display for complex objects
+ * @param {HTMLElement} p - the paragraph element
+ * @param {object} element - the object to display
+ */
+function createJsonDisplay(p, element) {
+    const pre = document.createElement('pre');
+    pre.style.whiteSpace = 'pre-wrap';
+    pre.style.wordBreak = 'break-all';
+    pre.textContent = JSON.stringify(element, null, 2);
+    p.appendChild(pre);
 }
 
 
+/**
+ * displays error messages in the ui
+ * @param {object} error - the error object to display
+ */
 function uiDisplayError(error) {
     const container = document.querySelector('.json-data');
     if (!container) return;
-    // Clear previous results before showing a new error message for a request
-    // container.innerHTML = ''; // This might be too aggressive if errors are per-chunk
 
     const p = document.createElement('p');
-    p.className = "generate-subheading text-danger"; // Use Bootstrap's text-danger for errors
+    p.className = "generate-subheading text-danger";
 
-    let errorMessage = `Error: ${error.message || 'Unknown error'}`;
+    let errorMessage = `error: ${error.message || 'unknown error'}`;
     if (error.type) errorMessage = `[${error.type}] ${errorMessage}`;
-    if (error.status) errorMessage += ` (Status: ${error.status})`;
+    if (error.status) errorMessage += ` (status: ${error.status})`;
     p.innerHTML = errorMessage;
 
+    appendErrorDetails(p, error);
+    container.appendChild(p);
+}
+
+/**
+ * appends error details to the error display
+ * @param {HTMLElement} p - the paragraph element
+ * @param {object} error - the error object
+ */
+function appendErrorDetails(p, error) {
     if (error.raw_content) {
         const pre = document.createElement('pre');
         pre.style.whiteSpace = 'pre-wrap';
         pre.style.wordBreak = 'break-all';
-        pre.textContent = `Raw content: ${error.raw_content}`;
+        pre.textContent = `raw content: ${error.raw_content}`;
         p.appendChild(document.createElement('br'));
         p.appendChild(pre);
     }
-    if (error.details) { // For parsing errors or other details
+    if (error.details) {
         const detailsPre = document.createElement('pre');
         detailsPre.style.whiteSpace = 'pre-wrap';
         detailsPre.style.wordBreak = 'break-all';
-        detailsPre.textContent = `Details: ${error.details}`;
+        detailsPre.textContent = `details: ${error.details}`;
         p.appendChild(document.createElement('br'));
         p.appendChild(detailsPre);
     }
-    // Displaying full traceback from server might be too verbose for users,
-    // but if needed, it would be in error.data or error.originalError.data
-    container.appendChild(p);
 }
 
+/**
+ * handles when the stream has ended
+ */
 function uiHandleStreamEnd() {
-    // This callback is useful if you need to do something specific when the stream has finished sending data,
-    // but before the final onComplete (which might include other cleanup).
-    // For example, if there were no items, you might want to display "No results found."
     const container = document.querySelector('.json-data');
     if (container && container.children.length === 0) {
         const p = document.createElement('p');
         p.className = "generate-subheading";
-        p.innerHTML = "No results found.";
+        p.innerHTML = "no results found.";
         container.appendChild(p);
     }
-    console.log("Stream finished.");
+    console.log("stream finished.");
 }
 
 
-// --- Stream Initialization and Event Binding ---
-
+/**
+ * initializes the stream handler and sets up event listeners
+ */
 function initStreamHandler() {
     const generateButton = document.querySelector('.generate-btn');
     if (!generateButton) return;
 
-    streamHelper = new StreamHelper('/api_gen_song', {
+    streamHelper = createStreamHelper();
+    generateButton.addEventListener('click', handleGenerateClick);
+}
+
+/**
+ * creates and configures the stream helper
+ * @returns {StreamHelper} configured stream helper instance
+ */
+function createStreamHelper() {
+    return new StreamHelper('/api_gen_song', {
         callbacks: {
             onPreRequest: () => {
-                console.log("Stream PreRequest");
+                console.log("stream prerequest");
                 uiShowLoading(true);
             },
             onIncomingData: (data) => {
-                // console.log("Stream IncomingData:", data);
                 uiDisplayStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("Stream End");
+                console.log("stream end");
                 uiHandleStreamEnd();
             },
             onComplete: () => {
-                console.log("Stream Complete");
+                console.log("stream complete");
                 uiShowLoading(false);
             },
             onError: (error) => {
-                console.error("Stream Error:", error);
+                console.error("stream error:", error);
                 uiDisplayError(error);
-                // uiShowLoading(false) is called by onComplete, which should also be called on error.
             }
         }
     });
+}
 
-    // Example: Set a default parameter if needed, though prompt is request-specific here
-    // streamHelper.setParameter('some_default_param', 'defaultValue');
+/**
+ * handles the generate button click event
+ */
+function handleGenerateClick() {
+    const requestParams = buildRequestParams();
+    streamHelper.initiateRequest(requestParams);
+}
 
-    generateButton.addEventListener('click', () => {
-        // Parameters for this specific request
-        const requestParamsSongName = {
-            prompt: 'song_names',
-            count: 5,
-            min_words: 1,
-            max_words: 5,
-            include_themes: "inspirational, uplifting, motivational, positive",
-            exclude_themes: "neon, cyber, digital, futuristic",
-            exclude_words: "neon, cyber, endless"            
-        };
-
-        const requestParams = {
-            prompt: 'song',
-            song_name: 'In The Sunshine',
-            song_theme: 'A song about having fun by myself in the sunshine',
-            verse_count: 1,
-            verse_lines: 4,
-            pre_chorus_lines: 0,
-            chorus_lines: 6,
-            bridge_lines: 4,
-            outro_lines: 2,
-            vocalisation_lines: 2,
-            vocalisation_terms: "oh, ooh, ah, ahh, whoa",
-            song_vocalisation_level: 3, // 0 is off, 1 is low, 2 is medium, 3 is high
-            syllables: 9
-        }
-
-        streamHelper.initiateRequest(requestParams);
-    });
+/**
+ * builds the request parameters for the stream
+ * @returns {object} request parameters
+ */
+function buildRequestParams() {
+    return {
+        prompt: 'song',
+        song_name: 'In The Sunshine',
+        song_theme: 'A song about having fun by myself in the sunshine',
+        verse_count: 1,
+        verse_lines: 4,
+        pre_chorus_lines: 0,
+        chorus_lines: 6,
+        bridge_lines: 4,
+        outro_lines: 2,
+        vocalisation_lines: 2,
+        vocalisation_terms: "oh, ooh, ah, ahh, whoa",
+        song_vocalisation_level: 3,
+        syllables: 9
+    };
 }

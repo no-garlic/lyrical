@@ -1,54 +1,74 @@
-from django.http import JsonResponse, StreamingHttpResponse, QueryDict
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from ..services.llm_service import llm_call
-from ..services.utils.prompts import get_system_prompt, get_user_prompt
-from ..services.utils.messages import MessageBuilder
 from .. import models
 import json
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
 def api_song_edit(request):
-
+    """
+    Edit a song by ID.
+    
+    Args:
+        request: The HTTP request object containing PUT data with song_id and updates
+    
+    Returns:
+        JsonResponse: Success/error response
+    """
+    # validate request method
     if request.method != 'PUT':
-        return JsonResponse({"status": "failure", "error": "Invalid request method"}, status=405)
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
-    # Parse the request body for PUT requests
-    edit_data = json.loads(request.body.decode('utf-8'))
-
-    song_id = edit_data.get("song_id")
-    song_name = edit_data.get("song_name")
-    song_stage = edit_data.get("song_stage")
-
-    if not song_id:
-        print("No song ID provided")
-        return JsonResponse({"status": "failure", "error": "Song ID not provided"}, status=400)
-
-    # Must provide either song_name or song_stage (or both)
-    if not song_name and not song_stage:
-        print("No song name or stage provided")
-        return JsonResponse({"status": "failure", "error": "Song name or stage must be provided"}, status=400)
-
-    if not request.user or not request.user.is_authenticated:
-        return JsonResponse({"status": "failure", "error": "User not authenticated"}, status=401)
-    
     try:
-        song = models.Song.objects.get(id=song_id, user=request.user)
-    except models.Song.DoesNotExist:
-        print(f"Song with ID {song_id} not found for user {request.user.username}.")
-        return JsonResponse({"status": "failure", "error": "Song not found"}, status=404)
+        # parse the request body for PUT requests
+        edit_data = json.loads(request.body.decode('utf-8'))
 
-    # Update fields based on what was provided
-    updates = []
-    if song_name:
-        song.name = song_name
-        updates.append(f"name to '{song_name}'")
-    
-    if song_stage:
-        song.stage = song_stage
-        updates.append(f"stage to '{song_stage}'")
-    
-    song.save()
-    print(f"Song with ID {song_id} updated: {', '.join(updates)}.")
+        song_id = edit_data.get("song_id")
+        song_name = edit_data.get("song_name")
+        song_stage = edit_data.get("song_stage")
 
-    return JsonResponse({"status": "success", "song_id": song.id}, status=200)
+        # validate song ID is provided
+        if not song_id:
+            return JsonResponse({"error": "Song ID must be provided"}, status=400)
+
+        # must provide either song_name or song_stage (or both)
+        if not song_name and not song_stage:
+            return JsonResponse({"error": "Song name or stage must be provided for update"}, status=400)
+
+        # get the song object and verify ownership
+        try:
+            song = models.Song.objects.get(id=song_id, user=request.user)
+        except models.Song.DoesNotExist:
+            return JsonResponse({"error": f"Song with ID {song_id} not found or you don't have permission to edit it"}, status=404)
+
+        # check if song name already exists for this user (if updating name)
+        if song_name and song_name.strip() != song.name:
+            if models.Song.objects.filter(name=song_name.strip(), user=request.user).exclude(id=song_id).exists():
+                return JsonResponse({"error": f"A song with the name '{song_name}' already exists"}, status=400)
+
+        # update fields based on what was provided
+        updates = []
+        if song_name:
+            old_name = song.name
+            song.name = song_name.strip()
+            updates.append(f"name from '{old_name}' to '{song.name}'")
+        
+        if song_stage:
+            old_stage = song.stage
+            song.stage = song_stage
+            updates.append(f"stage from '{old_stage}' to '{song_stage}'")
+        
+        song.save()
+
+        logger.info(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
+        return JsonResponse({"status": "success", "song_id": song.id}, status=200)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON data provided"}, status=400)
+    except Exception as e:
+        logger.error(f"Failed to edit song for user {request.user.username}: {str(e)}")
+        return JsonResponse({"error": "Failed to edit song. Please try again."}, status=500)

@@ -1,12 +1,17 @@
 
+/**
+ * Delete a song via API call.
+ * @param {string} songId - The ID of the song to delete.
+ * @returns {Promise<string>} Promise that resolves to the song ID.
+ */
 export function apiSongDelete(songId) {
-    // Log the operation
+    // log the operation
     console.log(`deleting song_id: ${songId}`);
 
-    // Get CSRF token
+    // get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // Send the request to the server
+    // send the request to the server
     return fetch('/api_song_delete', {
         method: 'DELETE',
         headers: {
@@ -26,7 +31,7 @@ export function apiSongDelete(songId) {
     .then(data => {
         if (data.status === 'success') {
             console.log('delete operation returned success');
-            return data.song_id; // Resolve with song_id
+            return data.song_id;
         } else {
             console.log('no data.status received');
             throw new Error('Failed to delete song');
@@ -34,7 +39,6 @@ export function apiSongDelete(songId) {
     })
     .catch(error => {
         console.error('Error deleting song:', error);
-        // Error will be caught and displayed by caller using toast
-        throw error; // Re-throw the error to be caught by the caller
+        throw error;
     });
 }
