@@ -43,6 +43,7 @@ class Song(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='songs')
     name = models.CharField(max_length=255, unique=True)
     theme = models.TextField(default='')
+    hook = models.TextField(default='')
     structure = models.TextField(default='')
     stage = models.CharField(max_length=50, choices=[
         ('new', 'New'),             # song has just been created

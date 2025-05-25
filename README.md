@@ -21,20 +21,19 @@
  - Validation for song name editing
  - Stop drag and drop when editing
  - When editing, hide all other edit and delete buttons when hovering
+ - Refactor js code, tidy up, rename apis, etc
 
 
 ## Todo
- - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
- - Filtering & sorting song names
  - Generate Song Names (basic functionality) and add them to the NEW section
+ - Generate Song Names with parameters and exclusion list
  - API call and update UI for showing the current LLM details, and changing to a different LLM
  - API call and update UI for showing LLM parameters (temperature and max tokens)
- - Generate Song Names with parameters
- - Generate Song Names with message history when calling the LLM
 
 
 ## Next
- - Refactor js code, tidy up, rename apis, etc
+ - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
+ - Filtering & sorting song names
  - Save Column Widths
  - Login Required for all pages
  - Drag and drop not showing custom cursors
