@@ -1,7 +1,7 @@
 
 
 /**
- * makes panels vertically resizable using a splitter element
+ * makes panels vertically resizable using a splitter element with absolute positioning
  * @param {HTMLElement} topPanel - the top panel element
  * @param {HTMLElement} splitter - the splitter element
  * @param {HTMLElement} bottomPanel - the bottom panel element
@@ -9,9 +9,36 @@
 export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
     let isResizing = false;
 
+    // initialize panel positions
+    initializePanelPositions(topPanel, splitter, bottomPanel);
+
     splitter.addEventListener('mousedown', (e) => {
         handleMouseDown(e, topPanel, splitter, bottomPanel);
     });
+
+    /**
+     * initializes panel positions for absolute layout
+     * @param {HTMLElement} topPanel - the top panel element
+     * @param {HTMLElement} splitter - the splitter element
+     * @param {HTMLElement} bottomPanel - the bottom panel element
+     */
+    function initializePanelPositions(topPanel, splitter, bottomPanel) {
+        const container = topPanel.parentElement;
+        const containerHeight = container.offsetHeight;
+        const splitterHeight = splitter.offsetHeight;
+        
+        // set initial positions - slider at 60% of container height
+        const initialSliderTop = Math.floor(containerHeight * 0.6);
+        
+        topPanel.style.top = '0px';
+        topPanel.style.height = `${initialSliderTop}px`;
+        
+        splitter.style.top = `${initialSliderTop}px`;
+        splitter.style.height = `${splitterHeight}px`;
+        
+        bottomPanel.style.top = `${initialSliderTop + splitterHeight}px`;
+        bottomPanel.style.height = `${containerHeight - initialSliderTop - splitterHeight}px`;
+    }
 
     /**
      * handles mouse down event on the splitter
@@ -25,7 +52,7 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
         setupResizingState(topPanel, bottomPanel);
         
         const resizeData = initializeResizeData(e, topPanel, bottomPanel, splitter);
-        const { onMouseMove, onMouseUp } = createMouseHandlers(resizeData, topPanel, bottomPanel);
+        const { onMouseMove, onMouseUp } = createMouseHandlers(resizeData, topPanel, bottomPanel, splitter);
         
         attachMouseEventListeners(onMouseMove, onMouseUp);
     }
@@ -52,13 +79,14 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
      */
     function initializeResizeData(e, topPanel, bottomPanel, splitter) {
         const container = topPanel.parentElement;
-        const totalHeight = container.offsetHeight - splitter.offsetHeight;
+        const containerHeight = container.offsetHeight;
+        const splitterHeight = splitter.offsetHeight;
         
         return {
             initialMouseY: e.clientY,
-            initialTopPanelHeight: topPanel.offsetHeight,
-            initialBottomPanelHeight: bottomPanel.offsetHeight,
-            totalHeight: totalHeight,
+            initialSliderTop: parseInt(splitter.style.top) || splitter.offsetTop,
+            containerHeight: containerHeight,
+            splitterHeight: splitterHeight,
             minHeight: 50
         };
     }
@@ -68,12 +96,13 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
      * @param {object} resizeData - resize data object
      * @param {HTMLElement} topPanel - the top panel element
      * @param {HTMLElement} bottomPanel - the bottom panel element
+     * @param {HTMLElement} splitter - the splitter element
      * @returns {object} object with onMouseMove and onMouseUp functions
      */
-    function createMouseHandlers(resizeData, topPanel, bottomPanel) {
+    function createMouseHandlers(resizeData, topPanel, bottomPanel, splitter) {
         const onMouseMove = (moveEvent) => {
             if (!isResizing) return;
-            handleMouseMove(moveEvent, resizeData, topPanel, bottomPanel);
+            handleMouseMove(moveEvent, resizeData, topPanel, bottomPanel, splitter);
         };
 
         const onMouseUp = () => {
@@ -90,45 +119,42 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel) {
      * @param {object} resizeData - resize data object
      * @param {HTMLElement} topPanel - the top panel element
      * @param {HTMLElement} bottomPanel - the bottom panel element
+     * @param {HTMLElement} splitter - the splitter element
      */
-    function handleMouseMove(moveEvent, resizeData, topPanel, bottomPanel) {
+    function handleMouseMove(moveEvent, resizeData, topPanel, bottomPanel, splitter) {
         const deltaY = moveEvent.clientY - resizeData.initialMouseY;
-        const newHeights = calculateNewHeights(deltaY, resizeData);
+        const newPositions = calculateNewPositions(deltaY, resizeData);
         
-        topPanel.style.height = `${newHeights.top}px`;
-        bottomPanel.style.height = `${newHeights.bottom}px`;
+        // update positions
+        topPanel.style.height = `${newPositions.topHeight}px`;
+        splitter.style.top = `${newPositions.sliderTop}px`;
+        bottomPanel.style.top = `${newPositions.bottomTop}px`;
+        bottomPanel.style.height = `${newPositions.bottomHeight}px`;
     }
 
     /**
-     * calculates new heights for panels during resize
+     * calculates new positions for panels during resize
      * @param {number} deltaY - vertical mouse movement
      * @param {object} resizeData - resize data object
-     * @returns {object} object with top and bottom heights
+     * @returns {object} object with new positions and heights
      */
-    function calculateNewHeights(deltaY, resizeData) {
-        let newTopPanelHeight = resizeData.initialTopPanelHeight + deltaY;
-        let newBottomPanelHeight = resizeData.initialBottomPanelHeight - deltaY;
-
-        // ensure panels don't collapse beyond minimum height
-        if (newTopPanelHeight < resizeData.minHeight) {
-            newTopPanelHeight = resizeData.minHeight;
-            newBottomPanelHeight = resizeData.totalHeight - newTopPanelHeight;
-        }
-        if (newBottomPanelHeight < resizeData.minHeight) {
-            newBottomPanelHeight = resizeData.minHeight;
-            newTopPanelHeight = resizeData.totalHeight - newBottomPanelHeight;
-        }
-
-        // ensure panels don't exceed total available height
-        if (newTopPanelHeight + newBottomPanelHeight > resizeData.totalHeight) {
-            if (deltaY > 0) {
-                newBottomPanelHeight = resizeData.totalHeight - newTopPanelHeight;
-            } else {
-                newTopPanelHeight = resizeData.totalHeight - newBottomPanelHeight;
-            }
-        }
-
-        return { top: newTopPanelHeight, bottom: newBottomPanelHeight };
+    function calculateNewPositions(deltaY, resizeData) {
+        let newSliderTop = resizeData.initialSliderTop + deltaY;
+        
+        // constrain slider position within bounds
+        const maxSliderTop = resizeData.containerHeight - resizeData.splitterHeight - resizeData.minHeight;
+        newSliderTop = Math.max(resizeData.minHeight, Math.min(newSliderTop, maxSliderTop));
+        
+        const topHeight = newSliderTop;
+        const bottomTop = newSliderTop + resizeData.splitterHeight;
+        const bottomHeight = resizeData.containerHeight - bottomTop;
+        
+        return {
+            topHeight: topHeight,
+            sliderTop: newSliderTop,
+            bottomTop: bottomTop,
+            bottomHeight: bottomHeight
+        };
     }
 
     /**
