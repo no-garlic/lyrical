@@ -66,7 +66,82 @@
          
         <!-- Panel Container -->
          <c-panel-container id="panel-bottom-content">
-            generation params            
+            
+            <div class="card w-full h-full p-4">
+                <div class="card bg-base-200 w-full  border border-base-300 pl-6 pr-6 pb-6">
+                    
+                    <!--p class="text-sm font-bold border-b border-base-300 pb-4 pt-4 text-center">
+                        TITLE
+                    </p-->
+
+                    <c-input-label>
+                        INCLUDE THEMES:
+                    </c-input-label>                        
+                    <c-input-textarea id="input-include-themes" />
+
+                    <c-input-label>
+                        EXCLUDE THEMES:
+                    </c-input-label>                        
+                    <c-input-textarea id="input-exclude-themes" />
+
+                    <c-input-columns>
+                        <c-input-column>
+                            <c-input-label>
+                                INCLUDE WORDS:
+                            </c-input-label>                        
+                            <c-input-text id="input-include-words" />
+                        </c-input-column>
+                        <c-input-gap /> 
+                        <c-input-column>
+                            <c-input-label>
+                                EXCLUDE WORDS:
+                            </c-input-label>                        
+                            <c-input-text id="input-exclude-words" />
+                        </c-input-column>
+                    </c-input-columns>
+
+                    <c-input-columns>
+                        <c-input-column>
+                            <c-input-label>
+                                STARTS WITH:
+                            </c-input-label>                        
+                            <c-input-text id="input-starts-with" />
+                        </c-input-column>
+                        <c-input-gap /> 
+                        <c-input-column>
+                            <c-input-label>
+                                ENDS WITH:
+                            </c-input-label>                        
+                            <c-input-text id="input-ends-with" />
+                        </c-input-column>
+                    </c-input-columns>
+
+                    <c-input-columns>
+                        <c-input-column>
+                            <c-input-label>
+                                COUNT:
+                            </c-input-label>                        
+                            <c-input-number id="input-count" min="1" max="20"/>
+                        </c-input-column>
+                        <c-input-gap /> 
+                        <c-input-column>
+                            <c-input-label>
+                                MIN WORDS:
+                            </c-input-label>                        
+                            <c-input-number id="input-min-words" min="1" max="1"/>
+                        </c-input-column>
+                       <c-input-gap /> 
+                        <c-input-column>
+                            <c-input-label>
+                                MAX WORDS:
+                            </c-input-label>                        
+                            <c-input-number id="input-max-words" min="1" max="8" />
+                        </c-input-column>
+                    </c-input-columns>
+
+
+                </div>
+            </div>
          </c-panel-container>
 
     </c-panel>

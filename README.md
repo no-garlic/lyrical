@@ -29,13 +29,16 @@
 ## Todo
  - Generate Song Names (basic functionality) and add them to the NEW section
  - Generate Song Names with parameters and exclusion list
+ - Hide all scrollbars
 
 
 ## Next
  - Change Toast system to be a singleton
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - Filtering & sorting song names
- - Save Column Widths
+ - At init time, vertical slider position should be such that the panel below it consumes the full space and no gap
+ - Able to set default panel widths and panel slider position
+ - Save Column Widths & panel slider position
  - Login Required for all pages
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
