@@ -35,13 +35,8 @@
                             </a>
                         </li>
                         <li class="mb-1">
-                            <a class="{% if active_page == 'names' %}menu-active{% endif %}" href="{% url 'names' %}">
-                                NAMES
-                            </a>
-                        </li>
-                        <li class="mb-1">
                             <a class="{% if active_page == 'edit' %}menu-active{% endif %}" href="{% url 'song' %}">
-                                EDIT
+                                LYRICS
                             </a>
                         </li>
                     </ul>
@@ -176,7 +171,7 @@
                         <!-- Right Item: Close Button -->
                         <div class="flex-0 items-center mr-3 ml-auto">
                             <a href="{% url 'library' %}">
-                                <button class="btn btn-lg btn-primary">X</button>
+                                <button id="btn-navigate-home" class="btn btn-lg btn-primary">X</button>
                             </a>
                         </div>
 

@@ -52,7 +52,7 @@ def page_names(request):
         except Exception as db_error:
             logger.error(f"database error fetching songs for user '{request.user.username}': {str(db_error)}")
             return render(request, "lyrical/names.html", {
-                "active_page": "names",
+                "active_page": "edit",
                 "llm_models": models.LLM.objects.all(),
                 "page_name": "SONG NAMES",
                 "new_songs": [],
@@ -63,21 +63,26 @@ def page_names(request):
         
         # prepare context data for template
         context = {
-            "active_page": "names",
+            "active_page": "edit",
             "llm_models": models.LLM.objects.all(),
-            "page_name": "SONG NAMES",
             "new_songs": new_songs,
             "liked_songs": liked_songs,
             "disliked_songs": disliked_songs,
         }
         
-        # add counts for template display
+        # prepare navigation context with validation
+        navigation_items = [
+            {"name": "SONG", "url": "song", "active": True, "selected": True, "enabled": True},
+            {"name": "PREPARE", "url": "prepare", "active": False, "selected": False, "enabled": False},
+            {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
+            {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
+        ]
+
         context.update({
-            "new_songs_count": new_songs.count(),
-            "liked_songs_count": liked_songs.count(),
-            "disliked_songs_count": disliked_songs.count(),
-        })
-        
+            "active_page": "edit",
+            "navigation": navigation_items,
+        });
+
         return render(request, "lyrical/names.html", context)
         
     except Exception as e:
