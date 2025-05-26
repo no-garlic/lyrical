@@ -50,79 +50,75 @@
 
 
         <!-- Panel Container -->
-         <c-panel-container id="generate-params-container">
-            <div class="card w-full border border-base-300 bg-base-200 mt-1 px-4 pb-5">
-                <c-input-label>
-                    INCLUDE THEMES:
-                </c-input-label>                        
-                <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
+         <c-panel-dialog id="generate-params-container">        
+            <c-input-label>
+                INCLUDE THEMES:
+            </c-input-label>                        
+            <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
 
-                <c-input-label>
-                    EXCLUDE THEMES:
-                </c-input-label>                        
-                <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
+            <c-input-label>
+                EXCLUDE THEMES:
+            </c-input-label>                        
+            <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
 
-                <c-input-columns>
-                    <c-input-column>
-                        <c-input-label>
-                            INCLUDE WORDS:
-                        </c-input-label>
-                        <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
-                    </c-input-column>
-                    <c-input-gap /> 
-                    <c-input-column>
-                        <c-input-label>
-                            EXCLUDE WORDS:
-                        </c-input-label>                        
-                        <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
-                    </c-input-column>
-                </c-input-columns>
+            <c-input-columns>
+                <c-input-column>
+                    <c-input-label>
+                        INCLUDE WORDS:
+                    </c-input-label>
+                    <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
+                </c-input-column>
+                <c-input-gap /> 
+                <c-input-column>
+                    <c-input-label>
+                        EXCLUDE WORDS:
+                    </c-input-label>                        
+                    <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
+                </c-input-column>
+            </c-input-columns>
 
-                <c-input-columns>
-                    <c-input-column>
-                        <c-input-label>
-                            STARTS WITH:
-                        </c-input-label>                        
-                        <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
-                    </c-input-column>
-                    <c-input-gap /> 
-                    <c-input-column>
-                        <c-input-label>
-                            ENDS WITH:
-                        </c-input-label>                        
-                        <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
-                    </c-input-column>
-                </c-input-columns>
+            <c-input-columns>
+                <c-input-column>
+                    <c-input-label>
+                        STARTS WITH:
+                    </c-input-label>                        
+                    <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
+                </c-input-column>
+                <c-input-gap /> 
+                <c-input-column>
+                    <c-input-label>
+                        ENDS WITH:
+                    </c-input-label>                        
+                    <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
+                </c-input-column>
+            </c-input-columns>
 
-                <c-input-columns>
-                    <c-input-column>
-                        <c-input-label>
-                            COUNT:
-                        </c-input-label>                        
-                        <c-input-number id="input-count" min="1" max="20">{{user.song_name_gen_count}}</c-input-number>
-                    </c-input-column>
-                    <c-input-gap /> 
-                    <c-input-column>
-                        <c-input-label>
-                            MIN WORDS:
-                        </c-input-label>                        
-                        <c-input-number id="input-min-words" min="1" max="20">{{user.song_name_length_min}}</c-input-number>
-                    </c-input-column>
-                    <c-input-gap /> 
-                    <c-input-column>
-                        <c-input-label>
-                            MAX WORDS:
-                        </c-input-label>                        
-                        <c-input-number id="input-max-words" min="1" max="8">{{user.song_name_length_max}}</c-input-number>
-                    </c-input-column>
-                </c-input-columns>
-            </div>
-        </c-panel-container>
+            <c-input-columns>
+                <c-input-column>
+                    <c-input-label>
+                        COUNT:
+                    </c-input-label>                        
+                    <c-input-number id="input-count" min="1" max="20">{{user.song_name_gen_count}}</c-input-number>
+                </c-input-column>
+                <c-input-gap /> 
+                <c-input-column>
+                    <c-input-label>
+                        MIN WORDS:
+                    </c-input-label>                        
+                    <c-input-number id="input-min-words" min="1" max="20">{{user.song_name_length_min}}</c-input-number>
+                </c-input-column>
+                <c-input-gap /> 
+                <c-input-column>
+                    <c-input-label>
+                        MAX WORDS:
+                    </c-input-label>                        
+                    <c-input-number id="input-max-words" min="1" max="8">{{user.song_name_length_max}}</c-input-number>
+                </c-input-column>
+            </c-input-columns>
+        </c-panel-dialog>        
 
-        
-
-        <!-- Panel Slider -->
-         <c-panel-slider id="panel-vertical-splitter" title="NEW">
+        <!-- Panel Slider (Center Column) -->
+        <c-panel-slider id="panel-vertical-splitter" title="NEW">
             <c-panel-header-button id="btn-dislike-all-new-song-names">
                 DISLIKE ALL
             </c-panel-header-button>
@@ -133,11 +129,11 @@
             <c-panel-header-button id="btn-new-delete-song-name">
                 DELETE
             </c-panel-header-button>
-         </c-panel-slider>
+        </c-panel-slider>
 
          
-        <!-- Panel Container -->
-         <c-panel-container-form id="new-songs-container" data-drop-zone="true" data-zone-name="new">
+        <!-- Panel Container (New Songs)-->
+         <c-panel-container id="new-songs-container" data-drop-zone="true" data-zone-name="new">
             {% for song in new_songs %}
                 <c-card-song />
             {% endfor %}
