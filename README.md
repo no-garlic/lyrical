@@ -26,24 +26,21 @@
  - API call and update UI for showing LLM parameters (temperature and max tokens)
  - Generate Song Names (basic functionality) and add them to the NEW section
  - Dislike All button
+ - Archive All button and archive song stage
+ - Highlight new cards until clicked on
 
 
 ## Todo
+ - Refactor initDragDropSystem
  - Generate Song Names with parameters
+ - Hook up max_tokens and temperature
+ - Save default values for all form fields (in browser? or in database?)
  - Fix scrollbars
- - Archive All button and archive song stage
- 
-Edit Song button for liked (or a > button in the top right next to the X)
-Make this page page 1 of the timeline
-Generate with params
-Highlight new cards until clicked on
-Filters?
-Sort lists by date changed
-Sort cards when added to lists
-Icons on buttons?
-Hook up max_tokens and temperature
-Save default values for all form fields (in browser? or in database?)
-published song stage and add all my songs in the migration 
+ - Published song stage and add all my songs in the migration 
+
+ - Edit Song button for liked (or a > button in the top right next to the X)
+ - Make this page page 1 of the timeline
+ - Sort lists and sort cards when added to lists, and scroll to card
 
 
 
@@ -61,3 +58,5 @@ published song stage and add all my songs in the migration
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
+ - Icons on buttons?
+

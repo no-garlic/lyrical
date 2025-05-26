@@ -196,6 +196,9 @@ function initNewSongCard(songId, songName) {
 
     // register the new song card for selection
     registerCardForSelect(newCard, selectSystem);
+
+    // sort the cards alphabetically
+    sortCardsInPanel('panel-top-content');
 }
 
 
@@ -255,17 +258,20 @@ function initDragDropSystem() {
 
                         // update the ui buttons enabled and disabled states
                         updateButtonStylesForSelection(selectSystem.getSelectedElement());
+
+                        // sort the cards in the new container
+                        sortCardsInPanel(item.element.parentElement.id);
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
                         toastSystem.showError('Failed to move the song. Please try again.');
                     });
             } else {
-                console.log(`*** same zone: ${item.data.originalZone}`)
+                // sort the cards in the new container
+                sortCardsInPanel(item.element.parentElement.id);
             }
         },
         canDrop: (item, zone, event) => {
-            // allow dropping anywhere for now
             return true;
         },
         onDragEnterZone: (item, zone, event) => {
@@ -453,6 +459,9 @@ function dislikeAllNewSongNames() {
 
             // Potentially re-select or update selection if needed
             updateButtonStylesForSelection(selectSystem.getSelectedElement());
+
+            // Sort the cards in the dislike panel
+            sortCardsInPanel('disliked-songs-container');
         })
         .catch(error => {
             console.error(`Failed to move all new songs to disliked:`, error);
@@ -574,6 +583,9 @@ function handleEditSongConfirm(event) {
             console.log(`Successfully updated song name for songId: ${songId}`);
             document.getElementById(`song-text-${songId}`).innerHTML = newSongName;
             card.dataset.songName = newSongName;
+
+            // sort the container
+            sortCardsInPanel(card.parentElement.id);
         })
         .catch(error => {
             // handle the error if the API call fails
@@ -651,6 +663,41 @@ function handleDeleteSongConfirm(event) {
             console.error('Failed to delete song:', error);
             toastSystem.showError('Failed to delete the song. Please try again.');
         });
+}
+
+
+function sortCardsInPanel(panelName) {
+    const panel = document.getElementById(panelName);
+    if (!panel) {
+        console.error(`Panel with ID ${panelName} not found.`);
+        return;
+    }
+
+    // Get all child elements (song cards) of the panel
+    const cards = Array.from(panel.children);
+
+    // Sort the cards alphabetically by their songName dataset property
+    cards.sort((a, b) => {
+        const nameA = a.dataset.songName ? a.dataset.songName.toLowerCase() : '';
+        const nameB = b.dataset.songName ? b.dataset.songName.toLowerCase() : '';
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    // Remove existing cards from the panel
+    while (panel.firstChild) {
+        panel.removeChild(panel.firstChild);
+    }
+
+    // Append sorted cards back to the panel
+    cards.forEach(card => {
+        panel.appendChild(card);
+    });
 }
 
 

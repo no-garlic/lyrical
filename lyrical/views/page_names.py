@@ -2,6 +2,7 @@ import logging
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseServerError
+from django.db.models.functions import Lower
 from .. import models
 
 
@@ -32,18 +33,18 @@ def page_names(request):
             new_songs = models.Song.objects.filter(
                 user=request.user, 
                 stage='new'
-            ).order_by('-created_at')
+            ).order_by(Lower('name'))
             
             liked_songs = models.Song.objects.filter(
                 user=request.user, 
                 stage='liked'
-            ).order_by('-updated_at')
+            ).order_by(Lower('name'))
             
             disliked_songs = models.Song.objects.filter(
                 user=request.user, 
                 stage='disliked'
-            ).order_by('-updated_at')
-            
+            ).order_by(Lower('name'))
+
             # log successful data retrieval
             total_songs = new_songs.count() + liked_songs.count() + disliked_songs.count()
             logger.info(f"names page loaded for user '{request.user.username}' with {total_songs} songs")
