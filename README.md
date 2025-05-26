@@ -34,36 +34,40 @@
  - Use Generate values when doing llm call
  - Improve layout of generate values dialog
  - Save default values for all form fields (in browser? or in database?)
+ - Fix scrollbars
+ - Then scroll to card on drag-drop and add-new
+ - Move GENERATE NAMES to top, NEW to bottom
+ - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
+ - At init time, vertical slider position should be such that the panel below it consumes the full space and no gap
 
 
 ## Todo
-
- - Create Lyrics button for liked (or a > button in the top right next to the X)
-     - Make this page page 1 of the timeline
-
- - Fix scrollbars
-    - Then scroll to card on drag-drop and add-new
-
- - Move GENERATE NAMES to top, NEW to bottom
-
+ - Remove the timeline and footer, add a title (maybe a new base template - base_navigation)
+ - Add a sidebar entry for names.html, and clean up the view
  - Show Generation Progress on Generate button
 
-
-
+- Refactor llm generation code in python mostly
+- Simplify all views
+- Make sure llm generation errors flow to the page with a useful error shown
+- Refactor names.html - its too long
 
 
 ## Backlog
+ - Make the library page page 1 of the timeline
+ - Create Lyrics button on names.html goes to page 2 of edit
+ - Complete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
  - Published song stage and add all my songs in the migration 
  - Change Toast system to be a singleton
- - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
- - Filtering song names
- - At init time, vertical slider position should be such that the panel below it consumes the full space and no gap
- - Able to set default panel widths and panel slider position
- - Save Column Widths & panel slider position
+ - Filtering song names (library page)
  - Login Required for all pages
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
+
+
+## Maybe
+ - Able to set default panel widths and panel slider position
+ - Save Column Widths & panel slider position
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
  - Icons on buttons?
 
