@@ -28,19 +28,23 @@
  - Dislike All button
  - Archive All button and archive song stage
  - Highlight new cards until clicked on
+ - Refactor initDragDropSystem
+ - Sort lists and sort cards when added to lists
+ - Hook up max_tokens and temperature
 
 
 ## Todo
- - Refactor initDragDropSystem
- - Generate Song Names with parameters
- - Hook up max_tokens and temperature
+ - Use Generate values when doing llm call
+ - Improve layour of generate values dialog
  - Save default values for all form fields (in browser? or in database?)
- - Fix scrollbars
- - Published song stage and add all my songs in the migration 
 
- - Edit Song button for liked (or a > button in the top right next to the X)
- - Make this page page 1 of the timeline
- - Sort lists and sort cards when added to lists, and scroll to card
+ - Fix scrollbars
+    - Then scroll to card on drag-drop and add-new
+
+ - Create Lyrics button for liked (or a > button in the top right next to the X)
+     - Make this page page 1 of the timeline
+
+ - Published song stage and add all my songs in the migration 
 
 
 
@@ -50,7 +54,7 @@
 ## Next
  - Change Toast system to be a singleton
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
- - Filtering & sorting song names
+ - Filtering song names
  - At init time, vertical slider position should be such that the panel below it consumes the full space and no gap
  - Able to set default panel widths and panel slider position
  - Save Column Widths & panel slider position
