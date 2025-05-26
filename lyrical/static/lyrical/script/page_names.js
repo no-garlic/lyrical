@@ -1,6 +1,7 @@
 import { apiSongAdd } from './api_song_add.js';
 import { apiSongDelete } from './api_song_delete.js';
 import { apiSongEdit } from './api_song_edit.js';
+import { apiSongEditBulk } from './api_song_edit_bulk.js';
 import { apiRenderComponent } from './api_render_component.js'; 
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
@@ -47,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bind the add song names button
     document.getElementById('btn-add-song-name').onclick = addSongName;
     document.getElementById('btn-dislike-all-new-song-names').onclick = dislikeAllNewSongNames;
+    document.getElementById('btn-create-song-lyrics').onclick = createSongLyrics;
+    document.getElementById('btn-archive-all-disliked-song-names').onclick = archiveAllDislikedSongNames;
 
     // Bind the click events for the song edit and delete buttons
     document.getElementById('btn-liked-edit-song-name').onclick = editSongName;
@@ -397,40 +400,36 @@ function updateButtonStylesForSelection(selectedElement) {
 
 
 function dislikeAllNewSongNames() {
-    const newItemsPanel = document.getElementById('panel-top-content');
-    const dislikedItemsPanel = document.getElementById('disliked-songs-container');
+    apiSongEditBulk({ song_stage_from: 'new', song_stage_to: 'disliked'})
+        .then(data => {
+            console.log(`Successfully moved all songs from new to disliked, id's: ${data}.`);
 
-    if (newItemsPanel && dislikedItemsPanel) {
-        newItemsPanel.childNodes.forEach(child => {
-            console.log(child);
+            // Move each song card from the list of id's returned
+            Array(...data).forEach(songId => {
+                moveSongCardById(songId, 'disliked-songs-container')
+            });
 
-            if (child.nodeType === Node.ELEMENT_NODE && child.classList.contains('song-card')) {
-                const songId = child.dataset.songId;
-                apiSongEdit(songId, { song_stage: 'disliked' })
-                    .then(() => {
-
-                        // TODO: Make a function called moveSongCard() and fix it
-
-                        console.log(`Successfully moved song ${songId} to disliked.`);
-                        dislikedItemsPanel.appendChild(child);
-
-                        // Update the originalZone for dragDropSystem if the item is registered
-                        const dragItem = dragDropSystem.getDraggableItem(child);
-                        if (dragItem) {
-                            dragItem.data.originalZone = 'disliked';
-                        }
-                        // Potentially re-select or update selection if needed
-                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
-                    })
-                    .catch(error => {
-                        console.error(`Failed to move song ${songId} to disliked:`, error);
-                        toastSystem.showError('Failed to move one or more songs. Please try again.');
-                    });
-            }
-
-
+            // Potentially re-select or update selection if needed
+            updateButtonStylesForSelection(selectSystem.getSelectedElement());
+        })
+        .catch(error => {
+            console.error(`Failed to move all new songs to disliked:`, error);
+            toastSystem.showError('Failed to move one or more songs. Please try again.');
         });
-    }
+}
+
+
+function moveSongCardById(songId, newContainer) {
+    console.log(`Moving song card: ${songId}`);
+
+    // get the destination panel
+    const destinationPanel = document.getElementById(newContainer);
+
+    // get the song card
+    const songCard = document.getElementById(`song-card-${songId}`);
+
+    // move the song card
+    destinationPanel.appendChild(songCard);
 }
 
 
@@ -639,3 +638,11 @@ function handleIncomingData(data) {
 }
 
 
+function archiveAllDislikedSongNames() {
+
+}
+
+
+function createSongLyrics() {
+
+}

@@ -16,6 +16,7 @@ from .views.api_user_llm import *
 
 from .views.api_song_add import *
 from .views.api_song_edit import *
+from .views.api_song_edit_bulk import *
 from .views.api_song_delete import *
 
 from .views.api_gen_song import *
@@ -49,6 +50,7 @@ urlpatterns = [
     path("api_user_llm", api_user_llm, name="api_user_llm"),
     path("api_song_delete", api_song_delete, name="api_song_delete"),
     path("api_song_edit", api_song_edit, name="api_song_edit"),
+    path("api_song_edit_bulk", api_song_edit_bulk, name="api_song_edit_bulk"),
     path("api_song_add", api_song_add, name="api_song_add"),
 
     # llm calls
