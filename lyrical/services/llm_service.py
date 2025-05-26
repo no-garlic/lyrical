@@ -43,6 +43,8 @@ def llm_call(prompt_messages: MessageBuilder, user: User, llm: Optional[LLM] = N
         if user_api_key and user_api_key.api_key:
             kwargs["api_key"] = user_api_key.api_key
         
+        print(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
+
         response_stream = completion(**kwargs)
 
         accumulated_line = ""

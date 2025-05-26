@@ -17,8 +17,31 @@ def add_data(apps, schema_editor):
     # Create the Users
     users.objects.create(username='admin', password=make_password('admin'), email='admin@example.com', first_name='Admin', last_name='Admin', is_superuser=True, is_staff=True,
                          llm_max_tokens=2000, llm_temperature=0.5, llm_model=default_llm_model)
-    mpetrou = users.objects.create(username='mpetrou', password=make_password('mike'), email='mike@example.com', first_name='Mike', last_name='Jones', is_superuser=True, is_staff=True,
-                         llm_max_tokens=2000, llm_temperature=0.5, llm_model=default_llm_model)
+    
+    mpetrou = users.objects.create(
+        username='mpetrou', 
+        password=make_password('mike'), 
+        email='mike@example.com', 
+        first_name='Michael', 
+        last_name='Petrou', 
+        is_superuser=True, 
+        is_staff=True,
+        llm_max_tokens=2000,
+        llm_temperature=0.5, 
+        llm_model=default_llm_model,
+        song_name_theme_inc='happy, positive, inspirational, motivational, an accomplishment, success from difficult odds, or about winning',
+        song_name_theme_exc='futuristic, electric, cyber, technology, hate, anger, sadness, pain, loss, or anything negative',
+        song_name_words_inc='',
+        song_name_words_exc='',
+        song_name_starts_with='',
+        song_name_ends_with='',
+        song_name_length_min=1,
+        song_name_length_max=5,
+        song_name_gen_count=5
+        )
+    
+
+
 
     # Get the LLM API keys from environment variables
     open_ai_api_key = os.getenv("OPENAI_API_KEY")

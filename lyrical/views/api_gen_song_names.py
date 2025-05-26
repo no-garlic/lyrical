@@ -20,6 +20,16 @@ class SongNamesGenerator(LLMGenerator):
     def extract_parameters(self) -> Dict[str, Any]:
         """
         extract parameters from GET request.
+         - prompt:
+         - include_themes: 
+         - exclude_themes:
+         - include_words:
+         - exclude_words:
+         - starts_with:
+         - ends_with:
+         - count:
+         - min_words:
+         - max_words:
         """
         # extract basic parameters
         prompt_name = self.request.GET.get("prompt", "").strip()
@@ -30,26 +40,35 @@ class SongNamesGenerator(LLMGenerator):
             min_words = int(self.request.GET.get("min_words", 1))
             max_words = int(self.request.GET.get("max_words", 5))
         except ValueError:
-            count = min_words = max_words = None  # will be caught in validation
+            count = min_words = max_words = None
         
         # extract theme parameters
         include_themes_raw = self.request.GET.get("include_themes", "").strip()
         exclude_themes_raw = self.request.GET.get("exclude_themes", "").strip()
+        include_words_raw = self.request.GET.get("include_words", "").strip()
         exclude_words_raw = self.request.GET.get("exclude_words", "").strip()
+        starts_with_words_raw = self.request.GET.get("starts_with", "").strip()
+        ends_with_words_raw = self.request.GET.get("ends_with", "").strip()
         
         # format theme parameters safely
-        include_themes = f"[{include_themes_raw}]" if include_themes_raw else "[]"
-        exclude_themes = f"[{exclude_themes_raw}]" if exclude_themes_raw else "[]"
-        exclude_words = f"[{exclude_words_raw}]" if exclude_words_raw else "[]"
+        include_themes = f"[{include_themes_raw}]" if include_themes_raw else ""
+        exclude_themes = f"[{exclude_themes_raw}]" if exclude_themes_raw else ""
+        include_words = f"[{include_words_raw}]" if include_words_raw else ""
+        exclude_words = f"[{exclude_words_raw}]" if exclude_words_raw else ""
+        starts_with = f"[{starts_with_words_raw}]" if starts_with_words_raw else ""
+        ends_with = f"[{ends_with_words_raw}]" if ends_with_words_raw else ""
         
         return {
             'prompt_name': prompt_name,
+            'include_themes': include_themes,
+            'exclude_themes': exclude_themes,
+            'include_words': include_words,
+            'exclude_words': exclude_words,
+            'starts_with': starts_with,
+            'ends_with': ends_with,
             'count': count,
             'min_words': min_words,
             'max_words': max_words,
-            'include_themes': include_themes,
-            'exclude_themes': exclude_themes,
-            'exclude_words': exclude_words
         }
     
 
@@ -114,13 +133,16 @@ class SongNamesGenerator(LLMGenerator):
         build parameters for the user prompt.
         """
         return {
+            'include_themes': self.extracted_params['include_themes'],
+            'exclude_themes': self.extracted_params['exclude_themes'],
+            'include_words': self.extracted_params['include_words'],
+            'exclude_words': self.extracted_params['exclude_words'],
+            'starts_with': self.extracted_params['starts_with'],
+            'ends_with': self.extracted_params['ends_with'],
             'count': self.extracted_params['count'],
             'min_words': self.extracted_params['min_words'],
             'max_words': self.extracted_params['max_words'],
-            'include_themes': self.extracted_params['include_themes'],
-            'exclude_themes': self.extracted_params['exclude_themes'],
-            'exclude_words': self.extracted_params['exclude_words'],
-            'exclude_song_names': self.extracted_params['exclude_song_names']
+            'exclude_song_names': self.extracted_params['exclude_song_names'],
         }
     
     
@@ -178,7 +200,7 @@ class SongNamesGenerator(LLMGenerator):
             data['id'] = song.id
 
             # Log the preprocessing step            
-            print(f"Preprocessed NDJSON line: {data}")  # Debug output
+            print(f"Preprocessed NDJSON line: {data}")
 
             # Return the modified JSON line (without newline, it will be added by process_line)
             return json.dumps(data)

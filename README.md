@@ -31,12 +31,15 @@
  - Refactor initDragDropSystem
  - Sort lists and sort cards when added to lists
  - Hook up max_tokens and temperature
+ - Use Generate values when doing llm call
+ - Improve layout of generate values dialog
+ - Save default values for all form fields (in browser? or in database?)
 
 
 ## Todo
- - Use Generate values when doing llm call
- - Improve layour of generate values dialog
- - Save default values for all form fields (in browser? or in database?)
+ - Bug: when generating with ollama I got duplicate song names, and it caused an exception on the server and didnt notify the client, just a broken stream and messed up UI.
+ - Bug: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
+ - Update LLM Costs and maybe add other models for testing
 
  - Fix scrollbars
     - Then scroll to card on drag-drop and add-new

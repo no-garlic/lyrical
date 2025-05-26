@@ -156,8 +156,8 @@ class LLMGenerator(ABC):
             JsonResponse if model lookup fails, None if successful
         """
         try:
+            self.llm_model = self.user.llm_model
             model_name = self.get_llm_model_name()
-            self.llm_model = models.LLM.objects.get(internal_name=model_name)
             logger.debug(f"using llm model: {model_name}")
             return None
             
@@ -234,7 +234,7 @@ class LLMGenerator(ABC):
             self.prompt_messages.add_system(system_message)
             self.prompt_messages.add_user(user_message)
 
-            # print(self.prompt_messages)
+            print(self.prompt_messages)
             
             # log generation start
             logger.info(f"starting generation for user '{self.user.username}' with prompt '{prompt_name}'")

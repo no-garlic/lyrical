@@ -14,24 +14,31 @@
 
 "song_names" : |-
   Generate a list of {{ count }} song names for catchy pop songs.
-  
-  I want a variety of different length song names, each between {{ min_words }} and {{ max_words }} words in length.
+    I want a variety of different length song names, each between {{ min_words }} and {{ max_words }} words in length.
 
-  The song names should use or more of the themes:
-  {{ include_themes }}
+  {% if include_themes %}The song names MUST use or more of the themes:
+  {{ include_themes }}{% endif %}
 
-  {% if exclude_themes %}The song names should not use any of the themes:
+  {% if exclude_themes %}The song names MUST NOT use any of the themes:
   {{ exclude_themes }}{% endif %}
+
+  {% if include_words %}The song names MUST include one or more of these words:
+  {{ include_words }}{% endif %}
 
   {% if exclude_words %}The song names should not include any of these words:
   {{ exclude_words }}{% endif %}
 
-  {% if exclude_song_names %}The song names must be unique, and not appear in this list of song names that I have already considered:
+  {% if exclude_song_names %}The song names MUST BE UNIQUE, and MUST NOT appear in this list:
   {{ exclude_song_names }}{% endif %}
 
+  {% if starts_with %}The song names MUST start with '{{ starts_with }}'{% endif %}
+  {% if ends_with %}The song names MUST end with '{{ ends_with }}'{% endif %}
+
+  Use Title Case for song names, where every word starts with an uppercase letter.
+
   Use the following NDJSON format, with one name per row:
-    {"name": ""}
-    {"name": ""}
+    {"name": "From The Ashes"}
+    {"name": "How To Shine"}
     ...
 
 "song_names.system_prompt": |-

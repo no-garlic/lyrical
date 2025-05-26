@@ -794,12 +794,15 @@ function createStreamHelper() {
 function buildRequestParams() {
     return {
         prompt: 'song_names',
-        count: 1,
-        min_words: 1,
-        max_words: 5,
-        include_themes: 'ocean and the beach, dancing',
-        exclude_themes: 'neon, cyber, phones and technology, robots, AI, futuristic, space, stars, aliens, sci-fi',
-        exclude_words: 'neon, endless, chasing'
+        include_themes: document.getElementById('input-include-themes').value,
+        exclude_themes: document.getElementById('input-exclude-themes').value,
+        include_words: document.getElementById('input-include-words').value,
+        exclude_words: document.getElementById('input-exclude-words').value,
+        starts_with: document.getElementById('input-starts-with').value,
+        ends_with: document.getElementById('input-ends-with').value,
+        count: parseInt(document.getElementById('input-count').value, 10),
+        min_words: parseInt(document.getElementById('input-min-words').value, 10),
+        max_words: parseInt(document.getElementById('input-max-words').value, 10)
     };
 }
 

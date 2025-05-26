@@ -45,6 +45,51 @@ class Migration(migrations.Migration):
             name="llm_model",
             field=models.ForeignKey(blank=False, null=False, on_delete=django.db.models.deletion.PROTECT, to="lyrical.llm"),
         ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_ends_with",
+            field=models.CharField(default="", max_length=255),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_gen_count",
+            field=models.IntegerField(default=5),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_length_max",
+            field=models.IntegerField(default=5),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_length_min",
+            field=models.IntegerField(default=1),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_starts_with",
+            field=models.CharField(default="", max_length=255),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_theme_exc",
+            field=models.CharField(default="", max_length=255),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_theme_inc",
+            field=models.CharField(default="", max_length=255),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_words_exc",
+            field=models.CharField(default="", max_length=255),
+        ),
+        migrations.AddField(
+            model_name="user",
+            name="song_name_words_inc",
+            field=models.CharField(default="", max_length=255),
+        ),        
         migrations.CreateModel(
             name="Song",
             fields=[

@@ -25,6 +25,15 @@ class User(AbstractUser):
     llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
     llm_temperature = models.FloatField(default=0.5)
     llm_max_tokens = models.IntegerField(default=1000)
+    song_name_theme_inc = models.CharField(max_length=255, default='')
+    song_name_theme_exc = models.CharField(max_length=255, default='')
+    song_name_words_inc = models.CharField(max_length=255, default='')
+    song_name_words_exc = models.CharField(max_length=255, default='')
+    song_name_starts_with = models.CharField(max_length=255, default='')
+    song_name_ends_with = models.CharField(max_length=255, default='')
+    song_name_length_min = models.IntegerField(default=1)
+    song_name_length_max = models.IntegerField(default=5)
+    song_name_gen_count = models.IntegerField(default=5)
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
