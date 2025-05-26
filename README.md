@@ -39,6 +39,8 @@
 ## Todo
  - Bug: when generating with ollama I got duplicate song names, and it caused an exception on the server and didnt notify the client, just a broken stream and messed up UI.
  - Bug: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
+ - If duplicate song name is returned or corrupt NDJSON, then ignore it and send a token to the client which it can ignore and not raise an error.
+
  - Update LLM Costs and maybe add other models for testing
 
  - Fix scrollbars

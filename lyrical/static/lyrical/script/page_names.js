@@ -813,5 +813,11 @@ function buildRequestParams() {
  * @param {Object} data - The incoming song data containing id and name.
  */
 function handleIncomingData(data) {
-    addNewSongCard(data.id, data.name);
+    if (data && data.id && typeof data.id === 'number') {
+        addNewSongCard(data.id, data.name);
+    } else {
+        if (data && data.name) {
+            console.error(`received LLM response without an id: ${data.name}.`)
+        }
+    }
 }

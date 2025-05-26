@@ -185,13 +185,8 @@ class SongNamesGenerator(LLMGenerator):
             if not data["name"]:
                 raise ValueError("Invalid song name in NDJSON line")
 
-            try:
-                # Create a new song with the normalized name
-                song = models.Song.objects.create(name=data["name"], user=self.request.user)
-
-            except Exception as e:
-                logger.error(f"Failed to create song with name '{data['name']}': {e}")
-                return None
+            # Create a new song with the normalized name
+            song = models.Song.objects.create(name=data["name"], user=self.request.user)
 
             # Log the creation of the song
             logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
@@ -205,7 +200,7 @@ class SongNamesGenerator(LLMGenerator):
             # Return the modified JSON line (without newline, it will be added by process_line)
             return json.dumps(data)
             
-        except (json.JSONDecodeError, KeyError) as e:
+        except Exception as e:
             # If there's an issue parsing or modifying, log it and return original
             logger.warning(f"Failed to preprocess NDJSON line: {ndjson_line}, Error: {e}")
             return ndjson_line
