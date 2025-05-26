@@ -6525,6 +6525,12 @@
   .bg-red-500\! {
     background-color: var(--color-red-500) !important;
   }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+  .bg-success {
+    background-color: var(--color-success);
+  }
   .bg-transparent {
     background-color: transparent;
   }

@@ -175,6 +175,21 @@ function initNewSongCard(songId, songName) {
         console.error('Could not find the newly added song card for songId:', songId);
         return;
     }
+
+    // when a new card is created, change its background color to a brighter color until it
+    // is clicked on once.
+    newCard.classList.remove('bg-base-200');
+    newCard.classList.add('bg-neutral');
+
+    // the first time the card is clicked, change it's background back to the regualr color
+    const handleClickOnce = () => {
+        newCard.classList.remove('bg-neutral');
+        newCard.classList.add('bg-base-200');
+        newCard.removeEventListener('click', handleClickOnce);
+    };
+
+    // add the event listner to the new card to revert the background color
+    newCard.addEventListener('click', handleClickOnce);
     
     // register the new song card for drag and drop
     registerCardForDragDrop(newCard, dragDropSystem);
@@ -235,6 +250,9 @@ function initDragDropSystem() {
                     .then(() => {
                         console.log(`successfully moved song ${songId} to stage ${songStage}.`)
                         updateButtonStylesForSelection(selectSystem.getSelectedElement());
+
+                        // update the card's song stage
+                        item.element.dataset.songStage = songStage;
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
@@ -422,14 +440,19 @@ function dislikeAllNewSongNames() {
 function moveSongCardById(songId, newContainer) {
     console.log(`Moving song card: ${songId}`);
 
-    // get the destination panel
+    // get the destination panel and the song card
     const destinationPanel = document.getElementById(newContainer);
-
-    // get the song card
     const songCard = document.getElementById(`song-card-${songId}`);
 
-    // move the song card
-    destinationPanel.appendChild(songCard);
+    if (destinationPanel && songCard) {
+        // move the song card
+        destinationPanel.appendChild(songCard);
+
+        // update the cards stage
+        songCard.dataset.songStage = destinationPanel.dataset.zoneName;
+    } else {
+        console.error(`Error occured moving song card for songId: ${songId} to container ${newContainer}`)
+    }
 }
 
 
