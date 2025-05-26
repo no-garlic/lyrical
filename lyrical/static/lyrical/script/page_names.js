@@ -9,6 +9,7 @@ import { DragDropSystem } from './util_dragdrop.js';
 import { SelectSystem } from './util_select.js';
 import { ToastSystem } from './util_toast.js';
 import { StreamHelper } from "./util_stream_helper.js";
+import { setNavigationNext, setNavigationPrevious, setNavigationIndex, setNavigationRange } from './util_navigation.js';
 
 
 /**
@@ -44,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the toast system
     initToastSystem();
+
+    // Cannot navigate back from this page
+    setNavigationIndex(1);
+    setNavigationPrevious(false);
 
     // Bind the add song names button
     document.getElementById('btn-add-song-name').onclick = addSongName;
@@ -418,14 +423,17 @@ function updateButtonStylesForSelection(selectedElement) {
         document.querySelectorAll('[id$="-edit-song-name"], [id$="-delete-song-name"], [id$="btn-create-song-lyrics"]').forEach(button => {
             button.classList.add('btn-disabled');
         });
+        setNavigationNext(false);
         
         return;
     } else {
         // set the disabled state of the Create Lyrics button based on what stage the selected song is
         if (selectedElement.dataset.songStage === 'liked') {
             document.getElementById('btn-create-song-lyrics').classList.remove('btn-disabled');
+            setNavigationNext(true);
         } else {
             document.getElementById('btn-create-song-lyrics').classList.add('btn-disabled');
+            setNavigationNext(false);
         }
     }
 
