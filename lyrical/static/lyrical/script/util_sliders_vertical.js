@@ -1,4 +1,3 @@
-
 /**
  * makes panels vertically resizable using a splitter element
  * @param {HTMLElement} topPanel - the top panel element
@@ -8,10 +7,29 @@
  */
 export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options = {}) {
     let isResizing = false;
+    const initialTopPanelHeight = topPanel.offsetHeight;
+    const initialBottomPanelHeight = bottomPanel.offsetHeight;
 
     splitter.addEventListener('mousedown', (e) => {
         handleMouseDown(e, topPanel, splitter, bottomPanel);
     });
+    splitter.addEventListener('dblclick', (e) => {
+        handleMouseDblClick(e, topPanel, splitter, bottomPanel);
+    });
+
+
+    /**
+     * handles mouse double click event on the splitter
+     * @param {MouseEvent} e - the mouse event
+     * @param {HTMLElement} topPanel - the top panel element
+     * @param {HTMLElement} splitter - the splitter element
+     * @param {HTMLElement} bottomPanel - the bottom panel element
+     */
+    function handleMouseDblClick(e, topPanel, splitter, bottomPanel) {
+        topPanel.style.height = `${initialTopPanelHeight}px`;
+        bottomPanel.style.height = `${initialBottomPanelHeight}px`;
+    }
+
 
     /**
      * handles mouse down event on the splitter
