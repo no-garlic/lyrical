@@ -175,3 +175,4 @@ cython_debug/
 
 # Tailwind CSS
 bin/
+lyrical/static/lyrical/style/twstyles.css
