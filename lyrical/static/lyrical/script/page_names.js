@@ -206,19 +206,19 @@ function initNewSongCard(songId, songName) {
  * Setup the horizontal and vertical resizable elements on the page.
  */
 function setupResizeElements() {    
-    // Make the panel header resizable with auto-sizing to fit bottom content
+    // make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
         document.getElementById('panel-top-content'),
         document.getElementById('panel-vertical-splitter'),
         document.getElementById('panel-bottom-content'),
         { autoSizeToFitBottomContent: true }
     );
-    // Make the first panel splitter resizable
+    // make the first panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel2'), 
         document.getElementById('splitter1'), 
         document.getElementById('panel1'));
-    // Make the second panel splitter resizable
+    // make the second panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel3'), 
         document.getElementById('splitter2'), 
@@ -231,46 +231,14 @@ function setupResizeElements() {
  * Sets up callbacks for drag events and registers draggable items and drop zones.
  */
 function initDragDropSystem() {
-    // Create the drag and drop system and assign to module-level variable
+    // create the drag and drop system and assign to module-level variable
     dragDropSystem = new DragDropSystem();
 
     // initialise it
     dragDropSystem.init({
         onDragStart: (item, event) => {
         },
-        onDrop: (item, zone, event) => {
-            // check if the song is being dropped into a new zone or not
-            if (item.data.originalZone != zone.name) {
-                item.data.originalZone = zone.name;
-
-                // get the song Id and the name of the new stage
-                const songId = item.element.dataset.songId;
-                const songStage = zone.name;
-
-                // call the API
-                console.log(`moving song ${songId} to stage ${songStage}.`)
-                apiSongEdit(songId, { song_stage: songStage })
-                    .then(() => {
-                        console.log(`successfully moved song ${songId} to stage ${songStage}.`)
-
-                        // update the card's song stage
-                        item.element.dataset.songStage = songStage;
-
-                        // update the ui buttons enabled and disabled states
-                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
-
-                        // sort the cards in the new container
-                        sortCardsInPanel(item.element.parentElement.id);
-                    })
-                    .catch(error => {
-                        console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
-                        toastSystem.showError('Failed to move the song. Please try again.');
-                    });
-            } else {
-                // sort the cards in the new container
-                sortCardsInPanel(item.element.parentElement.id);
-            }
-        },
+        onDrop: handleDragDrop,
         canDrop: (item, zone, event) => {
             return true;
         },
@@ -288,6 +256,48 @@ function initDragDropSystem() {
 
 
 /**
+ * Handle the drag and drop of a song card.
+ * Updates the song stage when dropped into a new zone and sorts the cards.
+ * @param {Object} item - The dragged item containing element and data.
+ * @param {Object} zone - The drop zone where the item was dropped.
+ * @param {Event} event - The drop event.
+ */
+function handleDragDrop(item, zone, event) {
+    // check if the song is being dropped into a new zone or not
+    if (item.data.originalZone != zone.name) {
+        item.data.originalZone = zone.name;
+
+        // get the song id and the name of the new stage
+        const songId = item.element.dataset.songId;
+        const songStage = zone.name;
+
+        // call the api to update the song stage
+        console.log(`moving song ${songId} to stage ${songStage}.`)
+        apiSongEdit(songId, { song_stage: songStage })
+            .then(() => {
+                console.log(`successfully moved song ${songId} to stage ${songStage}.`)
+
+                // update the card's song stage
+                item.element.dataset.songStage = songStage;
+
+                // update the ui buttons enabled and disabled states
+                updateButtonStylesForSelection(selectSystem.getSelectedElement());
+
+                // sort the cards in the new container
+                sortCardsInPanel(item.element.parentElement.id);
+            })
+            .catch(error => {
+                console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
+                toastSystem.showError('Failed to move the song. Please try again.');
+            });
+    } else {
+        // sort the cards in the new container
+        sortCardsInPanel(item.element.parentElement.id);
+    }
+}
+
+
+/**
  * Register a card for the drag and drop system.
  * @param {HTMLElement} card - The card element to register.
  * @param {DragDropSystem} dragDropSystem - The drag and drop system instance.
@@ -295,7 +305,7 @@ function initDragDropSystem() {
 function registerCardForDragDrop(card, dragDropSystem) {
     const songId = card.dataset.songId;
     const songName = card.dataset.songName;
-    const originalZone = card.closest('[data-drop-zone="true"]').dataset.zoneName; // Get initial zone
+    const originalZone = card.closest('[data-drop-zone="true"]').dataset.zoneName; // get initial zone
     dragDropSystem.registerDraggable(card, { songId, songName, originalZone });
 }
 
@@ -318,7 +328,7 @@ function registerCardForSelect(card, selectSystem) {
  * Sets up configuration and callbacks for selecting song cards.
  */
 function initSelectSystem() {
-    // Set the selection style for the song cards
+    // set the selection style for the song cards
     const selectionStyleToAdd = ['border-2', 'border-primary']; // ['outline-4', 'outline-offset-0', 'outline-primary'];
     const selectionStyleToRemove = ['border-base-300'];
 
@@ -349,7 +359,7 @@ function initSelectSystem() {
                 element.classList.remove(...selectionStyleToAdd);
             },
             onAfterElementChanged: (allSelectedElements, changedElement) => {
-                // If no elements are selected, update the button styles to disabled
+                // if no elements are selected, update the button styles to disabled
                 const selectedElement = selectSystem.getSelectedElement();
                 if (selectedElement === null) {
                     updateButtonStylesForSelection(null);
@@ -390,7 +400,7 @@ function updateButtonStylesForSelection(selectedElement) {
         }
     }
 
-    // if there are no items left in the 'new' song names container, then disable the dislike all button,
+    // if there are no items left in the 'disliked' song names container, then disable the archive all button,
     // otherwise enable it.
     const dislikedItemsPanel = document.getElementById('disliked-songs-container');
     if (dislikedItemsPanel) {
@@ -448,20 +458,24 @@ function updateButtonStylesForSelection(selectedElement) {
 }
 
 
+/**
+ * Dislike all new song names by moving them to the disliked stage.
+ * This function is typically called as an event handler for a button click.
+ */
 function dislikeAllNewSongNames() {
     apiSongEditBulk({ song_stage_from: 'new', song_stage_to: 'disliked'})
         .then(data => {
             console.log(`Successfully moved all songs from new to disliked, id's: ${data}.`);
 
-            // Move each song card from the list of id's returned
+            // move each song card from the list of id's returned
             data.forEach(songId => {
                 moveSongCardById(songId, 'disliked-songs-container')
             });
 
-            // Potentially re-select or update selection if needed
+            // potentially re-select or update selection if needed
             updateButtonStylesForSelection(selectSystem.getSelectedElement());
 
-            // Sort the cards in the dislike panel
+            // sort the cards in the dislike panel
             sortCardsInPanel('disliked-songs-container');
         })
         .catch(error => {
@@ -471,6 +485,10 @@ function dislikeAllNewSongNames() {
 }
 
 
+/**
+ * Archive all disliked song names by moving them to the archived stage.
+ * This function is typically called as an event handler for a button click.
+ */
 function archiveAllDislikedSongNames() {
     apiSongEditBulk({ song_stage_from: 'disliked', song_stage_to: 'archived'})
         .then(data => {
@@ -493,7 +511,7 @@ function archiveAllDislikedSongNames() {
                 songsContainer.removeChild(card);
             });
 
-            // Potentially re-select or update selection if needed
+            // potentially re-select or update selection if needed
             updateButtonStylesForSelection(selectSystem.getSelectedElement());
         })
         .catch(error => {
@@ -503,10 +521,20 @@ function archiveAllDislikedSongNames() {
 }
 
 
+/**
+ * Create song lyrics for the selected song.
+ * This function is typically called as an event handler for a button click.
+ */
 function createSongLyrics() {
+    // placeholder function - implementation to be added
 }
 
 
+/**
+ * Move a song card to a new container by song ID.
+ * @param {string} songId - The ID of the song to move.
+ * @param {string} newContainer - The ID of the destination container.
+ */
 function moveSongCardById(songId, newContainer) {
     console.log(`Moving song card: ${songId}`);
 
@@ -667,6 +695,10 @@ function handleDeleteSongConfirm(event) {
 }
 
 
+/**
+ * Sort song cards alphabetically within a panel.
+ * @param {string} panelName - The ID of the panel containing the cards to sort.
+ */
 function sortCardsInPanel(panelName) {
     const panel = document.getElementById(panelName);
     if (!panel) {
@@ -674,10 +706,10 @@ function sortCardsInPanel(panelName) {
         return;
     }
 
-    // Get all child elements (song cards) of the panel
+    // get all child elements (song cards) of the panel
     const cards = Array.from(panel.children);
 
-    // Sort the cards alphabetically by their songName dataset property
+    // sort the cards alphabetically by their songName dataset property
     cards.sort((a, b) => {
         const nameA = a.dataset.songName ? a.dataset.songName.toLowerCase() : '';
         const nameB = b.dataset.songName ? b.dataset.songName.toLowerCase() : '';
@@ -690,12 +722,12 @@ function sortCardsInPanel(panelName) {
         return 0;
     });
 
-    // Remove existing cards from the panel
+    // remove existing cards from the panel
     while (panel.firstChild) {
         panel.removeChild(panel.firstChild);
     }
 
-    // Append sorted cards back to the panel
+    // append sorted cards back to the panel
     cards.forEach(card => {
         panel.appendChild(card);
     });
@@ -703,7 +735,8 @@ function sortCardsInPanel(panelName) {
 
 
 /**
- * initializes the stream handler and sets up event listeners
+ * Initialize the stream handler and set up event listeners.
+ * Sets up the generate button click handler and creates the stream helper.
  */
 function initStreamHandler() {
     const generateButton = document.getElementById('btn-generate-song-names');
@@ -715,7 +748,8 @@ function initStreamHandler() {
 
 
 /**
- * handles the generate button click event
+ * Handle the generate button click event.
+ * Builds request parameters and initiates the stream request.
  */
 function handleGenerateClick() {
     const requestParams = buildRequestParams();
@@ -724,8 +758,9 @@ function handleGenerateClick() {
 
 
 /**
- * creates and configures the stream helper
- * @returns {StreamHelper} configured stream helper instance
+ * Create and configure the stream helper.
+ * Sets up callbacks for handling stream events and data.
+ * @returns {StreamHelper} Configured stream helper instance.
  */
 function createStreamHelper() {
     return new StreamHelper('/api_gen_song_names', {
@@ -752,8 +787,9 @@ function createStreamHelper() {
 
 
 /**
- * builds the request parameters for the stream
- * @returns {object} request parameters
+ * Build the request parameters for the stream.
+ * Configures the parameters for generating song names.
+ * @returns {Object} Request parameters object.
  */
 function buildRequestParams() {
     return {
@@ -768,6 +804,11 @@ function buildRequestParams() {
 }
 
 
+/**
+ * Handle incoming data from the stream.
+ * Processes new song data and adds it to the page.
+ * @param {Object} data - The incoming song data containing id and name.
+ */
 function handleIncomingData(data) {
     addNewSongCard(data.id, data.name);
 }
