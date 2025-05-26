@@ -49,7 +49,8 @@ class Song(models.Model):
         ('new', 'New'),             # song has just been created
         ('liked', 'Liked'),         # song is added to the liked list
         ('disliked', 'Disliked'),   # song is added to the disliked list
-        ('generated', 'Generated')  # song is no longer a song name, but now a full song
+        ('generated', 'Generated'), # song is no longer a song name, but now a full song
+        ("archived", "Archived")    # song is archived and not availalbe in the song names list
     ], default='new')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

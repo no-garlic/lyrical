@@ -25,13 +25,14 @@
  - API call and update UI for showing the current LLM details, and changing to a different LLM
  - API call and update UI for showing LLM parameters (temperature and max tokens)
  - Generate Song Names (basic functionality) and add them to the NEW section
+ - Dislike All button
 
 
 ## Todo
  - Generate Song Names with parameters
  - Fix scrollbars
-Dislike All button
-Archive button and archive song stage
+ - Archive All button and archive song stage
+ 
 Edit Song button for liked (or a > button in the top right next to the X)
 Make this page page 1 of the timeline
 Generate with params

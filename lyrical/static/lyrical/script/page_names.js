@@ -258,6 +258,8 @@ function initDragDropSystem() {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
                         toastSystem.showError('Failed to move the song. Please try again.');
                     });
+            } else {
+                console.log(`*** same zone: ${item.data.originalZone}`)
             }
         },
         canDrop: (item, zone, event) => {
@@ -371,10 +373,23 @@ function updateButtonStylesForSelection(selectedElement) {
     // otherwise enable it.
     const newItemsPanel = document.getElementById('panel-top-content');
     if (newItemsPanel) {
+        console.log(`new panel child count: ${newItemsPanel.childElementCount}`)
         if (newItemsPanel.childElementCount === 0) {
             document.getElementById('btn-dislike-all-new-song-names').classList.add('btn-disabled');
         } else {
             document.getElementById('btn-dislike-all-new-song-names').classList.remove('btn-disabled');
+        }
+    }
+
+    // if there are no items left in the 'new' song names container, then disable the dislike all button,
+    // otherwise enable it.
+    const dislikedItemsPanel = document.getElementById('disliked-songs-container');
+    if (dislikedItemsPanel) {
+        console.log(`disliked panel child count: ${dislikedItemsPanel.childElementCount}`)
+        if (dislikedItemsPanel.childElementCount === 0) {
+            document.getElementById('btn-archive-all-disliked-song-names').classList.add('btn-disabled');
+        } else {
+            document.getElementById('btn-archive-all-disliked-song-names').classList.remove('btn-disabled');
         }
     }
 
@@ -399,7 +414,7 @@ function updateButtonStylesForSelection(selectedElement) {
       ];
 
     // loop through the associated buttons and update their styles based on the selected element's parent container
-      associatedButtons.forEach(button => {
+    associatedButtons.forEach(button => {
         const containerId = Object.keys(button)[0];
         const buttonTypes = button[containerId];
 
@@ -423,7 +438,7 @@ function dislikeAllNewSongNames() {
             console.log(`Successfully moved all songs from new to disliked, id's: ${data}.`);
 
             // Move each song card from the list of id's returned
-            Array(...data).forEach(songId => {
+            data.forEach(songId => {
                 moveSongCardById(songId, 'disliked-songs-container')
             });
 
@@ -434,6 +449,42 @@ function dislikeAllNewSongNames() {
             console.error(`Failed to move all new songs to disliked:`, error);
             toastSystem.showError('Failed to move one or more songs. Please try again.');
         });
+}
+
+
+function archiveAllDislikedSongNames() {
+    apiSongEditBulk({ song_stage_from: 'disliked', song_stage_to: 'archived'})
+        .then(data => {
+            console.log(`Successfully moved all songs from disliked to archived, id's: ${data}.`);
+
+            // get the disliked songs container
+            const songsContainer = document.getElementById('disliked-songs-container');
+
+            data.forEach(songId => {
+                console.log(`removing song card id: ${songId}`);
+                const card = document.getElementById(`song-card-${songId}`);
+
+                // remove the song card from the drag and drop system
+                dragDropSystem.unregisterDraggable(card);
+
+                // remove the song card from the select system
+                selectSystem.removeElement(card);
+
+                // remove the song card from the container
+                songsContainer.removeChild(card);
+            });
+
+            // Potentially re-select or update selection if needed
+            updateButtonStylesForSelection(selectSystem.getSelectedElement());
+        })
+        .catch(error => {
+            console.error(`Failed to move all new songs to disliked:`, error);
+            toastSystem.showError('Failed to move one or more songs. Please try again.');
+        });
+}
+
+
+function createSongLyrics() {
 }
 
 
@@ -450,6 +501,10 @@ function moveSongCardById(songId, newContainer) {
 
         // update the cards stage
         songCard.dataset.songStage = destinationPanel.dataset.zoneName;
+
+        // update the drag drop zone
+        console.log(`setting the card's drag and drop zone to: ${destinationPanel.dataset.zoneName}`)
+        // TODO = destinationPanel.dataset.zoneName;
     } else {
         console.error(`Error occured moving song card for songId: ${songId} to container ${newContainer}`)
     }
@@ -658,14 +713,4 @@ function buildRequestParams() {
 
 function handleIncomingData(data) {
     addNewSongCard(data.id, data.name);
-}
-
-
-function archiveAllDislikedSongNames() {
-
-}
-
-
-function createSongLyrics() {
-
 }
