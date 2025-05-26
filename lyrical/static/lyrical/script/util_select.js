@@ -63,6 +63,7 @@ export class SelectSystem {
             autoSelectFirstElement: false,
             canDeselectOnEscape: true,
             canDeselectOnClickAway: false,
+            selectOnMouseDown: true,
             ...initialConfig
         };
 
@@ -112,7 +113,7 @@ export class SelectSystem {
 
     /**
      * Adds an HTML element to the list of selectable items.
-     * Attaches a click listener if allowSelectOnClick is true.
+     * Attaches a mousedown or click listener if allowSelectOnClick is true (based on selectOnMouseDown config).
      * Handles auto-selection based on configuration.
      * @param {HTMLElement} element The HTML element to make selectable.
      * @returns {boolean} True if the element was successfully added, false otherwise.
@@ -130,7 +131,8 @@ export class SelectSystem {
         this.selectableElements.add(element);
 
         if (this.config.allowSelectOnClick) {
-            element.addEventListener('click', this._handleElementClick);
+            const eventType = this.config.selectOnMouseDown ? 'mousedown' : 'click';
+            element.addEventListener(eventType, this._handleElementClick);
         }
 
         this.callbacks.onElementAdded(element);
@@ -174,7 +176,8 @@ export class SelectSystem {
 
         this.selectableElements.delete(element);
         if (this.config.allowSelectOnClick) {
-            element.removeEventListener('click', this._handleElementClick);
+            const eventType = this.config.selectOnMouseDown ? 'mousedown' : 'click';
+            element.removeEventListener(eventType, this._handleElementClick);
         }
 
         this.callbacks.onElementRemoved(element);
@@ -445,7 +448,8 @@ export class SelectSystem {
         // Remove event listeners from all selectable elements
         this.selectableElements.forEach(element => {
             if (this.config.allowSelectOnClick) {
-                element.removeEventListener('click', this._handleElementClick);
+                const eventType = this.config.selectOnMouseDown ? 'mousedown' : 'click';
+                element.removeEventListener(eventType, this._handleElementClick);
             }
         });
 

@@ -330,11 +330,12 @@ function initSelectSystem() {
         {
             allowMultiSelect: false,
             allowSelectOnClick: true,
-            allowDeselectOnClick: true,
+            allowDeselectOnClick: false,
             allowNoSelection: true,
             autoSelectFirstElement: false,
             canDeselectOnEscape: true,
-            canDeselectOnClickAway: true
+            canDeselectOnClickAway: true,
+            selectOnMouseDown: true
         },
         {
             onElementSelected: (element, allSelectedElements) => {
