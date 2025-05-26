@@ -1,23 +1,35 @@
-
 /**
  * makes panels vertically resizable using a splitter element
  * @param {HTMLElement} topPanel - the top panel element
  * @param {HTMLElement} splitter - the splitter element
  * @param {HTMLElement} bottomPanel - the bottom panel element
  * @param {object} options - configuration options
- * @param {boolean} options.autoSizeToFitBottomContent - if true, initially size to fit bottom panel content
  */
 export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options = {}) {
     let isResizing = false;
+    const initialTopPanelHeight = topPanel.offsetHeight;
+    const initialBottomPanelHeight = bottomPanel.offsetHeight;
 
     splitter.addEventListener('mousedown', (e) => {
         handleMouseDown(e, topPanel, splitter, bottomPanel);
     });
+    splitter.addEventListener('dblclick', (e) => {
+        handleMouseDblClick(e, topPanel, splitter, bottomPanel);
+    });
 
-    // Auto-size to fit bottom content if requested
-    if (options.autoSizeToFitBottomContent) {
-        initializeAutoSizing(topPanel, splitter, bottomPanel);
+
+    /**
+     * handles mouse double click event on the splitter
+     * @param {MouseEvent} e - the mouse event
+     * @param {HTMLElement} topPanel - the top panel element
+     * @param {HTMLElement} splitter - the splitter element
+     * @param {HTMLElement} bottomPanel - the bottom panel element
+     */
+    function handleMouseDblClick(e, topPanel, splitter, bottomPanel) {
+        topPanel.style.height = `${initialTopPanelHeight}px`;
+        bottomPanel.style.height = `${initialBottomPanelHeight}px`;
     }
+
 
     /**
      * handles mouse down event on the splitter
@@ -182,45 +194,5 @@ export function makeVerticallyResizable(topPanel, splitter, bottomPanel, options
         document.removeEventListener('mouseup', onMouseUp);
     }
 
-    /**
-     * initializes auto-sizing to fit bottom panel content
-     * @param {HTMLElement} topPanel - the top panel element
-     * @param {HTMLElement} splitter - the splitter element
-     * @param {HTMLElement} bottomPanel - the bottom panel element
-     */
-    function initializeAutoSizing(topPanel, splitter, bottomPanel) {
-        // Wait for DOM to be fully laid out
-        setTimeout(() => {
-            const container = topPanel.parentElement;
-            const containerHeight = container.offsetHeight;
-            const splitterHeight = splitter.offsetHeight;
-            
-            // Get the natural height of the bottom panel content
-            const bottomContent = bottomPanel.firstElementChild;
-            if (!bottomContent) return;
-            
-            bottomPanel.style.height = 'auto';
-            topPanel.style.height = 'auto';
-            
-            const naturalBottomHeight = bottomContent.scrollHeight;
-            const availableHeight = containerHeight - splitterHeight;
-            const minTopHeight = 100; // Minimum height for top panel
-            
-            // Calculate optimal heights
-            // Mike: added 24px for a bit of padding below the form
-            let bottomHeight = Math.min(naturalBottomHeight, availableHeight - minTopHeight) + 24;
-            let topHeight = availableHeight - bottomHeight;
-            
-            // Ensure we don't make the top panel too small
-            if (topHeight < minTopHeight) {
-                topHeight = minTopHeight;
-                bottomHeight = availableHeight - topHeight;
-            }
-            
-            // Apply the calculated heights
-            topPanel.style.height = `${topHeight}px`;
-            bottomPanel.style.height = `${bottomHeight}px`;
-        }, 0);
-    }
 }
 

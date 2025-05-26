@@ -152,7 +152,7 @@ function handleAddSongCancel(event) {
  */
 function addNewSongCard(songId, songName) {
     // render the new song card component
-    apiRenderComponent('card_song', 'panel-top-content', { song: { id: songId, name: songName, stage: 'new' }})
+    apiRenderComponent('card_song', 'new-songs-container', { song: { id: songId, name: songName, stage: 'new' }})
         .then(html => {
             // initialize the new song card for interactions
             initNewSongCard(songId, songName);
@@ -203,7 +203,7 @@ function initNewSongCard(songId, songName) {
     registerCardForSelect(newCard, selectSystem);
 
     // sort the cards alphabetically
-    sortCardsInPanel('panel-top-content');
+    sortCardsInPanel('generate-params-container');
 }
 
 
@@ -213,10 +213,9 @@ function initNewSongCard(songId, songName) {
 function setupResizeElements() {    
     // make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
-        document.getElementById('panel-top-content'),
+        document.getElementById('generate-params-container'),
         document.getElementById('panel-vertical-splitter'),
-        document.getElementById('panel-bottom-content'),
-        { autoSizeToFitBottomContent: true }
+        document.getElementById('new-songs-container'),
     );
     // make the first panel splitter resizable
     makeHorizontallyResizable(
@@ -384,7 +383,7 @@ function initSelectSystem() {
     // register click away elements
     selectSystem.addClickAwayElement(document.getElementById('liked-songs-container'));
     selectSystem.addClickAwayElement(document.getElementById('disliked-songs-container'));
-    selectSystem.addClickAwayElement(document.getElementById('panel-top-content'));
+    selectSystem.addClickAwayElement(document.getElementById('generate-params-container'));
 }
 
 
@@ -395,7 +394,7 @@ function initSelectSystem() {
 function updateButtonStylesForSelection(selectedElement) {
     // if there are no items left in the 'new' song names container, then disable the dislike all button,
     // otherwise enable it.
-    const newItemsPanel = document.getElementById('panel-top-content');
+    const newItemsPanel = document.getElementById('generate-params-container');
     if (newItemsPanel) {
         console.log(`new panel child count: ${newItemsPanel.childElementCount}`)
         if (newItemsPanel.childElementCount === 0) {
@@ -444,7 +443,7 @@ function updateButtonStylesForSelection(selectedElement) {
     const associatedButtons = [
         {'liked-songs-container': ['liked', 'disliked', 'new']},
         {'disliked-songs-container': ['disliked', 'liked', 'new']},
-        {'panel-top-content': ['new', 'liked', 'disliked']}
+        {'generate-params-container': ['new', 'liked', 'disliked']}
       ];
 
     // loop through the associated buttons and update their styles based on the selected element's parent container
