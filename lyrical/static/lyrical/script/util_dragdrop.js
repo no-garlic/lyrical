@@ -12,6 +12,7 @@ export class DragDropSystem {
         this.initialOffsetX = 0;
         this.initialOffsetY = 0;
         this.currentHoveredZoneForCallback = null;
+        this.draggableItems = new Map(); // Registry of all draggable items and their data
         this.callbacks = {
             onDragStart: () => {},
             onDrop: () => {},
@@ -73,7 +74,11 @@ export class DragDropSystem {
     registerDraggable(element, data = {}) {
         element.setAttribute('draggable', true);
         element.dataset.dragDropId = data.id || Math.random().toString(36).substring(7);
-        element.addEventListener('dragstart', (event) => this._handleDragStart(event, element, data));
+        
+        // Store in registry for later data updates
+        this.draggableItems.set(element, { ...data });
+        
+        element.addEventListener('dragstart', (event) => this._handleDragStart(event, element));
     }
 
     /**
@@ -84,6 +89,9 @@ export class DragDropSystem {
         element.removeAttribute('draggable');
         element.removeEventListener('dragstart', (event) => this._handleDragStart(event, element));
         element.classList.remove('opacity-50');
+        
+        // Remove from registry
+        this.draggableItems.delete(element);
     }
 
     /**
@@ -95,6 +103,25 @@ export class DragDropSystem {
         element.dataset.dropZone = 'true';
         element.dataset.zoneName = data.name || element.id || '';
         element.dataset.acceptedTypes = JSON.stringify(data.acceptedTypes || []);
+    }
+
+    /**
+     * updates data for a registered draggable element
+     * @param {HTMLElement} element - the draggable element to update data for
+     * @param {object} updates - object containing data properties to update
+     * @returns {boolean} true if element was found and updated, false otherwise
+     */
+    updateItemData(element, updates = {}) {
+        if (!this.draggableItems.has(element)) {
+            console.warn('Cannot update data for element - element is not registered as draggable');
+            return false;
+        }
+        
+        const currentData = this.draggableItems.get(element);
+        const updatedData = { ...currentData, ...updates };
+        this.draggableItems.set(element, updatedData);
+        
+        return true;
     }
 
     /**
@@ -135,10 +162,10 @@ export class DragDropSystem {
      * handles the drag start event
      * @param {DragEvent} event - the drag start event
      * @param {HTMLElement} itemElement - the element being dragged
-     * @param {object} itemData - data associated with the item
      * @private
      */
-    _handleDragStart(event, itemElement, itemData) {
+    _handleDragStart(event, itemElement) {
+        const itemData = this.draggableItems.get(itemElement) || {};
         this.draggedItem = { element: itemElement, data: itemData };
         event.dataTransfer.setData('text/plain', itemData.id || itemElement.dataset.dragDropId || 'draggable_item');
         event.dataTransfer.effectAllowed = 'move';

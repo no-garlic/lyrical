@@ -504,7 +504,7 @@ function moveSongCardById(songId, newContainer) {
 
         // update the drag drop zone
         console.log(`setting the card's drag and drop zone to: ${destinationPanel.dataset.zoneName}`)
-        // TODO = destinationPanel.dataset.zoneName;
+        dragDropSystem.updateItemData(songCard, { originalZone: destinationPanel.dataset.zoneName });
     } else {
         console.error(`Error occured moving song card for songId: ${songId} to container ${newContainer}`)
     }
