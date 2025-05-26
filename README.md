@@ -24,12 +24,29 @@
  - Refactor js code, tidy up, rename apis, etc
  - API call and update UI for showing the current LLM details, and changing to a different LLM
  - API call and update UI for showing LLM parameters (temperature and max tokens)
+ - Generate Song Names (basic functionality) and add them to the NEW section
 
 
 ## Todo
- - Generate Song Names (basic functionality) and add them to the NEW section
- - Generate Song Names with parameters and exclusion list
- - Hide all scrollbars
+ - Generate Song Names with parameters
+ - Fix scrollbars
+Dislike All button
+Archive button and archive song stage
+Edit Song button for liked (or a > button in the top right next to the X)
+Make this page page 1 of the timeline
+Generate with params
+Highlight new cards until clicked on
+Filters?
+Sort lists by date changed
+Sort cards when added to lists
+Icons on buttons?
+Hook up max_tokens and temperature
+Save default values for all form fields (in browser? or in database?)
+published song stage and add all my songs in the migration 
+
+
+
+
 
 
 ## Next
