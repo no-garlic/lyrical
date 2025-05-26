@@ -152,7 +152,7 @@ function handleAddSongCancel(event) {
  */
 function addNewSongCard(songId, songName) {
     // render the new song card component
-    apiRenderComponent('card_song', 'generate-params-container', { song: { id: songId, name: songName, stage: 'new' }})
+    apiRenderComponent('card_song', 'new-songs-container', { song: { id: songId, name: songName, stage: 'new' }})
         .then(html => {
             // initialize the new song card for interactions
             initNewSongCard(songId, songName);
@@ -212,11 +212,11 @@ function initNewSongCard(songId, songName) {
  */
 function setupResizeElements() {    
     // make the panel header resizable with auto-sizing to fit bottom content
-//    makeVerticallyResizable(
-//        document.getElementById('generate-params-container'),
-//        document.getElementById('panel-vertical-splitter'),
-//        document.getElementById('disliked-songs-container'),
-//    );
+    makeVerticallyResizable(
+        document.getElementById('generate-params-container'),
+        document.getElementById('panel-vertical-splitter'),
+        document.getElementById('new-songs-container'),
+    );
     // make the first panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel2'), 
