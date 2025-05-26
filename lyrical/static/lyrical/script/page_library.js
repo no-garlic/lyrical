@@ -40,10 +40,9 @@ function initToastSystem() {
 function setupResizeElements() {    
     // Make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
-        document.getElementById('panel-top-content'),
+        document.getElementById(''),
         document.getElementById('panel-vertical-splitter'),
-        document.getElementById('panel-bottom-content'),
-        { autoSizeToFitBottomContent: true }
+        document.getElementById('disliked-songs-container'),
     );
     // Make the first panel splitter resizable
     makeHorizontallyResizable(

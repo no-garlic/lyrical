@@ -36,48 +36,23 @@
 
 <!-- NEW SONG NAMES -->
 {% block panel_2 %}
-        <c-panel>
-                
+    <c-panel>
+
         <!-- Panel Header -->
-        <c-panel-header title="NEW"> 
-            <c-panel-header-button id="btn-dislike-all-new-song-names">
-                DISLIKE ALL
-            </c-panel-header-button>
-            <c-panel-header-divider />
-            <c-panel-header-button id="btn-new-edit-song-name">
-                EDIT
-            </c-panel-header-button>
-            <c-panel-header-button id="btn-new-delete-song-name">
-                DELETE
-            </c-panel-header-button>            
-        </c-panel-header>
-
-
-        <!-- Panel Container -->
-         <c-panel-container id="panel-top-content" data-drop-zone="true" data-zone-name="new">
-            {% for song in new_songs %}
-                <c-card-song />
-            {% endfor %}
-         </c-panel-container>
-
-
-        <!-- Panel Slider -->
-         <c-panel-slider id="panel-vertical-splitter" title="GENERATE NAMES">
+        <c-panel-header title="GENERATE NAMES"> 
             <c-panel-header-button id="btn-add-song-name">
                 ADD
             </c-panel-header-button>
             <c-panel-header-button id="btn-generate-song-names">
                 GENERATE
             </c-panel-header-button>
-         </c-panel-slider>
+        </c-panel-header>
 
-         
+
         <!-- Panel Container -->
-         <c-panel-container-form id="panel-bottom-content">
-            
+         <c-panel-container id="generate-params-container">
             <div class="card w-full h-full p-1 pt-2 mb-1">
-                <div class="card bg-base-200 w-full border border-base-300 pl-4 pr-4 pb-6">
-                    
+                <div class="card bg-base-200 w-full border border-base-300 pl-4 pr-4 pb-6">                    
                     <c-input-label>
                         INCLUDE THEMES:
                     </c-input-label>                        
@@ -144,6 +119,30 @@
                     </c-input-columns>
               </div>
             </div>
+        </c-panel-container>
+
+        
+
+        <!-- Panel Slider -->
+         <c-panel-slider id="panel-vertical-splitter" title="NEW">
+            <c-panel-header-button id="btn-dislike-all-new-song-names">
+                DISLIKE ALL
+            </c-panel-header-button>
+            <c-panel-header-divider />
+            <c-panel-header-button id="btn-new-edit-song-name">
+                EDIT
+            </c-panel-header-button>
+            <c-panel-header-button id="btn-new-delete-song-name">
+                DELETE
+            </c-panel-header-button>
+         </c-panel-slider>
+
+         
+        <!-- Panel Container -->
+         <c-panel-container-form id="new-songs-container" data-drop-zone="true" data-zone-name="new">
+            {% for song in new_songs %}
+                <c-card-song />
+            {% endfor %}
          </c-panel-container>
          
 
