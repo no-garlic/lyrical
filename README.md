@@ -44,8 +44,9 @@
  - Fix scrollbars
     - Then scroll to card on drag-drop and add-new
 
+ - Move GENERATE NAMES to top, NEW to bottom
 
-
+ - Show Generation Progress on Generate button
 
 
 
