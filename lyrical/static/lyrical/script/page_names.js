@@ -249,10 +249,12 @@ function initDragDropSystem() {
                 apiSongEdit(songId, { song_stage: songStage })
                     .then(() => {
                         console.log(`successfully moved song ${songId} to stage ${songStage}.`)
-                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
 
                         // update the card's song stage
                         item.element.dataset.songStage = songStage;
+
+                        // update the ui buttons enabled and disabled states
+                        updateButtonStylesForSelection(selectSystem.getSelectedElement());
                     })
                     .catch(error => {
                         console.error(`failed to move song ${songId} to stage ${songStage}:`, error)
@@ -396,11 +398,18 @@ function updateButtonStylesForSelection(selectedElement) {
     if (selectedElement === null) {
         // use querySelectorAll with attribute selectors to find all relevant edit and delete buttons
         // and add the 'btn-disabled' class to them
-        document.querySelectorAll('[id$="-edit-song-name"], [id$="-delete-song-name"]').forEach(button => {
+        document.querySelectorAll('[id$="-edit-song-name"], [id$="-delete-song-name"], [id$="btn-create-song-lyrics"]').forEach(button => {
             button.classList.add('btn-disabled');
         });
         
         return;
+    } else {
+        // set the disabled state of the Create Lyrics button based on what stage the selected song is
+        if (selectedElement.dataset.songStage === 'liked') {
+            document.getElementById('btn-create-song-lyrics').classList.remove('btn-disabled');
+        } else {
+            document.getElementById('btn-create-song-lyrics').classList.add('btn-disabled');
+        }
     }
 
     // get the parent container of the selected element
