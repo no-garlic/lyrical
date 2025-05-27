@@ -195,7 +195,7 @@ function initNewSongCard(songId, songName) {
 
     // add the event listner to the new card to revert the background color
     newCard.addEventListener('click', handleClickOnce);
-    
+
     // register the new song card for drag and drop
     registerCardForDragDrop(newCard, dragDropSystem);
 
@@ -386,6 +386,18 @@ function initSelectSystem() {
     selectSystem.addClickAwayElement(document.getElementById('liked-songs-container'));
     selectSystem.addClickAwayElement(document.getElementById('disliked-songs-container'));
     selectSystem.addClickAwayElement(document.getElementById('new-songs-container'));
+
+    // add event listener for Enter key press when no input is focused to
+    // edit the selected song
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            if (document.activeElement === document.body) {
+                if (selectSystem.hasSelectedElement()) {
+                    editSongName();
+                }
+            }
+        }
+    });
 }
 
 
@@ -752,11 +764,19 @@ function sortCardsInPanel(panelName) {
  * Sets up the generate button click handler and creates the stream helper.
  */
 function initStreamHandler() {
-    const generateButton = document.getElementById('btn-generate-song-names');
-    if (!generateButton) return;
+    // disable the generating button
+    const generatingButton = document.getElementById('btn-generating-song-names');
+    if (generatingButton) {
+        generatingButton.disabled = true;
+        generatingButton.classList.add('hidden', 'btn-disabled');
+    }
 
-    streamHelper = createStreamHelper();
-    generateButton.addEventListener('click', handleGenerateClick);
+    // set the event listner on the generate button
+    const generateButton = document.getElementById('btn-generate-song-names');
+    if (generateButton) {
+        streamHelper = createStreamHelper();
+        generateButton.addEventListener('click', handleGenerateClick);
+    }
 }
 
 
@@ -780,6 +800,7 @@ function createStreamHelper() {
         callbacks: {
             onPreRequest: () => {
                 console.log("stream prerequest");
+                handleLoadingStart();
             },
             onIncomingData: (data) => {
                 console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
@@ -790,12 +811,53 @@ function createStreamHelper() {
             },
             onComplete: () => {
                 console.log("stream complete");
+                handleLoadingEnd();
             },
             onError: (error) => {
                 console.error("stream error:", error);
             }
         }
     });
+}
+
+
+/**
+ * handles ui changes when loading starts
+ */
+function handleLoadingStart() {
+    // get the buttons
+    const generateButton = document.getElementById('btn-generate-song-names');
+    const generatingButton = document.getElementById('btn-generating-song-names');
+    
+    // hide the generate button
+    if (generateButton) {
+        generateButton.classList.add('hidden')
+    }
+
+    // show the generating button in disabled state
+    if (generatingButton) {
+        generatingButton.classList.remove('hidden');
+    }
+}
+
+
+/**
+ * handles ui changes when loading ends
+ */
+function handleLoadingEnd() {
+    // get the buttons
+    const generateButton = document.getElementById('btn-generate-song-names');
+    const generatingButton = document.getElementById('btn-generating-song-names');
+    
+    // hide the generate button
+    if (generateButton) {
+        generateButton.classList.remove('hidden')
+    }
+
+    // show the generating button in disabled state
+    if (generatingButton) {
+        generatingButton.classList.add('hidden');
+    }
 }
 
 

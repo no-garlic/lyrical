@@ -47,6 +47,9 @@
 ## Todo
  - Show Generation Progress on Generate button
 
+ - [Enter] on selected should edit
+ - trim whitespace when editing
+
  - Refactor llm generation code in python mostly
  - Simplify all views
  - Make sure llm generation errors flow to the page with a useful error shown

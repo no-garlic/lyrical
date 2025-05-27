@@ -397,6 +397,10 @@ export class SelectSystem {
         return allSuccessfullyDeselected;
     }
 
+    hasSelectedElement() {
+        return (this.selectedElements.size > 0);
+    }
+
     /**
      * Gets the currently selected element.
      * If multiple elements are selected (allowMultiSelect is true), it returns the first one added to the selection.
