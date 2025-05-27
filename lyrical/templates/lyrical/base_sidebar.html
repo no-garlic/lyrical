@@ -66,11 +66,6 @@
                             <div class="w-full max-w-xs">
                                 <input id="sidebar-temperature-range" type="range" min="0" max="1" value="{{ user.llm_temperature }}" class="range range-primary" step="0.1" />
                                 <div class="flex justify-between px-2.5 mt-2 text-xs">
-                                    <span>|</span>
-                                    <span>|</span>
-                                    <span>|</span>
-                                </div>
-                                <div class="flex justify-between px-2.5 mt-2 text-xs">
                                     <span>0</span>
                                     <span>0.5</span>
                                     <span>1</span>
@@ -82,13 +77,6 @@
                             </p>
                             <div class="w-full max-w-xs">
                                 <input id="sidebar-max-tokens-range" type="range" min="1000" max="5000" value="{{ user.llm_max_tokens }}" class="range range-primary" step="500"/>
-                                <div class="flex justify-between px-2.5 mt-2 text-xs">
-                                    <span>|</span>
-                                    <span>|</span>
-                                    <span>|</span>
-                                    <span>|</span>
-                                    <span>|</span>
-                                </div>
                                 <div class="flex justify-between px-2.5 mt-2 text-xs">
                                     <span>1k</span>
                                     <span>2k</span>
@@ -149,20 +137,18 @@
                         {% if navigation %}
                         <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center mt-1">
                             <ul class="steps steps-primary w-250">
-                                {% for page in navigation %}
-                                    <li 
-                                    id="navigation-{{ forloop.counter }}"
-                                    class="step
-                                    {% if page.active %}step-primary {% endif %}
-                                    {% if page.selected %}font-bold text-md {% else %}text-sm {% endif %}
-                                    {% if not page.enabled %}text-neutral {% endif %}">
-                                        {% if page.enabled %}
-                                            <a href="{% url page.url %}">{{page.name}}</a>
-                                        {% else %}
-                                            {{page.name}}
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
+                                <li id="navigation-song" data-name="song" data-index="0" class="step text-sm">
+                                    SONG
+                                </li>
+                                <li id="navigation-prepare" data-name="prepare" data-index="1" class="step text-sm">
+                                    PREPARE
+                                </li>
+                                <li id="navigation-lyrics" data-name="lyrics" data-index="2" class="step text-sm">
+                                    LYRICS
+                                </li>
+                                <li id="navigation-structure" data-name="structure" data-index="3" class="step text-sm">
+                                    STRUCTURE
+                                </li>
                             </ul>
                         </div>
                         {% elif page_name %}
