@@ -1,11 +1,15 @@
+import os
+import json
 import logging
+import unicodedata
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 from django.http import JsonResponse, StreamingHttpResponse
-from .llm_service import llm_call
+from litellm import completion
 from .utils.prompts import get_system_prompt, get_user_prompt
 from .utils.messages import MessageBuilder
 from .. import models
+from ..models import User, LLM, UserAPIKey
 
 
 logger = logging.getLogger(__name__)
@@ -229,12 +233,7 @@ class LLMGenerator(ABC):
             StreamingHttpResponse: Streaming LLM response
         """
         try:
-            response_stream_generator = llm_call(
-                prompt_messages=self.prompt_messages,
-                user=self.user,
-                llm=self.llm_model,
-                generator=self
-            )
+            response_stream_generator = self._stream_llm_response()
             
             logger.info(f"generation stream started for user '{self.user.username}'")
             return StreamingHttpResponse(
@@ -332,5 +331,115 @@ class LLMGenerator(ABC):
             Modified NDJSON line (must remain valid JSON)
         """
         return ndjson_line
+    
+    def _normalize_text(self, text):
+        """
+        Convert Unicode characters to closest ASCII equivalent.
+        """
+        if isinstance(text, str):
+            return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+        elif isinstance(text, list):
+            return [self._normalize_text(item) for item in text]
+        elif isinstance(text, dict):
+            return {self._normalize_text(k): self._normalize_text(v) for k, v in text.items()}
+        return text
+    
+    def _process_response_line(self, line: str):
+        """
+        Process a single line of LLM response text and yield valid JSON.
+        Handles markdown fences and validates JSON format.
+        """
+        stripped_line = line.strip()
+        
+        # Skip markdown fence lines
+        if stripped_line in ["```json", "```"] or not stripped_line:
+            return
+        
+        try:
+            # Validate JSON format
+            json.loads(stripped_line)
+            
+            # Apply preprocessing if available
+            processed_line = self.preprocess_ndjson(stripped_line)
+            
+            # Validate processed line is still valid JSON
+            json.loads(processed_line)
+            
+            yield processed_line + '\n'
+            
+        except json.JSONDecodeError as e:
+            print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
+            error_data = {
+                "error": "Malformed JSON line from LLM",
+                "raw_content": stripped_line,
+                "details": str(e)
+            }
+            yield json.dumps(error_data) + '\n'
+            
+        except Exception as e:
+            print(f"LLM_SERVICE_NDJSON_PROCESS_ERROR: Error processing line: {stripped_line}, Error: {e}")
+            error_data = {
+                "error": "Error processing line from LLM",
+                "raw_content": stripped_line,
+                "details": str(e)
+            }
+            yield json.dumps(error_data) + '\n'
+    
+    def _stream_llm_response(self):
+        """
+        Call LLM and stream the response, processing each line for JSON validation.
+        """
+        model_name = f"{self.llm_model.provider.internal_name}/{self.llm_model.internal_name}"
+        temperature = self.user.llm_temperature
+        max_tokens = self.user.llm_max_tokens
+        user_api_key = UserAPIKey.objects.filter(user=self.user, provider=self.llm_model.provider).first()
+        
+        # Set Ollama base URL if needed
+        if self.llm_model.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
+            os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
+        
+        try:
+            # Prepare LLM call parameters
+            llm_params = {
+                "model": model_name,
+                "messages": self.prompt_messages.get(),
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "stream": True
+            }
+            
+            if user_api_key and user_api_key.api_key:
+                llm_params["api_key"] = user_api_key.api_key
+            
+            print(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
+            
+            # Stream response from LLM
+            response_stream = completion(**llm_params)
+            
+            # Process streaming chunks
+            current_line = ""
+            for chunk in response_stream:
+                if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
+                    content = self._normalize_text(chunk.choices[0].delta.content)
+                    current_line += content
+                    
+                    # Process complete lines
+                    while '\n' in current_line:
+                        line, current_line = current_line.split('\n', 1)
+                        yield from self._process_response_line(line)
+            
+            # Process any remaining content
+            if current_line.strip():
+                yield from self._process_response_line(current_line)
+                
+        except Exception as e:
+            print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
+            import traceback
+            error_response = {
+                "error": str(e),
+                "traceback": traceback.format_exc(),
+                "status": "error"
+            }
+            yield json.dumps(error_response)
 
 

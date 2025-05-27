@@ -31,8 +31,8 @@
   {% if exclude_song_names %}The song names MUST BE UNIQUE, and MUST NOT appear in this list:
   {{ exclude_song_names }}]{% endif %}
 
-  {% if starts_with %}The song names MUST start with '{{ starts_with }}'{% endif %}
-  {% if ends_with %}The song names MUST end with '{{ ends_with }}'{% endif %}
+  {% if starts_with %}The song names MUST start with the word(s): '{{ starts_with }}'{% endif %}
+  {% if ends_with %}The song names MUST end with the word(s): '{{ ends_with }}'{% endif %}
 
   Use Title Case for song names, where every word starts with an uppercase letter.
 

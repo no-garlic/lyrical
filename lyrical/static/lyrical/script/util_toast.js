@@ -89,11 +89,8 @@ export class ToastSystem {
         this.toastContainer.appendChild(toastElement);
         
         // Bind the close button click event
-        const closeButton = toastElement.querySelector('.toast-close-btn');
-        if (closeButton) {
-            closeButton.addEventListener('click', () => this.closeToast(toastId));
-        }
-        
+        toastElement.addEventListener('click', () => this.closeToast(toastId));
+
         // Trigger animation to slide in
         setTimeout(() => {
             toastElement.classList.remove('opacity-0', 'translate-x-full');

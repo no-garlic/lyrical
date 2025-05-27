@@ -64,6 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-new-edit-song-name').onclick = editSongName;
     document.getElementById('btn-new-delete-song-name').onclick = deleteSongName;
 
+    // Add event listener for Enter key on form inputs
+    document.querySelectorAll('.input-control').forEach(inputControl => {
+        if (inputControl) {
+            inputControl.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    handleGenerateClick();
+                }
+            });
+        }
+    });
+
     // Initialize Drag and Drop
     initDragDropSystem();
 
@@ -815,6 +827,7 @@ function createStreamHelper() {
             },
             onError: (error) => {
                 console.error("stream error:", error);
+                handleIncomingError(error);
             }
         }
     });
@@ -891,8 +904,12 @@ function handleIncomingData(data) {
     if (data && data.id && typeof data.id === 'number') {
         addNewSongCard(data.id, data.name);
     } else {
-        if (data && data.name) {
-            console.error(`received LLM response without an id: ${data.name}.`)
-        }
+        handleIncomingError(data);
     }
+}
+
+
+function handleIncomingError(error) {
+    const errorStr = JSON.stringify(error, null, 2);
+    toastSystem.showError(errorStr);
 }
