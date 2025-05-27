@@ -203,7 +203,7 @@ function initNewSongCard(songId, songName) {
     registerCardForSelect(newCard, selectSystem);
 
     // sort the cards alphabetically
-    sortCardsInPanel('generate-params-container');
+    sortCardsInPanel('new-songs-container');
 }
 
 
@@ -211,12 +211,14 @@ function initNewSongCard(songId, songName) {
  * Setup the horizontal and vertical resizable elements on the page.
  */
 function setupResizeElements() {    
+    /*
     // make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
         document.getElementById('generate-params-container'),
         document.getElementById('panel-vertical-splitter'),
         document.getElementById('new-songs-container'),
     );
+    */
     // make the first panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel2'), 
@@ -227,6 +229,11 @@ function setupResizeElements() {
         document.getElementById('panel3'), 
         document.getElementById('splitter2'), 
         document.getElementById('panel2'));
+    // make the second panel splitter resizable
+    makeHorizontallyResizable(
+        document.getElementById('panel4'), 
+        document.getElementById('splitter3'), 
+        document.getElementById('panel3'));
 }
 
 
@@ -383,7 +390,7 @@ function initSelectSystem() {
     // register click away elements
     selectSystem.addClickAwayElement(document.getElementById('liked-songs-container'));
     selectSystem.addClickAwayElement(document.getElementById('disliked-songs-container'));
-    selectSystem.addClickAwayElement(document.getElementById('generate-params-container'));
+    selectSystem.addClickAwayElement(document.getElementById('new-songs-container'));
 }
 
 
@@ -394,7 +401,7 @@ function initSelectSystem() {
 function updateButtonStylesForSelection(selectedElement) {
     // if there are no items left in the 'new' song names container, then disable the dislike all button,
     // otherwise enable it.
-    const newItemsPanel = document.getElementById('generate-params-container');
+    const newItemsPanel = document.getElementById('new-songs-container');
     if (newItemsPanel) {
         console.log(`new panel child count: ${newItemsPanel.childElementCount}`)
         if (newItemsPanel.childElementCount === 0) {
@@ -443,7 +450,7 @@ function updateButtonStylesForSelection(selectedElement) {
     const associatedButtons = [
         {'liked-songs-container': ['liked', 'disliked', 'new']},
         {'disliked-songs-container': ['disliked', 'liked', 'new']},
-        {'generate-params-container': ['new', 'liked', 'disliked']}
+        {'new-songs-container': ['new', 'liked', 'disliked']}
       ];
 
     // loop through the associated buttons and update their styles based on the selected element's parent container

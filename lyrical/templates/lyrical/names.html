@@ -1,4 +1,4 @@
-{% extends "lyrical/base_columns.html" %}
+{% extends "lyrical/base_columns_4.html" %}
 {% load static %}
 
 {% block head %}
@@ -8,36 +8,6 @@
 <!-- LIKED SONG NAMES -->
 {% block panel_1 %}
     <c-panel>
-                
-        <!-- Panel Header -->
-        <c-panel-header title="LIKED">
-            <c-panel-header-button id="btn-create-song-lyrics">
-                CREATE LYRICS
-            </c-panel-header-button>
-            <c-panel-header-divider />
-            <c-panel-header-button id="btn-liked-edit-song-name">
-                EDIT
-            </c-panel-header-button>
-            <c-panel-header-button id="btn-liked-delete-song-name">
-                DELETE
-            </c-panel-header-button>
-        </c-panel-header>
-         
-        <!-- Panel Container -->
-         <c-panel-container id="liked-songs-container" data-drop-zone="true" data-zone-name="liked">
-            {% for song in liked_songs %}
-                <c-card-song />
-            {% endfor %}
-         </c-panel-container>
-
-    </c-panel>
-{% endblock %}
-
-
-<!-- NEW SONG NAMES -->
-{% block panel_2 %}
-    <c-panel>
-
         <!-- Panel Header -->
         <c-panel-header title="GENERATE NAMES"> 
             <c-panel-header-button id="btn-add-song-name">
@@ -116,9 +86,14 @@
                 </c-input-column>
             </c-input-columns>
         </c-panel-dialog>        
+    </c-panel>
+{% endblock %}
 
-        <!-- Panel Slider (Center Column) -->
-        <c-panel-slider id="panel-vertical-splitter" title="NEW">
+
+<!-- NEW SONG NAMES -->
+{% block panel_2 %}
+    <c-panel>
+        <c-panel-header title="NEW">
             <c-panel-header-button id="btn-dislike-all-new-song-names">
                 DISLIKE ALL
             </c-panel-header-button>
@@ -145,6 +120,31 @@
 
 <!-- DISLIKED SONG NAMES -->
 {% block panel_3 %}
+    <c-panel>                
+        <!-- Panel Header -->
+        <c-panel-header title="LIKED">
+            <c-panel-header-button id="btn-create-song-lyrics">
+                CREATE LYRICS
+            </c-panel-header-button>
+            <c-panel-header-divider />
+            <c-panel-header-button id="btn-liked-edit-song-name">
+                EDIT
+            </c-panel-header-button>
+            <c-panel-header-button id="btn-liked-delete-song-name">
+                DELETE
+            </c-panel-header-button>
+        </c-panel-header>
+         
+        <!-- Panel Container -->
+         <c-panel-container id="liked-songs-container" data-drop-zone="true" data-zone-name="liked">
+            {% for song in liked_songs %}
+                <c-card-song />
+            {% endfor %}
+         </c-panel-container>
+    </c-panel>
+{% endblock %}
+
+{% block panel_4 %}
         <c-panel>
                 
         <!-- Panel Header -->
