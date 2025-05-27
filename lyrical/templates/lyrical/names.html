@@ -5,135 +5,127 @@
 {% endblock %}
 
 
-<!-- LIKED SONG NAMES -->
+<!-- GENERATION PARAMETERS -->
 {% block panel_1 %}
+    <!-- Top Container -->
+    <div class="w-full">
 
-        <!-- Top Container -->
+        <!-- Header Section -->
         <div class="w-full">
-
-            <!-- Header Section -->
-            <div class="w-full">
-                <c-panel-header title="SONG NAME GENERATION PARAMETERS"> 
-                    <c-panel-header-button id="btn-add-song-name">
-                        ADD
-                    </c-panel-header-button>
-                    <c-panel-header-button id="btn-generate-song-names">
-                        GENERATE NAMES
-                    </c-panel-header-button>
-                    <c-panel-header-button-loading id="btn-generating-song-names">
-                        PLEASE WAIT...
-                    </c-panel-header-button>
-                </c-panel-header>
-            </div>
-
-            <!-- Content Section-->
-            <div class="flex flex-row w-full">
-
-                <!-- Column -->
-                <div class="flex-grow">
-                    <c-input-label>
-                        INCLUDE THEMES:
-                    </c-input-label>                        
-                    <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
-
-                    <c-input-label>
-                        EXCLUDE THEMES:
-                    </c-input-label>                        
-                    <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
-                </div>
-
-                <!-- Column -->
-                <div class="flex-grow">
-                    <c-input-label>
-                        INCLUDE WORDS:
-                    </c-input-label>
-                    <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
-
-                    <c-input-label>
-                        EXCLUDE WORDS:
-                    </c-input-label>                        
-                    <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
-                </div>
-
-                <!-- Column -->
-                <div class="flex-grow">
-                    <c-input-label>
-                        STARTS WITH:
-                    </c-input-label>                        
-                    <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
-
-                    <c-input-label>
-                        ENDS WITH:
-                    </c-input-label>                        
-                    <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
-                </div>
-
-
-
-                <!-- Column -->
-                <div class="flex-grow">
-                    <c-input-label>
-                        MIN WORDS:
-                    </c-input-label>                        
-
-                    <div class="w-full max-w-xs">
-                        <input id="input-min-words" type="range" min="1" max="5" value="{{ user.song_name_length_min }}" class="range range-primary" step="1" />
-                        <div class="flex justify-between px-2.5 mt-2 text-xs">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                        </div>
-                    </div>
-
-                    <c-input-label>
-                        MAX WORDS:
-                    </c-input-label>                        
-                    <div class="w-full max-w-xs">
-                        <input id="input-max-words" type="range" min="1" max="5" value="{{ user.song_name_length_max }}" class="range range-primary" step="1" />
-                        <div class="flex justify-between px-2.5 mt-2 text-xs">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Column -->
-                <div class="flex-grow">
-                    
-                    <c-input-label>
-                        COUNT:
-                    </c-input-label>                        
-                    <div class="w-full max-w-xs">
-                        <input id="input-count" type="range" min="1" max="25" value="{{ user.song_name_gen_count }}" class="range range-primary" step="1" />
-                        <div class="flex justify-between px-2.5 mt-2 text-xs">
-                            <span>1</span>
-                            <span>5</span>
-                            <span>10</span>
-                            <span>15</span>
-                            <span>20</span>
-                            <span>25</span>
-                        </div>
-                    </div>                    
-                </div>
-
-            </div>
+            <c-panel-header title="SONG NAME GENERATION PARAMETERS"> 
+                <c-panel-header-button id="btn-add-song-name">
+                    ADD
+                </c-panel-header-button>
+                <c-panel-header-button id="btn-generate-song-names">
+                    GENERATE NAMES
+                </c-panel-header-button>
+                <c-panel-header-button-loading id="btn-generating-song-names">
+                    PLEASE WAIT...
+                </c-panel-header-button>
+            </c-panel-header>
         </div>
 
+        <!-- Content Section-->
+        <div class="flex flex-row w-full">
 
+            <!-- Column -->
+            <div class="flex-grow">
+                <c-input-label>
+                    INCLUDE THEMES:
+                </c-input-label>                        
+                <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
 
+                <c-input-label>
+                    EXCLUDE THEMES:
+                </c-input-label>                        
+                <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
+            </div>
 
+            <!-- Column -->
+            <div class="flex-grow">
+                <c-input-label>
+                    INCLUDE WORDS:
+                </c-input-label>
+                <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
 
+                <c-input-label>
+                    EXCLUDE WORDS:
+                </c-input-label>                        
+                <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
+            </div>
+
+            <!-- Column -->
+            <div class="flex-grow">
+                <c-input-label>
+                    STARTS WITH:
+                </c-input-label>                        
+                <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
+
+                <c-input-label>
+                    ENDS WITH:
+                </c-input-label>                        
+                <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
+            </div>
+
+            <!-- Column -->
+            <div class="flex-grow">
+                <c-input-label>
+                    MIN WORDS:
+                </c-input-label>                        
+
+                <div class="w-full max-w-xs">
+                    <input id="input-min-words" type="range" min="1" max="5" value="{{ user.song_name_length_min }}" class="range range-primary" step="1" />
+                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                    </div>
+                </div>
+
+                <c-input-label>
+                    MAX WORDS:
+                </c-input-label>                        
+                <div class="w-full max-w-xs">
+                    <input id="input-max-words" type="range" min="1" max="5" value="{{ user.song_name_length_max }}" class="range range-primary" step="1" />
+                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column -->
+            <div class="flex-grow">                    
+                <c-input-label>
+                    COUNT:
+                </c-input-label>                        
+                <div class="w-full max-w-xs">
+                    <input id="input-count" type="range" min="1" max="25" value="{{ user.song_name_gen_count }}" class="range range-primary" step="1" />
+                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                        <span>1</span>
+                        <span>5</span>
+                        <span>10</span>
+                        <span>15</span>
+                        <span>20</span>
+                        <span>25</span>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 <!-- NEW SONG NAMES -->
 {% block panel_2 %}
     <c-panel>
+
+        <!-- Panel Header -->
         <c-panel-header title="NEW">
             <c-panel-header-button id="btn-dislike-all-new-song-names">
                 DISLIKE ALL
@@ -146,22 +138,22 @@
                 DELETE
             </c-panel-header-button>
         </c-panel-slider>
-
          
         <!-- Panel Container (New Songs)-->
          <c-panel-container id="new-songs-container" data-drop-zone="true" data-zone-name="new">
             {% for song in new_songs %}
                 <c-card-song />
             {% endfor %}
-         </c-panel-container>
-         
+         </c-panel-container>         
 
     </c-panel>
 {% endblock %}
 
-<!-- DISLIKED SONG NAMES -->
+
+<!-- LIKED SONG NAMES -->
 {% block panel_3 %}
-    <c-panel>                
+    <c-panel>            
+
         <!-- Panel Header -->
         <c-panel-header title="LIKED">
             <c-panel-header-button id="btn-create-song-lyrics">
@@ -176,18 +168,21 @@
             </c-panel-header-button>
         </c-panel-header>
          
-        <!-- Panel Container -->
+        <!-- Panel Container (Liked Songs) -->
          <c-panel-container id="liked-songs-container" data-drop-zone="true" data-zone-name="liked">
             {% for song in liked_songs %}
                 <c-card-song />
             {% endfor %}
          </c-panel-container>
+
     </c-panel>
 {% endblock %}
 
+
+<!-- DISLIKED SONG NAMES -->
 {% block panel_4 %}
-        <c-panel>
-                
+    <c-panel>               
+
         <!-- Panel Header -->
         <c-panel-header title="DISLIKED">
             <c-panel-header-button id="btn-archive-all-disliked-song-names">
@@ -201,9 +196,8 @@
                 DELETE
             </c-panel-header-button>
         </c-panel-header>
-
          
-        <!-- Panel Container -->
+        <!-- Panel Container (Disliked Songs) -->
          <c-panel-container id="disliked-songs-container" data-drop-zone="true" data-zone-name="disliked">       
             {% for song in disliked_songs %}
                 <c-card-song />

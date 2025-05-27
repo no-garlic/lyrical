@@ -5,39 +5,13 @@
 
 <div class="flex flex-col w-full h-full">
 
-    <!-- Top Section - Generation Parameters -->
+    <!-- Top Section -->
     <div class="w-full flex flex-row">
         {% block panel_1 %}
-            <!-- Top Container -->
-            <div class="border-1 w-full">
-
-                <!-- Header Section -->
-                <div class="border-1 w-full">
-                    <p class="text-center">Header</p>
-                </div>
-
-                <!-- Content Section-->
-                <div class="border-1 flex flex-row w-full">
-
-                    <!-- Column -->
-                    <div class="border-1 flex-grow">
-                        <p>item</p>
-                        <p>item</p>
-                        <p>item</p>
-                    </div>
-
-                    <!-- Column -->
-                    <div class="border-1 flex-grow">
-                        <p>item</p>
-                        <p>item</p>
-                        <p>item</p>
-                    </div>
-                </div>
-            </div>
         {% endblock %}        
     </div>
 
-    <!-- Bottom Section - 3 Lists -->
+    <!-- Bottom Section: 3 Columns -->
     <div class="flex flex-row w-full flex-1 border-1">
         <!-- Panel 2 (Resizable) -->
         <div id="panel2" class="flex-1 py-3 flex justify-center items-center overflow-hidden">
