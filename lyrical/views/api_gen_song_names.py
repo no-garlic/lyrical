@@ -14,8 +14,6 @@ logger = logging.getLogger(__name__)
 
 class SongNamesGenerator(LLMGenerator):
     def extract_parameters(self) -> Dict[str, Any]:
-
-        # extract the parameters from the request
         return {
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'include_themes': self.request.GET.get("include_themes", "").strip(),
@@ -63,9 +61,8 @@ class SongNamesGenerator(LLMGenerator):
     
     def log_generation_params(self) -> None:
         params = self.extracted_params
-        logger.debug(f"generation parameters: count={params['count']}, "
-                    f"min_words={params['min_words']}, max_words={params['max_words']}")
-    
+        logger.debug(f"Generating song names with parameters: {params}")
+            
     
     def preprocess_ndjson(self, ndjson_line: str) -> str:
         data = json.loads(ndjson_line)

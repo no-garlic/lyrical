@@ -46,13 +46,12 @@
  - Press Enter on selected should edit
  - Trim whitespace when editing
  - Published song stage and add all my songs in the migration 
+ - Refactor llm generation code in python mostly
+ - Make sure llm generation errors flow to the page with a useful error shown
 
 
 ## Todo
- - Refactor llm generation code in python mostly
  - Simplify all views
- - Make sure llm generation errors flow to the page with a useful error shown
-
  - Refactor names.js - its too long
 
 

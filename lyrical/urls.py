@@ -22,8 +22,6 @@ from .views.api_song_delete import *
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
 
-from .views.api_test_streaming import *
-
 
 urlpatterns = [
     # landing page
@@ -57,7 +55,4 @@ urlpatterns = [
     path("api_gen_song", api_gen_song, name="api_gen_song"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
     
-    # test pages
-    path("api_test_streaming", test_streaming, name="test_streaming"),
-
 ]

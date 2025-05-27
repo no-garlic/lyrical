@@ -35,36 +35,8 @@ def page_index(request):
                 except Exception as auth_error:
                     logger.error(f"development auto-login error: {str(auth_error)}")
                     # continue without authentication rather than failing
-            else:
-                logger.debug("production environment - skipping auto-login")
         
-        # gather basic page statistics for display
-        try:
-            total_users = models.User.objects.count()
-            total_songs = models.Song.objects.count()
-            
-            logger.debug(f"index page stats: {total_users} users, {total_songs} songs")
-            
-        except Exception as stats_error:
-            logger.error(f"error gathering index page statistics: {str(stats_error)}")
-            # set default values if database query fails
-            total_users = 0
-            total_songs = 0
-        
-        # prepare template context
-        context = {
-            "total_users": total_users,
-            "total_songs": total_songs,
-            "is_authenticated": request.user.is_authenticated,
-        }
-        
-        if request.user.is_authenticated:
-            context["username"] = request.user.username
-            logger.info(f"index page loaded for authenticated user '{request.user.username}'")
-        else:
-            logger.info("index page loaded for anonymous user")
-        
-        return render(request, 'lyrical/index.html', context)
+        return render(request, 'lyrical/index.html', {})
         
     except Exception as e:
         logger.error(f"unexpected error loading index page: {str(e)}")
