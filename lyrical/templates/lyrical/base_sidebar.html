@@ -15,7 +15,7 @@
                 <div class="h-full w-full flex flex-col items-top justify-top border-r border-base-300">
 
                     <!-- Title -->
-                    <p class="pt-5 text-center mb-10 mt-0 text-4xl font-[Chango]">LYRICAL</p>
+                    <p class="pt-5 text-center text-primary mb-10 mt-0 text-4xl font-[Chango]">LYRICAL</p>
 
                     <!-- Image -->
                     <img src="{% static 'lyrical/image/singer-transparent.png' %}" 
@@ -23,19 +23,24 @@
                         class="object-contain mt-4 w-full [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
                     
                     <!-- Menu -->                    
-                    <ul class="menu bg-base-200 w-full mt-10 mb-4 menu-md pl-4 pr-4 font-bold">
+                    <ul class="menu bg-base-200 w-full mt-10 mb-4 menu-md pl-4 pr-4 font-bold text-primary">
                         <li class="mb-1">
-                            <a class="{% if active_page == 'index' %}menu-active{% endif %}" href="{% url 'index' %}">
+                            <a class="{% if active_page == 'index' %}bg-neutral{% endif %}" href="{% url 'index' %}">
                                 HOME
                             </a>
                         </li>
                         <li class="mb-1">
-                            <a class="{% if active_page == 'library' %}menu-active{% endif %}" href="{% url 'library' %}">
+                            <a class="{% if active_page == 'library' %}bg-neutral{% endif %}" href="{% url 'library' %}">
                                 LIBRARY
                             </a>
                         </li>
                         <li class="mb-1">
-                            <a class="{% if active_page == 'edit' %}menu-active{% endif %}" href="{% url 'song' %}">
+                            <a class="{% if active_page == 'names' %}bg-neutral{% endif %}" href="{% url 'names' %}">
+                                NAMES
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="{% if active_page == 'edit' %}bg-neutral{% endif %}" href="{% url 'song' %}">
                                 LYRICS
                             </a>
                         </li>
@@ -43,7 +48,7 @@
 
                     <!-- LLM Options -->
                     <div class="bg-base shadow rounded border border-base-300 bg-base flex flex-col mt-4 mb-2 ml-2 mr-2 pt-3">
-                        <p class="text-sm font-bold border-b border-base-300 pb-3 text-center">
+                        <p class="text-md font-bold border-b border-base-300 pb-3 text-center text-primary">
                             MODEL PARAMETERS
                         </p>
                         <div class="w-full p-4">
@@ -106,15 +111,15 @@
                     </div>
 
                     <!-- Menu -->                    
-                    <ul class="menu bg-base-200 w-full mt-10 mb-3 menu-md font-bold p-0">
+                    <ul class="menu bg-base-200 w-full mt-10 mb-3 menu-md font-bold text-primary p-0">
                         <div class="mt-1 mb-3 border border-b border-1 border-base-300"></div>
                         <li class="mb-1 pl-6 pr-4">
-                            <a class="{% if active_page == 'profile' %}menu-active{% endif %}" href="{% url 'profile' %}">
+                            <a class="{% if active_page == 'profile' %}bg-neutral{% endif %}" href="{% url 'profile' %}">
                                 MY PROFILE
                             </a>
                         </li>
-                        <li class="mb-1 pl-6 pr-4">
-                            <a class="{% if active_page == 'logout' %}menu-active{% endif %}" href="{% url 'logout' %}">
+                        <li class="mb-4 pl-6 pr-4">
+                            <a class="{% if active_page == 'logout' %}bg-neutral{% endif %}" href="{% url 'logout' %}">
                                 LOGOUT
                             </a>
                         </li>
@@ -162,7 +167,7 @@
                         </div>
                         {% elif page_name %}
                         <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                            <p class="text-3xl font-bold">
+                            <p class="text-3xl font-bold text-primary">
                                 {{ page_name }}
                             </p>
                         </div>
@@ -185,31 +190,32 @@
                 {% endblock %}
             </div>
 
-            <!-- Fixed height footer -->
-            <div id="footer-panel" class="h-14 flex-shrink-0 flex justify-center items-center overflow-hidden">
-                <div class="h-full w-full flex items-center justify-center">
-                    <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 px-4">
+            {% block footer %}
+                <!-- Fixed height footer -->
+                <div id="footer-panel" class="h-14 flex-shrink-0 flex justify-center items-center overflow-hidden">
+                    <div class="h-full w-full flex items-center justify-center">
+                        <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 px-4">
 
-                        <!-- Previous Button -->
-                        <button id="btn-navigate-previous" class="btn btn-wide btn-md btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
-                                <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
-                            </svg>
-                            <p>Previous</p>
-                        </button>
+                            <!-- Previous Button -->
+                            <button id="btn-navigate-previous" class="btn btn-wide btn-md btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+                                    <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
+                                </svg>
+                                <p>Previous</p>
+                            </button>
 
-                        <!-- Next Button -->
-                        <button id="btn-navigate-next" class="btn btn-wide btn-md btn-primary">
-                            <p>Next</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
-                                <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />
-                            </svg>
-                        </button>
+                            <!-- Next Button -->
+                            <button id="btn-navigate-next" class="btn btn-wide btn-md btn-primary">
+                                <p>Next</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+                                    <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />
+                                </svg>
+                            </button>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

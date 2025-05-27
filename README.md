@@ -39,25 +39,18 @@
  - Move GENERATE NAMES to top, NEW to bottom
  - Remove hard coded reference to id's like panel-top-content so I can name them as I wish
  - At init time, vertical slider position should be such that the panel below it consumes the full space and no gap
+ - Names page should have 4 columns, with the left most column being the generate dialog.
+ - Remove the timeline and footer, add a title (maybe a new base template - base_navigation)
+ - Add a sidebar entry for names.html, and clean up the view
 
 
 ## Todo
- - This page should maybe have 4 columns, with the left most column being the generate dialog.
-    Test it in a branch.
-    GEN | NEW | LIKED | DISLIKED
-    Remove the splitter.
-
- - [CUT] Up Arrow / Down Arrow on Generate Names header that shows / hides the dialog
- - [CUT] Why cant I drag the NEW splitter all the way to the top?
-
- - Remove the timeline and footer, add a title (maybe a new base template - base_navigation)
- - Add a sidebar entry for names.html, and clean up the view
  - Show Generation Progress on Generate button
 
  - Refactor llm generation code in python mostly
  - Simplify all views
  - Make sure llm generation errors flow to the page with a useful error shown
- - Refactor names.html - its too long
+ - Refactor names.js - its too long
 
 ## Backlog
  - Make the library page page 1 of the timeline

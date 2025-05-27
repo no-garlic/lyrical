@@ -16,6 +16,7 @@ export function initNavigation() {
 
 
 export function setNavigationNext(enabled) {
+    /*
     if (enabled) {
         document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
         document.getElementById('btn-navigate-next').classList.add('btn-primary');
@@ -23,6 +24,7 @@ export function setNavigationNext(enabled) {
         document.getElementById('btn-navigate-next').classList.remove('btn-primary');
         document.getElementById('btn-navigate-next').classList.add('btn-disabled');
     }
+    */
 
     // Also update navigation index + 1..3
 
@@ -31,6 +33,7 @@ export function setNavigationNext(enabled) {
 
 
 export function setNavigationPrevious(enabled) {
+    /*
     if (enabled) {
         document.getElementById('btn-navigate-previous').classList.remove('btn-disabled');
         document.getElementById('btn-navigate-previous').classList.add('btn-primary');
@@ -38,7 +41,8 @@ export function setNavigationPrevious(enabled) {
         document.getElementById('btn-navigate-previous').classList.remove('btn-primary');
         document.getElementById('btn-navigate-previous').classList.add('btn-disabled');
     }
-
+    */
+   
     // Also update navigation index - 1..3
 
 

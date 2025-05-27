@@ -52,7 +52,7 @@ def page_names(request):
         except Exception as db_error:
             logger.error(f"database error fetching songs for user '{request.user.username}': {str(db_error)}")
             return render(request, "lyrical/names.html", {
-                "active_page": "edit",
+                "active_page": "names",
                 "llm_models": models.LLM.objects.all(),
                 "page_name": "SONG NAMES",
                 "new_songs": [],
@@ -63,25 +63,13 @@ def page_names(request):
         
         # prepare context data for template
         context = {
-            "active_page": "edit",
+            "active_page": "names",
+            "page_name": "SONG NAMES",
             "llm_models": models.LLM.objects.all(),
             "new_songs": new_songs,
             "liked_songs": liked_songs,
             "disliked_songs": disliked_songs,
         }
-        
-        # prepare navigation context with validation
-        navigation_items = [
-            {"name": "SONG", "url": "song", "active": True, "selected": True, "enabled": True},
-            {"name": "PREPARE", "url": "prepare", "active": False, "selected": False, "enabled": False},
-            {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
-            {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
-        ]
-
-        context.update({
-            "active_page": "edit",
-            "navigation": navigation_items,
-        });
 
         return render(request, "lyrical/names.html", context)
         

@@ -210,7 +210,7 @@ function initNewSongCard(songId, songName) {
 /**
  * Setup the horizontal and vertical resizable elements on the page.
  */
-function setupResizeElements() {    
+function setupResizeElements() {
     /*
     // make the panel header resizable with auto-sizing to fit bottom content
     makeVerticallyResizable(
@@ -219,11 +219,6 @@ function setupResizeElements() {
         document.getElementById('new-songs-container'),
     );
     */
-    // make the first panel splitter resizable
-    makeHorizontallyResizable(
-        document.getElementById('panel2'), 
-        document.getElementById('splitter1'), 
-        document.getElementById('panel1'));
     // make the second panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel3'), 
@@ -559,6 +554,10 @@ function moveSongCardById(songId, newContainer) {
     if (destinationPanel && songCard) {
         // move the song card
         destinationPanel.appendChild(songCard);
+
+        // reset the background color incase it is still set to new
+        songCard.classList.remove('bg-neutral');
+        songCard.classList.add('bg-base-200');
 
         // update the cards stage
         songCard.dataset.songStage = destinationPanel.dataset.zoneName;
