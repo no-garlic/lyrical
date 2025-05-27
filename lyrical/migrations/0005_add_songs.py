@@ -6,26 +6,39 @@ from ..services.utils.prompts import get_system_prompt, get_user_prompt
 import os
 
 
+published_songs = [
+    'Dance With Me Tonight', 'Dancing In The Daylight', 'Dancing On My Own', 'Electric Tonight', 'How To Shine', 'Lighting It Up', 'Move Myself', 'Moving To My Own Song', 
+    'Seashells In The Sand', 'Sunset Echoes', 'This Moment', 'A New Dawn', 'After the Rain', 'Autumn Leaves', 'Beautiful Life', 'Believe in Magic', 'Born For This', 'Bright Future', 
+    'Carefree Summer Nights', 'Chasing Dreams', 'Dance All Night', 'Dancing In The Twilight', 'Dont Hold Back', 'Dream Of Me', 'Endless Summer', 'Eternal Waves', 'Feel The Heat', 
+    'Finally Free', 'Find Your Fire', 'Find Your Way', 'From The Ashes', 'Heart of Chaos', 'Hidden In The Night', 'I Am Strong', 'I Can Fly', 'I Create', 'In My Dreams', 'In My Mind', 
+    'In My Sea', 'In The Rain', 'Into the Night', 'Invincible', 'Leave A Trace', 'Light Your Fire', 'Light Your Way', 'Morning Glow', 'Ocean of Dreams', 'Run Free', 'Shine Like Stars', 
+    'Shine Your Light', 'Silent Echoes', 'Smile Through The Rain', 'Sound Of Summer', 'Stronger Every Day', 'Summer In Your Soul', 'Summer Nights', 'Summertime', 'Sunrise', 'The End Of Me', 
+    'Unbreakable', 'Under The Sun', 'Unseen Love', 'Unstoppable', 'Wild and Free', 'Winner'
+    ]
+
+
+liked_songs = [
+    'Chase The Sun', 'Climb Higher', 'Dare To Dream', 'Garden Of Dreams', 'Into The Wild', 'Light The Sky',
+    'Own The Moment', 'Stand Tall', 'Summer Dreams', 'Hold On Tight', 'One More Step', 'Heart On Fire',
+    'Own The Fight', 'New Sunrise', 'Forgotten Dreams', 'Every Heartbeat', 'We Are One', 'Hidden Sights',
+    'Stand As One', 'Before The Thunder', 'Sun Will Shine', 'Dreams Will Come', 'Still We Rise', 
+    'Reason To Smile', 'Never Give Up'
+    ]
+
+
 def add_data(apps, schema_editor):
     users = apps.get_model("lyrical", "User")
     songs = apps.get_model("lyrical", "Song")
 
     user = users.objects.get(username="mpetrou")
 
-    songs.objects.create(user=user, name="Chasing Dreams", stage="new")
-    songs.objects.create(user=user, name="The End Of Me", stage="new")
-    songs.objects.create(user=user, name="Dance With Me Tonight", stage="new")
+    # create all of the published songs for the user
+    for song_name in published_songs:
+        songs.objects.create(user=user, name=song_name, stage="published")
 
-    songs.objects.create(user=user, name="From The Ashes", stage="liked")
-    songs.objects.create(user=user, name="Dancing On My Own", stage="liked")
-    songs.objects.create(user=user, name="How To Shine", stage="liked")
-    songs.objects.create(user=user, name="Find Your Fire", stage="liked")
-
-    songs.objects.create(user=user, name="Move Myself", stage="disliked")
-    songs.objects.create(user=user, name="Dream Of Me", stage="disliked")
-    songs.objects.create(user=user, name="Sound Of Summer", stage="disliked")
-    songs.objects.create(user=user, name="Dont Hold Back", stage="disliked")
-
+    # create all of the liked songs for the user
+    for song_name in liked_songs:
+        songs.objects.create(user=user, name=song_name, stage="liked")
 
     
 

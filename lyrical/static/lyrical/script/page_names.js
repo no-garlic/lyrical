@@ -117,7 +117,7 @@ function addSongName(event) {
  */
 function handleAddSongConfirm(event) {
     // get the new song name from the input field
-    const newSongName = document.getElementById('modal-textinput-text').value;
+    const newSongName = document.getElementById('modal-textinput-text').value.trim();
     console.log(`New song name: ${newSongName}.`)
 
     // call the api to add the song
@@ -627,7 +627,7 @@ function handleEditSongConfirm(event) {
     // get the selected song card and new name
     const card = selectSystem.getSelectedElement();
     const songId = card.dataset.songId;
-    const newSongName = document.getElementById('modal-textinput-text').value;
+    const newSongName = document.getElementById('modal-textinput-text').value.trim();
     console.log(`New song name: ${newSongName}.`)
 
     // call the api to update the song name

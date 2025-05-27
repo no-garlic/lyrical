@@ -42,30 +42,32 @@
  - Names page should have 4 columns, with the left most column being the generate dialog.
  - Remove the timeline and footer, add a title (maybe a new base template - base_navigation)
  - Add a sidebar entry for names.html, and clean up the view
+ - Show Generation Progress on Generate button
+ - Press Enter on selected should edit
+ - Trim whitespace when editing
+ - Published song stage and add all my songs in the migration 
 
 
 ## Todo
- - Show Generation Progress on Generate button
-
- - [Enter] on selected should edit
- - trim whitespace when editing
-
  - Refactor llm generation code in python mostly
  - Simplify all views
  - Make sure llm generation errors flow to the page with a useful error shown
+
  - Refactor names.js - its too long
+
 
 ## Backlog
  - Make the library page page 1 of the timeline
  - Create Lyrics button on names.html goes to page 2 of edit
  - Complete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
- - Published song stage and add all my songs in the migration 
  - Change Toast system to be a singleton
  - Filtering song names (library page)
  - Login Required for all pages
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
+ - Change font color on login and register pages
+ - Link to home on login and register pages
 
 
 ## Maybe
