@@ -3,11 +3,10 @@ import { apiSongDelete } from './api_song_delete.js';
 import { apiSongEdit } from './api_song_edit.js';
 import { apiSongEditBulk } from './api_song_edit_bulk.js';
 import { apiRenderComponent } from './api_render_component.js'; 
-import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
 import { DragDropSystem } from './util_dragdrop.js';
 import { SelectSystem } from './util_select.js';
-import { ToastSystem } from './util_toast.js';
+import { toastSystem } from './util_toast.js';
 import { StreamHelper } from "./util_stream_helper.js";
 import { setNavigationNext, setNavigationPrevious, setNavigationIndex, setNavigationRange } from './util_navigation.js';
 
@@ -25,12 +24,6 @@ let selectSystem;
 
 
 /**
- * Declare the toast system at the module level
- */
-let toastSystem;
-
-
-/**
  * Declare the stream helper at the module level
  */
 let streamHelper;
@@ -42,9 +35,6 @@ let streamHelper;
 document.addEventListener('DOMContentLoaded', () => {
     // Setup the resize elements of the page
     setupResizeElements();
-
-    // Initialize the toast system
-    initToastSystem();
 
     // Cannot navigate back from this page
     setNavigationIndex(1);
@@ -85,19 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialise the Stream Handler
     initStreamHandler();
 });
-
-
-/**
- * Initialize the toast system.
- * Creates and configures the toast system for displaying user feedback messages.
- */
-function initToastSystem() {
-    // create the toast system and assign to module-level variable
-    toastSystem = new ToastSystem();
-
-    // initialize the toast system
-    toastSystem.init();
-}
 
 
 /**

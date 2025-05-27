@@ -1,12 +1,6 @@
 import { makeVerticallyResizable } from './util_sliders_vertical.js'
 import { makeHorizontallyResizable } from './util_sliders_horizontal.js'
-import { ToastSystem } from './util_toast.js';
-
-
-/**
- * Declare the toast system at the module level
- */
-let toastSystem;
+import { toastSystem } from './util_toast.js';
 
 
 /**
@@ -15,23 +9,7 @@ let toastSystem;
 document.addEventListener('DOMContentLoaded', () => {
     // Setup the resize elements of the page
     setupResizeElements();
-
-    // Initialize the toast system
-    initToastSystem();
 });
-
-
-/**
- * Initialize the toast system.
- * Creates and configures the toast system for displaying user feedback messages.
- */
-function initToastSystem() {
-    // create the toast system and assign to module-level variable
-    toastSystem = new ToastSystem();
-
-    // initialize the toast system
-    toastSystem.init();
-}
 
 
 /**

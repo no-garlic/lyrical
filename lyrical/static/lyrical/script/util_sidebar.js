@@ -5,7 +5,7 @@ import { ToastSystem } from './util_toast.js';
 /**
  * Declare the toast system at the module level
  */
-let toastSystem;
+import { toastSystem } from './util_toast.js';
 
 
 /**
@@ -19,22 +19,10 @@ document.addEventListener('DOMContentLoaded', initSidebar);
  * This function sets up all the interactive controls in the sidebar.
  */
 export function initSidebar() {
-    // initialize the toast system
-    initToastSystem();
-
     // initialize all LLM parameter controls
     initModelSelector();
     initTemperatureSlider();
     initMaxTokensSlider();
-}
-
-
-/**
- * Initialize the toast system for user notifications
- */
-function initToastSystem() {
-    toastSystem = new ToastSystem();
-    toastSystem.init();
 }
 
 

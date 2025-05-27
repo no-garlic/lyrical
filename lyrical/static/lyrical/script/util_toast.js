@@ -1,13 +1,28 @@
 
 
-export class ToastSystem {
+
+/**
+ * ToastSystem singleton class for managing toast notifications
+ */
+class ToastSystem {
     constructor() {
+        if (ToastSystem.instance) {
+            return ToastSystem.instance;
+        }
+        
         this.toastCounter = 0;
         this.toastContainer = null;
+        this.initialized = false;
+        
+        ToastSystem.instance = this;
+        return this;
     }
 
     init() {
-        this.initToastContainer();
+        if (!this.initialized) {
+            this.initToastContainer();
+            this.initialized = true;
+        }
     }
 
     initToastContainer() {
@@ -154,3 +169,36 @@ export class ToastSystem {
         }, 10);
     }
 }
+
+// Create and export the singleton instance
+const toastSystem = new ToastSystem();
+
+// Auto-initialize when the module is loaded
+toastSystem.init();
+
+// Export the singleton instance
+export { toastSystem };
+
+// Export convenience functions for easier usage
+export function showError(message) {
+    return toastSystem.showError(message);
+}
+
+export function showInfo(message) {
+    return toastSystem.showInfo(message);
+}
+
+export function showWarning(message) {
+    return toastSystem.showWarning(message);
+}
+
+export function showSuccess(message) {
+    return toastSystem.showSuccess(message);
+}
+
+export function closeToast(toastId) {
+    return toastSystem.closeToast(toastId);
+}
+
+// Also export the class for backward compatibility
+export { ToastSystem };

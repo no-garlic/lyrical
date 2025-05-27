@@ -48,11 +48,10 @@
  - Published song stage and add all my songs in the migration 
  - Refactor llm generation code in python mostly
  - Make sure llm generation errors flow to the page with a useful error shown
-
-
-## Todo
  - Simplify all views
  - Refactor names.js - its too long
+
+## Todo
 
 
 ## Backlog
