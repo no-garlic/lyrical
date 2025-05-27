@@ -68,6 +68,7 @@
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - Change font color on login and register pages
  - Link to home on login and register pages
+ - Implement logging module for all code (get claude code to implement it)
 
 
 ## Maybe

@@ -1,14 +1,3 @@
-"""
-Base class for LLM generation API views.
-
-This provides a standardized pattern for endpoints that:
-1. Extract and validate parameters
-2. Query database if needed
-3. Build system and user prompts
-4. Call LLM service
-5. Return streaming response
-"""
-
 import logging
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
@@ -27,7 +16,7 @@ class LLMGenerator(ABC):
     Base class for LLM generation endpoints.
     
     Subclasses should implement the abstract methods to customize:
-    - Parameter extraction and validation
+    - Parameter extraction
     - Database queries
     - Prompt building
     """
@@ -55,9 +44,9 @@ class LLMGenerator(ABC):
         """
         try:
             # step 1: extract and validate parameters
-            validation_result = self._extract_and_validate_parameters()
-            if validation_result:
-                return validation_result
+            validation_errors = self._extract_parameters()
+            if validation_errors:
+                return validation_errors
             
             # step 2: authenticate user
             auth_result = self._authenticate_user()
@@ -90,7 +79,7 @@ class LLMGenerator(ABC):
             }, status=500)
     
 
-    def _extract_and_validate_parameters(self) -> Optional[JsonResponse]:
+    def _extract_parameters(self) -> Optional[JsonResponse]:
         """
         Extract and validate request parameters.
         
@@ -100,18 +89,6 @@ class LLMGenerator(ABC):
         try:
             # call subclass implementation
             self.extracted_params = self.extract_parameters()
-            
-            # call subclass validation
-            validation_errors = self.validate_parameters(self.extracted_params)
-            
-            if validation_errors:
-                logger.warning(f"parameter validation failed: {validation_errors}")
-                return JsonResponse({
-                    "success": False,
-                    "error": validation_errors
-                }, status=400)
-            
-            return None
             
         except Exception as e:
             logger.error(f"error extracting parameters: {str(e)}")
@@ -157,16 +134,9 @@ class LLMGenerator(ABC):
         """
         try:
             self.llm_model = self.user.llm_model
-            model_name = self.get_llm_model_name()
-            logger.debug(f"using llm model: {model_name}")
+            logger.debug(f"using llm model: {self.get_llm_model_name()}")
             return None
             
-        except models.LLM.DoesNotExist:
-            logger.error(f"llm model '{model_name}' not found in database")
-            return JsonResponse({
-                "success": False,
-                "error": "llm model configuration not found, please contact support"
-            }, status=500)
         except Exception as e:
             logger.error(f"error getting llm model: {str(e)}")
             return JsonResponse({
@@ -234,6 +204,7 @@ class LLMGenerator(ABC):
             self.prompt_messages.add_system(system_message)
             self.prompt_messages.add_user(user_message)
 
+            # log the prompt messages for debugging
             print(self.prompt_messages)
             
             # log generation start
@@ -290,20 +261,7 @@ class LLMGenerator(ABC):
             Dict containing extracted parameters
         """
         pass
-    
-    @abstractmethod
-    def validate_parameters(self, params: Dict[str, Any]) -> Optional[str]:
-        """
-        Validate extracted parameters.
-        
-        Args:
-            params: Dictionary of extracted parameters
-            
-        Returns:
-            Error message string if validation fails, None if successful
-        """
-        pass
-    
+   
     @abstractmethod
     def get_prompt_name(self) -> str:
         """

@@ -45,6 +45,10 @@ def process_line(line: str, generator=None):
             print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
             error_payload = {"error": "Malformed JSON line from LLM", "raw_content": stripped_line, "details": str(e)}
             yield json.dumps(error_payload) + '\n'
+        except Exception as e:
+            print(f"LLM_SERVICE_NDJSON_PROCESS_ERROR: Error processing line: {stripped_line}, Error: {e}")
+            error_payload = {"error": "Error processing line from LLM", "raw_content": stripped_line, "details": str(e)}
+            yield json.dumps(error_payload) + '\n'
 
 
 def normalize_to_ascii(text):

@@ -13,103 +13,24 @@ logger = logging.getLogger(__name__)
 
 
 class SongNamesGenerator(LLMGenerator):
-    """
-    generates song names using llm based on user parameters and themes.
-    """
-    
     def extract_parameters(self) -> Dict[str, Any]:
-        """
-        extract parameters from GET request.
-         - prompt:
-         - include_themes: 
-         - exclude_themes:
-         - include_words:
-         - exclude_words:
-         - starts_with:
-         - ends_with:
-         - count:
-         - min_words:
-         - max_words:
-        """
-        # extract basic parameters
-        prompt_name = self.request.GET.get("prompt", "").strip()
-        
-        # extract numeric parameters with defaults
-        try:
-            count = int(self.request.GET.get("count", 1))
-            min_words = int(self.request.GET.get("min_words", 1))
-            max_words = int(self.request.GET.get("max_words", 5))
-        except ValueError:
-            count = min_words = max_words = None
-        
-        # extract theme parameters
-        include_themes_raw = self.request.GET.get("include_themes", "").strip()
-        exclude_themes_raw = self.request.GET.get("exclude_themes", "").strip()
-        include_words_raw = self.request.GET.get("include_words", "").strip()
-        exclude_words_raw = self.request.GET.get("exclude_words", "").strip()
-        starts_with_words_raw = self.request.GET.get("starts_with", "").strip()
-        ends_with_words_raw = self.request.GET.get("ends_with", "").strip()
-        
-        # format theme parameters safely
-        include_themes = f"[{include_themes_raw}]" if include_themes_raw else ""
-        exclude_themes = f"[{exclude_themes_raw}]" if exclude_themes_raw else ""
-        include_words = f"[{include_words_raw}]" if include_words_raw else ""
-        exclude_words = f"[{exclude_words_raw}]" if exclude_words_raw else ""
-        starts_with = f"[{starts_with_words_raw}]" if starts_with_words_raw else ""
-        ends_with = f"[{ends_with_words_raw}]" if ends_with_words_raw else ""
-        
+
+        # extract the parameters from the request
         return {
-            'prompt_name': prompt_name,
-            'include_themes': include_themes,
-            'exclude_themes': exclude_themes,
-            'include_words': include_words,
-            'exclude_words': exclude_words,
-            'starts_with': starts_with,
-            'ends_with': ends_with,
-            'count': count,
-            'min_words': min_words,
-            'max_words': max_words,
+            'prompt_name': self.request.GET.get("prompt", "").strip(),
+            'include_themes': self.request.GET.get("include_themes", "").strip(),
+            'exclude_themes': self.request.GET.get("exclude_themes", "").strip(),
+            'include_words': self.request.GET.get("include_words", "").strip(),
+            'exclude_words': self.request.GET.get("exclude_words", "").strip(),
+            'starts_with': self.request.GET.get("starts_with", "").strip(),
+            'ends_with': self.request.GET.get("ends_with", "").strip(),
+            'count': int(self.request.GET.get("count", 1)),
+            'min_words': int(self.request.GET.get("min_words", 1)),
+            'max_words': int(self.request.GET.get("max_words", 5)),
         }
     
 
-    def validate_parameters(self, params: Dict[str, Any]) -> Optional[str]:
-        """
-        validate extracted parameters.
-        """
-        # validate prompt name
-        if not params['prompt_name']:
-            return "prompt name is required to generate song names"
-        
-        # validate prompt name format to prevent injection attacks
-        if not params['prompt_name'].replace('_', '').replace('-', '').isalnum():
-            return "prompt name can only contain letters, numbers, hyphens, and underscores"
-        
-        # validate numeric parameters
-        if any(x is None for x in [params['count'], params['min_words'], params['max_words']]):
-            return "count, min_words, and max_words must be valid numbers"
-        
-        # validate parameter ranges
-        if params['count'] < 1 or params['count'] > 50:
-            return "count must be between 1 and 50"
-        
-        if params['min_words'] < 1 or params['min_words'] > 20:
-            return "min_words must be between 1 and 20"
-        
-        if params['max_words'] < params['min_words'] or params['max_words'] > 20:
-            return "max_words must be between min_words and 20"
-        
-        # validate theme parameter lengths to prevent excessively long inputs
-        for theme_param in ['include_themes', 'exclude_themes', 'exclude_words']:
-            if len(params[theme_param]) > 1000:
-                return f"{theme_param} parameter is too long (max 1000 characters)"
-        
-        return None
-    
-
     def query_database_data(self) -> Dict[str, Any]:
-        """
-        get excluded song names from database.
-        """
         # get excluded song names from database
         all_songs = models.Song.objects.values('name')
         exclude_song_names = [item['name'] for item in all_songs]
@@ -122,16 +43,10 @@ class SongNamesGenerator(LLMGenerator):
     
 
     def get_prompt_name(self) -> str:
-        """
-        get the prompt name from extracted parameters.
-        """
         return self.extracted_params['prompt_name']
     
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
-        """
-        build parameters for the user prompt.
-        """
         return {
             'include_themes': self.extracted_params['include_themes'],
             'exclude_themes': self.extracted_params['exclude_themes'],
@@ -147,76 +62,30 @@ class SongNamesGenerator(LLMGenerator):
     
     
     def log_generation_params(self) -> None:
-        """
-        log generation parameters for debugging.
-        """
         params = self.extracted_params
         logger.debug(f"generation parameters: count={params['count']}, "
                     f"min_words={params['min_words']}, max_words={params['max_words']}")
     
     
     def preprocess_ndjson(self, ndjson_line: str) -> str:
-        """
-        Preprocess NDJSON lines to add a random ID to each song name object.
+        data = json.loads(ndjson_line)
         
-        Args:
-            ndjson_line: A single line of NDJSON (already validated as valid JSON)
-            
-        Returns:
-            Modified NDJSON line with added 'id' field containing a random integer
-        """
-        try:
-            # Parse the JSON line
-            data = json.loads(ndjson_line)
-            
-            # Get the name field
-            if "name" not in data:
-                raise KeyError("Missing 'name' field in NDJSON line")
-            name = data["name"]
-            
-            # Validate the name field
-            if not isinstance(name, str):
-                raise ValueError("Invalid song name in NDJSON line")
+        # get the song name from the data
+        name = normalize_to_ascii(data["name"])
+        data["name"] = name
 
-            # Normalize the song name to ASCII
-            data["name"] = normalize_to_ascii(name)
+        # create a new song object in the database
+        song = models.Song.objects.create(name=data["name"], user=self.request.user)
+        logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
 
-            # Ensure name is not empty after normalization
-            if not data["name"]:
-                raise ValueError("Invalid song name in NDJSON line")
-
-            # Create a new song with the normalized name
-            song = models.Song.objects.create(name=data["name"], user=self.request.user)
-
-            # Log the creation of the song
-            logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
-
-            # Add the ID to the NDJSON data
-            data['id'] = song.id
-
-            # Log the preprocessing step            
-            print(f"Preprocessed NDJSON line: {data}")
-
-            # Return the modified JSON line (without newline, it will be added by process_line)
-            return json.dumps(data)
-            
-        except Exception as e:
-            # If there's an issue parsing or modifying, log it and return original
-            logger.warning(f"Failed to preprocess NDJSON line: {ndjson_line}, Error: {e}")
-            return ndjson_line
-
+        # add the new song ID to the data
+        data['id'] = song.id
+        print(f"Preprocessed NDJSON line: {data}")
+        return json.dumps(data)
+        
 
 @login_required
 @require_http_methods(["GET"])
 def api_gen_song_names(request):
-    """
-    generate song names using llm based on user parameters and themes.
-    
-    args:
-        request: django http request object with query parameters
-        
-    returns:
-        streaminghttpresponse: llm generated song names or json error response
-    """
     generator = SongNamesGenerator(request)
     return generator.generate()

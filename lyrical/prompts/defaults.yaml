@@ -17,19 +17,19 @@
     I want a variety of different length song names, each between {{ min_words }} and {{ max_words }} words in length.
 
   {% if include_themes %}The song names MUST use or more of the themes:
-  {{ include_themes }}{% endif %}
+  [{{ include_themes }}]{% endif %}
 
   {% if exclude_themes %}The song names MUST NOT use any of the themes:
-  {{ exclude_themes }}{% endif %}
+  [{{ exclude_themes }}]{% endif %}
 
   {% if include_words %}The song names MUST include one or more of these words:
-  {{ include_words }}{% endif %}
+  [{{ include_words }}]{% endif %}
 
   {% if exclude_words %}The song names should not include any of these words:
-  {{ exclude_words }}{% endif %}
+  [{{ exclude_words }}]{% endif %}
 
   {% if exclude_song_names %}The song names MUST BE UNIQUE, and MUST NOT appear in this list:
-  {{ exclude_song_names }}{% endif %}
+  {{ exclude_song_names }}]{% endif %}
 
   {% if starts_with %}The song names MUST start with '{{ starts_with }}'{% endif %}
   {% if ends_with %}The song names MUST end with '{{ ends_with }}'{% endif %}
