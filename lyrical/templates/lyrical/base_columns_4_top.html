@@ -6,13 +6,13 @@
     <div class="flex flex-col w-full h-full">
 
         <!-- Top Section -->
-        <div class="w-full flex flex-row">
+        <div class="w-full flex flex-row flex-shrink-0 overflow-hidden">
             {% block panel_1 %}
             {% endblock %}        
         </div>
 
         <!-- Bottom Section: 3 Columns -->
-        <div class="flex flex-row w-full flex-1 border-1">
+        <div class="flex flex-row w-full flex-1 min-h-0 overflow-hidden">
 
             <!-- Panel 2 (Resizable) -->
             <div id="panel2" class="flex-1 py-3 flex justify-center items-center overflow-hidden">
