@@ -1,4 +1,4 @@
-{% extends "lyrical/base_columns_4_top.html" %}
+{% extends "lyrical/base_columns_3.html" %}
 {% load static %}
 
 {% block head %}
@@ -14,7 +14,7 @@
         <div class="bg-base-200 border-y border-base-300 flex flex-row w-full">
 
             <!-- Column -->
-            <div class="flex-1 pl-3 pr-6 mb-4">
+            <div class="flex-1 pl-8 pr-6 mb-4">
                 <c-input-label>
                     INCLUDE THEMES:
                 </c-input-label>                        
@@ -40,7 +40,7 @@
             </div>
 
             <!-- Column -->
-            <div class="flex-1 pl-4 mb-4">
+            <div class="flex-1 pl-4 pr-4 mb-4">
                 <c-input-label>
                     STARTS WITH:
                 </c-input-label>                        
@@ -53,7 +53,7 @@
             </div>
 
             <!-- Column -->
-            <div class="flex-1 flex flex-col items-center justify-center mb-4">    
+            <div class="flex-1 flex flex-col items-center mb-4">    
                 <c-input-label>
                     MIN WORDS:
                 </c-input-label>                        
@@ -84,7 +84,7 @@
             </div>
 
             <!-- Column -->
-            <div class="flex-1 flex flex-col items-center justify-center mb-4">    
+            <div class="flex-1 flex flex-col items-center mb-4">    
                                 
                 <c-input-label>
                     COUNT:
@@ -103,10 +103,10 @@
 
 
                 <div class="w-full text-center pt-11">
-                    <a class="btn btn-md w-[250px] mt-1 mb-2 ml-2 btn-primary" id="btn-generate-song-names">
+                    <a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary" id="btn-generate-song-names">
                         GENERATE NAMES
                     </a>
-                    <a class="btn btn-md w-[250px] mt-1 mb-2 ml-2 btn-primary" id="btn-generating-song-names">
+                    <a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary" id="btn-generating-song-names">
                         <span class="loading loading-spinner"></span>PLEASE WAIT...
                     </a>
                 </div>
