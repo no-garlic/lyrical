@@ -70,14 +70,14 @@ function setupResizeElements() {
     // make the second panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel3'), 
-        document.getElementById('splitter2'), 
+        document.getElementById('splitter1'), 
         document.getElementById('panel2')
     );
     
     // make the third panel splitter resizable
     makeHorizontallyResizable(
         document.getElementById('panel4'), 
-        document.getElementById('splitter3'), 
+        document.getElementById('splitter2'), 
         document.getElementById('panel3')
     );
 }
