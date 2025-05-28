@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="w-full min-h-screen flex flex-col items-center justify-center bg-base-200 p-4">
-        <div class="card max-w-[90%] h-[80%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-16">
+        <div class="card max-w-[90%] h-[81%] bg-base-100 shadow-xl p-6 flex flex-col">
 
             <!-- Title -->
             <h2 class="mb-6 text-2xl font-bold text-center flex-shrink-0">SELECT SONG</h2>
@@ -30,6 +30,29 @@
                         <c-input-label>
                             CATEGORY:
                         </c-input-label>
+
+                        <c-input-radio-group>
+                            <c-input-radio-option name="category">
+                                New
+                            </c-input-radio-option>
+                            <c-input-radio-option name="category" checked="true">
+                                Liked
+                            </c-input-radio-option>
+                            <c-input-radio-option name="category">
+                                Disliked
+                            </c-input-radio-option>
+                            <c-input-radio-option name="category">
+                                Generated
+                            </c-input-radio-option>
+                            <c-input-radio-option name="category">
+                                Published
+                            </c-input-radio-option>
+                            <c-input-radio-option name="category">
+                                Archived
+                            </c-input-radio-option>
+                        </c-input-radio-group>
+
+
 
                     </div>
 
