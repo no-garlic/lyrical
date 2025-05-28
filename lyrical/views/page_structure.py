@@ -14,23 +14,23 @@ def page_structure(request, song_id: int):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": False, "selected": False, "enabled": True},
-        {"name": "THEME", "url": "theme", "active": False, "selected": False, "enabled": True},
+        {"name": "STYLE", "url": "style", "active": False, "selected": False, "enabled": True},
         {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": True},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": True},
         {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
     ]
 
     if not song_id:
-        logger.error("page_theme: song_id is None or invalid")
+        logger.error("page_structure: song_id is None or invalid")
         return HttpResponseServerError("Invalid song ID")
 
     try:
         song = models.Song.objects.get(id=song_id, user=request.user)
     except models.Song.DoesNotExist:
-        logger.error(f"page_theme: song with id {song_id} does not exist for user '{request.user.username}'")
+        logger.error(f"page_structure: song with id {song_id} does not exist for user '{request.user.username}'")
         return HttpResponseServerError("Song not found")
     except Exception as e:
-        logger.error(f"page_theme: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
+        logger.error(f"page_structure: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
         return HttpResponseServerError("An error occurred while fetching the song")
 
     context = {

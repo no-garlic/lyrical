@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.page_index import *
 from .views.page_register import *
-from .views.page_theme import *
+from .views.page_style import *
 from .views.page_hook import *
 from .views.page_login import *
 from .views.page_library import *
@@ -40,7 +40,7 @@ urlpatterns = [
 
     # edit pages
     path("song", page_song, name="song"),
-    path("theme/<int:song_id>", page_theme, name="theme"),
+    path("style/<int:song_id>", page_style, name="style"),
     path("hook/<int:song_id>", page_hook, name="hook"),
     path("lyrics/<int:song_id>", page_lyrics, name="lyrics"),
     path("structure/<int:song_id>", page_structure, name="structure"),

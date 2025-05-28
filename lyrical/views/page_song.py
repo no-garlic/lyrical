@@ -14,7 +14,7 @@ def page_song(request):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": True, "enabled": True},
-        {"name": "THEME", "url": "theme", "active": False, "selected": False, "enabled": False},
+        {"name": "STYLE", "url": "style", "active": False, "selected": False, "enabled": False},
         {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": False},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},

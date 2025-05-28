@@ -185,6 +185,6 @@ function isSelectedCardVisible() {
 
 function navigateNext() {
     const songId = selectSystem.getSelectedElement().dataset.songId;
-    const url = `/theme/${songId}`
+    const url = `/style/${songId}`
     window.location.href = url;
 }

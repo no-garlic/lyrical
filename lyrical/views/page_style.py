@@ -10,27 +10,27 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def page_theme(request, song_id: int):
+def page_style(request, song_id: int):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
-        {"name": "THEME", "url": "theme", "active": True, "selected": True, "enabled": True},
+        {"name": "STYLE", "url": "style", "active": True, "selected": True, "enabled": True},
         {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": False},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
 
     if not song_id:
-        logger.error("page_theme: song_id is None or invalid")
+        logger.error("page_style: song_id is None or invalid")
         return HttpResponseServerError("Invalid song ID")
 
     try:
         song = models.Song.objects.get(id=song_id, user=request.user)
     except models.Song.DoesNotExist:
-        logger.error(f"page_theme: song with id {song_id} does not exist for user '{request.user.username}'")
+        logger.error(f"page_style: song with id {song_id} does not exist for user '{request.user.username}'")
         return HttpResponseServerError("Song not found")
     except Exception as e:
-        logger.error(f"page_theme: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
+        logger.error(f"page_style: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
         return HttpResponseServerError("An error occurred while fetching the song")
 
     context = {
@@ -54,6 +54,6 @@ def page_theme(request, song_id: int):
             "error_message": "unable to load data at this time, please try again later"
         })
 
-    return render(request, "lyrical/theme.html", context)
+    return render(request, "lyrical/style.html", context)
 
 

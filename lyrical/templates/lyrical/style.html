@@ -42,7 +42,7 @@
 
                     <!-- Section Title -->
                     <div class="flex flex-col flex-shrink-0">
-                    <c-panel-slider title="GENERATED THEMES" padding="4">
+                    <c-panel-slider title="GENERATED STYLES" padding="4">
                         <c-panel-header-button id="btn-copy">
                             COPY
                         </c-panel-header-button>
@@ -53,12 +53,12 @@
                     </div>
                     <!-- End: Section Title -->
 
-                    <!-- Container for all generated themes -->
+                    <!-- Container for all generated styles -->
                     <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0">
 
-                        <c-card-theme type="badge-success" text="THEME" id="theme-1">
+                        <c-card-style type="badge-success" text="THEME" id="theme-1">
                             There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.
-                        </c-card-theme>
+                        </c-card-style>
 
 
                         <div class="card border border-base-300 pl-4 pb-3 pt-2 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
@@ -143,7 +143,7 @@
 
 
                     </div>
-                    <!-- End: Container for all generated themes -->
+                    <!-- End: Container for all generated styles -->
 
                 </div>
                 <!-- End: Left Panel -->
@@ -153,7 +153,7 @@
                 <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1">
 
                     <!-- Right Header -->
-                    <c-panel-header title="EDIT YOUR SONG THEME" padding="4">
+                    <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
                         <c-panel-header-button id="btn-paste">
                             PASTE
                         </c-panel-header-button>
@@ -166,7 +166,7 @@
                     <!-- Right Content -->
                      <div class="flex flex-col h-full">
                         <textarea 
-                            id="theme-text" 
+                            id="style-text" 
                             type="text" 
                             placeholder="" 
                             autocomplete="off" 
@@ -185,5 +185,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="module" src="{% static 'lyrical/script/page_theme.js' %}"></script>
+    <script type="module" src="{% static 'lyrical/script/page_style.js' %}"></script>
 {% endblock %}
