@@ -2,7 +2,8 @@ from django.urls import path
 
 from .views.page_index import *
 from .views.page_register import *
-from .views.page_prepare import *
+from .views.page_theme import *
+from .views.page_hook import *
 from .views.page_login import *
 from .views.page_library import *
 from .views.page_names import *
@@ -39,9 +40,10 @@ urlpatterns = [
 
     # edit pages
     path("song", page_song, name="song"),
-    path("prepare", page_prepare, name="prepare"),
-    path("lyrics", page_lyrics, name="lyrics"),
-    path("structure", page_structure, name="structure"),
+    path("theme/<int:song_id>", page_theme, name="theme"),
+    path("hook/<int:song_id>", page_hook, name="hook"),
+    path("lyrics/<int:song_id>", page_lyrics, name="lyrics"),
+    path("structure/<int:song_id>", page_structure, name="structure"),
 
     # api pages
     path("api_render_component/<str:component_name>", api_render_component, name="api_render_component"),

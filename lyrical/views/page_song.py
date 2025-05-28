@@ -14,7 +14,8 @@ def page_song(request):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": True, "enabled": True},
-        {"name": "PREPARE", "url": "prepare", "active": False, "selected": False, "enabled": False},
+        {"name": "THEME", "url": "theme", "active": False, "selected": False, "enabled": False},
+        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": False},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
@@ -24,8 +25,17 @@ def page_song(request):
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
+        "btn_next": None,
+        "btn_previous": "btn-disabled",
+        "selectedSongId" : None,
         "songs": models.Song.objects.filter(user=request.user, stage__in=stages).order_by(Lower('name')),
     }
+
+    song_name = request.GET.get('q')
+    if song_name:
+        context.update({
+            "search_term": song_name,
+        })
 
     try:
         context.update({

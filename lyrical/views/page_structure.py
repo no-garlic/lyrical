@@ -10,18 +10,22 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def page_structure(request):
+def page_structure(request, song_id: int):
 
     navigation = [
-        {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
-        {"name": "PREPARE", "url": "prepare", "active": True, "selected": True, "enabled": True},
+        {"name": "SONG", "url": "song", "active": False, "selected": False, "enabled": True},
+        {"name": "THEME", "url": "theme", "active": False, "selected": False, "enabled": True},
+        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": True},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": True},
-        {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
+        {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
     ]
 
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
+        "btn_next": "btn-disabled",
+        "btn_previous": None,
+        "selectedSongId": song_id,
     }
 
     try:

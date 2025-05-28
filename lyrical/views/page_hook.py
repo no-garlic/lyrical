@@ -10,13 +10,13 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def page_lyrics(request, song_id: int):
+def page_hook(request, song_id: int):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
         {"name": "THEME", "url": "theme", "active": False, "selected": False, "enabled": True},
-        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": True},
-        {"name": "LYRICS", "url": "lyrics", "active": True, "selected": True, "enabled": True},
+        {"name": "HOOK", "url": "hook", "active": True, "selected": True, "enabled": True},
+        {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
 
@@ -40,4 +40,6 @@ def page_lyrics(request, song_id: int):
             "error_message": "unable to load data at this time, please try again later"
         })
 
-    return render(request, "lyrical/lyrics.html", context)
+    return render(request, "lyrical/hook.html", context)
+
+

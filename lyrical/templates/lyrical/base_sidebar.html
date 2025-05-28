@@ -137,18 +137,24 @@
                         {% if navigation %}
                         <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center mt-1">
                             <ul class="steps steps-primary w-250">
-                                <li id="navigation-song" data-name="song" data-index="0" class="step text-sm">
-                                    SONG
-                                </li>
-                                <li id="navigation-prepare" data-name="prepare" data-index="1" class="step text-sm">
-                                    PREPARE
-                                </li>
-                                <li id="navigation-lyrics" data-name="lyrics" data-index="2" class="step text-sm">
-                                    LYRICS
-                                </li>
-                                <li id="navigation-structure" data-name="structure" data-index="3" class="step text-sm">
-                                    STRUCTURE
-                                </li>
+                                {% for page in navigation %}
+                                    <li 
+                                    id="navigation-{{ forloop.counter }}"
+                                    class="step text-sm 
+                                    {% if page.active %}step-primary {% endif %}
+                                    {% if page.selected %}font-bold text-md {% else %}text-sm {% endif %}
+                                    {% if not page.enabled %}text-neutral {% endif %}">
+                                        {% if page.enabled %}
+                                            {% if page.url == 'song' %}
+                                                <a href="{% url page.url %}">{{page.name}}</a>
+                                            {% else %}
+                                                <a href="{% url page.url selectedSongId %}">{{page.name}}</a>
+                                            {% endif %}
+                                        {% else %}
+                                            {{page.name}}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                         {% elif page_name %}
@@ -183,7 +189,7 @@
                         <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 px-4">
 
                             <!-- Previous Button -->
-                            <button id="btn-navigate-previous" class="btn btn-wide btn-md btn-primary">
+                            <button id="btn-navigate-previous" class="btn btn-wide btn-md btn-primary {{btn_previous}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
                                     <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
                                 </svg>
@@ -191,7 +197,7 @@
                             </button>
 
                             <!-- Next Button -->
-                            <button id="btn-navigate-next" class="btn btn-wide btn-md btn-primary">
+                            <button id="btn-navigate-next" class="btn btn-wide btn-md btn-primary {{btn_next}}">
                                 <p>Next</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
                                     <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />

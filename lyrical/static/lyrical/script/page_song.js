@@ -2,13 +2,17 @@
 import { SelectSystem } from './util_select.js';
 
 
-let selectSystem;
+let selectSystem = null;
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    applyFilter();
-    createEventHandlers();
+    applyFilters();
+    initEventHandlers();
+    initSelectSystem();
+});
 
+
+function initSelectSystem() {
     // create the select system and assign to module-level variable
     selectSystem = new SelectSystem();
 
@@ -26,10 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             onElementSelected: (element, allSelectedElements) => {
+                //const elementName = element ? element.dataset.songName : 'null';
+                //console.log(`onElementSelected: (${elementName})`)
                 applySelectionStyles(element);
                 updateButtonStylesForSelection(element);
             },
             onElementDeselected: (element, allSelectedElements) => {
+                //const elementName = element ? element.dataset.songName : 'null';
+                //console.log(`onElementDeselected: (${elementName})`)
                 removeSelectionStyles(element);
             },
             onAfterElementChanged: (allSelectedElements, changedElement) => {
@@ -50,48 +58,40 @@ document.addEventListener('DOMContentLoaded', () => {
         selectSystem.addElement(card);
     });
 
-    // register click away elements
-    // selectSystem.addClickAwayElement(document.getElementById('new-songs-container'));
-
-    // add event listener for Enter key press when no input is focused to
-    // edit the selected song
+    // pressing the enter key will click the next button
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             if (document.activeElement === document.body) {
                 if (selectSystem.hasSelectedElement()) {
-
-// next button -->
-
+                    navigateNext();
                 }
             }
         }
     });
 
+    // select the first visible card
+    selectFirstVisisbleCard();
+}
 
 
-// ---> select first *visible* element
-
-
-
-});
-
-
-function createEventHandlers() {
+function initEventHandlers() {
     const filterTerm = document.getElementById('filter-term');
     const filterNew = document.getElementById('filter-new');
     const filterLiked = document.getElementById('filter-liked');
     const filterGenerated = document.getElementById('filter-generated');
     const filterPublished = document.getElementById('filter-published');
+    const btnNext = document.getElementById('btn-navigate-next');
 
-    filterTerm.onkeyup = applyFilter;
-    filterNew.onchange = applyFilter;
-    filterLiked.onchange = applyFilter;
-    filterGenerated.onchange = applyFilter;
-    filterPublished.onchange = applyFilter;
+    filterTerm.onkeyup = applyFilters;
+    filterNew.onchange = applyFilters;
+    filterLiked.onchange = applyFilters;
+    filterGenerated.onchange = applyFilters;
+    filterPublished.onchange = applyFilters;
+    btnNext.onclick = navigateNext;
 }
 
 
-function applyFilter() {
+function applyFilters() {
     // get the form filters
     const filterTerm = document.getElementById('filter-term');
     const filterNew = document.getElementById('filter-new');
@@ -103,10 +103,8 @@ function applyFilter() {
     const songList = document.getElementById('song-list');
     const searchTerm = filterTerm.value.trim();
 
-
-// ---> consider updating selection
-
-
+    // filter the list of song names, by adding the 'hidden' class to those that are
+    // filtered out.
     Array.from(songList.children).forEach(node => {
         if (searchTerm === '' || node.dataset.songName.toLowerCase().includes(searchTerm.toLowerCase())) {
             if (node.dataset.songStage === 'new' && filterNew.checked) {
@@ -124,6 +122,14 @@ function applyFilter() {
             node.classList.add('hidden');
         }
     });
+
+    // if the select system has been created, then we manage the selection on filter change
+    if (selectSystem) {
+        if (!isSelectedCardVisible()) {
+            console.log('selected card is not visible, deselecting it.')
+            selectSystem.deselectAllElements();
+        }
+    }
 }
 
 
@@ -146,5 +152,39 @@ function removeSelectionStyles(element) {
 
 
 function updateButtonStylesForSelection(element) {
+    const btnNext = document.getElementById('btn-navigate-next')
 
+    if (element) {
+        btnNext.classList.remove('btn-disabled')
+    } else {
+        btnNext.classList.add('btn-disabled')
+    }
+}
+
+
+function selectFirstVisisbleCard() {
+    const songList = document.getElementById('song-list');
+
+    for (const node of Array.from(songList.children)) {
+        if (!node.classList.contains('hidden')) {
+            console.log(`selecting first visible card: ${node.dataset.songName}`)
+            selectSystem.selectElement(node);
+            return;
+        }
+    }
+}
+
+
+function isSelectedCardVisible() {
+    const selected = selectSystem.getSelectedElement();
+
+    if (!selected) return false;
+    return !selected.classList.contains('hidden');
+}
+
+
+function navigateNext() {
+    const songId = selectSystem.getSelectedElement().dataset.songId;
+    const url = `/theme/${songId}`
+    window.location.href = url;
 }
