@@ -5,14 +5,48 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="w-full min-h-screen flex flex-col items-center justify-center bg-base-200 p-4">
-    <div class="card w-full max-w-md bg-base-100 shadow-xl p-6">
-        <div class="card-body items-center text-center p-2">
-            <h2 class="card-title text-2xl font-bold mb-6">Select Song</h2>
+    <div class="w-full min-h-screen flex flex-col items-center justify-center bg-base-200 p-4">
+        <div class="card max-w-[90%] h-[80%] bg-base-100 shadow-xl p-6 flex flex-col">
 
+            <!-- Title -->
+            <h2 class="mb-6 text-2xl font-bold text-center flex-shrink-0">SELECT SONG</h2>
+
+            <!-- Content -->
+            <div class="flex flex-row flex-1 min-h-0 gap-4">
+
+                <!-- Filters -->
+                <div class="w-[400px] min-w-0 border-1 rounded border-base-300">
+                    <div class="border-b border-base-300 px-3 py-4">
+                        <p class="text-sm font-bold" >FIND SONGS</p>
+                    </div>
+
+                    <div class="px-2 py-4">
+                        <c-input-label>
+                            SEARCH TERM:
+                        </c-input-label>
+                        <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
+                        <p class="p-2" />
+
+                        <c-input-label>
+                            CATEGORY:
+                        </c-input-label>
+
+                    </div>
+
+                </div>
+
+                <!-- Song List -->
+                <div class="w-[400px] min-w-0 overflow-y-auto scrollbar-show">
+                    <div class="w-full h-full">
+                        {% for song in songs %}
+                            <c-card-song />
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>                
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block scripts %}

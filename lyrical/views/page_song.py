@@ -22,6 +22,7 @@ def page_song(request):
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
+        "songs": models.Song.objects.filter(user=request.user, stage='liked').order_by(Lower('name')),
     }
 
     try:
