@@ -5,54 +5,24 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-16">
-        <div class="card max-w-[90%] h-[81%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
+        <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
             <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
+            <h2 class="mb-6 text-5xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
 
             <!-- Content -->
             <div class="flex flex-row flex-1 min-h-0 gap-4">
 
                 <!-- Left Panel -->
-                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1">
-
-                    <!-- Left Header -->
-                    <c-panel-header title="EDIT YOUR SONG THEME" padding="4">
-                        <c-panel-header-button id="btn-new-edit-song-name">
-                            PASTE
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-new-delete-song-name">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-header>
-                    <!-- End: Left Header -->
-
-                    <!-- Left Content -->
-                     <div class="flex flex-col h-full">
-                        <textarea 
-                            id="custom-prompt" 
-                            type="text" 
-                            placeholder="" 
-                            autocomplete="off" 
-                            class="input-control textarea textarea-md textarea-neutral w-full h-full mb-7 resize-none border-none shadow-none focus:outline-none"
-                        ></textarea>
-                        <c-input-spacer />
-                    </div>
-                    <!-- End: Left Content -->
-
-                </div>
-                <!-- End: Left Panel -->
-
-                <!-- Right Panel -->
                 <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
                     <!-- Right Header -->
                     <c-panel-header title="CUSTOM PROMPT" padding="4">
-                        <c-panel-header-button id="btn-new-edit-song-name">
+                        <c-panel-header-button id="btn-generate">
                             GENERATE
                         </c-panel-header-button>
-                        <!--a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary btn-disabled hidden" id="btn-generating-song-names">
+                        <!--a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary btn-disabled hidden" id="btn-generating">
                             <span class="loading loading-spinner"></span>PLEASE WAIT...
                         </a-->
                     </c-panel-header>
@@ -61,7 +31,7 @@
                     <!-- Right Content -->
                     <div class="flex flex-col flex-shrink-0">
                         <textarea 
-                            id="custom-prompt" 
+                            id="prompt-text" 
                             type="text" 
                             placeholder="" 
                             autocomplete="off" 
@@ -73,7 +43,7 @@
                     <!-- Section Title -->
                     <div class="flex flex-col flex-shrink-0">
                     <c-panel-slider title="GENERATED THEMES" padding="4">
-                        <c-panel-header-button id="btn-new-edit-song-name">
+                        <c-panel-header-button id="btn-copy">
                             COPY
                         </c-panel-header-button>
                     </c-panel-slider>
@@ -118,6 +88,39 @@
                     <!-- End: Container for all generated themes -->
 
                 </div>
+                <!-- End: Left Panel -->
+
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1">
+
+                    <!-- Right Header -->
+                    <c-panel-header title="EDIT YOUR SONG THEME" padding="4">
+                        <c-panel-header-button id="btn-paste">
+                            PASTE
+                        </c-panel-header-button>
+                        <c-panel-header-button id="btn-save">
+                            SAVE
+                        </c-panel-header-button>
+                    </c-panel-header>
+                    <!-- End: Right Header -->
+
+                    <!-- Right Content -->
+                     <div class="flex flex-col h-full">
+                        <textarea 
+                            id="theme-text" 
+                            type="text" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            class="input-control textarea textarea-md textarea-neutral w-full h-full mb-7 resize-none border-none shadow-none focus:outline-none"
+                        ></textarea>
+                        <c-input-spacer />
+                    </div>
+                    <!-- End: Right Content -->
+
+                </div>
+                <!-- End: Right Panel -->
+
             </div>                
         </div>
     </div>
