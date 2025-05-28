@@ -4,24 +4,71 @@
 {% block head %}
 {% endblock %}
 
+{% block page_content %}
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-16">
+        <div class="card max-w-[90%] h-[81%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-{% block panel_1 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 1
-    </div>
-{% endblock %}
+            <!-- Title -->
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
 
-{% block panel_2 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 2
-    </div>
-{% endblock %}
+            <!-- Content -->
+            <div class="flex flex-row flex-1 min-h-0 gap-4">
 
-{% block panel_3 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 3
+                <!-- Filters -->
+                <div class="w-[400px] min-w-0 border-1 rounded border-base-300">
+                    <div class="border-b border-base-300 px-3 py-4">
+                        <p class="text-sm text-primary font-bold" >GENERATE A SONG THEME</p>
+                    </div>
+
+                    <div class="px-2 py-4">
+                        <c-input-label>
+                            CUSTOM PROMPT:
+                        </c-input-label>
+                        <textarea 
+                            id="custom-prompt" 
+                            type="text" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            class="input-control textarea textarea-md textarea-neutral w-[100%] h-[400px]"></textarea>
+                    </div>
+
+                    <div class="w-full text-center pr-2">
+                        <a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary" id="btn-generate-song-names">
+                            GENERATE
+                        </a>
+                        <a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary btn-disabled hidden" id="btn-generating-song-names">
+                            <span class="loading loading-spinner"></span>PLEASE WAIT...
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Song List -->
+                 <div class="flex flex-col h-full gap-4">
+                    <div class="w-[600px] flex-1 min-w-0 border-1 rounded border-base-300">
+                        <p>heading</p>
+                        <p>text</p>
+                        <p>text</p>
+                        <p>gap</p>
+                        <p>heading</p>
+                        <p>text</p>
+                        <p>text</p>
+                        <p>text</p>
+                        <p>gap</p>
+                        <p>heading</p>
+                        <p>text</p>
+                        <p>text</p>
+                    </div>
+                    <div class="w-[600px] flex-1 min-w-0 border-1 rounded border-base-300">
+                    </div>
+                    <div class="w-[600px] flex-1 min-w-0 border-1 rounded border-base-300">
+                    </div>
+                </div>
+
+            </div>                
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
+    <script type="module" src="{% static 'lyrical/script/page_theme.js' %}"></script>
 {% endblock %}

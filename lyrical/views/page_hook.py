@@ -20,12 +20,26 @@ def page_hook(request, song_id: int):
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
 
+    if not song_id:
+        logger.error("page_theme: song_id is None or invalid")
+        return HttpResponseServerError("Invalid song ID")
+
+    try:
+        song = models.Song.objects.get(id=song_id, user=request.user)
+    except models.Song.DoesNotExist:
+        logger.error(f"page_theme: song with id {song_id} does not exist for user '{request.user.username}'")
+        return HttpResponseServerError("Song not found")
+    except Exception as e:
+        logger.error(f"page_theme: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
+        return HttpResponseServerError("An error occurred while fetching the song")
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
         "btn_next": None,
         "btn_previous": None,
         "selectedSongId": song_id,
+        "song": song,
     }
 
     try:

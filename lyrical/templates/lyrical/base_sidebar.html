@@ -127,10 +127,14 @@
                     <div class="relative flex w-full h-full items-center">
 
                         <!-- Left Item: Song Title -->
-                        <div class="text-left ml-3">
-                            <p class="text-3xl font-bold">
-                                {% if song_title %}{{song_title}}{% else %}{% endif %}
+                        <div class="text-left ml-5">
+                            {% if song and false %}
+                            <div class="rounded border border-primary text-primary p-2">
+                            <p class="text-4xl font-bold">
+                                {{song.name}}
                             </p>
+                            </div>
+                            {% else %}<p></p>{% endif %}
                         </div>
 
                         <!-- Middle Item: Page Navigation -->
