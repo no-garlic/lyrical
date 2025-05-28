@@ -52,6 +52,8 @@ class Song(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='songs')
     name = models.CharField(max_length=255, unique=True)
     theme = models.TextField(default='')
+    narrative = models.TextField(default='')
+    mood = models.TextField(default='')
     hook = models.TextField(default='')
     structure = models.TextField(default='')
     stage = models.CharField(max_length=50, choices=[
@@ -88,6 +90,8 @@ class Section(models.Model):
     song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='sections')
     type = models.CharField(max_length=50, choices=[
         ('theme', 'Theme'),
+        ("narrative", "Narrative"),
+        ("mood", "Mood"),
         ('hook', 'Hook'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),

@@ -1,0 +1,11 @@
+<div {{attrs}} class="card border border-base-300 pl-4 pb-3 pt-2 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+    <div class="flex-grow mr-2">
+        <div class="flex flex-row">
+            <div class="badge badge-outline {{type}} w-40 font-bold mb-2 mt-1">{{text}}</div>
+            <div class="justify-end flex flex-grow">
+                <button class="btn btn-circle btn-ghost"><i class="bi bi-x-circle text-3xl text-neutral"></i></button>
+            </div>
+    </div>
+        <p class="">{{slot}}</p>
+    </div>
+</div>

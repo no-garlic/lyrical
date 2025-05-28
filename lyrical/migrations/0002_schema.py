@@ -96,6 +96,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, unique=True)),
                 ('theme', models.TextField(default="")),
+                ('narrative', models.TextField(default="")),
+                ('mood', models.TextField(default="")),
                 ('hook', models.TextField(default="")),
                 ('structure', models.TextField(default="")),
                 ('stage', models.CharField(choices=[("new", "New"), ("liked", "Liked"), ("disliked", "Disliked"), ("generated", "Generated"), ("published", "Published"), ("archived", "Archived")], default="new", max_length=50)),
@@ -108,7 +110,7 @@ class Migration(migrations.Migration):
             name="Section",
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[("theme", "Theme"), ("hook", "Hook"), ("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro"), ("vocalisation", "Vocalisation")], max_length=50)),
+                ('type', models.CharField(choices=[("theme", "Theme"), ("narrative", "Narrative"), ("mood", "Mood"), ("hook", "Hook"), ("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro"), ("vocalisation", "Vocalisation")], max_length=50)),
                 ('lyrics', models.TextField(default="")),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

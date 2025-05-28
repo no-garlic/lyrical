@@ -9,7 +9,7 @@
         <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
             <!-- Title -->
-            <h2 class="mb-6 text-5xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
 
             <!-- Content -->
             <div class="flex flex-row flex-1 min-h-0 gap-4">
@@ -46,6 +46,9 @@
                         <c-panel-header-button id="btn-copy">
                             COPY
                         </c-panel-header-button>
+                        <c-panel-header-button id="btn-clear">
+                            CLEAR
+                        </c-panel-header-button>
                     </c-panel-slider>
                     </div>
                     <!-- End: Section Title -->
@@ -53,36 +56,91 @@
                     <!-- Container for all generated themes -->
                     <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0">
 
-                        <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
-                            <div class="flex-grow truncate mr-2">
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
+                        <c-card-theme type="badge-success" text="THEME" id="theme-1">
+                            There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.
+                        </c-card-theme>
+
+
+                        <div class="card border border-base-300 pl-4 pb-3 pt-2 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="flex flex-row">
+                                    <div class="badge badge-outline badge-success w-40 font-bold mb-2 mt-1">THEME</div>
+                                    <div class="justify-end flex flex-grow">
+                                        <button class="btn btn-circle btn-ghost"><i class="bi bi-x-circle text-3xl text-neutral"></i></button>
+                                    </div>
+                            </div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
                             </div>
                         </div>
 
-                        <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
-                            <div class="flex-grow truncate mr-2">
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
+                        <div class="card border border-base-300 pl-4 pb-3 pt-2 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="flex flex-row">
+                                    <div class="badge badge-outline badge-success w-40 font-bold mb-2 mt-1">THEME</div>
+                                    <div class="justify-end flex flex-grow">
+                                        <button class="btn btn-circle btn-ghost"><i class="bi bi-x-circle text-3xl text-neutral"></i></button>
+                                    </div>
+                            </div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
                             </div>
                         </div>
 
-                        <div class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
-                            <div class="flex-grow truncate mr-2">
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
-                                <p class="">text</p>
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-success w-40 font-bold mb-2">THEME</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
                             </div>
                         </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-success w-40 font-bold mb-2">THEME</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-warning w-40 font-bold mb-2">NARRATIVE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-warning w-40 font-bold mb-2">NARRATIVE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-warning w-40 font-bold mb-2">NARRATIVE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-info w-40 font-bold mb-2">STYLE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-info w-40 font-bold mb-2">STYLE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
+                        <div class="card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 bg-base-200 cursor-grab flex flex-row w-full items-center justify-between">
+                            <div class="flex-grow mr-2">
+                                <div class="badge badge-outline badge-info w-40 font-bold mb-2">STYLE</div>
+                                <p class="">There is a lot of debris over an area of km, this region must be evacuated and cleared for the next 12 months.</p>
+                            </div>
+                        </div>
+
 
                     </div>
                     <!-- End: Container for all generated themes -->
