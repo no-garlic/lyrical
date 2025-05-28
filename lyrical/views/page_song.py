@@ -19,10 +19,12 @@ def page_song(request):
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
 
+    stages = ['new', 'liked', 'generated', 'published']
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
-        "songs": models.Song.objects.filter(user=request.user, stage='liked').order_by(Lower('name')),
+        "songs": models.Song.objects.filter(user=request.user, stage__in=stages).order_by(Lower('name')),
     }
 
     try:

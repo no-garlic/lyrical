@@ -24,31 +24,26 @@
                         <c-input-label>
                             SEARCH TERM:
                         </c-input-label>
-                        <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
-                        <p class="p-2" />
+                        <c-input-text id="filter-term">{{user.song_name_words_inc}}</c-input-text>
+                        <c-input-spacer />
 
                         <c-input-label>
                             CATEGORIES:
                         </c-input-label>
 
-                        <c-input-radio-group>
+                        <c-input-group>
                             <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-new"></input>New</span>
                             <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-liked" checked="checked"></input>Liked</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-disliked"></input>Disliked</span>
                             <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-generated"></input>Generated</span>
                             <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-published"></input>Published</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-archived"></input>Archived</span>
-                        </c-input-radio-group>
-
-
+                        </c-input-group>
 
                     </div>
-
                 </div>
 
                 <!-- Song List -->
                 <div class="w-[400px] min-w-0 overflow-y-auto scrollbar-show">
-                    <div class="w-full h-full">
+                    <div class="w-full h-full" id="song-list">
                         {% for song in songs %}
                             <c-card-song />
                         {% endfor %}
@@ -61,4 +56,5 @@
 {% endblock %}
 
 {% block scripts %}
+    <script type="module" src="{% static 'lyrical/script/page_song.js' %}"></script>
 {% endblock %}

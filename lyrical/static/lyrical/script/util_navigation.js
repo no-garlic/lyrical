@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', initNavigation(1));
 
 
 function initNavigation(pageId) {
-    console.log(`initialising the navigation system for page ${pageId}`);
+    // console.log(`initialising the navigation system for page ${pageId}`);
 
     pages = {
         'song': document.getElementById('navigation-song'),
