@@ -29,6 +29,12 @@ python manage.py migrate
 ./tailwind.sh
 ```
 
+### Dependency Management
+```bash
+# Install/update dependencies
+pip install -r requirements.txt
+```
+
 ### Full Development Restart
 ```bash
 # Update dependencies, clear cache, restart server
@@ -137,3 +143,8 @@ python manage.py migrate
 - **Template available**: `_template_generator.py` for creating new generators
 - **Structured workflow**: Parameter extraction → validation → database queries → prompt building → LLM streaming
 - **Error handling**: Consistent error responses and logging throughout the pipeline
+
+## Known Issues and Development Notes
+- **NDJSON streaming**: Handle malformed JSON gracefully; corrupt responses should be ignored rather than breaking the stream
+- **Duplicate handling**: LLM responses may contain duplicates; implement server-side deduplication
+- **Error propagation**: Ensure LLM generation errors flow to frontend with user-friendly messages

@@ -19,6 +19,10 @@ class SongGenerator(LLMGenerator):
         }
     
 
+    def uses_conversation_history(self) -> bool:
+        return False
+    
+
     def query_database_data(self) -> Dict[str, Any]:
         return {}
     

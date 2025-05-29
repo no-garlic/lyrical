@@ -171,13 +171,15 @@ class LLMGenerator(ABC):
     
     def _build_prompts(self) -> Optional[JsonResponse]:
         """
-        Build system and user prompts.
+        Build system and user prompts with conversation history.
         
         Returns:
             JsonResponse if prompt building fails, None if successful
         """
         try:
             prompt_name = self.get_prompt_name()
+            song_id = self.get_song_id()
+            message_type = self.get_message_type()
             
             # get system prompt
             system_message = get_system_prompt(prompt_name, self.llm_model)
@@ -187,6 +189,17 @@ class LLMGenerator(ABC):
                     "success": False,
                     "error": "system prompt configuration not found"
                 }, status=500)
+            
+            # initialize message builder with system prompt
+            self.prompt_messages = MessageBuilder(system_message)
+            
+            # load conversation history from database if enabled for this generator
+            if self.uses_conversation_history():
+                history_loaded = self.prompt_messages.load_from_history(song_id, message_type, self.user)
+                if not history_loaded:
+                    logger.warning(f"Failed to load conversation history for song {song_id}, type '{message_type}' - continuing anyway")
+            else:
+                logger.debug(f"Conversation history disabled for this generator - starting fresh conversation")
             
             # get user prompt with custom parameters
             user_prompt_params = self.build_user_prompt_params()
@@ -203,16 +216,18 @@ class LLMGenerator(ABC):
                     "error": f"prompt configuration '{prompt_name}' not found"
                 }, status=404)
             
-            # build message chain
-            self.prompt_messages = MessageBuilder()
-            self.prompt_messages.add_system(system_message)
+            # add new user message to conversation
             self.prompt_messages.add_user(user_message)
 
             # log the prompt messages for debugging
             print(self.prompt_messages)
             
             # log generation start
-            logger.info(f"starting generation for user '{self.user.username}' with prompt '{prompt_name}'")
+            if self.prompt_messages.has_conversation_history():
+                logger.info(f"continuing conversation for user '{self.user.username}' with prompt '{prompt_name}', song {song_id}, type '{message_type}'")
+            else:
+                logger.info(f"starting new conversation for user '{self.user.username}' with prompt '{prompt_name}', song {song_id}, type '{message_type}'")
+            
             self.log_generation_params()
             
             return None
@@ -272,6 +287,26 @@ class LLMGenerator(ABC):
         pass
     
     @abstractmethod
+    def get_message_type(self) -> str:
+        """
+        Get the message type for conversation history.
+        
+        Returns:
+            String message type ('style', 'hook', 'lyrics')
+        """
+        pass
+    
+    @abstractmethod
+    def get_song_id(self) -> int:
+        """
+        Get the song ID for conversation history.
+        
+        Returns:
+            Integer song ID
+        """
+        pass
+    
+    @abstractmethod
     def build_user_prompt_params(self) -> Dict[str, Any]:
         """
         Build parameters for the user prompt.
@@ -309,6 +344,15 @@ class LLMGenerator(ABC):
             Dict of additional data to add to extracted_params
         """
         return {}
+    
+    def uses_conversation_history(self) -> bool:
+        """
+        Override this method to disable conversation history for specific generators.
+        
+        Returns:
+            True if this generator should use conversation history (default), False otherwise
+        """
+        return True
     
     def log_generation_params(self) -> None:
         """
@@ -388,15 +432,32 @@ class LLMGenerator(ABC):
     def _stream_llm_response(self):
         """
         Call LLM and stream the response, processing each line for JSON validation.
+        Also handles conversation history persistence.
         """
         model_name = f"{self.llm_model.provider.internal_name}/{self.llm_model.internal_name}"
         temperature = self.user.llm_temperature
         max_tokens = self.user.llm_max_tokens
         user_api_key = UserAPIKey.objects.filter(user=self.user, provider=self.llm_model.provider).first()
         
+        # Get parameters for message persistence
+        song_id = self.get_song_id()
+        message_type = self.get_message_type()
+        
         # Set Ollama base URL if needed
         if self.llm_model.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
             os.environ["OLLAMA_API_BASE"] = "http://localhost:11434"
+        
+        # Save user message before LLM call (if conversation history is enabled)
+        if self.uses_conversation_history():
+            user_message_content = self.prompt_messages.get_last_user_message()
+            if user_message_content:
+                saved_user_msg = self.prompt_messages.save_user_message(
+                    user_message_content, song_id, message_type, self.user
+                )
+                if saved_user_msg:
+                    logger.debug(f"Saved user message {saved_user_msg.id} before LLM call")
+                else:
+                    logger.warning(f"Failed to save user message before LLM call for song {song_id}")
         
         try:
             # Prepare LLM call parameters
@@ -416,12 +477,16 @@ class LLMGenerator(ABC):
             # Stream response from LLM
             response_stream = completion(**llm_params)
             
+            # Accumulate assistant response for database persistence
+            accumulated_response = []
+            
             # Process streaming chunks
             current_line = ""
             for chunk in response_stream:
                 if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
                     content = self._normalize_text(chunk.choices[0].delta.content)
                     current_line += content
+                    accumulated_response.append(content)
                     
                     # Process complete lines
                     while '\n' in current_line:
@@ -430,7 +495,20 @@ class LLMGenerator(ABC):
             
             # Process any remaining content
             if current_line.strip():
+                accumulated_response.append(current_line)
                 yield from self._process_response_line(current_line)
+            
+            # Save complete assistant response to database (if conversation history is enabled)
+            if self.uses_conversation_history():
+                complete_response = ''.join(accumulated_response)
+                if complete_response.strip():
+                    saved_assistant_msg = self.prompt_messages.save_assistant_message(
+                        complete_response, song_id, message_type, self.user
+                    )
+                    if saved_assistant_msg:
+                        logger.debug(f"Saved assistant message {saved_assistant_msg.id} after LLM completion")
+                    else:
+                        logger.warning(f"Failed to save assistant message after LLM completion for song {song_id}")
                 
         except Exception as e:
             print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
@@ -441,5 +519,8 @@ class LLMGenerator(ABC):
                 "status": "error"
             }
             yield json.dumps(error_response)
+            
+            # Note: If the stream fails, we still have the user message saved in the database
+            # The next time we load history, incomplete conversations will be filtered out automatically
 
 

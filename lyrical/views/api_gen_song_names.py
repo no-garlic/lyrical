@@ -28,6 +28,10 @@ class SongNamesGenerator(LLMGenerator):
         }
     
 
+    def uses_conversation_history(self) -> bool:
+        return False
+    
+
     def query_database_data(self) -> Dict[str, Any]:
         # get excluded song names from database
         all_songs = models.Song.objects.values('name')

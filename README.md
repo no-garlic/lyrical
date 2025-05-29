@@ -58,6 +58,8 @@
 
 ## Todo
  - Use message history for song styles
+ - Rename song_id to database_id in llmgenerator and messagehistoryservice
+ - convert all prints to logger, use claude to do it, and enable logger categories
 
  - Implement Hook page
 

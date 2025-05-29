@@ -60,6 +60,11 @@ class SongStylesGenerator(LLMGenerator):
     def get_prompt_name(self) -> str:
         return self.extracted_params['prompt_name']
     
+    def get_message_type(self) -> str:
+        return 'style'
+    
+    def get_song_id(self) -> int:
+        return self.extracted_params['song_id']
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
         params = {
