@@ -40,10 +40,21 @@ class SongStylesGenerator(LLMGenerator):
             logger.error(f"Error fetching song with ID {song_id} for user '{self.request.user.username}': {str(e)}")
             return {}
 
+        try:
+            include_themes = models.SongMetadata.objects.get(song=song, key='include_themes').value
+        except Exception:
+            include_themes = self.request.user.song_name_theme_inc
+
+        try:
+            exclude_themes = models.SongMetadata.objects.get(song=song, key='exclude_themes').value
+        except Exception:
+            exclude_themes = self.request.user.song_name_theme_exc
+
         return {
             'song_name': song.name,
-        }
-    
+            'include_themes': include_themes,
+            'exclude_themes': exclude_themes,
+        }    
 
     def get_prompt_name(self) -> str:
         return self.extracted_params['prompt_name']
@@ -53,6 +64,8 @@ class SongStylesGenerator(LLMGenerator):
         return {
             'song_name': self.extracted_params['song_name'],
             'custom_prompt': self.extracted_params['custom_prompt'],
+            'include_themes': self.extracted_params['include_themes'],
+            'exclude_themes': self.extracted_params['exclude_themes'],
         }
     
     

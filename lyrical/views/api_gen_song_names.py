@@ -75,6 +75,10 @@ class SongNamesGenerator(LLMGenerator):
         song = models.Song.objects.create(name=data["name"], user=self.request.user)
         logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
 
+        # create new song metadata
+        models.SongMetadata.objects.create(song=song, key='include_themes', value=self.extracted_params.get('include_themes', ''))
+        models.SongMetadata.objects.create(song=song, key='exclude_themes', value=self.extracted_params.get('exclude_themes', ''))
+
         # add the new song ID to the data
         data['id'] = song.id
         print(f"Preprocessed NDJSON line: {data}")

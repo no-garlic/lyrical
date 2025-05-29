@@ -104,6 +104,9 @@
 
   The name of the song is "{{ song_name }}".
 
+  {% if include_themes %}These are the styles and topics to focus on: {{ include_themes }}{% endif %}
+  {% if exclude_themes %}These are the styles and topics to avoid: {{ exclude_themes }}{% endif %}
+
   You will create 3 themes, 3 narratives, and 3 moods for me to choose from.
   - A theme is a description of what the song is about to establish the context of the song.
   - A narrative contains 2 sentences, the first sentence describes the story that the song tells, the second sentence adds more detail to the first 

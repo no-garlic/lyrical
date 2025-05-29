@@ -71,6 +71,15 @@ class Song(models.Model):
         return f"{self.title} ({self.stage})"
     
 
+class SongMetadata(models.Model):
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='metadata')
+    key = models.CharField(max_length=255)
+    value = models.TextField(default='')
+
+    def __str__(self):
+        return f"{self.song.name} - {self.key}: {self.value}"
+
+
 class Lyrics(models.Model):
     song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='lyrics')
     type = models.CharField(max_length=50, choices=[

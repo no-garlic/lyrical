@@ -107,6 +107,15 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="SongMetadata",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("key", models.CharField(max_length=255)),
+                ("value", models.TextField(default="")),
+                ("song", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="metadata", to="lyrical.song")),
+            ],
+        ),
+        migrations.CreateModel(
             name="Section",
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
