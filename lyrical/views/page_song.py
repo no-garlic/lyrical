@@ -25,6 +25,7 @@ def page_song(request):
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
+        "filter_liked": True,
         "selectedSongId" : None,
         "songs": models.Song.objects.filter(user=request.user, stage__in=stages).order_by(Lower('name')),
     }
@@ -33,7 +34,25 @@ def page_song(request):
     if song_name:
         context.update({
             "search_term": song_name,
+            "filter_new": True,
+            "filter_generated": True,
+            "filter_published": True,
         })
+
+    song_id = request.GET.get('id')
+    if song_id:
+        try:
+            song = models.Song.objects.get(id=song_id, user=request.user)
+            context.update({
+                "search_term": song.name,
+                "filter_new": True,
+                "filter_generated": True,
+                "filter_published": True,
+            })
+        except models.Song.DoesNotExist:
+            logger.warning(f"song with id '{song_id}' not found for user '{request.user.username}'")
+        except Exception as e:
+            logger.error(f"error fetching song with id '{song_id}' for user '{request.user.username}': {str(e)}")
 
     try:
         context.update({

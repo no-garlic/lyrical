@@ -28,7 +28,7 @@ function initNavigation(pageId) {
     }
 
     btnNext = document.getElementById('btn-navigate-next');
-    btnPrev = document.getElementById('btn-navigate-previous');
+    btnPrev = document.getElementById('btn-navigate-prev');
     
     //if (!pages.song || !pages.prepare || !pages.lyrics || !pages.structure || !btnNext || !btnPrev)
     //    console.error('Failed to get the required elements from the page');    

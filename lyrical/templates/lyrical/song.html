@@ -16,9 +16,15 @@
 
                 <!-- Filters -->
                 <div class="w-[400px] min-w-0 border-1 rounded border-base-300">
-                    <div class="border-b border-base-300 px-3 py-4">
-                        <p class="text-sm text-primary font-bold" >FILTER SONG NAMES</p>
-                    </div>
+
+                    <c-panel-header title="FILTER SONG NAMES" padding="2">
+                        <!-- Clear Button -->
+                        <c-panel-header-button id="btn-clear" extrastyles="mt-2">
+                            CLEAR
+                        </c-panel-header-button>
+                        <!-- End: Clear Button -->                            
+
+                    </c-panel-header>
 
                     <div class="px-2 py-4">
                         <c-input-label>
@@ -32,10 +38,10 @@
                         </c-input-label>
 
                         <c-input-group>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-new"></input>New</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-liked" checked="checked"></input>Liked</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-generated"></input>Generated</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-published"></input>Published</span>
+                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-new" {% if filter_new %} checked="checked" {% endif %}></input>New</span>
+                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-liked" {% if filter_liked %} checked="checked" {% endif %}></input>Liked</span>
+                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-generated" {% if filter_generated %} checked="checked" {% endif %}></input>Generated</span>
+                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-published" {% if filter_published %} checked="checked" {% endif %}></input>Published</span>
                         </c-input-group>
 
                     </div>

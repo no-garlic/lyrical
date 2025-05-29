@@ -69,6 +69,13 @@ function initSelectSystem() {
         }
     });
 
+    document.getElementById('btn-clear').onclick = () => {
+        const filterTerm = document.getElementById('filter-term');
+        filterTerm.value = '';
+        applyFilters();
+        document.getElementById('btn-clear').classList.add('btn-disabled');
+    };
+
     // select the first visible card
     selectFirstVisisbleCard();
 }
@@ -129,6 +136,12 @@ function applyFilters() {
             console.log('selected card is not visible, deselecting it.')
             selectSystem.deselectAllElements();
         }
+    }
+
+    if (searchTerm != '') {
+        document.getElementById('btn-clear').classList.remove('btn-disabled');
+    } else {
+        document.getElementById('btn-clear').classList.add('btn-disabled');
     }
 }
 

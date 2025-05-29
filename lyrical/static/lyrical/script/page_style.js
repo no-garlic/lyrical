@@ -123,6 +123,8 @@ function registerCardForDragDrop(card) {
 
 
 function initPageActions() {
+    document.getElementById('btn-navigate-next').onclick = navigateNext;
+    document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
     document.getElementById('btn-clear').onclick = clearGeneratedStyles;
     document.getElementById('btn-save').onclick = saveStyle;
     document.getElementById('btn-cancel').onclick = cancelStyle;
@@ -356,6 +358,7 @@ function updateClearButtonState() {
 
 function updateNavigationButtonStates() {
     const nextButton = document.getElementById('btn-navigate-next');
+    const prevButton = document.getElementById('btn-navigate-prev');
     const theme = document.getElementById('style-text-theme');
     const narrative = document.getElementById('style-text-narrative');
     const mood = document.getElementById('style-text-mood');
@@ -366,10 +369,17 @@ function updateNavigationButtonStates() {
     const hasNarrative = narrative.value.trim().length > 0;
     const hasMood = mood.value.trim().length > 0;
 
+    console.log(`saved: ${isSaved}`)
+    console.log(`theme: ${hasTheme}`)
+    console.log(`narra: ${hasNarrative}`)
+    console.log(`mood : ${hasMood}`)
+
     if (isSaved && hasTheme && hasNarrative && hasMood) {
         nextButton.classList.remove('btn-disabled');
+        prevButton.classList.remove('btn-disabled');
     } else {
         nextButton.classList.add('btn-disabled');
+        prevButton.classList.add('btn-disabled');
     }
 }
 
@@ -508,3 +518,15 @@ function applyFilter() {
 }
 
 
+function navigateNext() {
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);
+    window.location.href = `/hook/${songId}`;
+}
+
+
+function navigatePrevious() {
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);
+    window.location.href = `/song?id=${songId}`;
+}
