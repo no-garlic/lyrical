@@ -6,23 +6,14 @@
  * @returns {Promise<string>} Promise that resolves to the song ID.
  */
 export function apiSongEdit(songId, updates = {}) {
-    // accept updates object with optional song_name and/or song_stage
-    const { song_name: songName, song_stage: songStage } = updates;
-    
-    // for backward compatibility, if updates is a string, treat it as songName
-    if (typeof updates === 'string') {
-        const songName = updates;
-        return apiSongEdit(songId, { song_name: songName });
-    }
-
-    // log the operation
-    if (songName && songStage) {
-        console.log(`editing song_id: ${songId} - name to '${songName}' and stage to '${songStage}'`);
-    } else if (songName) {
-        console.log(`editing song_id: ${songId} to new name: ${songName}`);
-    } else if (songStage) {
-        console.log(`moving song_id: ${songId} to new stage: ${songStage}`);
-    }
+    // accept updates object with specific parameters only
+    const {
+        song_name: songName,
+        song_stage: songStage,
+        song_theme: songTheme,
+        song_narrative: songNarrative,
+        song_mood: songMood
+    } = updates;
 
     // get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -31,6 +22,9 @@ export function apiSongEdit(songId, updates = {}) {
     const requestBody = { song_id: songId };
     if (songName) requestBody.song_name = songName;
     if (songStage) requestBody.song_stage = songStage;
+    if (songTheme) requestBody.song_theme = songTheme;
+    if (songNarrative) requestBody.song_narrative = songNarrative;
+    if (songMood) requestBody.song_mood = songMood;
 
     // send the request to the server
     return fetch('/api_song_edit', {

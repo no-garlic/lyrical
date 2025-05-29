@@ -27,17 +27,18 @@ def api_song_edit(request):
         # parse the request body for PUT requests
         edit_data = json.loads(request.body.decode('utf-8'))
 
+        print(json.dumps(edit_data, indent=2))  # Debugging output
+
         song_id = edit_data.get("song_id")
         song_name = edit_data.get("song_name")
         song_stage = edit_data.get("song_stage")
+        song_theme = edit_data.get("song_theme")
+        song_narrative = edit_data.get("song_narrative")
+        song_mood = edit_data.get("song_mood")
 
         # validate song ID is provided
         if not song_id:
             return JsonResponse({"error": "Song ID must be provided"}, status=400)
-
-        # must provide either song_name or song_stage (or both)
-        if not song_name and not song_stage:
-            return JsonResponse({"error": "Song name or stage must be provided for update"}, status=400)
 
         # get the song object and verify ownership
         try:
@@ -62,9 +63,24 @@ def api_song_edit(request):
             song.stage = song_stage
             updates.append(f"stage from '{old_stage}' to '{song_stage}'")
         
+        if song_theme:
+            old_theme = song.theme
+            song.theme = song_theme
+            updates.append(f"theme from '{old_theme}' to '{song_theme}'")
+
+        if song_narrative:
+            old_narrative = song.narrative
+            song.narrative = song_narrative
+            updates.append(f"narrative from '{old_narrative}' to '{song_narrative}'")
+
+        if song_mood:
+            old_mood = song.mood
+            song.mood = song_mood
+            updates.append(f"mood from '{old_mood}' to '{song_mood}'")
+
         song.save()
 
-        logger.info(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
+        print(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
         return JsonResponse({"status": "success", "song_id": song.id}, status=200)
 
     except json.JSONDecodeError:

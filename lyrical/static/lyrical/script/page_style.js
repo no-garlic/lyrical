@@ -6,6 +6,7 @@
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 import { apiRenderComponent } from './api_render_component.js';
+import { apiSongEdit } from './api_song_edit.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiSectionEditBulk } from './api_section_edit_bulk.js';
 import { DragDropSystem } from './util_dragdrop.js';
@@ -115,6 +116,7 @@ function registerCardForDragDrop(card) {
 
 function initPageActions() {
     document.getElementById('btn-clear').onclick = clearGeneratedStyles;
+    document.getElementById('btn-save').onclick = saveStyle;
     document.getElementById('tab-filter-all').onclick = applyFilter;
     document.getElementById('tab-filter-themes').onclick = applyFilter;
     document.getElementById('tab-filter-narratives').onclick = applyFilter;
@@ -334,6 +336,34 @@ function clearGeneratedStyles() {
             // handle the error if the API call fails
             console.error('Failed to edit the sections for the song:', error);
             toastSystem.showError('Failed to update the sections for the song. Please try again.');
+        });
+}
+
+
+function saveStyle() {
+    const themeElement = document.getElementById('style-text-theme');
+    const narrativeElement = document.getElementById('style-text-narrative');
+    const moodElement = document.getElementById('style-text-mood');
+
+    const newSongTheme = themeElement.value.trim();
+    const newSongNarrative = narrativeElement.value.trim();
+    const newSongMood = moodElement.value.trim();
+
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);    
+
+    // call the api to update the song styles
+    apiSongEdit(songId, { song_theme: newSongTheme, song_narrative: newSongNarrative, song_mood: newSongMood })
+        .then(songId => {
+            console.log(`Successfully updated the song style for songId: ${songId}`);
+
+
+
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the song style:', error);
+            toastSystem.showError('Failed to update the song style. Please try again.');
         });
 }
 
