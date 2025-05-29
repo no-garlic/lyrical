@@ -25,8 +25,6 @@ def page_song(request):
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
-        "btn_next": None,
-        "btn_previous": "btn-disabled",
         "selectedSongId" : None,
         "songs": models.Song.objects.filter(user=request.user, stage__in=stages).order_by(Lower('name')),
     }

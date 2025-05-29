@@ -9,7 +9,7 @@
         <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
             <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">{{song.name|upper}}</h2>
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
 
             <!-- Content -->
             <div class="flex flex-row flex-1 min-h-0 gap-4">
@@ -33,7 +33,7 @@
                         <textarea 
                             id="prompt-text" 
                             type="text" 
-                            placeholder="optional prompt instructions..." 
+                            placeholder="add an optional prompt or just click generate..." 
                             autocomplete="off" 
                             class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
                         ></textarea>
@@ -57,7 +57,7 @@
                                 <!-- End: Tabs Group -->
 
                                 <!-- Clear Button -->
-                                <c-panel-header-button id="btn-clear">
+                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
                                     CLEAR
                                 </c-panel-header-button>
                                 <!-- End: Clear Button -->                            
@@ -86,7 +86,10 @@
 
                     <!-- Right Header -->
                     <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
-                        <c-panel-header-button id="btn-save">
+                        <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                            CANCEL
+                        </c-panel-header-button>
+                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
                             SAVE
                         </c-panel-header-button>
                     </c-panel-header>

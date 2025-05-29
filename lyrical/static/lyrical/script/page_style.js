@@ -14,6 +14,8 @@ import { DragDropSystem } from './util_dragdrop.js';
 
 let streamHelper;
 let dragDropSystem;
+let styleTextDirty = false;
+let saveHistory = { theme: '', narrative: '', mood: '' };
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     applyFilter();
     initDragDrop();
+
+    updateSaveHistory();
+    updateNavigationButtonStates();
 });
 
 
@@ -92,14 +97,17 @@ function handleDragDrop(item, zone, event) {
     const styleId = item.element.dataset.styleId;
     const styleType = item.element.dataset.styleType;
     const textElement = document.getElementById(`style-card-text-${styleId}`);
-    const text = textElement.innerHTML;
-    
-    console.log(`dropping style ${styleId} [${styleType}] with text: '${text}'`);
-
     const destinationId = `style-text-${styleType.toLowerCase()}`
     const destination = document.getElementById(destinationId);
 
-    destination.innerHTML = text;
+    const text = textElement.innerHTML.trim();
+
+    console.log(`dropping style ${styleId} [${styleType}] with text: '${text}'`);
+
+    if (destination.value.trim() != text) {
+        destination.value = text;
+        setSongStyleDirty();
+    }
 }
 
 /**
@@ -117,10 +125,14 @@ function registerCardForDragDrop(card) {
 function initPageActions() {
     document.getElementById('btn-clear').onclick = clearGeneratedStyles;
     document.getElementById('btn-save').onclick = saveStyle;
+    document.getElementById('btn-cancel').onclick = cancelStyle;
     document.getElementById('tab-filter-all').onclick = applyFilter;
     document.getElementById('tab-filter-themes').onclick = applyFilter;
     document.getElementById('tab-filter-narratives').onclick = applyFilter;
     document.getElementById('tab-filter-moods').onclick = applyFilter;
+    document.getElementById('style-text-theme').addEventListener('input', setSongStyleDirty);
+    document.getElementById('style-text-narrative').addEventListener('input', setSongStyleDirty);
+    document.getElementById('style-text-mood').addEventListener('input', setSongStyleDirty);
 }
 
 
@@ -269,6 +281,9 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
             // register with the drag-drop system
             const styleCard = document.getElementById(`style-card-${sectionId}`);
             registerCardForDragDrop(styleCard);
+
+            // update the UI button states
+            updateClearButtonState();
         })
         .catch(error => {
             // handle the error if the component rendering fails
@@ -283,6 +298,8 @@ function initStyleCards() {
     Array.from(container.children).forEach(node => {
         initNewStyleCard(node.dataset.styleId);
     });
+
+    updateClearButtonState();
 }
 
 
@@ -311,7 +328,54 @@ function initNewStyleCard(sectionId) {
 }
 
 
+function setSongStyleDirty() {
+    if (!styleTextDirty) {
+        styleTextDirty = true;
+
+        const saveButton = document.getElementById('btn-save');
+        const cancelButton = document.getElementById('btn-cancel');
+        saveButton.classList.remove('btn-disabled');
+        cancelButton.classList.remove('btn-disabled');
+
+        // update the state of the navigation buttons
+        updateNavigationButtonStates();
+    }
+}
+
+
+function updateClearButtonState() {
+    const container = document.getElementById('generated-styles');
+    const clearButton = document.getElementById('btn-clear');
+    if (container.children.length > 0) {
+        clearButton.classList.remove('btn-disabled');
+    } else {
+        clearButton.classList.add('btn-disabled');
+    }
+}
+
+
+function updateNavigationButtonStates() {
+    const nextButton = document.getElementById('btn-navigate-next');
+    const theme = document.getElementById('style-text-theme');
+    const narrative = document.getElementById('style-text-narrative');
+    const mood = document.getElementById('style-text-mood');
+
+    const isSaved = !styleTextDirty;
+
+    const hasTheme = theme.value.trim().length > 0;
+    const hasNarrative = narrative.value.trim().length > 0;
+    const hasMood = mood.value.trim().length > 0;
+
+    if (isSaved && hasTheme && hasNarrative && hasMood) {
+        nextButton.classList.remove('btn-disabled');
+    } else {
+        nextButton.classList.add('btn-disabled');
+    }
+}
+
+
 function clearGeneratedStyles() {
+    const clearButton = document.getElementById('btn-clear');
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);    
 
@@ -331,12 +395,46 @@ function clearGeneratedStyles() {
                 // remove the card from the container
                 container.removeChild(node);
             });
+
+            clearButton.classList.add('btn-disabled');
         })
         .catch(error => {
             // handle the error if the API call fails
             console.error('Failed to edit the sections for the song:', error);
             toastSystem.showError('Failed to update the sections for the song. Please try again.');
         });
+}
+
+
+function updateSaveHistory() {
+    const themeElement = document.getElementById('style-text-theme');
+    const narrativeElement = document.getElementById('style-text-narrative');
+    const moodElement = document.getElementById('style-text-mood');
+
+    saveHistory.theme = themeElement.value.trim();
+    saveHistory.narrative = narrativeElement.value.trim();
+    saveHistory.mood = moodElement.value.trim();
+}
+
+
+function revertSaveHistory() {
+    const themeElement = document.getElementById('style-text-theme');
+    const narrativeElement = document.getElementById('style-text-narrative');
+    const moodElement = document.getElementById('style-text-mood');
+
+    themeElement.value = saveHistory.theme;
+    narrativeElement.value = saveHistory.narrative;
+    moodElement.value = saveHistory.mood;
+
+    styleTextDirty = false;
+
+    const saveButton = document.getElementById('btn-save');
+    const cancelButton = document.getElementById('btn-cancel');
+    saveButton.classList.add('btn-disabled');
+    cancelButton.classList.add('btn-disabled');
+
+    // update the state of the navigation buttons
+    updateNavigationButtonStates();
 }
 
 
@@ -357,14 +455,29 @@ function saveStyle() {
         .then(songId => {
             console.log(`Successfully updated the song style for songId: ${songId}`);
 
+            // update the dirty state and the UI for the save button
+            styleTextDirty = false;
+            const saveButton = document.getElementById('btn-save');
+            const cancelButton = document.getElementById('btn-cancel');
+            saveButton.classList.add('btn-disabled');
+            cancelButton.classList.add('btn-disabled');
 
+            // update the save history so we can cancel / undo
+            updateSaveHistory();
 
+            // update the state of the navigation buttons
+            updateNavigationButtonStates();
         })
         .catch(error => {
             // handle the error if the API call fails
             console.error('Failed to edit the song style:', error);
             toastSystem.showError('Failed to update the song style. Please try again.');
         });
+}
+
+
+function cancelStyle() {
+    revertSaveHistory();
 }
 
 

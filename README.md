@@ -52,9 +52,9 @@
  - Refactor names.js - its too long
  - Add the include and exclude song theme's to the song model, so they can be used when generating the style.  
  - If they dont exist, use the user's defaults.  Update the yaml prompt.
+ - Add a filter to show only theme, mood, narrative.
 
 ## Todo
- - Add a filter to show only theme, mood, narrative.
  - Add custom styles for badges, instead of badge-correct, use badge-mood for example.
 
 ## Backlog
