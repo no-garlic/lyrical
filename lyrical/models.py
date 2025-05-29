@@ -122,9 +122,9 @@ class Section(models.Model):
 
 
 class Message(models.Model):
+    type = models.CharField(max_length=50, choices=[('style', 'style'), ('hook', 'hook'), ('lyrics', 'Lyrics')])
     role = models.CharField(max_length=50, choices=[('system', 'System'), ('user', 'User'), ('assistant', 'Assistant')])
     content = models.TextField()
-    llm = models.ForeignKey(LLM, on_delete=models.SET_NULL, null=True, blank=True)
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
