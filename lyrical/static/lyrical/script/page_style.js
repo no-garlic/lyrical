@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStyleCards();
     initGeneration();
     initPageActions();
+    applyFilter();
 });
 
 
@@ -45,6 +46,10 @@ function initGeneration() {
 
 function initPageActions() {
     document.getElementById('btn-clear').onclick = clearGeneratedStyles;
+    document.getElementById('tab-filter-all').onclick = applyFilter;
+    document.getElementById('tab-filter-themes').onclick = applyFilter;
+    document.getElementById('tab-filter-narratives').onclick = applyFilter;
+    document.getElementById('tab-filter-moods').onclick = applyFilter;
 }
 
 
@@ -241,7 +246,7 @@ function clearGeneratedStyles() {
             // update the text on the song card
             console.log(`Successfully updated sections for songId: ${songId}`);
 
-            // hide all cards from the list
+            // remove all cards from the list
             const container = document.getElementById('generated-styles');
             Array.from(container.children).forEach(node => {
                 container.removeChild(node);
@@ -253,4 +258,32 @@ function clearGeneratedStyles() {
             toastSystem.showError('Failed to update the sections for the song. Please try again.');
         });
 }
+
+
+function applyFilter() {
+    let styleType = undefined;
+
+    document.querySelectorAll('[id*="tab-filter-"]').forEach(tab => {
+        if (tab.checked) {
+            styleType = tab.dataset.styleType;
+        }
+    });
+
+    const container = document.getElementById('generated-styles');
+
+    if (styleType === undefined) {
+        Array.from(container.children).forEach(node => {
+            node.classList.remove('hidden');
+        });
+    } else {
+        Array.from(container.children).forEach(node => {
+            if (node.dataset.styleType === styleType) {
+                node.classList.remove('hidden');
+            } else {
+                node.classList.add('hidden');
+            }
+        });
+    }
+}
+
 
