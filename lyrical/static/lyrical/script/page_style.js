@@ -8,9 +8,11 @@ import { toastSystem } from './util_toast.js';
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiSectionEditBulk } from './api_section_edit_bulk.js';
+import { DragDropSystem } from './util_dragdrop.js';
 
 
 let streamHelper;
+let dragDropSystem;
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGeneration();
     initPageActions();
     applyFilter();
+    initDragDrop();
 });
 
 
@@ -41,6 +44,85 @@ function initGeneration() {
         }
     });
 }
+
+
+/**
+ * Initialize the drag and drop system.
+ * @returns {DragDropSystem} The initialized drag drop system.
+ */
+function initDragDrop() {
+    
+    // create the drag and drop system and assign to module-level variable
+    dragDropSystem = new DragDropSystem();
+
+    // initialise it
+    dragDropSystem.init({
+        onDragStart: (item, event) => {
+        },
+        onDrop: handleDragDrop,
+        canDrop: (item, zone, event) => {
+            return true;
+        },
+        onDragEnterZone: (item, zone, event) => {
+        },
+        onDragLeaveZone: (item, zone, event) => {
+        }
+    });
+
+    // register draggable items (song cards)
+    document.querySelectorAll('.style-card').forEach(card => {
+        console.log(`registering card for drag-drop: ${card.dataset.styleId}`)
+        registerCardForDragDrop(card);
+    });
+
+    return dragDropSystem;
+}
+
+
+/**
+ * Handle the drag and drop of a song card.
+ * Updates the song stage when dropped into a new zone and sorts the cards.
+ * @param {Object} item - The dragged item containing element and data.
+ * @param {Object} zone - The drop zone where the item was dropped.
+ * @param {Event} event - The drop event.
+ */
+function handleDragDrop(item, zone, event) {
+    const styleId = item.element.dataset.styleId;
+    console.log(`dropping style ${styleId} to zone ${zone.name}.`);
+}
+
+/**
+ * Register a card for the drag and drop system.
+ * @param {HTMLElement} card - The card element to register.
+ */
+function registerCardForDragDrop(card) {
+    const sectionId = card.dataset.sectionId;
+    const sectionType = card.dataset.sectionType;
+
+    dragDropSystem.registerDraggable(card, { sectionId, sectionType });
+}
+
+
+/*
+export function updateItemData(element, data) {
+    if (dragDropSystem) {
+        dragDropSystem.updateItemData(element, data);
+    }
+}
+
+export function unregisterDraggable(element) {
+    if (dragDropSystem) {
+        dragDropSystem.unregisterDraggable(element);
+    }
+}
+*/
+
+
+
+
+
+
+
 
 
 function initPageActions() {
