@@ -28,7 +28,7 @@
                     </c-panel-header>
                     <!-- End: Right Header -->
 
-                    <!-- Right Content -->
+                    <!-- Prompt Input -->
                     <div class="flex flex-col flex-shrink-0">
                         <textarea 
                             id="prompt-text" 
@@ -38,17 +38,34 @@
                             class="input-control textarea textarea-md textarea-neutral w-full h-full mb-1 resize-none border-none shadow-none focus:outline-none"
                         ></textarea>
                     </div>
-                    <!-- End: Right Content -->
+                    <!-- End: Prompt Input -->
 
-                    <!-- Section Title -->
+                    <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
-                    <c-panel-slider title="GENERATED STYLES" padding="4">
-                        <c-panel-header-button id="btn-clear">
-                            CLEAR
-                        </c-panel-header-button>
-                    </c-panel-slider>
+                        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 pr-4 mt-1">                
+
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-start items-center ">
+                                    <div class="tabs tabs-border tabs-md mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab px-4" aria-label="ALL" checked="checked" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-styles" class="tab px-4" aria-label="STYLES" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-narratives" class="tab px-4" aria-label="NARRATIVES" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" class="tab px-4" aria-label="MOODS" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+                                <!-- Clear Button -->
+                                <c-panel-header-button id="btn-clear">
+                                    CLEAR
+                                </c-panel-header-button>
+                                <!-- End: Clear Button -->                            
+
+                            </div>
+                        </div>
                     </div>
-                    <!-- End: Section Title -->
+                    <!-- End: Splitter Section -->
 
                     <!-- Container for all generated styles -->
                     <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
