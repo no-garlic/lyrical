@@ -33,9 +33,9 @@
                         <textarea 
                             id="prompt-text" 
                             type="text" 
-                            placeholder="" 
+                            placeholder="optional special instructions..." 
                             autocomplete="off" 
-                            class="input-control textarea textarea-md textarea-neutral w-full h-full mb-1 resize-none border-none shadow-none focus:outline-none"
+                            class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
                         ></textarea>
                     </div>
                     <!-- End: Prompt Input -->
@@ -93,15 +93,50 @@
                     <!-- End: Right Header -->
 
                     <!-- Right Content -->
-                     <div class="flex flex-col h-full">
-                        <textarea 
-                            id="style-text" 
-                            type="text" 
-                            placeholder="" 
-                            autocomplete="off" 
-                            class="input-control textarea textarea-md textarea-neutral w-full h-full mb-7 resize-none border-none shadow-none focus:outline-none"
-                        ></textarea>
-                        <c-input-spacer />
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 ">
+
+                        <!-- Theme -->
+                        <div class="badge badge-outline badge-success w-40 font-bold mb-3 mt-3 ml-2">THEME</div>
+                        <div class="flex flex-col">
+                            <textarea 
+                                id="style-text" 
+                                type="text" 
+                                placeholder="drag-drop a generated theme here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                style="field-sizing: content;"
+                            >{{song.theme}}</textarea>
+                        </div>
+                        <!-- End: Theme -->
+
+                        <!-- Narrative -->
+                        <div class="badge badge-outline badge-warning w-40 font-bold mb-3 mt-3 ml-2">NARRATIVE</div>
+                        <div class="flex flex-col">
+                            <textarea 
+                                id="style-text" 
+                                type="text" 
+                                placeholder="drag-drop a generated narrative here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                style="field-sizing: content;"
+                            >{{song.narrative}}</textarea>
+                        </div>
+                        <!-- End: Narrative-->
+
+                        <!-- Mood-->
+                        <div class="badge badge-outline badge-info w-40 font-bold mb-3 mt-3 ml-2">MOOD</div>
+                        <div class="flex flex-col">
+                            <textarea 
+                                id="style-text" 
+                                type="text" 
+                                placeholder="drag-drop a generated mood here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                style="field-sizing: content;"
+                            >{{song.mood}}</textarea>
+                        </div>
+                        <!-- End: Mood -->
+
                     </div>
                     <!-- End: Right Content -->
 

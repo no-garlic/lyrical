@@ -1,4 +1,3 @@
-
 /**
  * Song style generation functionality.
  * Handles streaming requests, generation parameters, and data processing.
