@@ -56,7 +56,9 @@
                     <!-- Container for all generated styles -->
                     <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
                         {% for section in song_sections %}
-                            <c-card-style />
+                            {% if not section.hidden %}
+                                <c-card-style />
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <!-- End: Container for all generated styles -->

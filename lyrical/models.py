@@ -110,6 +110,7 @@ class Section(models.Model):
         ('vocalisation', 'Vocalisation')
     ])
     text = models.TextField(default='')
+    hidden = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

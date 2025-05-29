@@ -19,6 +19,7 @@ from .views.api_song_add import *
 from .views.api_song_edit import *
 from .views.api_song_edit_bulk import *
 from .views.api_song_delete import *
+from .views.api_section_edit import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
@@ -49,10 +50,15 @@ urlpatterns = [
     # api pages
     path("api_render_component/<str:component_name>", api_render_component, name="api_render_component"),
     path("api_user_llm", api_user_llm, name="api_user_llm"),
+
+    # api song management
     path("api_song_delete", api_song_delete, name="api_song_delete"),
     path("api_song_edit", api_song_edit, name="api_song_edit"),
     path("api_song_edit_bulk", api_song_edit_bulk, name="api_song_edit_bulk"),
     path("api_song_add", api_song_add, name="api_song_add"),
+
+    # api section management
+    path("api_section_edit", api_section_edit, name="api_section_edit"),
 
     # llm calls
     path("api_gen_song", api_gen_song, name="api_gen_song"),

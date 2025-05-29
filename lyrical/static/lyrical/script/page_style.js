@@ -7,11 +7,14 @@
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 import { apiRenderComponent } from './api_render_component.js';
+import { apiSectionEdit } from './api_section_edit.js';
+
 
 let streamHelper;
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    initStyleCards();
     initGeneration();
 });
 
@@ -177,7 +180,7 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
     apiRenderComponent('card_style', 'generated-styles', { section: { id: sectionId, badge_name: badgeName, badge_style: badgeStyle, text: cardText }})
         .then(html => {
             // initialize the new style card for interactions
-            initNewStyleCard(sectionId, badgeStyle, badgeName, cardText);
+            initNewStyleCard(sectionId);
         })
         .catch(error => {
             // handle the error if the component rendering fails
@@ -187,7 +190,37 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
 }
 
 
-function initNewStyleCard(sectionId, badgeStyle, badgeName, cardText) {
+function initStyleCards() {
+    const container = document.getElementById('generated-styles');
+    Array.from(container.children).forEach(node => {
+        initNewStyleCard(node.dataset.styleId);
+    });
+}
 
+
+function initNewStyleCard(sectionId) {
+    const hideButton = document.getElementById(`btn-style-hide-${sectionId}`);
+
+    hideButton.onclick = (event) => {
+        const styleCard = document.getElementById(`style-card-${sectionId}`);
+        const container = document.getElementById('generated-styles');
+
+        // call the api to update the section to set the hidden flag to true
+        apiSectionEdit(sectionId, true)
+            .then(sectionId => {
+                // update the text on the song card
+                console.log(`Successfully updated sectionId: ${sectionId}`);
+
+                // hide the card from the list
+                container.removeChild(styleCard);
+            })
+            .catch(error => {
+                // handle the error if the API call fails
+                console.error('Failed to edit the section:', error);
+                toastSystem.showError('Failed to update the section. Please try again.');
+            });
+
+        
+    }
 }
 
