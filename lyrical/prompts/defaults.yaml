@@ -107,11 +107,12 @@
   {% if include_themes %}These are the styles and topics to focus on: {{ include_themes }}{% endif %}
   {% if exclude_themes %}These are the styles and topics to avoid: {{ exclude_themes }}{% endif %}
 
-  You will create 3 themes, 3 narratives, and 3 moods for me to choose from.
-  - A theme is a description of what the song is about to establish the context of the song.
-  - A narrative contains 2 sentences, the first sentence describes the story that the song tells, the second sentence adds more detail to the first 
-    sentence, continuing to expand on the narrative of the song.
-  - a mood describes the mood and emotion of the song, and what the listener should be feeling.
+  You will create: {% if theme %}(3 themes, {% endif %}{% if narrative %}3 narratives, {% endif %}{% if mood %}3 moods{% endif %}) for me to choose from.
+
+  {% if theme %}- A theme is a description of what the song is about to establish the context of the song.{% endif %}
+  {% if narrative %}- A narrative contains 2 sentences, the first sentence describes the story that the song tells, the second sentence adds more detail to the first 
+    sentence, continuing to expand on the narrative of the song.{% endif %}
+  {% if mood %}- a mood describes the mood and emotion of the song, and what the listener should be feeling.{% endif %}
 
   These descriptions should be focussed on "myself", not on other people, so don't consider situations such as love, friends, or other people. Use about
   first person perspective.
@@ -122,15 +123,15 @@
   Long sentences are encouraged.
 
   Use the following NDJSON format, with EXACTLY ONE theme, narrative, or mood per row:
+    {% if theme %}{"theme": "<mood sentence...>"}
     {"theme": "<mood sentence...>"}
-    {"theme": "<mood sentence...>"}
-    {"theme": "<mood sentence...>"}
+    {"theme": "<mood sentence...>"}{% endif %}
+    {% if narrative %}{"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
     {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
-    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
-    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
+    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}{% endif %}
+    {% if mood %}{"mood": "<mood sentence...>"}
     {"mood": "<mood sentence...>"}
-    {"mood": "<mood sentence...>"}
-    {"mood": "<mood sentence...>"}
+    {"mood": "<mood sentence...>"}{% endif %}
     ...
 
 

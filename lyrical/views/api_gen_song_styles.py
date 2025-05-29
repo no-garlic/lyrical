@@ -17,7 +17,8 @@ class SongStylesGenerator(LLMGenerator):
         return {
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
-            'custom_prompt': self.request.GET.get("custom_prompt", "").strip()
+            'custom_prompt': self.request.GET.get("custom_prompt", "").strip(),
+            'style_filter': self.request.GET.get("style_filter", "").strip(),
         }
     
 
@@ -61,12 +62,22 @@ class SongStylesGenerator(LLMGenerator):
     
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
-        return {
+        params = {
             'song_name': self.extracted_params['song_name'],
             'custom_prompt': self.extracted_params['custom_prompt'],
             'include_themes': self.extracted_params['include_themes'],
             'exclude_themes': self.extracted_params['exclude_themes'],
         }
+
+        theme = self.extracted_params['style_filter'] == '' or self.extracted_params['style_filter'] == 'THEME'
+        narrative = self.extracted_params['style_filter'] == '' or self.extracted_params['style_filter'] == 'NARRATIVE'
+        mood = self.extracted_params['style_filter'] == '' or self.extracted_params['style_filter'] == 'MOOD'
+        
+        params['theme'] = theme
+        params['narrative'] = narrative
+        params['mood'] = mood
+
+        return params
     
     
     def log_generation_params(self) -> None:

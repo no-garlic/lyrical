@@ -189,11 +189,18 @@ function buildRequestParams() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
 
-    return {
+    let params = {
         prompt: 'song_styles',
         custom_prompt: document.getElementById('prompt-text').value,
         song_id: songId,
     };
+
+    const styleFilter = getFilterStyleType();
+    if (styleFilter != undefined) {
+        params.style_filter = styleFilter;
+    }
+
+    return params;
 }
 
 
@@ -263,11 +270,11 @@ function handleLoadingEnd() {
 
 function addStyleCardFromData(data) {
     if (data.theme != undefined) {
-        addStyleCard('badge-success', 'THEME', data.theme, data.id);
+        addStyleCard('badge-theme', 'THEME', data.theme, data.id);
     } else if (data.narrative != undefined) {
-        addStyleCard('badge-warning', 'NARRATIVE', data.narrative, data.id);
+        addStyleCard('badge-narrative', 'NARRATIVE', data.narrative, data.id);
     } else if (data.mood != undefined) {
-        addStyleCard('badge-info', 'MOOD', data.mood, data.id);
+        addStyleCard('badge-mood', 'MOOD', data.mood, data.id);
     } else {
         toastSystem.showError(`Bad data received for style: ${JSON.stringify(data)}`);
     }
@@ -491,7 +498,7 @@ function cancelStyle() {
 }
 
 
-function applyFilter() {
+function getFilterStyleType() {
     let styleType = undefined;
 
     document.querySelectorAll('[id*="tab-filter-"]').forEach(tab => {
@@ -500,6 +507,12 @@ function applyFilter() {
         }
     });
 
+    return styleType;
+}
+
+
+function applyFilter() {
+    const styleType = getFilterStyleType();
     const container = document.getElementById('generated-styles');
 
     if (styleType === undefined) {

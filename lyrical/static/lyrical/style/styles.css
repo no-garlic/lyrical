@@ -7,6 +7,44 @@
     scrollbar-width: none;
 }
 
+.theme-badge {
+    --badge-color: #f032f4;
+  }
+
+
+.badge-theme {
+    --badge-color: oklch(78% 0.154 211.53); /* Bright blue */
+}
+.badge-narrative {
+    --badge-color: oklch(84% 0.238 128.85); /* Vibrant green */
+}
+.badge-mood {
+    --badge-color: oklch(82% 0.189 84.429); /* Yellow-green */
+}
+.badge-hook {
+    --badge-color: oklch(71% 0.194 13.428); /* Pinkish-red */
+}
+.badge-verse {
+    --badge-color: oklch(80% 0.19 265); /* Rich purple */
+}
+.badge-chorus {
+    --badge-color: oklch(75% 0.21 235); /* Electric blue */
+}
+.badge-bridge {
+    --badge-color: oklch(82% 0.22 180); /* Aqua-turquoise */
+}
+.badge-pre-chorus {
+    --badge-color: oklch(76% 0.2 310); /* Magenta */
+}
+.badge-outro {
+    --badge-color: oklch(70% 0.17 40); /* Deep red */
+}
+.badge-vocalisation {
+    --badge-color: oklch(81% 0.19 145); /* Bright mint */
+}
+
+
+
 @import "tailwindcss";
 
 @plugin "./daisyui-theme.js" {

@@ -118,19 +118,7 @@ class Section(models.Model):
         return self.type.upper()
 
     def badge_style(self):
-        styles = {
-            'theme': 'badge-success',
-            'narrative': 'badge-warning',
-            'mood': 'badge-info',
-            'hook': 'badge-secondary',
-            'verse': 'badge-secondary',
-            'chorus': 'badge-secondary',
-            'bridge': 'badge-secondary',
-            'pre-chorus': 'badge-secondary',
-            'outro': 'badge-secondary',
-            'vocalisation': 'badge-secondary'
-        }
-        return styles.get(self.type)
+        return f"badge-{self.type}"
 
 
 class Message(models.Model):

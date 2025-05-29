@@ -53,9 +53,25 @@
  - Add the include and exclude song theme's to the song model, so they can be used when generating the style.  
  - If they dont exist, use the user's defaults.  Update the yaml prompt.
  - Add a filter to show only theme, mood, narrative.
+ - Generate for just the selected tab
+ - Add custom styles for badges, instead of badge-correct, use badge-mood for example.
 
 ## Todo
- - Add custom styles for badges, instead of badge-correct, use badge-mood for example.
+ - Use message history for song styles
+
+ - Implement Hook page
+
+ - Change order -> Hook -> Structure -> Lyrics -> Export
+ - Structure has a [Generate Lyrics] button (first time) instead of [Next] - maybe?
+ - Structure page can set song tags, and all song generation parameters
+ - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
+ - Lyrics page is purely generate new lyrics for sections, and edit lines of sections
+
+ - Redo the song names page, remove disliked list
+ - Song Names should have a thumbs up and thumbs down on them
+ - Can get rid of archived status then
+ 
+
 
 ## Backlog
  - Make the library page page 1 of the timeline
@@ -70,6 +86,7 @@
  - Change font color on login and register pages
  - Link to home on login and register pages
  - Implement logging module for all code (get claude code to implement it)
+ - Click close button on a card, shows another X and Tick as a confirmation
 
 
 ## Maybe
