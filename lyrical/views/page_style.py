@@ -33,6 +33,10 @@ def page_style(request, song_id: int):
         logger.error(f"page_style: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
         return HttpResponseServerError("An error occurred while fetching the song")
 
+    # extract song sections
+    section_names = ['theme', 'narrative', 'mood']
+    song_sections = models.Section.objects.filter(song=song, type__in=section_names).order_by('created_at')
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
@@ -40,6 +44,7 @@ def page_style(request, song_id: int):
         "btn_previous": None,
         "selectedSongId": song_id,
         "song": song,
+        'song_sections': song_sections,
     }
 
     try:

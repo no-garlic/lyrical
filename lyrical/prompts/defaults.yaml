@@ -97,6 +97,41 @@
 
   The <lyrics> is a single line of lyrics for the section, so ther will be multiple JSON lines for each section, one for each line of the section.
   
+"song_styles": |-
+  You are tasked with creating some song description options for an upbeat catchy pop song. The song should embody the essence of modern 
+  pop music, focusing on themes that resonate with a wide audience, such as inspiration, empowerment, joy, or self-discovery. The song should have 
+  a balance of emotional depth and playful energy to ensure it captivates listeners.
+
+  The name of the song is "{{ song_name }}".
+
+  You will create 3 themes, 3 narratives, and 3 moods for me to choose from.
+  - A theme is a description of what the song is about to establish the context of the song.
+  - A narrative contains 2 sentences, the first sentence describes the story that the song tells, the second sentence adds more detail to the first 
+    sentence, continuing to expand on the narrative of the song.
+  - a mood describes the mood and emotion of the song, and what the listener should be feeling.
+
+  These descriptions should be focussed on "myself", not on other people, so don't consider situations such as love, friends, or other people. Use about
+  first person perspective.
+
+  {% if custom_prompt %}Also follow these instructions: {{custom_prompt}}.{% endif %}
+
+  Each sentence should be well written english, and descriptive.
+  Long sentences are encouraged.
+
+  Use the following NDJSON format, with EXACTLY ONE theme, narrative, or mood per row:
+    {"theme": "<mood sentence...>"}
+    {"theme": "<mood sentence...>"}
+    {"theme": "<mood sentence...>"}
+    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
+    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
+    {"narrative": "<narrative sentence 1...>. <narrative sentence 2...>."}
+    {"mood": "<mood sentence...>"}
+    {"mood": "<mood sentence...>"}
+    {"mood": "<mood sentence...>"}
+    ...
+
+
+
 
 "song-format-2": |-
   {% for i in range(verse_count) %}{"verse{{ loop.index }}": ["lyrics line 1", "lyrics line 2", ...]}

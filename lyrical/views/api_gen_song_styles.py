@@ -1,0 +1,109 @@
+import logging
+import json
+import random
+from typing import Dict, Any, Optional
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
+from ..services.llm_generator import LLMGenerator
+from ..services.utils.text import normalize_to_ascii
+from .. import models
+
+
+logger = logging.getLogger(__name__)
+
+
+class SongStylesGenerator(LLMGenerator):
+    def extract_parameters(self) -> Dict[str, Any]:
+        return {
+            'prompt_name': self.request.GET.get("prompt", "").strip(),
+            'song_id': int(self.request.GET.get("song_id", "")),
+            'custom_prompt': self.request.GET.get("custom_prompt", "").strip()
+        }
+    
+
+    def query_database_data(self) -> Dict[str, Any]:
+        # get the song ID from the request parameters
+        song_id = self.extracted_params.get('song_id')
+
+        # validate the song ID
+        if not song_id:
+            logger.error("Song ID is required for generating styles")
+            return {}
+        
+        try:
+            # fetch the song from the database
+            song = models.Song.objects.get(id=song_id, user=self.request.user)
+        except models.Song.DoesNotExist:
+            logger.error(f"Song with ID {song_id} does not exist for user '{self.request.user.username}'")
+            return {}
+        except Exception as e:
+            logger.error(f"Error fetching song with ID {song_id} for user '{self.request.user.username}': {str(e)}")
+            return {}
+
+        return {
+            'song_name': song.name,
+        }
+    
+
+    def get_prompt_name(self) -> str:
+        return self.extracted_params['prompt_name']
+    
+
+    def build_user_prompt_params(self) -> Dict[str, Any]:
+        return {
+            'song_name': self.extracted_params['song_name'],
+            'custom_prompt': self.extracted_params['custom_prompt'],
+        }
+    
+    
+    def log_generation_params(self) -> None:
+        params = self.extracted_params
+        logger.debug(f"Generating song styles with parameters: {params}")
+            
+    
+    def preprocess_ndjson(self, ndjson_line: str) -> str:
+        data = json.loads(ndjson_line)
+        
+        if data.get("theme"):
+            # normalize the theme text to ASCII
+            data["theme"] = normalize_to_ascii(data["theme"])
+            section = models.Section.objects.create(
+                song_id=self.extracted_params.get("song_id"),
+                type='theme',
+                text=data["theme"]
+            )
+            data['id'] = section.id
+            logger.debug(f"Added theme: {data['theme']} to song ID {self.extracted_params.get('song_id')}")
+
+        if data.get("narrative"):
+            # normalize the narrative text to ASCII
+            data["narrative"] = normalize_to_ascii(data["narrative"])
+            section = models.Section.objects.create(
+                song_id=self.extracted_params.get("song_id"),
+                type='narrative',
+                text=data["narrative"]
+            )
+            data['id'] = section.id
+            logger.debug(f"Added narrative: {data['narrative']} to song ID {self.extracted_params.get('song_id')}")
+
+        if data.get("mood"):
+            # normalize the mood text to ASCII
+            data["mood"] = normalize_to_ascii(data["mood"])
+            section = models.Section.objects.create(
+                song_id=self.extracted_params.get("song_id"),
+                type='mood',
+                text=data["mood"]
+            )
+            data['id'] = section.id
+            logger.debug(f"Added mood: {data['mood']} to song ID {self.extracted_params.get('song_id')}")
+
+        # add the new song ID to the data
+        print(f"Preprocessed NDJSON line: {data}")
+        return json.dumps(data)
+        
+
+@login_required
+@require_http_methods(["GET"])
+def api_gen_song_styles(request):
+    generator = SongStylesGenerator(request)
+    return generator.generate()

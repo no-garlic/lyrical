@@ -111,7 +111,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('type', models.CharField(choices=[("theme", "Theme"), ("narrative", "Narrative"), ("mood", "Mood"), ("hook", "Hook"), ("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro"), ("vocalisation", "Vocalisation")], max_length=50)),
-                ('lyrics', models.TextField(default="")),
+                ('text', models.TextField(default="")),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="sections", to="lyrical.song")),
