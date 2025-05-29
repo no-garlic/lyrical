@@ -8,6 +8,7 @@ import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSectionEdit } from './api_section_edit.js';
+import { apiSectionEditBulk } from './api_section_edit_bulk.js';
 
 
 let streamHelper;
@@ -16,6 +17,7 @@ let streamHelper;
 document.addEventListener('DOMContentLoaded', () => {
     initStyleCards();
     initGeneration();
+    initPageActions();
 });
 
 
@@ -39,6 +41,12 @@ function initGeneration() {
         }
     });
 }
+
+
+function initPageActions() {
+    document.getElementById('btn-clear').onclick = clearGeneratedStyles;
+}
+
 
 /**
  * Handle the generate button click event.
@@ -219,8 +227,30 @@ function initNewStyleCard(sectionId) {
                 console.error('Failed to edit the section:', error);
                 toastSystem.showError('Failed to update the section. Please try again.');
             });
-
-        
     }
+}
+
+
+function clearGeneratedStyles() {
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);    
+
+    // call the api to update the section to set the hidden flag to true
+    apiSectionEditBulk(songId, true)
+        .then(songId => {
+            // update the text on the song card
+            console.log(`Successfully updated sections for songId: ${songId}`);
+
+            // hide all cards from the list
+            const container = document.getElementById('generated-styles');
+            Array.from(container.children).forEach(node => {
+                container.removeChild(node);
+            });
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the sections for the song:', error);
+            toastSystem.showError('Failed to update the sections for the song. Please try again.');
+        });
 }
 

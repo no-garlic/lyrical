@@ -19,7 +19,9 @@ from .views.api_song_add import *
 from .views.api_song_edit import *
 from .views.api_song_edit_bulk import *
 from .views.api_song_delete import *
+
 from .views.api_section_edit import *
+from .views.api_section_edit_bulk import *
 
 from .views.api_gen_song import *
 from .views.api_gen_song_names import *
@@ -59,6 +61,7 @@ urlpatterns = [
 
     # api section management
     path("api_section_edit", api_section_edit, name="api_section_edit"),
+    path("api_section_edit_bulk", api_section_edit_bulk, name="api_section_edit_bulk"),
 
     # llm calls
     path("api_gen_song", api_gen_song, name="api_gen_song"),
