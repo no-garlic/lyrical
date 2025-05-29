@@ -53,7 +53,9 @@ function initGeneration() {
 function initDragDrop() {
     
     // create the drag and drop system and assign to module-level variable
-    dragDropSystem = new DragDropSystem();
+    dragDropSystem = new DragDropSystem({ 
+        insertElementOnDrop: false
+    });
 
     // initialise it
     dragDropSystem.init({
@@ -71,7 +73,6 @@ function initDragDrop() {
 
     // register draggable items (song cards)
     document.querySelectorAll('.style-card').forEach(card => {
-        console.log(`registering card for drag-drop: ${card.dataset.styleId}`)
         registerCardForDragDrop(card);
     });
 
@@ -88,7 +89,16 @@ function initDragDrop() {
  */
 function handleDragDrop(item, zone, event) {
     const styleId = item.element.dataset.styleId;
-    console.log(`dropping style ${styleId} to zone ${zone.name}.`);
+    const styleType = item.element.dataset.styleType;
+    const textElement = document.getElementById(`style-card-text-${styleId}`);
+    const text = textElement.innerHTML;
+    
+    console.log(`dropping style ${styleId} [${styleType}] with text: '${text}'`);
+
+    const destinationId = `style-text-${styleType.toLowerCase()}`
+    const destination = document.getElementById(destinationId);
+
+    destination.innerHTML = text;
 }
 
 /**
@@ -96,33 +106,11 @@ function handleDragDrop(item, zone, event) {
  * @param {HTMLElement} card - The card element to register.
  */
 function registerCardForDragDrop(card) {
-    const sectionId = card.dataset.sectionId;
+    const styleId = card.dataset.sectionId;
     const sectionType = card.dataset.sectionType;
-
-    dragDropSystem.registerDraggable(card, { sectionId, sectionType });
+    console.log(`registering card for drag-drop: ${card.dataset.styleId}`)
+    dragDropSystem.registerDraggable(card, { styleId, sectionType });
 }
-
-
-/*
-export function updateItemData(element, data) {
-    if (dragDropSystem) {
-        dragDropSystem.updateItemData(element, data);
-    }
-}
-
-export function unregisterDraggable(element) {
-    if (dragDropSystem) {
-        dragDropSystem.unregisterDraggable(element);
-    }
-}
-*/
-
-
-
-
-
-
-
 
 
 function initPageActions() {
@@ -275,6 +263,10 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
         .then(html => {
             // initialize the new style card for interactions
             initNewStyleCard(sectionId);
+
+            // register with the drag-drop system
+            const styleCard = document.getElementById(`style-card-${sectionId}`);
+            registerCardForDragDrop(styleCard);
         })
         .catch(error => {
             // handle the error if the component rendering fails
@@ -330,6 +322,11 @@ function clearGeneratedStyles() {
             // remove all cards from the list
             const container = document.getElementById('generated-styles');
             Array.from(container.children).forEach(node => {
+
+                // remove the card from the drag drop system
+                dragDropSystem.unregisterDraggable(node);
+
+                // remove the card from the container
                 container.removeChild(node);
             });
         })

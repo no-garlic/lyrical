@@ -6,7 +6,11 @@ export class DragDropSystem {
     /**
      * creates a new dragdropsystem instance
      */
-    constructor() {
+    constructor(initialConfig = {}, initialCallbacks = {}) {
+        this.config = {
+            insertElementOnDrop: true,
+            ...initialConfig
+        };
         this.draggedItem = null;
         this.ghostElement = null;
         this.initialOffsetX = 0;
@@ -19,6 +23,7 @@ export class DragDropSystem {
             canDrop: () => true,
             onDragEnterZone: () => {},
             onDragLeaveZone: () => {},
+            ...initialCallbacks
         };
 
         this.dragPreviewCanvas = this._createDragPreviewCanvas();
@@ -291,7 +296,10 @@ export class DragDropSystem {
             const zoneData = { element: dropZoneElement, name: dropZoneElement.dataset.zoneName };
             if (this.callbacks.canDrop(this.draggedItem, zoneData, event)) {
                 this.draggedItem.element.classList.remove('opacity-50');
-                zoneData.element.appendChild(this.draggedItem.element);
+
+                if (this.config.insertElementOnDrop) {
+                    zoneData.element.appendChild(this.draggedItem.element);
+                }
 
                 if (this.callbacks.onDrop) {
                     this.callbacks.onDrop(this.draggedItem, zoneData, event);
