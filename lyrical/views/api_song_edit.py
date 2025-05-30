@@ -36,6 +36,7 @@ def api_song_edit(request):
         song_theme = edit_data.get("song_theme")
         song_narrative = edit_data.get("song_narrative")
         song_mood = edit_data.get("song_mood")
+        song_hook = edit_data.get("song_hook")
 
         # validate song ID is provided
         if not song_id:
@@ -78,6 +79,11 @@ def api_song_edit(request):
             old_mood = song.mood
             song.mood = song_mood
             updates.append(f"mood from '{old_mood}' to '{song_mood}'")
+
+        if song_hook:
+            old_hook = song.hook
+            song.hook = song_hook
+            updates.append(f"hook from '{old_hook}' to '{song_hook}'")
 
         song.save()
 

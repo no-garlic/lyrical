@@ -103,3 +103,5 @@
 
 
 ## Bugs:
+ - Unable to save an empty Song Hook, Theme, Mood, Narrative, etc...
+ 

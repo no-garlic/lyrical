@@ -4,24 +4,163 @@
 {% block head %}
 {% endblock %}
 
+{% block page_content %}
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
+        <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-{% block panel_1 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 1
-    </div>
-{% endblock %}
+            <!-- Title -->
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG HOOK - {{song.name|upper}}</h2>
 
-{% block panel_2 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 2
-    </div>
-{% endblock %}
+            <!-- Content -->
+            <div class="flex flex-row flex-1 min-h-0 gap-4">
 
-{% block panel_3 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 3
+                <!-- Left Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+
+                    <!-- Right Header -->
+                    <c-panel-header title="CUSTOM PROMPT" padding="4">
+                        <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
+                            GENERATE
+                        </c-panel-header-button>
+                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
+                            PLEASE WAIT...
+                        </c-panel-header-button-loading>
+                    </c-panel-header>
+                    <!-- End: Right Header -->
+
+                    <!-- Prompt Input -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <textarea 
+                            id="prompt-text" 
+                            type="text" 
+                            placeholder="add an optional prompt or just click generate..." 
+                            autocomplete="off" 
+                            class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
+                        ></textarea>
+                        <input
+                            id="vocalisation-terms" 
+                            type="text" 
+                            placeholder="vocalisation terms" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] mt-2" 
+                            value="oh, ooh, ah, ahh, whoa"
+                        ></input>
+                        <input 
+                            id="vocalisation-level" 
+                            type="number" 
+                            placeholder="vocalisation-level" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] mt-2"
+                            value="2"
+                        ></input>
+                        <input 
+                            id="lines" 
+                            type="number" 
+                            placeholder="lines" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] mt-2"
+                            value="2"
+                        ></input>
+                        <input 
+                            id="syllables" 
+                            type="number" 
+                            placeholder="syllables" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] mt-2"
+                            value="8"
+                        ></input>
+                        <input 
+                            id="count" 
+                            type="number" 
+                            placeholder="count" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] my-2"
+                            value="5"
+                        ></input>
+
+                    </div>
+                    <!-- End: Prompt Input -->
+
+                    <!-- Splitter Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 pr-4 mt-1">                
+
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-start items-center ">
+                                    <div class="tabs tabs-border tabs-md mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-hooks" class="tab px-4" aria-label="HOOKS" checked="checked" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+                                <!-- Clear Button -->
+                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
+                                    CLEAR
+                                </c-panel-header-button>
+                                <!-- End: Clear Button -->                            
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Splitter Section -->
+
+                    <!-- Container for all generated hooks -->
+                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-hooks">
+                        {% for section in song_sections %}
+                            {% if not section.hidden %}
+                                <c-card-style />
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End: Container for all generated hooks -->
+
+                </div>
+                <!-- End: Left Panel -->
+
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1" data-drop-zone="true">
+
+                    <!-- Right Header -->
+                    <c-panel-header title="EDIT YOUR SONG HOOK" padding="4">
+                        <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                            CANCEL
+                        </c-panel-header-button>
+                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
+                            SAVE
+                        </c-panel-header-button>
+                    </c-panel-header>
+                    <!-- End: Right Header -->
+
+                    <!-- Right Content -->
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 ">
+
+                        <!-- Hook -->
+                        <div class="badge badge-outline badge-hook w-40 font-bold mb-3 mt-3 ml-2">HOOK</div>
+                        <div class="flex flex-col">
+                            <textarea 
+                                id="hook-text" 
+                                type="text" 
+                                placeholder="drag-drop a generated hook here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                style="field-sizing: content;"
+                            >{{song.hook}}</textarea>
+                        </div>
+                        <!-- End: Hook -->
+
+                    </div>
+                    <!-- End: Right Content -->
+
+                </div>
+                <!-- End: Right Panel -->
+
+            </div>                
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
+    <script type="module" src="{% static 'lyrical/script/page_hook.js' %}"></script>
 {% endblock %}

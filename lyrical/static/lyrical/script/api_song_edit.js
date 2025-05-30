@@ -12,7 +12,8 @@ export function apiSongEdit(songId, updates = {}) {
         song_stage: songStage,
         song_theme: songTheme,
         song_narrative: songNarrative,
-        song_mood: songMood
+        song_mood: songMood,
+        song_hook: songHook
     } = updates;
 
     // get CSRF token
@@ -25,6 +26,7 @@ export function apiSongEdit(songId, updates = {}) {
     if (songTheme) requestBody.song_theme = songTheme;
     if (songNarrative) requestBody.song_narrative = songNarrative;
     if (songMood) requestBody.song_mood = songMood;
+    if (songHook) requestBody.song_hook = songHook;
 
     // send the request to the server
     return fetch('/api_song_edit', {
