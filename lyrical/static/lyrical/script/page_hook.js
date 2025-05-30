@@ -188,10 +188,10 @@ function buildRequestParams() {
         custom_prompt: document.getElementById('prompt-text').value,
         vocalisation_terms: document.getElementById('vocalisation-terms').value,
         vocalisation_level: document.getElementById('vocalisation-level').value,
-        lines: parseInt(document.getElementById('lines').value),
-        count: parseInt(document.getElementById('count').value),
-        syllables: parseInt(document.getElementById('syllables').value),
-        rhyme: document.getElementById('rhyme').value,
+        lines: parseInt(document.getElementById('max-hook-lines').value),
+        count: 10,
+        syllables: parseInt(document.getElementById('max-syllables-per-line').value),
+        rhyme: document.getElementById('rhyme-with').value,
         song_id: songId,
     };
 

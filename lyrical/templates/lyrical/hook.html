@@ -37,41 +37,70 @@
                             autocomplete="off" 
                             class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
                         ></textarea>
+                    </div>
+                    <!-- End: Prompt Input -->
+
+                    <!-- Edit Song Structure Header -->
+                    <c-panel-slider title="SONG STRUCTURE" padding="4">
+                        <c-panel-header-button id="btn-save-song-structure" extrastyles="btn-disabled">
+                            SAVE
+                        </c-panel-header-button>
+                    </c-panel-slider>
+                    <!-- End: Edit Song Structure Header -->
+
+                    <!-- Song Structure Controls -->
+                    <div class="p-4">
+
+                        <c-input-label>VOCALISATION TERMS:</c-input-label>
                         <input
                             id="vocalisation-terms" 
                             type="text" 
-                            placeholder="vocalisation terms" 
+                            placeholder="" 
                             autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] mt-2" 
-                            value="oh, ooh, ah, ahh, whoa"
-                        ></input>
-                        <input 
-                            id="lines" 
-                            type="number" 
-                            placeholder="count" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] my-2"
-                            value="2"
-                        ></input>
-                        <input 
-                            id="count" 
-                            type="number" 
-                            placeholder="count" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] my-2"
-                            value="5"
-                        ></input>
-                        <input 
-                            id="count" 
-                            type="number" 
-                            placeholder="count" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] my-2"
-                            value="5"
+                            class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                            value=""
                         ></input>
 
+                        <c-input-gap />
+                        <c-input-label>RHYME WITH:</c-input-label>
+                        <input
+                            id="rhyme-with" 
+                            type="text" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                            value=""
+                        ></input>
+
+                        <c-input-gap />
+                        <c-input-label>MAX HOOK LINES:</c-input-label>
+                        <div class="w-full max-w-xs">
+                            <input id="max-hook-lines" type="range" min="3" max="15" value="" class="range range-primary w-116" step="1"/>
+                            <div class="flex justify-between px-2.5 mt-2 text-xs w-116">
+                                <span>3</span>
+                                <span>6</span>
+                                <span>9</span>
+                                <span>12</span>
+                                <span>15</span>
+                            </div>
+                        </div>
+
+                        <c-input-gap />
+                        <c-input-label>AVG SYLLABLES PER LINE:</c-input-label>
+                        <div class="w-full max-w-xs">
+                            <input id="max-syllables-per-line" type="range" min="3" max="15" value="" class="range range-primary w-116" step="1"/>
+                            <div class="flex justify-between px-2.5 mt-2 text-xs w-116">
+                                <span>3</span>
+                                <span>6</span>
+                                <span>9</span>
+                                <span>12</span>
+                                <span>15</span>
+                            </div>
+                        </div>
+
                     </div>
-                    <!-- End: Prompt Input -->
+                    <!-- End: Song Structure Controls -->
+
 
                     <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
