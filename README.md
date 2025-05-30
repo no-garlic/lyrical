@@ -63,12 +63,11 @@
  - Swap side of lists on style and hook pages
  - Change order: Song -> Style -> Structure -> Hook -> Lyrics
  - Move hook page generation params into the database
+ - Fix Previous button's for new flow
 
 
 
 ## Todo
- - Fix Previous button's for new flow
- 
  - Structure page can set song tags, and all song generation parameters
  - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
 
