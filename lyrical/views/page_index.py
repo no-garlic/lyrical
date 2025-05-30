@@ -6,7 +6,7 @@ from django.conf import settings
 from .. import models
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('views')
 
 
 def page_index(request):

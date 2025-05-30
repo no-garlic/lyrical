@@ -4,6 +4,10 @@ from pathlib import Path
 from jinja2 import Template
 from ...models import LLM
 from .text import collapse_blank_lines
+from ...logging_config import get_logger
+
+
+logger = get_logger('services')
 
 
 DEFAULT_PROMPT_FILE = "defaults.yaml"
@@ -28,10 +32,10 @@ def get_system_prompt(prompt_name: str, llm: LLM = None) -> str:
 
     custom_system_prompt = _get_prompt(custom_system_prompt_name, llm)
     if custom_system_prompt:
-        print(f"Custom system prompt '{custom_system_prompt_name}' found.")
+        logger.debug(f"Custom system prompt '{custom_system_prompt_name}' found")
         return collapse_blank_lines(custom_system_prompt)
     
-    print(f"Custom system prompt '{custom_system_prompt_name}' not found. Using default.")
+    logger.debug(f"Custom system prompt '{custom_system_prompt_name}' not found. Using default")
     system_prompt = _get_prompt("system_prompt", llm)
     return collapse_blank_lines(system_prompt)
 
@@ -54,14 +58,14 @@ def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
     # Check if the default prompts have been loaded
     if _default_prompts is None:
         try:
-            print(f"Loading default prompts from {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
+            logger.info(f"Loading default prompts from {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
             with open(PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE, "r") as f:
                 _default_prompts = yaml.safe_load(f)
         except FileNotFoundError:
-            print(f"Error: default prompts not found at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
+            logger.error(f"Default prompts not found at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
             return None
-        except yaml.YAMLError:
-            print(f"Error: Could not parse default prompts at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}")
+        except yaml.YAMLError as e:
+            logger.error(f"Could not parse default prompts at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}: {e}")
 
     # Check if a model is provided, if so then get the model name
     model_name = llm.internal_name if llm else None
@@ -74,31 +78,31 @@ def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
         else:
             if os.path.exists(PROMPTS_FILE_PATH / f"{model_name}.yaml"):
                 try:
-                    print(f"Loading model-specific prompts from {PROMPTS_FILE_PATH / f'{model_name}.yaml'}")
+                    logger.info(f"Loading model-specific prompts from {PROMPTS_FILE_PATH / f'{model_name}.yaml'}")
                     with open(PROMPTS_FILE_PATH / f"{model_name}.yaml", "r") as f:
                         model_prompts = yaml.safe_load(f)
                         _model_prompts[model_name] = model_prompts
                 except FileNotFoundError:
                     _model_prompts[model_name] = None
-                    print(f"Model-specific prompts not found at {PROMPTS_FILE_PATH / f'{model_name}.yaml'}")
-                except yaml.YAMLError:
+                    logger.debug(f"Model-specific prompts not found at {PROMPTS_FILE_PATH / f'{model_name}.yaml'}")
+                except yaml.YAMLError as e:
                     _model_prompts[model_name] = None
-                    print(f"Error: Could not parse model-specific prompts at {PROMPTS_FILE_PATH / f'{model_name}.yaml'}")
+                    logger.error(f"Could not parse model-specific prompts at {PROMPTS_FILE_PATH / f'{model_name}.yaml'}: {e}")
             else:
                 _model_prompts[model_name] = None
-                print(f"No model-specific prompts exist for model: {model_name}")
+                logger.debug(f"No model-specific prompts exist for model: {model_name}")
 
     # Check if the prompt name exists in the model-specific prompts
     if model_prompts:
-        print(f"(Using model-specific prompts for {model_name})")
+        logger.debug(f"Using model-specific prompts for {model_name}")
         if prompt_name in model_prompts:
-            print(f"Prompt '{prompt_name}' found in model-specific prompts.")
+            logger.debug(f"Prompt '{prompt_name}' found in model-specific prompts")
             return model_prompts.get(prompt_name)
     
     # If the prompt is not found in the model-specific prompts, check the default prompts
     if prompt_name in _default_prompts:
-        print(f"Prompt '{prompt_name}' found in default prompts.")
+        logger.debug(f"Prompt '{prompt_name}' found in default prompts")
         return _default_prompts.get(prompt_name)
     
-    print(f"Error: Prompt '{prompt_name}' not found in any prompt yaml file.")
+    logger.debug(f"Prompt '{prompt_name}' not found in any prompt yaml file")
     return None

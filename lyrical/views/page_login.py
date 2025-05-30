@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('views')
 
 
 def page_login(request):

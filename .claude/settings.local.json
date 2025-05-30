@@ -5,7 +5,12 @@
       "Bash(ls:*)",
       "Bash(find:*)",
       "Bash(rm:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "Bash(rg:*)",
+      "Bash(for:*)",
+      "Bash(do sed -i '' 's/logging.getLogger(__name__)/logging.getLogger(''''views'''')/g' \"$file\")",
+      "Bash(done)"
     ],
     "deny": []
   }

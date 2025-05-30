@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .. import models
 import json
 import logging
+from ..logging_config import get_logger
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger('apis')
 
 
 @login_required
@@ -27,7 +28,7 @@ def api_song_edit(request):
         # parse the request body for PUT requests
         edit_data = json.loads(request.body.decode('utf-8'))
 
-        print(json.dumps(edit_data, indent=2))  # Debugging output
+        logger.debug(f"Song edit request data: {json.dumps(edit_data, indent=2)}")
 
         song_id = edit_data.get("song_id")
         song_name = edit_data.get("song_name")
@@ -80,7 +81,7 @@ def api_song_edit(request):
 
         song.save()
 
-        print(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
+        logger.info(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
         return JsonResponse({"status": "success", "song_id": song.id}, status=200)
 
     except json.JSONDecodeError:

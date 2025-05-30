@@ -6,7 +6,7 @@ from django.db.models.functions import Lower
 from .. import models
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('views')
 
 
 @login_required

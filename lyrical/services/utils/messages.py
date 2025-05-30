@@ -5,7 +5,7 @@ from ..message_history_service import MessageHistoryService
 from ...models import Message, User
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('services')
 
 
 class MessageBuilder:
@@ -27,7 +27,7 @@ class MessageBuilder:
         return self.messages
     
     def __str__(self):
-        message_str = "\nMessageBuilder:\n---------------\n"
+        message_str = "\n------------------- MessageBuilder -------------------\n"
         for message in self.messages:
             message_str += f"\nrole: {message['role']}\n{message['content']}\n"
         return message_str

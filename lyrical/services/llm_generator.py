@@ -10,9 +10,10 @@ from .utils.prompts import get_system_prompt, get_user_prompt
 from .utils.messages import MessageBuilder
 from .. import models
 from ..models import User, LLM, UserAPIKey
+from ..logging_config import get_logger
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger('services')
 
 
 class LLMGenerator(ABC):
@@ -220,7 +221,7 @@ class LLMGenerator(ABC):
             self.prompt_messages.add_user(user_message)
 
             # log the prompt messages for debugging
-            print(self.prompt_messages)
+            logger.debug(f"Prompt messages: {self.prompt_messages}")
             
             # log generation start
             if self.prompt_messages.has_conversation_history():
@@ -412,7 +413,7 @@ class LLMGenerator(ABC):
             yield processed_line + '\n'
             
         except json.JSONDecodeError as e:
-            print(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
+            logger.warning(f"LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: {stripped_line}, Error: {e}")
             error_data = {
                 "error": "Malformed JSON line from LLM",
                 "raw_content": stripped_line,
@@ -421,7 +422,7 @@ class LLMGenerator(ABC):
             yield json.dumps(error_data) + '\n'
             
         except Exception as e:
-            print(f"LLM_SERVICE_NDJSON_PROCESS_ERROR: Error processing line: {stripped_line}, Error: {e}")
+            logger.error(f"LLM_SERVICE_NDJSON_PROCESS_ERROR: Error processing line: {stripped_line}, Error: {e}")
             error_data = {
                 "error": "Error processing line from LLM",
                 "raw_content": stripped_line,
@@ -472,8 +473,9 @@ class LLMGenerator(ABC):
             if user_api_key and user_api_key.api_key:
                 llm_params["api_key"] = user_api_key.api_key
             
-            print(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
-            
+            logger.info(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
+            logger.debug(f"LLM_SERVICE: Messages: {self.prompt_messages.get()}")
+
             # Stream response from LLM
             response_stream = completion(**llm_params)
             
@@ -511,7 +513,7 @@ class LLMGenerator(ABC):
                         logger.warning(f"Failed to save assistant message after LLM completion for song {song_id}")
                 
         except Exception as e:
-            print(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
+            logger.error(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
             import traceback
             error_response = {
                 "error": str(e),

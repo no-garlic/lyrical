@@ -4,7 +4,7 @@ from django.db import transaction
 from ..models import Message, Song, User
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('services')
 
 
 class MessageHistoryService:
@@ -56,7 +56,7 @@ class MessageHistoryService:
             # Return messages up to and including the last assistant response
             if last_assistant_idx >= 0:
                 valid_messages = list(messages[:last_assistant_idx + 1])
-                logger.debug(f"Retrieved {len(valid_messages)} valid messages for song {song_id}, type '{message_type}'")
+                logger.info(f"Retrieved {len(valid_messages)} valid messages for song {song_id}, type '{message_type}' (user: {user.username})")
                 return valid_messages
             else:
                 # No assistant messages found - return empty to start fresh

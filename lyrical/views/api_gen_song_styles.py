@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required
 from ..services.llm_generator import LLMGenerator
 from ..services.utils.text import normalize_to_ascii
 from .. import models
+from ..logging_config import get_logger
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger('apis')
 
 
 class SongStylesGenerator(LLMGenerator):
@@ -127,7 +128,7 @@ class SongStylesGenerator(LLMGenerator):
             logger.debug(f"Added mood: {data['mood']} to song ID {self.extracted_params.get('song_id')}")
 
         # add the new song ID to the data
-        print(f"Preprocessed NDJSON line: {data}")
+        logger.debug(f"Preprocessed NDJSON line: {data}")
         return json.dumps(data)
         
 

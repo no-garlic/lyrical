@@ -76,6 +76,8 @@
 
 
 ## Backlog
+ - Add bootstrap icons to buttons
+ - Update register and login pages
  - Make the library page page 1 of the timeline
  - Create Lyrics button on names.html goes to page 2 of edit
  - Complete the implementation of util_navigation.js

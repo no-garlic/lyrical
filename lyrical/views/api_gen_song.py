@@ -9,7 +9,7 @@ from ..services.utils.text import normalize_to_ascii
 from .. import models
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('apis')
 
 
 class SongGenerator(LLMGenerator):

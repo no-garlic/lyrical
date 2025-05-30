@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from ..models import User
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('views')
 
 
 def page_register(request):
