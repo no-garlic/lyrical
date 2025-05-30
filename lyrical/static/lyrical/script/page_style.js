@@ -533,7 +533,7 @@ function applyFilter() {
 function navigateNext() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/hook/${songId}`;
+    window.location.href = `/structure/${songId}`;
 }
 
 

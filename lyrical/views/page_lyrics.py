@@ -14,10 +14,10 @@ def page_lyrics(request, song_id: int):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
-        {"name": "STYLE", "url": "style", "active": False, "selected": False, "enabled": True},
-        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": True},
+        {"name": "STYLE", "url": "style", "active": True, "selected": False, "enabled": True},
+        {"name": "STRUCTURE", "url": "structure", "active": True, "selected": False, "enabled": True},
+        {"name": "HOOK", "url": "hook", "active": True, "selected": False, "enabled": True},
         {"name": "LYRICS", "url": "lyrics", "active": True, "selected": True, "enabled": True},
-        {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
     ]
 
     if not song_id:

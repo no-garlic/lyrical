@@ -61,25 +61,27 @@
  - Fixed: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
  - Previous button should work on song style page as long as saved.
  - Swap side of lists on style and hook pages
+ - Change order: Song -> Style -> Structure -> Hook -> Lyrics
 
 
 
 ## Todo
- - Change order -> Style -> Structure -> Hook -> Lyrics -> Export
- - Move hook page generation params into the database and show them readonly
-
- - Implement Hook page generation controls
- 
- - Structure has a [Generate Lyrics] button (first time) instead of [Next] - maybe?
  - Structure page can set song tags, and all song generation parameters
  - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
 
- - Lyrics page is purely generate new lyrics for sections, and edit lines of sections
+
+ - Move hook page generation params into the database and show them readonly
+ - Show Hook page generation controls read-only values
+ 
+
+ - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
 
  
 
 
 ## Backlog
+ - Add href# to Navigation Timeline
+ - Make all panels use scrollbars the same
  - Create follow up prompts, eg, song_hooks.follow_up.
  - Redo the song names page, remove disliked list
  - Song Names should have a thumbs up and thumbs down on them

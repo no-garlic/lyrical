@@ -13,11 +13,11 @@ logger = logging.getLogger('views')
 def page_structure(request, song_id: int):
 
     navigation = [
-        {"name": "SONG", "url": "song", "active": False, "selected": False, "enabled": True},
-        {"name": "STYLE", "url": "style", "active": False, "selected": False, "enabled": True},
-        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": True},
-        {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": True},
+        {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
+        {"name": "STYLE", "url": "style", "active": True, "selected": False, "enabled": True},
         {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
+        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": False},
+        {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
     ]
 
     if not song_id:
