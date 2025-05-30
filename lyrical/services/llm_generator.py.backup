@@ -476,12 +476,7 @@ class LLMGenerator(ABC):
             logger.info(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
             logger.debug(f"LLM_SERVICE: Messages: {self.prompt_messages.get()}")
 
-            # Log the full conversation to LLM conversation log file before calling completion()
-            try:
-                self.prompt_messages.log_conversation_to_file(message_type, song_id)
-            except Exception as e:
-                logger.warning(f"Failed to log conversation to file: {e}")
-            
+            # Log the full conversation to LLM conversation log file before calling completion()\n            try:\n                self.prompt_messages.log_conversation_to_file(message_type, song_id)\n            except Exception as e:\n                logger.warning(f\"Failed to log conversation to file: {e}\")\n            \n            # Stream response from LLM
             response_stream = completion(**llm_params)
             
             # Accumulate assistant response for database persistence

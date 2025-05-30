@@ -2,6 +2,7 @@
 import logging
 from typing import List, Optional
 from ..message_history_service import MessageHistoryService
+from ..llm_conversation_logger import LLMConversationLogger
 from ...models import Message, User
 
 
@@ -27,7 +28,7 @@ class MessageBuilder:
         return self.messages
     
     def __str__(self):
-        message_str = "\n------------------- MessageBuilder -------------------\n"
+        message_str = ""
         for message in self.messages:
             message_str += f"\nrole: {message['role']}\n{message['content']}\n"
         return message_str
@@ -128,5 +129,25 @@ class MessageBuilder:
         if len(self.messages) == 1 and self.messages[0]["role"] == "system":
             return False
         return True
+    
+    def log_conversation_to_file(self, message_type: str, song_id: int):
+        """
+        Log the current conversation to an LLM conversation log file.
+        
+        This method logs the full conversation content (via __str__()) to a file
+        organized by message type and song ID. This is useful for debugging
+        LLM interactions and analyzing conversation patterns.
+        
+        Args:
+            message_type: The message type ('style', 'hook', 'lyrics')
+            song_id: The song ID for organizing logs
+        """
+        try:
+            conversation_content = str(self)
+            LLMConversationLogger.log_conversation(message_type, song_id, conversation_content)
+            logger.debug(f"Logged conversation to file for {message_type}_{song_id}")
+        except Exception as e:
+            logger.error(f"Failed to log conversation to file for {message_type}_{song_id}: {e}")
+            # Don't raise - logging failures shouldn't break the main flow
 
 
