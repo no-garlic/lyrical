@@ -36,12 +36,13 @@
                             placeholder="add an optional prompt or just click generate..." 
                             autocomplete="off" 
                             class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
+                            value="{{custom_request}}"
                         ></textarea>
                     </div>
                     <!-- End: Prompt Input -->
 
                     <!-- Edit Song Structure Header -->
-                    <c-panel-slider title="SONG STRUCTURE" padding="4">
+                    <c-panel-slider title="GENERATION PARAMETERS" padding="4">
                         <c-panel-header-button id="btn-save-song-structure" extrastyles="btn-disabled">
                             SAVE
                         </c-panel-header-button>
@@ -51,17 +52,6 @@
                     <!-- Song Structure Controls -->
                     <div class="p-4">
 
-                        <c-input-label>VOCALISATION TERMS:</c-input-label>
-                        <input
-                            id="vocalisation-terms" 
-                            type="text" 
-                            placeholder="" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
-                            value=""
-                        ></input>
-
-                        <c-input-gap />
                         <c-input-label>RHYME WITH:</c-input-label>
                         <input
                             id="rhyme-with" 
@@ -69,13 +59,36 @@
                             placeholder="" 
                             autocomplete="off" 
                             class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
-                            value=""
+                            value="{{rhyme_with}}"
+                        ></input>
+
+                        <c-input-gap />
+                        <c-input-label>VOCALISATION LEVEL:</c-input-label>
+                        <div class="w-full max-w-xs">
+                            <input id="vocalisation-level" type="range" min="0" max="3" value="{{vocalisation_level}}" class="range range-primary w-116" step="1"/>
+                            <div class="flex justify-between px-1 mt-2 text-xs w-118">
+                                <span>Off</span>
+                                <span>Low</span>
+                                <span>Medium</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+
+                        <c-input-gap />
+                        <c-input-label>VOCALISATION TERMS:</c-input-label>
+                        <input
+                            id="vocalisation-terms" 
+                            type="text" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                            value="{{vocalisation_terms}}"
                         ></input>
 
                         <c-input-gap />
                         <c-input-label>MAX HOOK LINES:</c-input-label>
                         <div class="w-full max-w-xs">
-                            <input id="max-hook-lines" type="range" min="1" max="4" value="" class="range range-primary w-116" step="1"/>
+                            <input id="max-hook-lines" type="range" min="1" max="4" value="{{max_lines}}" class="range range-primary w-116" step="1"/>
                             <div class="flex justify-between px-2.5 mt-2 text-xs w-116">
                                 <span>1</span>
                                 <span>2</span>
@@ -87,7 +100,7 @@
                         <c-input-gap />
                         <c-input-label>AVG SYLLABLES PER LINE:</c-input-label>
                         <div class="w-full max-w-xs">
-                            <input id="max-syllables-per-line" type="range" min="3" max="15" value="" class="range range-primary w-116" step="1"/>
+                            <input id="max-syllables-per-line" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-116" step="1"/>
                             <div class="flex justify-between px-2.5 mt-2 text-xs w-116">
                                 <span>3</span>
                                 <span>6</span>

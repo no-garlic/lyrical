@@ -37,12 +37,44 @@ def page_hook(request, song_id: int):
     section_names = ['hook']
     song_sections = models.Section.objects.filter(song=song, type__in=section_names).order_by('created_at')
 
+
+    # Get the overriden values for the hook section
+    hook_defaults = {
+        "vocalisation_level": song.hook_vocalisation_level,
+        "vocalisation_terms": song.hook_vocalisation_terms,
+        "average_syllables": song.hook_average_syllables,
+        "max_lines": song.hook_max_lines,
+        "custom_request": song.hook_custom_request,
+        "rhyme_with": song.hook_rhyme_with,
+    }
+
+    # Get the structure defaults incase the hook values have not been overridden
+    structure_defaults = {
+        "vocalisation_level": song.structure_vocalisation_level,
+        "vocalisation_terms": song.structure_vocalisation_terms,
+        "average_syllables": song.structure_average_syllables,
+    }
+
+    # Update the hook section with the defaults if they are None
+    if hook_defaults["vocalisation_level"] is None:
+        hook_defaults["vocalisation_level"] = structure_defaults["vocalisation_level"]
+    if hook_defaults["vocalisation_terms"] is None:
+        hook_defaults["vocalisation_terms"] = structure_defaults["vocalisation_terms"]
+    if hook_defaults["average_syllables"] is None:
+        hook_defaults["average_syllables"] = structure_defaults["average_syllables"]
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
         "selectedSongId": song_id,
         "song": song,
         'song_sections': song_sections,
+        'vocalisation_level': hook_defaults["vocalisation_level"],
+        'vocalisation_terms': hook_defaults["vocalisation_terms"],
+        'average_syllables': hook_defaults["average_syllables"],
+        'max_lines': hook_defaults["max_lines"],
+        'custom_request': hook_defaults["custom_request"],
+        'rhyme_with': hook_defaults["rhyme_with"],
     }
 
     try:

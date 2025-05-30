@@ -50,12 +50,42 @@ class UserAPIKey(models.Model):
 
 class Song(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='songs')
+
+    # Song Name
     name = models.CharField(max_length=255, unique=True)
+    
+    # Song Style
     theme = models.TextField(default='')
     narrative = models.TextField(default='')
     mood = models.TextField(default='')
+    
+    # Song Hook
     hook = models.TextField(default='')
+
+    # Song Hook Generation Parameters
+    hook_custom_request = models.TextField(default='')
+    hook_max_lines = models.IntegerField(default=2)
+    hook_vocalisation_level = models.IntegerField(default=None, null=True, blank=True, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
+    hook_vocalisation_terms = models.CharField(default=None, null=True, blank=True, max_length=255)
+    hook_rhyme_with = models.CharField(default='', max_length=255)
+    hook_average_syllables = models.IntegerField(default=None, null=True, blank=True)
+
+    # Song Structure
     structure = models.TextField(default='')
+
+    # Song Structure Parameters
+    structure_custom_request = models.TextField(default='')
+    structure_vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
+    structure_vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
+    structure_average_syllables = models.IntegerField(default=8)
+    structure_verse_lines = models.IntegerField(default=4)
+    structure_pre_chorus_lines = models.IntegerField(default=4)
+    structure_chorus_lines = models.IntegerField(default=4)
+    structure_bridge_lines = models.IntegerField(default=4)
+    structure_outro_lines = models.IntegerField(default=4)
+    structure_vocalisation_lines = models.IntegerField(default=2)
+
+    # Song Stage
     stage = models.CharField(max_length=50, choices=[
         ('new', 'New'),             # song has just been created
         ('liked', 'Liked'),         # song is added to the liked list
@@ -64,6 +94,8 @@ class Song(models.Model):
         ('published', 'Published'), # song is published and available in the song names list
         ("archived", "Archived")    # song is archived and not availalbe in the song names list
     ], default='new')
+
+    # Audit History
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
