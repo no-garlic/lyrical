@@ -376,16 +376,15 @@ function updateNavigationButtonStates() {
     const hasNarrative = narrative.value.trim().length > 0;
     const hasMood = mood.value.trim().length > 0;
 
-    console.log(`saved: ${isSaved}`)
-    console.log(`theme: ${hasTheme}`)
-    console.log(`narra: ${hasNarrative}`)
-    console.log(`mood : ${hasMood}`)
-
     if (isSaved && hasTheme && hasNarrative && hasMood) {
         nextButton.classList.remove('btn-disabled');
-        prevButton.classList.remove('btn-disabled');
     } else {
         nextButton.classList.add('btn-disabled');
+    }
+
+    if (isSaved) {
+        prevButton.classList.remove('btn-disabled');
+    } else {
         prevButton.classList.add('btn-disabled');
     }
 }
