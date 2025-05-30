@@ -18,18 +18,22 @@
                 <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
                     <!-- Right Header -->
-                    <c-panel-header title="CUSTOM PROMPT" padding="4">
+                    <c-panel-header title="PARAMETERS" padding="4">
                         <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
                             GENERATE
                         </c-panel-header-button>
                         <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
                             PLEASE WAIT...
                         </c-panel-header-button-loading>
+                        <c-panel-header-divider />
+                        <c-panel-header-button id="btn-save-song-structure" extrastyles="btn-disabled">
+                            SAVE
+                        </c-panel-header-button>
                     </c-panel-header>
                     <!-- End: Right Header -->
 
                     <!-- Prompt Input -->
-                    <div class="flex flex-col flex-shrink-0">
+                    <div class="flex flex-col flex-shrink-0 border-b border-base-300 h-25">
                         <textarea 
                             id="prompt-text" 
                             type="text" 
@@ -40,14 +44,6 @@
                         ></textarea>
                     </div>
                     <!-- End: Prompt Input -->
-
-                    <!-- Edit Song Structure Header -->
-                    <c-panel-slider title="GENERATION PARAMETERS" padding="4">
-                        <c-panel-header-button id="btn-save-song-structure" extrastyles="btn-disabled">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-slider>
-                    <!-- End: Edit Song Structure Header -->
 
                     <!-- Song Structure Controls -->
                     <div class="p-4">
@@ -192,7 +188,7 @@
                     <!-- End: Splitter Section -->
                     
                     <!-- Container for Generated Hooks -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-hooks">
+                    <div class="flex flex-col flex-1 px-1 min-h-0" id="generated-hooks">
                         {% for section in song_sections %}
                             {% if not section.hidden %}
                                 <c-card-style />
