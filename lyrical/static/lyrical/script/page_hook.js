@@ -190,6 +190,7 @@ function buildRequestParams() {
         lines: parseInt(document.getElementById('lines').value),
         count: parseInt(document.getElementById('count').value),
         syllables: parseInt(document.getElementById('syllables').value),
+        rhyme: document.getElementById('rhyme').value,
         song_id: songId,
     };
 

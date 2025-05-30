@@ -17,6 +17,7 @@ class SongHooksGenerator(LLMGenerator):
         return {
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
+            'rhyme': self.request.GET.get("rhyme", "").strip(),
             'vocalisation_terms': self.request.GET.get("vocalisation_terms", "").strip(),
             'vocalisation_level': int(self.request.GET.get("vocalisation_level", 0)),
             'lines': int(self.request.GET.get("lines", 1)),
@@ -82,6 +83,7 @@ class SongHooksGenerator(LLMGenerator):
             'narrative': self.extracted_params['narrative'],
             'mood': self.extracted_params['mood'],
             'custom_prompt': self.extracted_params['custom_prompt'],
+            'rhyme': self.extracted_params['rhyme'],
             'include_themes': self.extracted_params['include_themes'],
             'exclude_themes': self.extracted_params['exclude_themes'],
             'lines': self.extracted_params['lines'],

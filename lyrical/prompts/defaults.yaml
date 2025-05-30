@@ -157,6 +157,8 @@
   {% if vocalisation_level %}The song hooks you generate should use a {{ vocalisation_level }} amount of vocalisation.{% endif %}
   {% if vocalisation_terms %}Use only the following vocalisation terms: {{ vocalisation_terms }}.{% endif %}
 
+  {% if rhyme %}The final word in each line of lyrics should rhyme with "{{rhyme}}".{% endif %}
+
   {% if custom_prompt %}Also follow these instructions: {{custom_prompt}}.{% endif %}
 
   Each line of lyrics should have approximately {{ syllables }} syllables.
