@@ -116,6 +116,18 @@ class SongHooksGenerator(LLMGenerator):
         if data.get("hook"):
             # normalize the theme text to ASCII
             data["hook"] = normalize_to_ascii(data["hook"])
+
+            # create a string from the list of hooks, each hook separated by a line break
+            if isinstance(data["hook"], list):
+                # join the list of hooks into a single string with line breaks
+                data["hook"] = "<br>".join(data["hook"])
+            elif isinstance(data["hook"], str):
+                # ensure it's a string, in case it's already a single hook
+                data["hook"] = data["hook"].strip()
+            else:
+                # if it's neither, convert it to a string
+                data["hook"] = str(data["hook"]).strip()
+
             section = models.Section.objects.create(
                 song_id=self.extracted_params.get("song_id"),
                 type='hook',

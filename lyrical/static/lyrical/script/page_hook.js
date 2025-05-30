@@ -99,7 +99,8 @@ function handleDragDrop(item, zone, event) {
     const destinationId = 'hook-text'
     const destination = document.getElementById(destinationId);
 
-    const text = textElement.innerHTML.trim();
+    let text = textElement.innerHTML.trim();
+    text = text.replace('<br>', '\n');
 
     console.log(`dropping hook ${styleId} [${styleType}] with text: '${text}'`);
 
@@ -470,12 +471,12 @@ function cancelHook() {
 function navigateNext() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/hook/${songId}`;
+    window.location.href = `/structure/${songId}`;
 }
 
 
 function navigatePrevious() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/song?id=${songId}`;
+    window.location.href = `/style/${songId}`;
 }
