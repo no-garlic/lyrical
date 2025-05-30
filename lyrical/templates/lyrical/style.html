@@ -42,60 +42,26 @@
 
                     <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 pr-4 mt-1">                
-
-                                <!-- Tabs Group -->
-                                <div class="flex flex-1 justify-start items-center ">
-                                    <div class="tabs tabs-border tabs-md mr-1">
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab px-4" aria-label="ALL" checked="checked" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="THEME" class="tab px-4" aria-label="THEMES" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-narratives" data-style-type="NARRATIVE" class="tab px-4" aria-label="NARRATIVES" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="MOOD" class="tab px-4" aria-label="MOODS" />
-                                    </div>
-                                </div>
-                                <!-- End: Tabs Group -->
-
-                                <!-- Clear Button -->
-                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
-                                    CLEAR
-                                </c-panel-header-button>
-                                <!-- End: Clear Button -->                            
+                        <div class="card w-full bg-transparent border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
+                    
+                                <!-- Edit Song Style Section -->
+                                <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
+                                    <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                                        CANCEL
+                                    </c-panel-header-button>
+                                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
+                                        SAVE
+                                    </c-panel-header-button>
+                                </c-panel-header>
+                                <!-- End: Edit Song Style Section -->
 
                             </div>
                         </div>
                     </div>
                     <!-- End: Splitter Section -->
 
-                    <!-- Container for all generated styles -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
-                        {% for section in song_sections %}
-                            {% if not section.hidden %}
-                                <c-card-style />
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <!-- End: Container for all generated styles -->
-
-                </div>
-                <!-- End: Left Panel -->
-
-
-                <!-- Right Panel -->
-                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1" data-drop-zone="true">
-
-                    <!-- Right Header -->
-                    <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
-                        <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
-                            CANCEL
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-header>
-                    <!-- End: Right Header -->
-
-                    <!-- Right Content -->
+                    <!-- Fields for Edit Song Style -->
                     <div class="mt-1 mx-1 card border border-base-300 bg-base-200 ">
 
                         <!-- Theme -->
@@ -141,7 +107,51 @@
                         <!-- End: Mood -->
 
                     </div>
-                    <!-- End: Right Content -->
+                    <!-- End: Fields for Edit Song Style -->
+
+                </div>
+                <!-- End: Left Panel -->
+
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1" data-drop-zone="true">
+
+                    <!-- Splitter Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
+                                
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-start items-center ">
+                                    <div class="tabs tabs-border tabs-md mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab px-4" aria-label="ALL" checked="checked" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="THEME" class="tab px-4" aria-label="THEMES" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-narratives" data-style-type="NARRATIVE" class="tab px-4" aria-label="NARRATIVES" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="MOOD" class="tab px-4" aria-label="MOODS" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+                                <!-- Clear Button -->
+                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
+                                    CLEAR
+                                </c-panel-header-button>
+                                <!-- End: Clear Button -->                            
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Splitter Section -->
+
+                    <!-- Container for Generated Styles -->
+                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
+                        {% for section in song_sections %}
+                            {% if not section.hidden %}
+                                <c-card-style />
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End: Container for Generated Styles -->
 
                 </div>
                 <!-- End: Right Panel -->
