@@ -397,7 +397,7 @@ class LLMGenerator(ABC):
         stripped_line = line.strip()
         
         # Skip markdown fence lines
-        if stripped_line in ["```json", "```"] or not stripped_line:
+        if stripped_line in ["```json", "```", "```ndjson"] or not stripped_line:
             return
         
         try:

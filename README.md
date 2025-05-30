@@ -1,4 +1,4 @@
-# lyrical
+# LYRICAL
 
 ## Done
  - Create README with TODO list
@@ -55,12 +55,15 @@
  - Add a filter to show only theme, mood, narrative.
  - Generate for just the selected tab
  - Add custom styles for badges, instead of badge-correct, use badge-mood for example.
+ - Use message history for song styles
+ - Convert all prints to logger, use claude to do it, and enable logger categories
+ - Login Required for all pages
+ - Fixed: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
+
+
 
 ## Todo
- - Use message history for song styles
- - Rename song_id to database_id in llmgenerator and messagehistoryservice
- - convert all prints to logger, use claude to do it, and enable logger categories
-
+ - Previous button should work on song style page as long as saved.
  - Implement Hook page
 
  - Change order -> Hook -> Structure -> Lyrics -> Export
@@ -71,7 +74,7 @@
 
  - Redo the song names page, remove disliked list
  - Song Names should have a thumbs up and thumbs down on them
- - Can get rid of archived status then
+ - Get rid of archived status from songs
  
 
 
@@ -80,28 +83,23 @@
  - Update register and login pages
  - Make the library page page 1 of the timeline
  - Create Lyrics button on names.html goes to page 2 of edit
- - Complete the implementation of util_navigation.js
+ - Complete or delete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
  - Change Toast system to be a singleton
  - Filtering song names (library page)
- - Login Required for all pages
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - Change font color on login and register pages
  - Link to home on login and register pages
- - Implement logging module for all code (get claude code to implement it)
  - Click close button on a card, shows another X and Tick as a confirmation
+ - review scrollbars use on all pages
 
 
 ## Maybe
  - Able to set default panel widths and panel slider position
  - Save Column Widths & panel slider position
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
- - Icons on buttons?
 
 
 
 ## Bugs:
- - Bug: when generating with ollama I got duplicate song names, and it caused an exception on the server and didnt notify the client, just a broken stream and messed up UI.
- - Bug: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
- - If duplicate song name is returned or corrupt NDJSON, then ignore it and send a token to the client which it can ignore and not raise an error.

@@ -23,6 +23,9 @@ _file_lock = threading.Lock()
 # Base directory for LLM conversation logs
 LLM_LOGS_DIR = Path(__file__).parent.parent.parent / "logs" / "llm"
 
+# Length of the header line in log files
+HEADER_LENGTH = 120
+
 
 class LLMConversationLogger:
     """
@@ -74,20 +77,20 @@ class LLMConversationLogger:
             song_id: The song ID
             
         Returns:
-            Formatted header string (80 characters wide)
+            Formatted header string (HEADER_LENGTH characters wide)
         """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         header_text = f" {timestamp} | {message_type} | song_id: {song_id} "
         
-        # Calculate padding to make exactly 80 characters
-        total_padding = 80 - len(header_text)
+        # Calculate padding to make exactly HEADER_LENGTH characters
+        total_padding = HEADER_LENGTH - len(header_text)
         left_padding = total_padding // 2
         right_padding = total_padding - left_padding
         
         header = "=" * left_padding + header_text + "=" * right_padding
         
-        # Ensure exactly 80 characters
-        return header[:80]
+        # Ensure exactly HEADER_LENGTH characters
+        return header[:HEADER_LENGTH]
     
     @staticmethod
     def log_conversation(message_type: str, song_id: int, conversation_content: str):
@@ -113,9 +116,10 @@ class LLMConversationLogger:
             with _file_lock:
                 with open(log_file_path, 'a', encoding='utf-8') as f:
                     f.write(f"{header}\n")
-                    f.write("=" * 80 + "\n")
-                    f.write(f"{conversation_content}\n")
-                    f.write("=" * 80 + "\n")
+                    f.write("=" * HEADER_LENGTH + "\n")
+                    for line in conversation_content.splitlines():
+                        f.write(f"{line}\n") if line.startswith('role: ') else f.write(f"    {line}\n")
+                    f.write("=" * HEADER_LENGTH + "\n")
             
             logger.info(f"LLM conversation logged to: {log_file_path}")
             
