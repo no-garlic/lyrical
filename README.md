@@ -62,21 +62,19 @@
  - Previous button should work on song style page as long as saved.
  - Swap side of lists on style and hook pages
  - Change order: Song -> Style -> Structure -> Hook -> Lyrics
+ - Move hook page generation params into the database
 
 
 
 ## Todo
+ - Fix Previous button's for new flow
+ 
  - Structure page can set song tags, and all song generation parameters
  - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
 
-
- - Move hook page generation params into the database and show them readonly
- - Show Hook page generation controls read-only values
- 
-
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
 
- 
+ - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
 
 
 ## Backlog

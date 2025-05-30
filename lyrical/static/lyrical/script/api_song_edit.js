@@ -13,7 +13,13 @@ export function apiSongEdit(songId, updates = {}) {
         song_theme: songTheme,
         song_narrative: songNarrative,
         song_mood: songMood,
-        song_hook: songHook
+        song_hook: songHook,
+        custom_prompt: customPrompt,
+        rhyme_with: rhymeWith,
+        vocalisation_level: vocalisationLevel,
+        vocalisation_terms: vocalisationTerms,
+        max_hook_lines: maxHookLines,
+        max_syllables_per_line: maxSyllablesPerLine,
     } = updates;
 
     // get CSRF token
@@ -27,6 +33,12 @@ export function apiSongEdit(songId, updates = {}) {
     if (songNarrative) requestBody.song_narrative = songNarrative;
     if (songMood) requestBody.song_mood = songMood;
     if (songHook) requestBody.song_hook = songHook;
+    if (customPrompt) requestBody.custom_prompt = customPrompt;
+    if (rhymeWith) requestBody.rhyme_with = rhymeWith;
+    if (vocalisationLevel) requestBody.vocalisation_level = vocalisationLevel;
+    if (vocalisationTerms) requestBody.vocalisation_terms = vocalisationTerms;
+    if (maxHookLines) requestBody.max_hook_lines = maxHookLines;
+    if (maxSyllablesPerLine) requestBody.max_syllables_per_line = maxSyllablesPerLine;
 
     // send the request to the server
     return fetch('/api_song_edit', {

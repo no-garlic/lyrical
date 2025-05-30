@@ -15,6 +15,7 @@ import { DragDropSystem } from './util_dragdrop.js';
 let streamHelper;
 let dragDropSystem;
 let hookTextDirty = false;
+let songParamsDirty = false;
 let saveHistory = { theme: '', narrative: '', mood: '' };
 
 
@@ -127,8 +128,17 @@ function initPageActions() {
     document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
     document.getElementById('btn-clear').onclick = clearGeneratedHooks;
     document.getElementById('btn-save').onclick = saveHook;
+    document.getElementById('btn-save-parameters').onclick = saveParameters;
     document.getElementById('btn-cancel').onclick = cancelHook;
+
     document.getElementById('hook-text').addEventListener('input', setSongHookDirty);
+
+    document.getElementById('prompt-text').addEventListener('input', setSongParamsDirty);
+    document.getElementById('rhyme-with').addEventListener('input', setSongParamsDirty);
+    document.getElementById('vocalisation-level').addEventListener('input', setSongParamsDirty);
+    document.getElementById('vocalisation-terms').addEventListener('input', setSongParamsDirty);
+    document.getElementById('max-hook-lines').addEventListener('input', setSongParamsDirty);
+    document.getElementById('max-syllables-per-line').addEventListener('input', setSongParamsDirty);
 }
 
 
@@ -328,6 +338,16 @@ function initNewStyleCard(sectionId) {
 }
 
 
+function setSongParamsDirty() {
+    if (!songParamsDirty) {
+        songParamsDirty = true;
+
+        const saveButton = document.getElementById('btn-save-parameters');
+        saveButton.classList.remove('btn-disabled');
+    }
+}
+
+
 function setSongHookDirty() {
     if (!hookTextDirty) {
         hookTextDirty = true;
@@ -468,15 +488,58 @@ function cancelHook() {
 }
 
 
+function saveParameters() {
+    const customPrompt = document.getElementById('prompt-text').value.trim();
+    const rhymeWith = document.getElementById('rhyme-with').value.trim();
+    const vocalisationLevel  = document.getElementById('vocalisation-level').value.trim();
+    const vocalisationTerms = document.getElementById('vocalisation-terms').value.trim();
+    const maxHookLines = document.getElementById('max-hook-lines').value.trim();
+    const maxSyllablesPerLine = document.getElementById('max-syllables-per-line').value.trim();
+
+    console.log(`custom_prompt: ${customPrompt},
+        rhyme_with: ${rhymeWith},
+        vocalisation_level: ${vocalisationLevel},
+        vocalisation_terms: ${vocalisationTerms},
+        max_hook_lines: ${maxHookLines},
+        max_syllables_per_line: ${maxSyllablesPerLine}`)
+
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);    
+
+    // call the api to update the song parameters
+    apiSongEdit(songId, { 
+        custom_prompt: customPrompt,
+        rhyme_with: rhymeWith,
+        vocalisation_level: vocalisationLevel,
+        vocalisation_terms: vocalisationTerms,
+        max_hook_lines: maxHookLines,
+        max_syllables_per_line: maxSyllablesPerLine,
+     })
+        .then(songId => {
+            console.log(`Successfully updated the song parameters for songId: ${songId}`);
+
+            // update the dirty state and the UI for the save button
+            songParamsDirty = false;
+            const saveButton = document.getElementById('btn-save-parameters');
+            saveButton.classList.add('btn-disabled');
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the song parameters:', error);
+            toastSystem.showError('Failed to update the song parameters. Please try again.');
+        });
+}
+
+
 function navigateNext() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/structure/${songId}`;
+    window.location.href = `/lyrics/${songId}`;
 }
 
 
 function navigatePrevious() {
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/style/${songId}`;
+    window.location.href = `/structure/${songId}`;
 }

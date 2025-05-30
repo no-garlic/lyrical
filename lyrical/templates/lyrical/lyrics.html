@@ -4,40 +4,11 @@
 {% block head %}
 {% endblock %}
 
-
-{% block panel_1 %}
-    <c-panel>
-        <c-panel-header title="SONG NAMES">            
-            <c-panel-header-button onclick="" id="edit-song-name">
-                Edit
-            </c-panel-header-button>
-        </c-panel-header>
-        
-        <div class="card h-[20%] w-full bg-transparent border-b border-base-300 rounded-none">
-            Content
-        </div>
-
-        <c-panel-header title="SONG NAMES">            
-            <c-panel-header-button onclick="" id="edit-song-name">
-                Edit
-            </c-panel-header-button>
-        </c-panel-header>
-
-
-    </c-panel>
-{% endblock %}
-
-{% block panel_2 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 2
-    </div>
-{% endblock %}
-
-{% block panel_3 %}
-    <div class="h-full w-full flex items-center justify-center card bg-base-100 border border-base-300 w-full">
-        Panel 3
+{% block page_content %}
+    <div id="btn-generate" data-song-id="{{song.id}}">
     </div>
 {% endblock %}
 
 {% block scripts %}
+    <script type="module" src="{% static 'lyrical/script/page_lyrics.js' %}"></script>
 {% endblock %}

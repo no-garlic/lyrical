@@ -29,8 +29,8 @@ LOGGER_ASYNCIO = "asyncio"
 
 # Log levels for each logger (can be customized)
 LOGGER_LEVELS = {
-    LOGGER_APIS: logging.INFO,
-    LOGGER_VIEWS: logging.INFO,
+    LOGGER_APIS: logging.DEBUG,
+    LOGGER_VIEWS: logging.DEBUG,
     LOGGER_SERVICES: logging.DEBUG,
     LOGGER_MIGRATIONS: logging.INFO,
     LOGGER_LITELLM: logging.WARNING,
@@ -45,6 +45,14 @@ LOG_FILE_PATH = PROJECT_ROOT / "logs" / "lyrical.log"
 # Ensure logs directory exists
 LOG_FILE_PATH.parent.mkdir(exist_ok=True)
 
+
+# Custom filter to exclude logs containing "/.well-known/"
+class WellKnownFilter(logging.Filter):
+    def filter(self, record):
+        # Check if the logger name is django.request and the message contains "/.well-known/"
+        if record.name == 'django.request' and '/.well-known/' in record.getMessage():
+            return False
+        return True
 
 def setup_logging():
     """
@@ -92,6 +100,10 @@ def setup_logging():
     # Add handlers to root logger
     root_logger.addHandler(console_handler)
     root_logger.addHandler(file_handler)
+
+    # Add custom filter to django.request logger
+    django_request_logger = logging.getLogger('django.request')
+    django_request_logger.addFilter(WellKnownFilter())
     
     # Configure individual loggers
     for logger_name, level in LOGGER_LEVELS.items():
