@@ -38,14 +38,6 @@
                             class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
                         ></textarea>
                         <input
-                            id="rhyme" 
-                            type="text" 
-                            placeholder="rhyme" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] mt-2" 
-                            value=""
-                        ></input>
-                        <input
                             id="vocalisation-terms" 
                             type="text" 
                             placeholder="vocalisation terms" 
@@ -54,28 +46,20 @@
                             value="oh, ooh, ah, ahh, whoa"
                         ></input>
                         <input 
-                            id="vocalisation-level" 
-                            type="number" 
-                            placeholder="vocalisation-level" 
-                            autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] mt-2"
-                            value="2"
-                        ></input>
-                        <input 
                             id="lines" 
                             type="number" 
-                            placeholder="lines" 
+                            placeholder="count" 
                             autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] mt-2"
+                            class="input-control input input-md input-neutral w-[100%] my-2"
                             value="2"
                         ></input>
                         <input 
-                            id="syllables" 
+                            id="count" 
                             type="number" 
-                            placeholder="syllables" 
+                            placeholder="count" 
                             autocomplete="off" 
-                            class="input-control input input-md input-neutral w-[100%] mt-2"
-                            value="8"
+                            class="input-control input input-md input-neutral w-[100%] my-2"
+                            value="5"
                         ></input>
                         <input 
                             id="count" 
@@ -91,59 +75,28 @@
 
                     <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 pr-4 mt-1">                
+                        <div class="card w-full bg-transparent border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
 
-                                <!-- Tabs Group -->
-                                <div class="flex flex-1 justify-start items-center ">
-                                    <div class="tabs tabs-border tabs-md mr-1">
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-hooks" class="tab px-4" aria-label="HOOKS" checked="checked" />
-                                    </div>
-                                </div>
-                                <!-- End: Tabs Group -->
-
-                                <!-- Clear Button -->
-                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
-                                    CLEAR
-                                </c-panel-header-button>
-                                <!-- End: Clear Button -->                            
+                                <!-- Edit Song Hook Section -->
+                                <c-panel-header title="EDIT YOUR SONG HOOK" padding="4">
+                                    <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                                        CANCEL
+                                    </c-panel-header-button>
+                                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
+                                        SAVE
+                                    </c-panel-header-button>
+                                </c-panel-header>
+                                <!-- End: Edit Song Hook Section -->
 
                             </div>
                         </div>
                     </div>
                     <!-- End: Splitter Section -->
 
-                    <!-- Container for all generated hooks -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-hooks">
-                        {% for section in song_sections %}
-                            {% if not section.hidden %}
-                                <c-card-style />
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <!-- End: Container for all generated hooks -->
-
-                </div>
-                <!-- End: Left Panel -->
-
-
-                <!-- Right Panel -->
-                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1" data-drop-zone="true">
-
-                    <!-- Right Header -->
-                    <c-panel-header title="EDIT YOUR SONG HOOK" padding="4">
-                        <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
-                            CANCEL
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-header>
-                    <!-- End: Right Header -->
-
-                    <!-- Right Content -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 ">
-
+                    <!-- Fields for Edit Song Hook -->
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+                       
                         <!-- Hook -->
                         <div class="badge badge-outline badge-hook w-40 font-bold mb-3 mt-3 ml-2">HOOK</div>
                         <div class="flex flex-col">
@@ -159,7 +112,53 @@
                         <!-- End: Hook -->
 
                     </div>
-                    <!-- End: Right Content -->
+                    <!-- End: Fields for Edit Song Hook -->
+
+                    <!-- Drop Zone Buffer -->
+                    <div class="flex-1" data-drop-zone="true">
+                    </div>
+                    <!-- End: Drop Zone Buffer -->
+
+                </div>
+                <!-- End: Left Panel -->
+
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 pt-1">
+
+                    <!-- Splitter Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
+                                
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-start items-center ">
+                                    <div class="tabs tabs-border tabs-md mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-hooks" class="tab px-4" aria-label="HOOKS" checked="checked" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+                                <!-- Clear Button -->
+                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
+                                    CLEAR
+                                </c-panel-header-button>
+                                <!-- End: Clear Button -->      
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Splitter Section -->
+                    
+                    <!-- Container for Generated Hooks -->
+                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-hooks">
+                        {% for section in song_sections %}
+                            {% if not section.hidden %}
+                                <c-card-style />
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End: Container for Generated Hooks -->
 
                 </div>
                 <!-- End: Right Panel -->

@@ -22,7 +22,7 @@
     --badge-color: oklch(82% 0.189 84.429); /* Yellow-green */
 }
 .badge-hook {
-    --badge-color: oklch(76% 0.2 310); /* Magenta */
+    --badge-color: oklch(81% 0.19 145); /* Bright mint */
 }
 .badge-verse {
     --badge-color: oklch(80% 0.19 265); /* Rich purple */
@@ -40,7 +40,7 @@
     --badge-color: oklch(70% 0.17 40); /* Deep red */
 }
 .badge-vocalisation {
-    --badge-color: oklch(81% 0.19 145); /* Bright mint */
+    --badge-color: oklch(76% 0.2 310); /* Magenta */
 }
 
 

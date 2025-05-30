@@ -163,7 +163,12 @@
 
   Each line of lyrics should have approximately {{ syllables }} syllables.
   Each song hook should contain EXACTLY {{ lines }} lines of lyrics.
-  Generate {{ count }} song hooks with a variety of styles. 
+  Each song hook should either:
+  (a) contain the song name, or
+  (b) contain a part of the song name, or 
+  (c) be a strong reference to the song name.
+
+  Generate {{ count }} song hooks with a variety of styles.
 
   Use the following NDJSON format, with EXACTLY ONE song hook per row, and each separate line of lyrics as an element in a list:
     {"hook": ["Oh, I will survive!!!,"]}

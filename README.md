@@ -59,30 +59,38 @@
  - Convert all prints to logger, use claude to do it, and enable logger categories
  - Login Required for all pages
  - Fixed: Gemini Flash 1.5: LLM_SERVICE_NDJSON_PARSE_ERROR: Malformed JSON line: ```ndjson, Error: Expecting value: line 1 column 1 (char 0)
+ - Previous button should work on song style page as long as saved.
+ - Swap side of lists on style and hook pages
 
 
 
 ## Todo
- - Previous button should work on song style page as long as saved.
- - Implement Hook page
+ - Change order -> Style -> Structure -> Hook -> Lyrics -> Export
+ - Move hook page generation params into the database and show them readonly
 
- - Change order -> Hook -> Structure -> Lyrics -> Export
+ - Implement Hook page generation controls
+ 
  - Structure has a [Generate Lyrics] button (first time) instead of [Next] - maybe?
  - Structure page can set song tags, and all song generation parameters
  - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
+
  - Lyrics page is purely generate new lyrics for sections, and edit lines of sections
 
- - Redo the song names page, remove disliked list
- - Song Names should have a thumbs up and thumbs down on them
- - Get rid of archived status from songs
  
 
 
 ## Backlog
+ - Create follow up prompts, eg, song_hooks.follow_up.
+ - Redo the song names page, remove disliked list
+ - Song Names should have a thumbs up and thumbs down on them
+ - Get rid of archived status from songs
+ - Song page same height as style page
+ - Make DragDrop target certain drop zones based on drag item
  - Add bootstrap icons to buttons
  - Update register and login pages
  - Make the library page page 1 of the timeline
  - Create Lyrics button on names.html goes to page 2 of edit
+ - Use tabs on song page instead of booleans
  - Complete or delete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
  - Change Toast system to be a singleton
@@ -99,7 +107,7 @@
  - Able to set default panel widths and panel slider position
  - Save Column Widths & panel slider position
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
-
+ - Put instructional text on every page to tell the user what to do
 
 
 ## Bugs:
