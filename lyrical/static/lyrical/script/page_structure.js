@@ -139,6 +139,11 @@ function initSongSections() {
                     lastChild.querySelector('.badge-edit-close-button').onclick = () => {
                         removeBadge(lastChild.querySelector('.badge-edit-close-button'));
                     }
+
+                    const addButton = lastChild.previousElementSibling;
+                    song_sections.insertBefore(lastChild, addButton);
+
+
                 })             
                 .catch(error => {
                     console.error('Failed to render or initialize new list item:', error);
