@@ -74,7 +74,9 @@
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
 
  - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
+ - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
+ 
 
 ## Backlog
  - Add href# to Navigation Timeline
