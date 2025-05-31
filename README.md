@@ -68,14 +68,21 @@
 
 
 ## Todo
+ - Update layout so Save and Cancel appear to apply to the whole page
+ - Implement Save and Cancel of Song Sections
  - Structure page can set song tags, and all song generation parameters
  - Structure page can save, save as, delete, and select (assign to song) structure templates - assigning it to a song copies it
-
+ - Show grab hands when can drag drop an item
+ - Implement Save and Cancel of Settings
+ - Implement Settings Controls and Default Values
+ - Implement Clear
+ - Implement Templates
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
 
  - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
  - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
  - refactor using btn-generate for songId
+
  
  
 
