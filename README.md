@@ -75,7 +75,8 @@
 
  - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
  - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+ - refactor using btn-generate for songId
+ 
  
 
 ## Backlog
