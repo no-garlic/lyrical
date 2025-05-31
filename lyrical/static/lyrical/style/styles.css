@@ -7,65 +7,64 @@
     scrollbar-width: none;
 }
 
-
 .badge-theme {
-    --badge-color: #ffd6e8;
+    --badge-color: #ffb7d1;
     color: #885555;
 }
 .badge-narrative {
-    --badge-color: #d2f0ff;
-    color: #555588;
-}
-.badge-verse {
-    --badge-color: #ffeecf;
-    color: #888855;
-}
-.badge-hook {
-    --badge-color: #e0e7ff;
+    --badge-color: #ade3ff;
     color: #555588;
 }
 .badge-mood {
-    --badge-color: #e2ffd9;
+    --badge-color: #baf9b1;
     color: #558855;
 }
+.badge-hook {
+    --badge-color: #bfcaff;
+    color: #555588;
+}
+.badge-verse {
+    --badge-color: #ffd99f;
+    color: #757545;
+}
 .badge-chorus {
-    --badge-color: #f4daff;
+    --badge-color: #e8baff;
     color: #885555;
 }
 .badge-bridge {
-    --badge-color: #ffdada;
+    --badge-color: #ffbcbc;
     color: #885555;
 }
 .badge-pre-chorus {
-    --badge-color: #dbffe4;
+    --badge-color: #b1f8c8;
     color: #558855;
 }
 .badge-outro {
-    --badge-color: #fdf0d5;
-    color: #888855;
+    --badge-color: #fbe0a0;
+    color: #757545;
 }
 .badge-vocalisation {
-    --badge-color: #dee7ff;
+    --badge-color: #c3d4ff;
     color: #555588;
 }
 .badge-interlude {
-    --badge-color: #ffefd5;
-    color: #888855;
+    --badge-color: #ffdb9e;
+    color: #757545;
 }
 .badge-solo {
-    --badge-color: #d5f4e6;
+    --badge-color: #adebd3;
     color: #558855;
 }
 .badge-spare1 {
-    --badge-color: #ffe4fa;
+    --badge-color: #ffb7e8;
     color: #885588;
 }
 .badge-spare2 {
-    --badge-color: #fceecf;
-    color: #888855;
+    --badge-color: #f7db99;
+    color: #757545;
 }
 .badge-spare3 {
-    --badge-color: #e6f7ff;
+    --badge-color: #b9e8ff;
     color: #555588;
 }
 
