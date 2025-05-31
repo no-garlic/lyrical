@@ -80,6 +80,8 @@
  
 
 ## Backlog
+ - Make all modals looks the same
+ - Fix jitter upon closing a modal
  - Add href# to Navigation Timeline
  - Make all panels use scrollbars the same
  - Create follow up prompts, eg, song_hooks.follow_up.

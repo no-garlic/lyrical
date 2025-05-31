@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block page_content %}
+    <c-modal-select />
     <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
         <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
@@ -68,7 +69,7 @@
 
 
                 <!-- Right Panel -->
-                <div class="w-[400px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1 overflow-visible">
+                <div class="w-[400px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
                     <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
@@ -88,7 +89,7 @@
 
 
                     <!-- Fields for Edit Song Style -->
-                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-visible" data-drop-zone="true">
+                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
 
                         <!-- Test Data -->
                         <c-badge-edit>INTRO</c-badge-edit>
@@ -106,25 +107,7 @@
                         <c-badge-edit>SOLO</c-badge-edit>
                         <!-- End: Test Data -->
                         
-                        <!-- Add Item Dropdown -->
-                        <div class="dropdown dropdown-right w-45 relative">
-                            <div class="badge-add-item flex flex-row mr-2">
-                                <div tabindex="0" role="button" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-3 ml-2 cursor-pointer">ADD ITEM</div>
-                            </div>
-                            <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box rounded-xl z-50 w-52 border border-base-300 shadow-lg" tooltip="">
-                                <c-badge-listitem>INTRO</c-badge-listitem>
-                                <c-badge-listitem>VERSE</c-badge-listitem>
-                                <c-badge-listitem>PRE-CHORUS</c-badge-listitem>
-                                <c-badge-listitem>CHORUS</c-badge-listitem>
-                                <c-badge-listitem>BRIDGE</c-badge-listitem>
-                                <c-badge-listitem>OUTRO</c-badge-listitem>
-                                <c-badge-listitem>HOOK</c-badge-listitem>
-                                <c-badge-listitem>VOCALISATION</c-badge-listitem>
-                                <c-badge-listitem>INTERLUDE</c-badge-listitem>
-                                <c-badge-listitem>SOLO</c-badge-listitem>
-                            </ul>
-                        </div> 
-                        <!-- End: Add Item Dropdown -->
+                        <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-3 ml-2 cursor-pointer">ADD ITEM</button>
 
                     </div>
                     <!-- End: Fields for Edit Song Style -->

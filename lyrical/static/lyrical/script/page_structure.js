@@ -117,10 +117,11 @@ function getDragAfterElement(container, y) {
 
 
 function initSongSections() {
+
     const menuChoices = ['verse', 'chorus', 'bridge', 'pre-chorus', 'outro', 'hook', 'vocalisation', 'interlude', 'solo', 'intro'];
 
     menuChoices.forEach(choice => {
-        document.getElementById(`menu-item-${choice}`).onclick = () => {
+        document.getElementById(`modal-add-${choice}`).onclick = () => {
             apiRenderComponent('badge_edit', 'song-sections', { slot: choice })
                 .then(html => {
                     // get the song sections container
@@ -146,6 +147,11 @@ function initSongSections() {
             document.activeElement.blur();
         }
     });
+
+    document.getElementById('badge-add-item').onclick = (event) => {
+        document.getElementById('modal-select').showModal();
+    }
+
 
     document.querySelectorAll('.badge-edit-close-button').forEach(badge => {
         badge.onclick = () => {
