@@ -39,6 +39,10 @@
     --badge-color: #b1f8c8;
     color: #558855;
 }
+.badge-intro {
+    --badge-color: #b9e8ff;
+    color: #555588;
+}
 .badge-outro {
     --badge-color: #fbe0a0;
     color: #757545;
@@ -62,10 +66,6 @@
 .badge-spare2 {
     --badge-color: #f7db99;
     color: #757545;
-}
-.badge-spare3 {
-    --badge-color: #b9e8ff;
-    color: #555588;
 }
 
 

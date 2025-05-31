@@ -78,6 +78,25 @@
                             <div class="flex flex-0 justify-end items-center flex-1">                
                                 
                                 <c-panel-header title="SONG SECTIONS" padding="4">
+
+                                    <div class="dropdown dropdown-center">
+                                        <div tabindex="0" role="button" class="btn btn-sm mt-1 mb-2 btn-primary" id="btn-add-section">
+                                            ADD
+                                        </div> 
+                                        <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box rounded-xl z-1 w-50 border-1" tooltip="">
+                                            <c-badge-listitem>INTRO</c-badge-listitem>
+                                            <c-badge-listitem>VERSE</c-badge-listitem>
+                                            <c-badge-listitem>PRE-CHORUS</c-badge-listitem>
+                                            <c-badge-listitem>CHORUS</c-badge-listitem>
+                                            <c-badge-listitem>BRIDGE</c-badge-listitem>
+                                            <c-badge-listitem>OUTRO</c-badge-listitem>
+                                            <c-badge-listitem>HOOK</c-badge-listitem>
+                                            <c-badge-listitem>VOCALISATION</c-badge-listitem>
+                                            <c-badge-listitem>INTERLUDE</c-badge-listitem>
+                                            <c-badge-listitem>SOLO</c-badge-listitem>
+                                        </ul>
+                                    </div> 
+
                                     <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
                                         CLEAR
                                     </c-panel-header-button>
@@ -90,22 +109,28 @@
 
 
                     <!-- Fields for Edit Song Style -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+                        <c-badge>INTRO</c-badge>
                         <c-badge>THEME</c-badge>
                         <c-badge>NARRATIVE</c-badge>
                         <c-badge>MOOD</c-badge>
                         <c-badge>HOOK</c-badge>
-                        <div class="badge badge-sm rounded badge-verse w-40 font-bold mb-3 mt-3 ml-2">VERSE</div>
-                        <div class="badge badge-sm rounded badge-pre-chorus w-40 font-bold mb-3 mt-3 ml-2">PRE-CHORUS</div>
-                        <div class="badge badge-sm rounded badge-chorus w-40 font-bold mb-3 mt-3 ml-2">CHORUS</div>
-                        <div class="badge badge-sm rounded badge-bridge w-40 font-bold mb-3 mt-3 ml-2">BRIDGE</div>
-                        <div class="badge badge-sm rounded badge-outro w-40 font-bold mb-3 mt-3 ml-2">OUTRO</div>
-                        <div class="badge badge-sm rounded badge-vocalisation w-40 font-bold mb-3 mt-3 ml-2">VOCALISATION</div>
-                        <div class="badge badge-sm rounded badge-interlude w-40 font-bold mb-3 mt-3 ml-2">INTERLUDE</div>
-                        <div class="badge badge-sm rounded badge-solo w-40 font-bold mb-3 mt-3 ml-2">SOLO</div>
-                        <div class="badge badge-sm rounded badge-spare1 w-40 font-bold mb-3 mt-3 ml-2">SPARE 1</div>
-                        <div class="badge badge-sm rounded badge-spare2 w-40 font-bold mb-3 mt-3 ml-2">SPARE 2</div>
-                        <div class="badge badge-sm rounded badge-spare3 w-40 font-bold mb-3 mt-3 ml-2">SPARE 3</div>
+                        <c-badge>VERSE</c-badge>
+                        <c-badge>PRE-CHORUS</c-badge>
+                        <c-badge>CHORUS</c-badge>
+                        <c-badge>BRIDGE</c-badge>
+                        <c-badge>OUTRO</c-badge>
+                        <c-badge>VOCALISATION</c-badge>
+                        <c-badge>INTERLUDE</c-badge>
+                        <c-badge>SOLO</c-badge>
+                        <c-badge>SPARE1</c-badge>
+                        <c-badge>SPARE2</c-badge>
+
+
+                        
+
+
+
 
                     </div>
                     <!-- End: Fields for Edit Song Style -->

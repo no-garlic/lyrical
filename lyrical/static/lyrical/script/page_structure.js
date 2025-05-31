@@ -1,6 +1,28 @@
 
+import { apiRenderComponent } from './api_render_component.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
+
+
+    const menuChoices = ['verse', 'chorus', 'bridge', 'pre-chorus', 'outro', 'hook', 'vocalisation', 'interlude', 'solo', 'intro'];
+
+    menuChoices.forEach(choice => {
+        document.getElementById(`menu-item-${choice}`).onclick = () => {
+            apiRenderComponent('badge', 'song-sections', { slot: choice })
+                .then(html => {
+                    // Optionally, you can do something with the rendered HTML here
+                }
+                )
+                .catch(error => {
+                    console.error('Failed to render or initialize new list item:', error);
+                    toastSystem.showError('Failed to display the list item. Please refresh the page.');
+                });
+            document.activeElement.blur();
+        }
+    });
+
+
 });
 
 
