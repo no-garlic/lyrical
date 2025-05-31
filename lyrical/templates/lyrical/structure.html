@@ -29,29 +29,27 @@
                     <!-- End: Right Header -->
 
 
+                    <!-- Temporary Content -->
                     <p class="p-4 my-100">settings</p>
+                    <!-- End: Temporary Content -->
 
 
                     <!-- Splitter Section -->
                     <div class="flex flex-col flex-shrink-0">
                         <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
                             <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
-                                
+
+                                <!-- Template Management -->
                                 <c-panel-header title="TEMPLATE" padding="4">
-
                                     <c-input-label>Drop Down</c-input-label>
-
                                     <c-panel-header-button id="btn-load-template">
                                         LOAD
                                     </c-panel-header-button>
-
                                     <c-panel-header-button id="btn-save-template">
                                         SAVE
                                     </c-panel-header-button>
                                 </c-panel-header>
-
-
-                                <!-- End: Clear Button -->                            
+                                <!-- End: Template Management -->           
 
                             </div>
                         </div>
@@ -91,6 +89,8 @@
 
                     <!-- Fields for Edit Song Style -->
                     <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+
+                        <!-- Test Data -->
                         <c-badge-edit>INTRO</c-badge-edit>
                         <c-badge-edit>THEME</c-badge-edit>
                         <c-badge-edit>NARRATIVE</c-badge-edit>
@@ -104,10 +104,9 @@
                         <c-badge-edit>VOCALISATION</c-badge-edit>
                         <c-badge-edit>INTERLUDE</c-badge-edit>
                         <c-badge-edit>SOLO</c-badge-edit>
+                        <!-- End: Test Data -->
                         
-
-
-
+                        <!-- Add Item Dropdown -->
                         <div class="dropdown dropdown-right dropdown-center w-45">
                             <div class="badge-add-item flex flex-row mr-2">
                                 <div tabindex="0" role="button" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-3 ml-2 cursor-pointer">ADD ITEM</div>
@@ -125,25 +124,10 @@
                                 <c-badge-listitem>SOLO</c-badge-listitem>
                             </ul>
                         </div> 
-
-
-
-
-
+                        <!-- End: Add Item Dropdown -->
 
                     </div>
                     <!-- End: Fields for Edit Song Style -->
-
-
-                    <!-- Container for Generated Styles -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
-                        {% for section in song_sections %}
-                            {% if not section.hidden %}
-                                <c-card-style />
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <!-- End: Container for Generated Styles -->
 
                 </div>
                 <!-- End: Right Panel -->
