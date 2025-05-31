@@ -29,6 +29,7 @@
                     <!-- End: Right Header -->
 
 
+                    <!-- Temporary -->
                     <p class="p-4 my-100">settings</p>
 
 
@@ -38,20 +39,14 @@
                             <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
                                 
                                 <c-panel-header title="TEMPLATE" padding="4">
-
                                     <c-input-label>Drop Down</c-input-label>
-
                                     <c-panel-header-button id="btn-load-template">
                                         LOAD
                                     </c-panel-header-button>
-
                                     <c-panel-header-button id="btn-save-template">
                                         SAVE
                                     </c-panel-header-button>
                                 </c-panel-header>
-
-
-                                <!-- End: Clear Button -->                            
 
                             </div>
                         </div>
@@ -70,9 +65,9 @@
 
 
                 <!-- Right Panel -->
-                <div class="w-[400px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1 overflow-hidden">
+                <div class="w-[400px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
-                    <!-- Splitter Section -->
+                    <!-- Header Section -->
                     <div class="flex flex-col flex-shrink-0">
                         <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
                             <div class="flex flex-0 justify-end items-center flex-1">                
@@ -86,11 +81,13 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End: Splitter Section -->
+                    <!-- End: Header Section -->
 
 
-                    <!-- Fields for Edit Song Style -->
-                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+                    <!-- Container for Song Sections -->
+                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto flex-1 min-h-0" data-drop-zone="true">
+
+                        <!-- Test Data -->
                         <c-badge-edit>INTRO</c-badge-edit>
                         <c-badge-edit>THEME</c-badge-edit>
                         <c-badge-edit>NARRATIVE</c-badge-edit>
@@ -104,15 +101,14 @@
                         <c-badge-edit>VOCALISATION</c-badge-edit>
                         <c-badge-edit>INTERLUDE</c-badge-edit>
                         <c-badge-edit>SOLO</c-badge-edit>
+                        <!-- End: Test Data -->
                         
-
-
-
+                        <!-- Add Section Badge & Button -->
                         <div class="dropdown dropdown-right dropdown-center w-45">
                             <div class="badge-add-item flex flex-row mr-2">
                                 <div tabindex="0" role="button" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-3 ml-2 cursor-pointer">ADD ITEM</div>
                             </div>
-                            <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box rounded-xl z-1 w-50 border-1" tooltip="">
+                            <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box rounded-xl z-50 w-50 border-1" tooltip="">
                                 <c-badge-listitem>INTRO</c-badge-listitem>
                                 <c-badge-listitem>VERSE</c-badge-listitem>
                                 <c-badge-listitem>PRE-CHORUS</c-badge-listitem>
@@ -124,26 +120,11 @@
                                 <c-badge-listitem>INTERLUDE</c-badge-listitem>
                                 <c-badge-listitem>SOLO</c-badge-listitem>
                             </ul>
-                        </div> 
-
-
-
-
-
+                        </div>
+                        <!-- End: Add Section Badge & Button -->
 
                     </div>
-                    <!-- End: Fields for Edit Song Style -->
-
-
-                    <!-- Container for Generated Styles -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
-                        {% for section in song_sections %}
-                            {% if not section.hidden %}
-                                <c-card-style />
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <!-- End: Container for Generated Styles -->
+                    <!-- End: Container for Song Sections -->
 
                 </div>
                 <!-- End: Right Panel -->

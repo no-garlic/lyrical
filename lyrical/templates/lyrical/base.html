@@ -29,7 +29,7 @@
         {% block head %}
         {% endblock %}
     </head>
-    <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}" class="overflow-hidden">
+    <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}" class="">
         <div class="bg-base-200 font-[red_hat_text]">
             {% csrf_token %}
 
