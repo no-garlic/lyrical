@@ -12,14 +12,19 @@
             <!-- Title -->
             <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STRUCTURE - {{song.name|upper}}</h2>
 
-            <!-- Content -->
-            <div class="flex flex-row flex-1 min-h-0 gap-4">
-
-                <!-- Left Panel -->
-                <div class="w-[600px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
-
+            <!-- Content Outer Border -->
+            <div class="border-1 rounded border-base-300 flex flex-col flex-1">
+                                
+                <div class="border-b border-base-300 pt-1">
                     <!-- Right Header -->
                     <c-panel-header title="SETTINGS" padding="4">
+                        <c-panel-header-button id="btn-load-from-template">
+                            LOAD FROM TEMPLATE
+                        </c-panel-header-button>
+                        <c-panel-header-button id="btn-save-to-template" data-song-id="{{song.id}}">
+                            SAVE TO TEMPLATE
+                        </c-panel-header-button>
+                        <c-panel-header-divider />
                         <c-panel-header-button id="btn-cancel">
                             CANCEL
                         </c-panel-header-button>
@@ -28,97 +33,75 @@
                         </c-panel-header-button>
                     </c-panel-header>
                     <!-- End: Right Header -->
-
-
-                    <!-- Temporary Content -->
-                    <p class="p-4 my-100">settings</p>
-                    <!-- End: Temporary Content -->
-
-
-                    <!-- Splitter Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
-
-                                <!-- Template Management -->
-                                <c-panel-header title="TEMPLATE" padding="4">
-                                    <c-input-label>Drop Down</c-input-label>
-                                    <c-panel-header-button id="btn-load-template">
-                                        LOAD
-                                    </c-panel-header-button>
-                                    <c-panel-header-button id="btn-save-template">
-                                        SAVE
-                                    </c-panel-header-button>
-                                </c-panel-header>
-                                <!-- End: Template Management -->           
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End: Splitter Section -->
-
-
-
-                    <!-- Drop Zone Buffer -->
-                    <div class="flex-1" data-drop-zone="true">
-                    </div>
-                    <!-- End: Drop Zone Buffer -->
-
                 </div>
-                <!-- End: Left Panel -->
 
+                <!-- Content -->
+                <div class="flex flex-row h-full">
 
-                <!-- Right Panel -->
-                <div class="w-[400px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+                    <!-- Left Panel (Settings Area) -->
+                    <div class="flex flex-col flex-1 h-full w-[700px]">
 
-                    <!-- Splitter Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1">                
+                        sdfds
+
+                    </div>
+                    <!-- End: Left Panel (Settings Area) -->
+
+                    <!-- Right Panel -->
+                    <div class="flex flex-col border-l border-base-300 rounded-none w-[300px]">
+                        <div class="w-[300px] min-w-0 flex flex-col h-full pt-1 pb-1">
+
+                            <!-- Splitter Section (Clear) -->
+                            <div class="flex flex-col flex-shrink-0">
+                                <div class="card w-full bg-transparent flex flex-row cursor-row-resize font-bold text-md text-primary">
+                                    <div class="flex flex-0 justify-end items-center flex-1">                
+                                        <c-panel-header title="SONG SECTIONS" padding="4">
+                                            <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
+                                                CLEAR
+                                            </c-panel-header-button>
+                                        </c-panel-header>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End: Splitter Section (Clear) -->
+
+                            <!-- Fields for Edit Song Style -->
+                            <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
+
+                                <!-- Test Data -->
+                                <c-badge-edit>INTRO</c-badge-edit>
+                                <c-badge-edit>THEME</c-badge-edit>
+                                <c-badge-edit>NARRATIVE</c-badge-edit>
+                                <c-badge-edit>MOOD</c-badge-edit>
+                                <c-badge-edit>HOOK</c-badge-edit>
+                                <c-badge-edit>VERSE</c-badge-edit>
+                                <c-badge-edit>PRE-CHORUS</c-badge-edit>
+                                <c-badge-edit>CHORUS</c-badge-edit>
+                                <c-badge-edit>BRIDGE</c-badge-edit>
+                                <c-badge-edit>OUTRO</c-badge-edit>
+                                <c-badge-edit>VOCALISATION</c-badge-edit>
+                                <c-badge-edit>INTERLUDE</c-badge-edit>
+                                <c-badge-edit>SOLO</c-badge-edit>
+                                <!-- End: Test Data -->
                                 
-                                <c-panel-header title="SONG SECTIONS" padding="4">
-                                    <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
-                                        CLEAR
-                                    </c-panel-header-button>
-                                </c-panel-header>
+                                <!-- Add Item -->
+                                <div id="song-sections-end">
+                                    <div class="border-b border-neutral mt-2"></div>
+                                    <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-4 ml-2 cursor-pointer">ADD ITEM</button>
+                                </div>
+                                <!-- End: Add Item -->
 
                             </div>
+                            <!-- End: Fields for Edit Song Style -->
+
                         </div>
                     </div>
-                    <!-- End: Splitter Section -->
-
-
-                    <!-- Fields for Edit Song Style -->
-                    <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
-
-                        <!-- Test Data -->
-                        <c-badge-edit>INTRO</c-badge-edit>
-                        <c-badge-edit>THEME</c-badge-edit>
-                        <c-badge-edit>NARRATIVE</c-badge-edit>
-                        <c-badge-edit>MOOD</c-badge-edit>
-                        <c-badge-edit>HOOK</c-badge-edit>
-                        <c-badge-edit>VERSE</c-badge-edit>
-                        <c-badge-edit>PRE-CHORUS</c-badge-edit>
-                        <c-badge-edit>CHORUS</c-badge-edit>
-                        <c-badge-edit>BRIDGE</c-badge-edit>
-                        <c-badge-edit>OUTRO</c-badge-edit>
-                        <c-badge-edit>VOCALISATION</c-badge-edit>
-                        <c-badge-edit>INTERLUDE</c-badge-edit>
-                        <c-badge-edit>SOLO</c-badge-edit>
-                        <!-- End: Test Data -->
-                        
-                        <div id="song-sections-end">
-                            <div class="border-b border-neutral mt-2"></div>
-                            <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-40 font-bold mb-3 mt-4 ml-2 cursor-pointer">ADD ITEM</button>
-                        </div>
-
-                    </div>
-                    <!-- End: Fields for Edit Song Style -->
+                    <!-- End: Right Panel -->
 
                 </div>
-                <!-- End: Right Panel -->
+                <!-- End: Content -->
+            </div>     
+            <!-- End: Content Outer Border -->
 
-            </div>                
         </div>
     </div>
 {% endblock %}
