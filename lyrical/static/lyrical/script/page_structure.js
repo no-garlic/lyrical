@@ -138,12 +138,6 @@ function initSongSections() {
                     lastChild.querySelector('.badge-edit-close-button').onclick = () => {
                         removeBadge(lastChild.querySelector('.badge-edit-close-button'));
                     }
-                    lastChild.querySelector('.badge-edit-up-button').onclick = () => {
-                        moveBadgeUp(lastChild.querySelector('.badge-edit-up-button'));
-                    }
-                    lastChild.querySelector('.badge-edit-down-button').onclick = () => {
-                        moveBadgeDown(lastChild.querySelector('.badge-edit-down-button'));
-                    }
                 })             
                 .catch(error => {
                     console.error('Failed to render or initialize new list item:', error);
@@ -158,38 +152,6 @@ function initSongSections() {
             removeBadge(badge);
         }
     });
-
-    document.querySelectorAll('.badge-edit-up-button').forEach(badge => {
-        badge.onclick = () => {
-            moveBadgeUp(badge);
-        }
-    });
-
-    document.querySelectorAll('.badge-edit-down-button').forEach(badge => {
-        badge.onclick = () => {
-            moveBadgeDown(badge);
-        }
-    });
-}
-
-
-function moveBadgeUp(badge) {
-    const parent = badge.parentElement;
-    const song_sections = document.getElementById('song-sections');
-    const previousSibling = parent.previousElementSibling;
-    if (previousSibling) {
-        song_sections.insertBefore(parent, previousSibling);
-    }
-}
-
-
-function moveBadgeDown(badge) {
-    const parent = badge.parentElement;
-    const song_sections = document.getElementById('song-sections');
-    const nextSibling = parent.nextElementSibling;
-    if (nextSibling) {
-        song_sections.insertBefore(nextSibling, parent);
-    }
 }
 
 
