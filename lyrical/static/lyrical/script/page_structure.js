@@ -62,11 +62,14 @@ function handleDragOver(e) {
     if (!songSectionsContainer.contains(e.target)) return;
 
     const afterElement = getDragAfterElement(songSectionsContainer, e.clientY);
+    
+    // Don't allow dropping at the end - only between items or at the beginning
     if (afterElement == null) {
-        if (placeholder.style.display === 'none' || songSectionsContainer.lastChild !== placeholder) {
-            songSectionsContainer.appendChild(placeholder);
-            placeholder.style.display = 'block';
+        // Hide placeholder if trying to drop at the end
+        if (placeholder.parentNode) {
+            placeholder.parentNode.removeChild(placeholder);
         }
+        placeholder.style.display = 'none';
     } else {
         if (placeholder.style.display === 'none' || afterElement.previousSibling !== placeholder) {
             songSectionsContainer.insertBefore(placeholder, afterElement);
@@ -89,11 +92,12 @@ function handleDrop(e) {
     const songSectionsContainer = document.getElementById('song-sections');
     if (draggedItem && songSectionsContainer.contains(e.target)) {
         const afterElement = getDragAfterElement(songSectionsContainer, e.clientY);
-        if (afterElement == null) {
-            songSectionsContainer.appendChild(draggedItem);
-        } else {
+        
+        // Only drop if there's an afterElement (prevents dropping at the end)
+        if (afterElement != null) {
             songSectionsContainer.insertBefore(draggedItem, afterElement);
         }
+        // If afterElement is null, don't move the item (prevents dropping at end)
     }
     if (placeholder.parentNode) {
         placeholder.parentNode.removeChild(placeholder);
@@ -102,7 +106,13 @@ function handleDrop(e) {
 }
 
 function getDragAfterElement(container, y) {
+    // Only get badge-edit-item elements, excluding the song-sections-end area
     const draggableElements = [...container.querySelectorAll('.badge-edit-item:not(.dragging)')];
+    
+    // If no draggable elements exist, return null (can't drop anywhere)
+    if (draggableElements.length === 0) {
+        return null;
+    }
 
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
