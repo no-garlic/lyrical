@@ -37,6 +37,9 @@ function initPageActions() {
     document.querySelectorAll('[id*="input-').forEach(input => {
         input.addEventListener('input', setSaveDirty);
     });
+
+    document.getElementById('btn-load-from-template').onclick = showLoadTemplateModal;
+    document.getElementById('btn-save-to-template').onclick = showSaveTemplateModal;
 }
 
 
@@ -373,7 +376,7 @@ function getDragAfterElement(container, y) {
 function initSongStructureTemplates() {
     
     // testing
-    showSaveTemplateModal();
+    // showSaveTemplateModal();
 
     // setup callback when the ok (save/load) button is pressed
     document.getElementById('modal-song-structure-ok').onclick = onSongStructureTemplateOkClicked;
