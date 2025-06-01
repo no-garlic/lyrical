@@ -1,6 +1,26 @@
 <div class="flex flex-row">
-    <input id="radio-option-{{index}}" type="radio" name="radio-1" class="radio mt-2" {{ attrs }} />
-    <input id="text-option-{{index}}" type="text" placeholder="" autocomplete="off" class="input input-md text-[16px] input-neutral border-base-300 shadow-none focus:outline-none ml-3" disabled value="Template {{index}}"></input>
-    <div id="btn-edit-option-{{index}}" class="bi bi-pencil btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
-    <div id="btn-save-option-{{index}}" class="bi bi-floppy btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
+    <input id="radio-option-{{index}}" 
+           data-index="{{index}}"
+           type="radio" 
+           {% if index == "1" %}checked="true"{% endif %}
+           name="song-structure-templates-radio-group" 
+           class="radio mt-2" {{ attrs }} />
+    <input data-template-id="{{template.id}}" 
+           id="text-option-{{index}}" 
+           data-index="{{index}}"
+           type="text" 
+           placeholder="" 
+           autocomplete="off" 
+           class="input input-md text-[16px] input-neutral border-base-300 shadow-none focus:outline-none ml-3 w-75" 
+           readonly 
+           value="{{template.name}}" />
+    <div   id="btn-edit-option-{{index}}" 
+           data-index="{{index}}"
+           class="bi bi-pencil btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
+    <div   id="btn-save-option-{{index}}" 
+           data-index="{{index}}"
+           class="bi bi-floppy btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
+    <div   id="btn-cancel-option-{{index}}" 
+           data-index="{{index}}"
+           class="bi bi-x btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
 </div>

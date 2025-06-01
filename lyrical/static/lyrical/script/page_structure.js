@@ -2,6 +2,7 @@
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSongEdit } from './api_song_edit.js';
 
+
 let draggedItem = null;
 let placeholder = null;
 let saveDirty = false;
@@ -12,9 +13,8 @@ const songId = document.body.dataset.songId;
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initSongSections();
+    initSongStructureTemplates();
     initDragAndDrop();
-
-    document.getElementById('modal-song-structure-template').showModal();
 });
 
 
@@ -358,4 +358,126 @@ function getDragAfterElement(container, y) {
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
+
+
+
+/* 
+Song Structure Template:
+
+    modal-song-structure-template           - Main Window
+    modal-song-structure-title              - Title
+    modal-song-structure-message            - Information Message
+    modal-song-structure-cancel             - Cancel Button
+    modal-song-structure-ok                 - Ok (Save/Load) Button
+
+Each Field:
+
+    radio-option-{{index}}                  - Radio Option
+    dataset.index                           - Index (1 to 8)
+
+    data-template-id="{{template.id}}"      - Database Id
+    text-option-{{index}}                   - Text Input                (disabled)
+    
+    btn-edit-option-{{index}}               - Edit Button               (hidden)
+    btn-save-option-{{index}}               - Save Button               (hidden)
+*/
+function initSongStructureTemplates() {
+    
+    // testing
+    showSaveTemplateModal();
+
+    // setup callback when the ok (save/load) button is pressed
+    document.getElementById('modal-song-structure-ok').onclick = onSongStructureTemplateOkClicked;
+
+    // setup callbacks for when the radio options are selected
+    document.querySelectorAll('[id*="radio-option-"').forEach(option => {
+        option.onclick = onSongStructureTemplateOptionSelected;
+    });
+
+    // setup callbacks for the text inputs on each template
+    document.querySelectorAll('[id*="text-option-"').forEach(element => {
+        element.onclick = onSongStructureTemplateTextClicked;
+    });
+
+    
+    // setup callbacks for the edit buttons on each template
+    document.querySelectorAll('[id*="btn-edit-option-"').forEach(button => {
+        button.onclick = onSongStructureTemplateEditClicked;
+    });
+
+    // setup callbacks for the save buttons on each template
+    document.querySelectorAll('[id*="btn-save-option-"').forEach(button => {
+        button.onclick = onSongStructureTemplateSaveClicked;
+    });
+}
+
+
+function showSaveTemplateModal() {
+    document.getElementById('modal-song-structure-title').innerHTML = 'Save Template';
+    document.getElementById('modal-song-structure-message').innerHTML = 'Select the template to save to:';
+    document.getElementById('modal-song-structure-ok').innerHTML = 'Save';
+
+    const modalDialog = document.getElementById('modal-song-structure-template');
+    modalDialog.showModal();
+}
+
+
+function showLoadTemplateModal() {
+    document.getElementById('modal-song-structure-title').innerHTML = 'Load Template';
+    document.getElementById('modal-song-structure-message').innerHTML = 'Select the template to load from:';
+    document.getElementById('modal-song-structure-ok').innerHTML = 'Load';
+
+    const modalDialog = document.getElementById('modal-song-structure-template');
+    modalDialog.showModal();
+}
+
+
+function onSongStructureTemplateOkClicked() {
+    console.log(`ok clicked`);
+}
+
+
+function onSongStructureTemplateTextClicked() {
+    console.log(`text clicked: ${this.dataset.index}`);
+}
+
+
+function onSongStructureTemplateOptionSelected() {
+    console.log(`option selected: ${this.dataset.index}`);
+
+    document.querySelectorAll('[id*="btn-edit-option-').forEach(element => element.classList.add('hidden'));
+    document.getElementById(`btn-edit-option-${this.dataset.index}`).classList.remove('hidden');
+}
+
+
+
+function onSongStructureTemplateEditClicked() {
+    console.log(`edit item clicked: ${this.id}`);
+
+    const saveButton = document.getElementById(`btn-save-option-${this.dataset.index}`);
+    const cancelButton = document.getElementById(`btn-cancel-option-${this.dataset.index}`);
+
+    saveButton.classList.remove('hidden');
+    cancelButton.classList.remove('hidden');
+
+    this.classList.add('hidden');
+
+    const editControl = document.getElementById(`text-option-${this.dataset.index}`);
+    editControl.readOnly = false;
+    editControl.focus();
+    const length = editControl.value.length;
+    editControl.setSelectionRange(length, length);
+}
+
+
+function onSongStructureTemplateSaveClicked() {
+    console.log(`save item clicked: ${this.id}`);
+}
+
+
+
+
+
+
+
 

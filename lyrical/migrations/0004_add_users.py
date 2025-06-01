@@ -10,6 +10,7 @@ def add_data(apps, schema_editor):
     llm_provider = apps.get_model("lyrical", "LLMProvider")
     users = apps.get_model('lyrical', 'User')
     user_api_key = apps.get_model("lyrical", "UserAPIKey")
+    song_structure_template = apps.get_model("lyrical", "SongStructureTemplate")
 
     # Get the default LLM model
     default_llm_model = llm.objects.get(internal_name="gemini-2.0-flash")
@@ -39,9 +40,10 @@ def add_data(apps, schema_editor):
         song_name_length_max=5,
         song_name_gen_count=5
         )
-    
 
-
+    # Create the default song structure templates
+    for i in range(8):
+        song_structure_template.objects.create(name=f'Template {i+1}', user=mpetrou)
 
     # Get the LLM API keys from environment variables
     open_ai_api_key = os.getenv("OPENAI_API_KEY")
