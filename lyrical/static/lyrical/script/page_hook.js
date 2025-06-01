@@ -458,7 +458,7 @@ function saveHook() {
     const songId = parseInt(generateButton.dataset.songId);    
 
     // call the api to update the song styles
-    apiSongEdit(songId, { song_hook: newSongHook })
+    apiSongEdit(songId, { hook: newSongHook })
         .then(songId => {
             console.log(`Successfully updated the song hook for songId: ${songId}`);
 
@@ -508,12 +508,12 @@ function saveParameters() {
 
     // call the api to update the song parameters
     apiSongEdit(songId, { 
-        custom_prompt: customPrompt,
-        rhyme_with: rhymeWith,
-        vocalisation_level: vocalisationLevel,
-        vocalisation_terms: vocalisationTerms,
-        max_hook_lines: maxHookLines,
-        max_syllables_per_line: maxSyllablesPerLine,
+        hook_custom_request: customPrompt,
+        hook_rhyme_with: rhymeWith,
+        hook_vocalisation_level: vocalisationLevel,
+        hook_vocalisation_terms: vocalisationTerms,
+        hook_max_lines: maxHookLines,
+        hook_average_syllables: maxSyllablesPerLine
      })
         .then(songId => {
             console.log(`Successfully updated the song parameters for songId: ${songId}`);

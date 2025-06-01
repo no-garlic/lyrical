@@ -33,17 +33,32 @@ def api_song_edit(request):
         song_id = edit_data.get("song_id")
         song_name = edit_data.get("song_name")
         song_stage = edit_data.get("song_stage")
+
         song_theme = edit_data.get("song_theme")
         song_narrative = edit_data.get("song_narrative")
         song_mood = edit_data.get("song_mood")
-        song_hook = edit_data.get("song_hook")
+        
+        hook = edit_data.get("hook")
+        hook_custom_request = edit_data.get("hook_custom_request")
+        hook_rhyme_with = edit_data.get("hook_rhyme_with")
+        hook_vocalisation_level = edit_data.get("hook_vocalisation_level")
+        hook_vocalisation_terms = edit_data.get("hook_vocalisation_terms")
+        hook_max_lines = edit_data.get("hook_max_lines")
+        hook_average_syllables = edit_data.get("hook_average_syllables")
 
-        custom_prompt = edit_data.get("custom_prompt")
-        rhyme_with = edit_data.get("rhyme_with")
-        vocalisation_level = edit_data.get("vocalisation_level")
-        vocalisation_terms = edit_data.get("vocalisation_terms")
-        max_hook_lines = edit_data.get("max_hook_lines", 2)  # default to 2 if not provided
-        max_syllables_per_line = edit_data.get("max_syllables_per_line", 8)  # default to 8 if not provided
+        structure_intro_lines = edit_data.get("structure_intro_lines")
+        structure_outro_lines = edit_data.get("structure_outro_lines")
+        structure_verse_count = edit_data.get("structure_verse_count")
+        structure_verse_lines = edit_data.get("structure_verse_lines")
+        structure_pre_chorus_lines = edit_data.get("structure_pre_chorus_lines")
+        structure_chorus_lines = edit_data.get("structure_chorus_lines")
+        structure_bridge_lines = edit_data.get("structure_bridge_lines")
+        structure_average_syllables = edit_data.get("structure_average_syllables")
+        structure_vocalisation_level = edit_data.get("structure_vocalisation_level")
+        structure_vocalisation_lines = edit_data.get("structure_vocalisation_lines")
+        structure_vocalisation_terms = edit_data.get("structure_vocalisation_terms")
+        structure_custom_request = edit_data.get("structure_custom_request")
+        structure = edit_data.get("structure")
 
         # validate song ID is provided
         if not song_id:
@@ -87,40 +102,105 @@ def api_song_edit(request):
             song.mood = song_mood
             updates.append(f"mood from '{old_mood}' to '{song_mood}'")
 
-        if song_hook:
+        if hook:
             old_hook = song.hook
-            song.hook = song_hook
-            updates.append(f"hook from '{old_hook}' to '{song_hook}'")
+            song.hook = hook
+            updates.append(f"hook from '{old_hook}' to '{hook}'")
 
-        if custom_prompt:
+        if hook_custom_request:
             old_custom_prompt = song.hook_custom_request
-            song.hook_custom_request = custom_prompt
-            updates.append(f"custom prompt from '{old_custom_prompt}' to '{custom_prompt}'")
+            song.hook_custom_request = hook_custom_request
+            updates.append(f"custom prompt from '{old_custom_prompt}' to '{hook_custom_request}'")
 
-        if rhyme_with:
+        if hook_rhyme_with:
             old_rhyme_with = song.hook_rhyme_with
-            song.hook_rhyme_with = rhyme_with
-            updates.append(f"rhyme with from '{old_rhyme_with}' to '{rhyme_with}'")
+            song.hook_rhyme_with = hook_rhyme_with
+            updates.append(f"rhyme with from '{old_rhyme_with}' to '{hook_rhyme_with}'")
 
-        if vocalisation_level is not None:
+        if hook_vocalisation_level is not None:
             old_vocalisation_level = song.hook_vocalisation_level
-            song.hook_vocalisation_level = vocalisation_level
-            updates.append(f"vocalisation level from '{old_vocalisation_level}' to '{vocalisation_level}'")
+            song.hook_vocalisation_level = hook_vocalisation_level
+            updates.append(f"vocalisation level from '{old_vocalisation_level}' to '{hook_vocalisation_level}'")
 
-        if vocalisation_terms:
+        if hook_vocalisation_terms:
             old_vocalisation_terms = song.hook_vocalisation_terms
-            song.hook_vocalisation_terms = vocalisation_terms
-            updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{vocalisation_terms}'")
+            song.hook_vocalisation_terms = hook_vocalisation_terms
+            updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{hook_vocalisation_terms}'")
 
-        if max_hook_lines is not None:
+        if hook_max_lines is not None:
             old_max_hook_lines = song.hook_max_lines
-            song.hook_max_lines = max_hook_lines
-            updates.append(f"max hook lines from '{old_max_hook_lines}' to '{max_hook_lines}'")
+            song.hook_max_lines = hook_max_lines
+            updates.append(f"max hook lines from '{old_max_hook_lines}' to '{hook_max_lines}'")
 
-        if max_syllables_per_line is not None:
+        if hook_average_syllables is not None:
             old_max_syllables = song.hook_average_syllables
-            song.hook_average_syllables = max_syllables_per_line
-            updates.append(f"max syllables per line from '{old_max_syllables}' to '{max_syllables_per_line}'")
+            song.hook_average_syllables = hook_average_syllables
+            updates.append(f"max syllables per line from '{old_max_syllables}' to '{hook_average_syllables}'")
+
+        if structure_intro_lines is not None:
+            old_intro_lines = song.structure_intro_lines
+            song.structure_intro_lines = structure_intro_lines
+            updates.append(f"intro lines from '{old_intro_lines}' to '{structure_intro_lines}'")
+
+        if structure_outro_lines is not None:
+            old_outro_lines = song.structure_outro_lines
+            song.structure_outro_lines = structure_outro_lines
+            updates.append(f"outro lines from '{old_outro_lines}' to '{structure_outro_lines}'")
+
+        if structure_verse_count is not None:
+            old_verse_count = song.structure_verse_count
+            song.structure_verse_count = structure_verse_count
+            updates.append(f"verse count from '{old_verse_count}' to '{structure_verse_count}'")
+
+        if structure_verse_lines is not None:
+            old_verse_lines = song.structure_verse_lines
+            song.structure_verse_lines = structure_verse_lines
+            updates.append(f"verse lines from '{old_verse_lines}' to '{structure_verse_lines}'")
+
+        if structure_pre_chorus_lines is not None:
+            old_pre_chorus_lines = song.structure_pre_chorus_lines
+            song.structure_pre_chorus_lines = structure_pre_chorus_lines
+            updates.append(f"pre-chorus lines from '{old_pre_chorus_lines}' to '{structure_pre_chorus_lines}'")
+
+        if structure_chorus_lines is not None:
+            old_chorus_lines = song.structure_chorus_lines
+            song.structure_chorus_lines = structure_chorus_lines
+            updates.append(f"chorus lines from '{old_chorus_lines}' to '{structure_chorus_lines}'")
+
+        if structure_bridge_lines is not None:
+            old_bridge_lines = song.structure_bridge_lines
+            song.structure_bridge_lines = structure_bridge_lines
+            updates.append(f"bridge lines from '{old_bridge_lines}' to '{structure_bridge_lines}'")
+        if structure_average_syllables is not None:
+
+            old_average_syllables = song.structure_average_syllables
+            song.structure_average_syllables = structure_average_syllables
+            updates.append(f"average syllables per line from '{old_average_syllables}' to '{structure_average_syllables}'")
+
+        if structure_vocalisation_level is not None:
+            old_vocalisation_level = song.structure_vocalisation_level
+            song.structure_vocalisation_level = structure_vocalisation_level
+            updates.append(f"vocalisation level from '{old_vocalisation_level}' to '{structure_vocalisation_level}'")
+
+        if structure_vocalisation_lines is not None:
+            old_vocalisation_lines = song.structure_vocalisation_lines
+            song.structure_vocalisation_lines = structure_vocalisation_lines
+            updates.append(f"vocalisation lines from '{old_vocalisation_lines}' to '{structure_vocalisation_lines}'")
+
+        if structure_vocalisation_terms:
+            old_vocalisation_terms = song.structure_vocalisation_terms
+            song.structure_vocalisation_terms = structure_vocalisation_terms
+            updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{structure_vocalisation_terms}'")
+
+        if structure_custom_request:
+            old_custom_request = song.structure_custom_request
+            song.structure_custom_request = structure_custom_request
+            updates.append(f"custom request from '{old_custom_request}' to '{structure_custom_request}'")
+
+        if structure is not None:
+            old_structure = song.structure
+            song.structure = structure
+            updates.append(f"structure from '{old_structure}' to '{structure}'")
 
         song.save()
 

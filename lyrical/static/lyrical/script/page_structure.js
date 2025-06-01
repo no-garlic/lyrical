@@ -219,18 +219,18 @@ function saveSongStructure() {
 
     // call the api to update the song styles
     apiSongEdit(songId, {
-        intro_lines: newIntroLines,
-        outro_lines: newOutroLines,
-        verse_count: newVerseCount,
-        verse_lines: newVerseLines,
-        pre_chorus_lines: newPreChorusLines,
-        chorus_lines: newChorusLines,
-        bridge_lines: newBridgeLines,
-        max_syllables_per_line: newSyllables,
-        vocalisation_level: newVocalisationLevel,
-        vocalisation_lines: newVocalisationLines,
-        vocalisation_terms: newVocalisationTerms,
-        custom_prompt: newCustomRequest,
+        structure_intro_lines: newIntroLines,
+        structure_outro_lines: newOutroLines,
+        structure_verse_count: newVerseCount,
+        structure_verse_lines: newVerseLines,
+        structure_pre_chorus_lines: newPreChorusLines,
+        structure_chorus_lines: newChorusLines,
+        structure_bridge_lines: newBridgeLines,
+        structure_average_syllables: newSyllables,
+        structure_vocalisation_level: newVocalisationLevel,
+        structure_vocalisation_lines: newVocalisationLines,
+        structure_vocalisation_terms: newVocalisationTerms,
+        structure_custom_request: newCustomRequest,
         structure: songSectionsText
     })
         .then(songId => {
