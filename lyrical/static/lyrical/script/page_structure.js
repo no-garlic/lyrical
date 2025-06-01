@@ -4,46 +4,9 @@ import { apiSongEdit } from './api_song_edit.js';
 
 let draggedItem = null;
 let placeholder = null;
-
 let saveDirty = false;
 
-let saveHistory = {
-    introLines: 0,
-    outroLines: 0,
-    verseCount: 0,
-    verseLines: 0,
-    preChorusLines: 0,
-    chorusLines: 0,
-    bridgeLines: 0,
-    syllablesPerLine: 0,
-    vocalisationLevel: 0,
-    vocalisationLines: 0,
-    vocalisationTerms: '',
-    customRequest: '',
-    structure: ''
-    };
-
 const songId = document.body.dataset.songId;
-
-/*
-    x btn-generate - songId
-
-    x btn-clear
-    x badge-add-item-divider
-
-    btn-load-from-template
-    btn-save-to-template
-    btn-cancel
-    x btn-save
-    
-    drag and drop not working to the last slot
-
-*/
-
-
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSongSections();
     initDragAndDrop();
 });
-
 
 
 function initPageActions() {
@@ -69,6 +31,10 @@ function initPageActions() {
 
     document.getElementById('btn-clear').onclick = clearAllSongSections;
     document.getElementById('btn-save').onclick = saveSongStructure;
+
+    document.querySelectorAll('[id*="input-').forEach(input => {
+        input.addEventListener('input', setSaveDirty);
+    });
 }
 
 
@@ -123,6 +89,7 @@ function createAndAddSongSection(sectionName) {
             songSections.insertBefore(lastChild, addButton);
 
             // update the add button based on the number of items in the list
+            setSaveDirty();
             updateSongSectionsUIElements();
         })             
         .catch(error => {
@@ -139,6 +106,7 @@ function removeSongSection(badge) {
     const parent = badge.parentElement;
     const songSections = document.getElementById('song-sections');
     songSections.removeChild(parent);
+    setSaveDirty();
     updateSongSectionsUIElements();
 }
 
@@ -165,6 +133,7 @@ function clearAllSongSections() {
         songSections.removeChild(songSections.firstChild);
     }
 
+    setSaveDirty();
     updateSongSectionsUIElements();
 }
 
@@ -223,12 +192,7 @@ function saveSongStructure() {
             // update the dirty state and the UI for the save button
             saveDirty = false;
             const saveButton = document.getElementById('btn-save');
-            const cancelButton = document.getElementById('btn-cancel');
             saveButton.classList.add('btn-disabled');
-            cancelButton.classList.add('btn-disabled');
-
-            // update the save history so we can cancel / undo
-            updateSaveHistory();
 
             // update the state of the navigation buttons
             updateNavigationButtonStates();
@@ -238,29 +202,19 @@ function saveSongStructure() {
             console.error('Failed to edit the song structure:', error);
             toastSystem.showError('Failed to update the song structure. Please try again.');
         });
-
-
-
-
 }
 
 
-function updateSaveHistory() {
-    saveHistory.introLines = parseInt(document.getElementById('input-intro-lines').value.trim());
-    saveHistory.outroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
-    saveHistory.verseCount = parseInt(document.getElementById('input-verse-count').value.trim());
-    saveHistory.verseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
-    saveHistory.preChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
-    saveHistory.chorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
-    saveHistory.bridgeLines = parseInt(document.getElementById('input-bridge-lines').value.trim());
-    saveHistory.syllables = parseInt(document.getElementById('input-syllables-per-line').value.trim());
-    saveHistory.vocalisationLevel = parseInt(document.getElementById('input-vocalisation-level').value.trim());
-    saveHistory.vocalisationLines = parseInt(document.getElementById('input-vocalisation-lines').value.trim());
-    saveHistory.vocalisationTerms = document.getElementById('input-vocalisation-terms').value.trim();
-    saveHistory.customRequest = document.getElementById('input-custom-request').value.trim();
-    saveHistory.structure = getSongSectionsAsText().trim();
+function setSaveDirty() {
+    if (!saveDirty) {
+        saveDirty = true;
 
-    console.log(saveHistory);
+        const saveButton = document.getElementById('btn-save');
+        saveButton.classList.remove('btn-disabled');
+
+        // update the state of the navigation buttons
+        updateNavigationButtonStates();
+    }
 }
 
 
@@ -373,6 +327,7 @@ function handleDrop(e) {
         // Only drop if there's an afterElement (prevents dropping at the end)
         if (afterElement != null) {
             songSectionsContainer.insertBefore(draggedItem, afterElement);
+            setSaveDirty();
         }
         // If afterElement is null, don't move the item (prevents dropping at end)
     }

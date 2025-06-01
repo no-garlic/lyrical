@@ -68,6 +68,7 @@
 
 
 ## Todo
+ - Structure: drag and drop not working to the last slot
  - Update layout so Save and Cancel appear to apply to the whole page
  - Implement Save and Cancel of Song Sections
  - Structure page can set song tags, and all song generation parameters
