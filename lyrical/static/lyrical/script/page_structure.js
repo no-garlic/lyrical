@@ -1,32 +1,57 @@
+
 import { apiRenderComponent } from './api_render_component.js';
+import { apiSongEdit } from './api_song_edit.js';
 
 let draggedItem = null;
 let placeholder = null;
 
+let saveDirty = false;
+
+let saveHistory = {
+    introLines: 0,
+    outroLines: 0,
+    verseCount: 0,
+    verseLines: 0,
+    preChorusLines: 0,
+    chorusLines: 0,
+    bridgeLines: 0,
+    syllablesPerLine: 0,
+    vocalisationLevel: 0,
+    vocalisationLines: 0,
+    vocalisationTerms: '',
+    customRequest: '',
+    structure: ''
+    };
+
+const songId = document.body.dataset.songId;
+
 /*
     x btn-generate - songId
 
-    btn-clear
-    badge-add-item-divider
+    x btn-clear
+    x badge-add-item-divider
 
     btn-load-from-template
     btn-save-to-template
     btn-cancel
     btn-save
 
-    input-intro-lines
-    input-outro-lines
-    input-verse-count
-    input-verse-lines
-    input-pre-chorus-lines
-    input-chorus-lines
-    input-bridge-lines
-    input-syllables-per-line
-    input-vocalisation-level
-    input-vocalisation-lines
-    input-vocalisation-terms
-    input-custom-request
 
+    input-intro-lines           structure_intro_lines
+    input-outro-lines           structure_outro_lines
+    input-verse-count           structure_verse_count
+    input-verse-lines           structure_verse_lines
+    input-pre-chorus-lines      structure_pre_chorus_lines
+    input-chorus-lines          structure_chorus_lines
+    input-bridge-lines          structure_bridge_lines
+    input-syllables-per-line    structure_average_syllables
+    input-vocalisation-level    structure_vocalisation_level
+    input-vocalisation-lines    structure_vocalisation_lines
+    input-vocalisation-terms    structure_vocalisation_terms
+    input-custom-request        structure_custom_request
+    getSongSectionsAsText()     structure
+
+    
     drag and drop not working to the last slot
 
 */
@@ -46,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function initPageActions() {
-    const songId = document.body.dataset.songId;
+    
 
     document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
     document.getElementById('btn-navigate-next').onclick = () => { 
@@ -57,6 +82,9 @@ function initPageActions() {
     document.getElementById('btn-navigate-prev').onclick = () => { 
         window.location.href = `/style/${songId}`; 
     };
+
+    document.getElementById('btn-clear').onclick = clearAllSongSections;
+    document.getElementById('btn-save').onclick = saveSongStructure;
 }
 
 
@@ -82,7 +110,7 @@ function initSongSections() {
     });
 
     // update the add button based on the number of items in the list
-    updateAddButtonUI();
+    updateSongSectionsUIElements();
 }
 
 
@@ -111,7 +139,7 @@ function createAndAddSongSection(sectionName) {
             songSections.insertBefore(lastChild, addButton);
 
             // update the add button based on the number of items in the list
-            updateAddButtonUI();
+            updateSongSectionsUIElements();
         })             
         .catch(error => {
             console.error('Failed to render or initialize new list item:', error);
@@ -127,22 +155,105 @@ function removeSongSection(badge) {
     const parent = badge.parentElement;
     const songSections = document.getElementById('song-sections');
     songSections.removeChild(parent);
-    updateAddButtonUI();
+    updateSongSectionsUIElements();
 }
 
 
-function updateAddButtonUI() {
+function updateSongSectionsUIElements() {
     const songSections = document.getElementById('song-sections');
     const divider = document.getElementById('badge-add-item-divider');
+    const clearButton = document.getElementById('btn-clear');
 
     if (songSections.childElementCount > 1) {
         divider.classList.remove('hidden')
+        clearButton.classList.remove('btn-disabled');
     } else {
         divider.classList.add('hidden')
+        clearButton.classList.add('btn-disabled');
+    }
+}
+
+
+function clearAllSongSections() {
+    const songSections = document.getElementById('song-sections');
+
+    while (songSections.childElementCount > 1) {
+        songSections.removeChild(songSections.firstChild);
     }
 
-    
+    updateSongSectionsUIElements();
+}
 
+
+function getSongSectionsAsText() {
+    const songSections = document.getElementById('song-sections');
+    const sections = Array.from([]);
+
+    Array.from(songSections.childNodes).forEach(child => {
+        if (child && child.dataset && child.dataset.sectionName) {
+            const sectionName = child.dataset.sectionName;
+            sections.push(sectionName);
+        }
+    });
+
+    const sectionsAsText = sections.join(',');
+    return sectionsAsText;
+}
+
+
+function saveSongStructure() {
+    // get the data values to save
+    const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
+    const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
+    const newVerseCount = parseInt(document.getElementById('input-verse-count').value.trim());
+    const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
+    const newPreChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
+    const newChorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
+    const newBridgeLines = parseInt(document.getElementById('input-bridge-lines').value.trim());
+    const newSyllables = parseInt(document.getElementById('input-syllables-per-line').value.trim());
+    const newVocalisationLevel = parseInt(document.getElementById('input-vocalisation-level').value.trim());
+    const newVocalisationLines = parseInt(document.getElementById('input-vocalisation-lines').value.trim());
+    const newVocalisationTerms = document.getElementById('input-vocalisation-terms').value.trim();
+    const newCustomRequest = document.getElementById('input-custom-request').value.trim();
+    const songSectionsText = getSongSectionsAsText().trim();
+
+    // call the api to update the song styles
+    apiSongEdit(songId, {
+        structure_intro_lines: newIntroLines,
+        structure_outro_lines: newOutroLines,
+        structure_verse_count: newVerseCount,
+        structure_verse_lines: newVerseLines,
+        structure_pre_chorus_lines: newPreChorusLines,
+        structure_chorus_lines: newChorusLines,
+        structure_bridge_lines: newBridgeLines,
+        structure_average_syllables: newSyllables,
+        structure_vocalisation_level: newVocalisationLevel,
+        structure_vocalisation_lines: newVocalisationLines,
+        structure_vocalisation_terms: newVocalisationTerms,
+        structure_custom_request: newCustomRequest,
+        structure: songSectionsText
+    })
+        .then(songId => {
+            console.log(`Successfully updated the song structure for songId: ${songId}`);
+
+            // update the dirty state and the UI for the save button
+            saveDirty = false;
+            const saveButton = document.getElementById('btn-save');
+            const cancelButton = document.getElementById('btn-cancel');
+            saveButton.classList.add('btn-disabled');
+            cancelButton.classList.add('btn-disabled');
+
+            // update the save history so we can cancel / undo
+            updateSaveHistory();
+
+            // update the state of the navigation buttons
+            updateNavigationButtonStates();
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the song structure:', error);
+            toastSystem.showError('Failed to update the song structure. Please try again.');
+        });
 
 
 
@@ -150,11 +261,28 @@ function updateAddButtonUI() {
 }
 
 
+function updateSaveHistory() {
+    saveHistory.introLines = parseInt(document.getElementById('input-intro-lines').value.trim());
+    saveHistory.outroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
+    saveHistory.verseCount = parseInt(document.getElementById('input-verse-count').value.trim());
+    saveHistory.verseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
+    saveHistory.preChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
+    saveHistory.chorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
+    saveHistory.bridgeLines = parseInt(document.getElementById('input-bridge-lines').value.trim());
+    saveHistory.syllables = parseInt(document.getElementById('input-syllables-per-line').value.trim());
+    saveHistory.vocalisationLevel = parseInt(document.getElementById('input-vocalisation-level').value.trim());
+    saveHistory.vocalisationLines = parseInt(document.getElementById('input-vocalisation-lines').value.trim());
+    saveHistory.vocalisationTerms = document.getElementById('input-vocalisation-terms').value.trim();
+    saveHistory.customRequest = document.getElementById('input-custom-request').value.trim();
+    saveHistory.structure = getSongSectionsAsText().trim();
+
+    console.log(saveHistory);
+}
 
 
+function updateNavigationButtonStates() {
 
-
-
+}
 
 
 
