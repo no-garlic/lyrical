@@ -39,16 +39,187 @@
                 <div class="flex flex-row h-full">
 
                     <!-- Left Panel (Settings Area) -->
-                    <div class="flex flex-col flex-1 h-full w-[700px]">
+                    <div class="flex flex-col flex-1 h-full w-[730px]">
 
-                        sdfds
+                        <!-- Custom Request -->
+                        <div class="flex flex-col flex-shrink-0 border-b border-base-300 h-35">
+                            <textarea 
+                                id="input-prompt-text" 
+                                type="text" 
+                                placeholder="add any custom request here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
+                            >{{custom_request}}</textarea>
+                        </div>
+                        <!-- End: Custom Request -->
+
+                        <!-- Settings Controls -->
+                        <table class="w-full">
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>INTRO LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-intro-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>OUTRO LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-outro-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VERSE COUNT:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-verse-count" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VERSE LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-verse-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>PRE-CHORUS LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-pre-chorus-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>CHORUS LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-chorus-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>BRIDGE LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-bridge-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>SYLLABLES PER LINE:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VOCALISATION LEVEL:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-vocalisation-level" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VOCALISATION LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-vocalisation-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>3</span>
+                                            <span>6</span>
+                                            <span>9</span>
+                                            <span>12</span>
+                                            <span>15</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 pt-4" colspan="2">
+                                    <c-input-label>VOCALISATION TERMS:</c-input-label>
+                                    <input
+                                        id="input-vocalisation-terms" 
+                                        type="text" 
+                                        placeholder="" 
+                                        autocomplete="off" 
+                                        class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                                        value="{{vocalisation_terms}}"
+                                    ></input>
+                                </td>
+                            </tr>
+                        </table>
+
+                            
+
+                        <!-- End: Settings Controls -->
 
                     </div>
                     <!-- End: Left Panel (Settings Area) -->
 
                     <!-- Right Panel -->
-                    <div class="flex flex-col border-l border-base-300 rounded-none w-[300px]">
-                        <div class="w-[300px] min-w-0 flex flex-col h-full pt-1 pb-1">
+                    <div class="flex flex-col border-l border-base-300 rounded-none w-[270px]">
+                        <div class="w-[270px] min-w-0 flex flex-col h-full pt-1 pb-1">
 
                             <!-- Splitter Section (Clear) -->
                             <div class="flex flex-col flex-shrink-0">
