@@ -335,12 +335,12 @@ function handleDrop(e) {
     if (draggedItem && songSectionsContainer.contains(e.target)) {
         const afterElement = getDragAfterElement(songSectionsContainer, e.clientY);
         
-        // Only drop if there's an afterElement (prevents dropping at the end)
+        // Only drop if there's an afterElement
         if (afterElement != null) {
             songSectionsContainer.insertBefore(draggedItem, afterElement);
             setSaveDirty();
         }
-        // If afterElement is null, don't move the item (prevents dropping at end)
+        // If afterElement is null, don't move the item (prevents dropping at absolute end)
     }
     if (placeholder.parentNode) {
         placeholder.parentNode.removeChild(placeholder);
@@ -350,15 +350,22 @@ function handleDrop(e) {
 
 
 function getDragAfterElement(container, y) {
-    // Only get badge-edit-item elements, excluding the song-sections-end area
+    // Get badge-edit-item elements and the song-sections-end element
     const draggableElements = [...container.querySelectorAll('.badge-edit-item:not(.dragging)')];
+    const songSectionsEnd = container.querySelector('#song-sections-end');
     
-    // If no draggable elements exist, return null (can't drop anywhere)
-    if (draggableElements.length === 0) {
-        return null;
+    // If no draggable elements exist, return the song-sections-end to allow dropping before it
+    if (draggableElements.length === 0 && songSectionsEnd) {
+        return songSectionsEnd;
+    }
+    
+    // Combine draggable elements with song-sections-end for position calculation
+    const allElements = [...draggableElements];
+    if (songSectionsEnd) {
+        allElements.push(songSectionsEnd);
     }
 
-    return draggableElements.reduce((closest, child) => {
+    return allElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
         if (offset < 0 && offset > closest.offset) {

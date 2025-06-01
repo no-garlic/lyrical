@@ -74,12 +74,12 @@
  - Implement Clear
  - Implement Templates
  - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
+ - Structure: drag and drop not working to the last slot
 
 
 
 ## Todo
  - SMS to Martin
- - Structure: drag and drop not working to the last slot
  - Add a cancel button for Structure page
 
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
