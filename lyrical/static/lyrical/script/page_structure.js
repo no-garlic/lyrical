@@ -2,6 +2,7 @@
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSongEdit } from './api_song_edit.js';
 import { apiStructureTemplateEdit } from './api_structure_template_edit.js'
+import { apiStructureTemplateGet } from './api_structure_template_get.js';
 
 
 let draggedItem = null;
@@ -197,7 +198,9 @@ function saveSongStructure() {
             // update the dirty state and the UI for the save button
             saveDirty = false;
             const saveButton = document.getElementById('btn-save');
+            const saveToTemplateButton = document.getElementById('btn-save-to-template');
             saveButton.classList.add('btn-disabled');
+            saveToTemplateButton.classList.remove('btn-disabled');
 
             // update the state of the navigation buttons
             updateNavigationButtonStates();
@@ -215,7 +218,10 @@ function setSaveDirty() {
         saveDirty = true;
 
         const saveButton = document.getElementById('btn-save');
+        const saveToTemplateButton = document.getElementById('btn-save-to-template');
+        
         saveButton.classList.remove('btn-disabled');
+        saveToTemplateButton.classList.add('btn-disabled');
 
         // update the state of the navigation buttons
         updateNavigationButtonStates();
@@ -443,12 +449,14 @@ function showLoadTemplateModal() {
 
 
 function onSongStructureTemplateOkClicked() {
-    console.log(`ok clicked: ${this.innerHTML}`);
+    const selectedTemplateId = this.dataset.selectedTemplateId;
+
+    console.log(`ok clicked: ${this.innerHTML} - for templateId: ${selectedTemplateId}`);
 
     if (this.innerHTML === "Save") {
-        saveSongStructureToTemplate();
+        saveSongStructureToTemplate(selectedTemplateId);
     } else {
-        loadSongStructurefromTemplate();
+        loadSongStructurefromTemplate(selectedTemplateId);
     }
 }
 
@@ -477,6 +485,10 @@ function onSongStructureTextInputClicked() {
 
 
 function handleSongStructureTemplateOptionSelected(index) {
+    
+    const templateId = document.getElementById(`radio-option-${index}`).dataset.templateId;
+    document.getElementById('modal-song-structure-ok').dataset.selectedTemplateId = templateId;
+
     document.querySelectorAll('[id*="btn-edit-option-').forEach(button => button.classList.add('hidden'));
     document.querySelectorAll('[id*="btn-save-option-"').forEach(button => button.classList.add('hidden'));
     document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => button.classList.add('hidden'));
@@ -569,13 +581,102 @@ function onSongStructureTemplateCancelClicked() {
 }
 
 
-function saveSongStructureToTemplate() {
-    console.log('saving...');
+function saveSongStructureToTemplate(templateId) {
+    console.log('saving current structure to template ${templateId} ...');
+
+    // get the data values to save
+    const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
+    const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
+    const newVerseCount = parseInt(document.getElementById('input-verse-count').value.trim());
+    const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
+    const newPreChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
+    const newChorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
+    const newBridgeLines = parseInt(document.getElementById('input-bridge-lines').value.trim());
+    const newSyllables = parseInt(document.getElementById('input-syllables-per-line').value.trim());
+    const newVocalisationLevel = parseInt(document.getElementById('input-vocalisation-level').value.trim());
+    const newVocalisationLines = parseInt(document.getElementById('input-vocalisation-lines').value.trim());
+    const newVocalisationTerms = document.getElementById('input-vocalisation-terms').value.trim();
+    const newCustomRequest = document.getElementById('input-custom-request').value.trim();
+    const songSectionsText = getSongSectionsAsText().trim();
+
+    // call the api to update the song styles
+    apiStructureTemplateEdit(templateId, {
+        intro_lines: newIntroLines,
+        outro_lines: newOutroLines,
+        verse_count: newVerseCount,
+        verse_lines: newVerseLines,
+        pre_chorus_lines: newPreChorusLines,
+        chorus_lines: newChorusLines,
+        bridge_lines: newBridgeLines,
+        average_syllables: newSyllables,
+        vocalisation_level: newVocalisationLevel,
+        vocalisation_lines: newVocalisationLines,
+        vocalisation_terms: newVocalisationTerms,
+        custom_request: newCustomRequest,
+        structure: songSectionsText
+    })
+        .then(templateId => {
+            console.log(`Successfully updated the structure template for templateId: ${templateId}`);
+
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the song structure template:', error);
+            toastSystem.showError('Failed to update the song structure template. Please try again.');
+        });
 }
 
 
-function loadSongStructurefromTemplate() {
-    console.log('loading...');
+function loadSongStructurefromTemplate(templateId) {
+    console.log('loading saved structure template for templateId: ${templateId} ...');
+
+
+    apiStructureTemplateGet(templateId)
+        .then(templateData => {
+            console.log(`Successfully loaded the structure template for templateId: ${templateData}`);
+            console.log(`Loaded template data:`, JSON.stringify(templateData, null, 2));
+
+            // update the UI with the loaded template data
+            document.getElementById('input-intro-lines').value = templateData.intro_lines;
+            document.getElementById('input-outro-lines').value = templateData.outro_lines;
+            document.getElementById('input-verse-count').value = templateData.verse_count;
+            document.getElementById('input-verse-lines').value = templateData.verse_lines;
+            document.getElementById('input-pre-chorus-lines').value = templateData.pre_chorus_lines;
+            document.getElementById('input-chorus-lines').value = templateData.chorus_lines;
+            document.getElementById('input-bridge-lines').value = templateData.bridge_lines;
+            document.getElementById('input-syllables-per-line').value = templateData.average_syllables;
+            document.getElementById('input-vocalisation-level').value = templateData.vocalisation_level;
+            document.getElementById('input-vocalisation-lines').value = templateData.vocalisation_lines;
+            document.getElementById('input-vocalisation-terms').value = templateData.vocalisation_terms;
+            document.getElementById('input-custom-request').value = templateData.custom_request;
+
+            // clear existing song sections
+            clearAllSongSections();
+
+            // add the song sections from the loaded template
+            const songSectionsContainer = document.getElementById('song-sections');
+            const sections = templateData.structure.split(',');
+
+            console.log(`Loaded song sections: ${sections}`);
+            
+            sections.forEach(section => {
+                if (!section.trim()) return;
+                createAndAddSongSection(section.trim());
+            });
+
+            // update the UI elements based on the new song sections
+            updateSongSectionsUIElements();
+            setSaveDirty();
+            const saveButton = document.getElementById('btn-save');
+            saveButton.classList.remove('btn-disabled');
+            updateNavigationButtonStates();
+            console.log('Song structure loaded successfully from the template.');
+
+        })
+        .catch(error => {
+            console.error('Failed to load the song structure from the template:', error);
+            toastSystem.showError('Failed to load the song structure from the selected template. Please try again.');
+        });
 }
 
 

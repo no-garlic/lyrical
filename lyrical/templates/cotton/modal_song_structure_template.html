@@ -10,8 +10,13 @@
                 {% endfor %}
 
                 <div class="flex flex-row gap-2 justify-end mr-20.5 mt-3.5">
-                    <button class="btn btn-md btn-primary w-25" id="modal-song-structure-cancel">Cancel</button>
-                    <button class="btn btn-md btn-primary w-25" id="modal-song-structure-ok">Save</button>
+                    <button 
+                        class="btn btn-md btn-primary w-25" 
+                        id="modal-song-structure-cancel">Cancel</button>
+                    <button 
+                        class="btn btn-md btn-primary w-25" 
+                        data-selected-template-id="{{ song_structure_templates.0.id }}"
+                        id="modal-song-structure-ok">Save</button>
                 </div>
 
             </form>

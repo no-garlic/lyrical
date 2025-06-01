@@ -1,6 +1,7 @@
 <div class="flex flex-row">
     <input id="radio-option-{{index}}" 
            data-index="{{index}}"
+           data-template-id="{{template.id}}"
            type="radio" 
            {% if index == "1" %}checked="true"{% endif %}
            name="song-structure-templates-radio-group" 

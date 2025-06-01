@@ -204,7 +204,7 @@ def api_song_edit(request):
 
         song.save()
 
-        logger.info(f"User {request.user.username} updated song {song_id}: {', '.join(updates)}")
+        logger.info(f"User {request.user.username} updated song {song_id}:\n  {', \n  '.join(updates)}")
         return JsonResponse({"status": "success", "song_id": song.id}, status=200)
 
     except json.JSONDecodeError:

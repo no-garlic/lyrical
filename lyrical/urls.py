@@ -21,6 +21,7 @@ from .views.api_song_edit_bulk import *
 from .views.api_song_delete import *
 
 from .views.api_structure_template_edit import *
+from .views.api_structure_template_get import *
 
 from .views.api_section_edit import *
 from .views.api_section_edit_bulk import *
@@ -64,6 +65,7 @@ urlpatterns = [
 
     # api structure template management
     path("api_structure_template_edit", api_structure_template_edit, name="api_structure_template_edit"),
+    path("api_structure_template_get", api_structure_template_get, name="api_structure_template_get"),
 
     # api section management
     path("api_section_edit", api_section_edit, name="api_section_edit"),

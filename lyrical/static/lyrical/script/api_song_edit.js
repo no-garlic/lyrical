@@ -35,7 +35,6 @@ export function apiSongEdit(songId, updates = {}) {
         structure_vocalisation_terms: structureVocalisationTerms,
         structure_custom_request: structureCustomRequest,
         structure: songStructure,
-
     } = updates;
 
     // get CSRF token
@@ -45,35 +44,38 @@ export function apiSongEdit(songId, updates = {}) {
     const requestBody = { song_id: songId };
 
     // base fields
-    if (songName) requestBody.song_name = songName;
-    if (songStage) requestBody.song_stage = songStage;
-    if (songTheme) requestBody.song_theme = songTheme;
-    if (songNarrative) requestBody.song_narrative = songNarrative;
-    if (songMood) requestBody.song_mood = songMood;
+    if (songName != undefined) requestBody.song_name = songName;
+    if (songStage != undefined) requestBody.song_stage = songStage;
+    if (songTheme != undefined) requestBody.song_theme = songTheme;
+    if (songNarrative  != undefined) requestBody.song_narrative = songNarrative;
+    if (songMood != undefined) requestBody.song_mood = songMood;
 
     // song hook fields
-    if (songHook) requestBody.hook = songHook;
-    if (hookCustomRequest) requestBody.hook_custom_request = hookCustomRequest;
-    if (hookRhymeWith) requestBody.hook_rhyme_with = hookRhymeWith;
-    if (hookVocalisationLevel) requestBody.hook_vocalisation_level = hookVocalisationLevel;
-    if (hookVocalisationTerms) requestBody.hook_vocalisation_terms = hookVocalisationTerms;
-    if (hookMaxLines) requestBody.hook_max_lines = hookMaxLines;
-    if (hookAverageSyllables) requestBody.hook_average_syllables = hookAverageSyllables;
+    if (songHook != undefined) requestBody.hook = songHook;
+    if (hookCustomRequest != undefined) requestBody.hook_custom_request = hookCustomRequest;
+    if (hookRhymeWith != undefined) requestBody.hook_rhyme_with = hookRhymeWith;
+    if (hookVocalisationLevel != undefined) requestBody.hook_vocalisation_level = hookVocalisationLevel;
+    if (hookVocalisationTerms != undefined) requestBody.hook_vocalisation_terms = hookVocalisationTerms;
+    if (hookMaxLines != undefined) requestBody.hook_max_lines = hookMaxLines;
+    if (hookAverageSyllables != undefined) requestBody.hook_average_syllables = hookAverageSyllables;
 
     // song structure fields
-    if (structureIntroLines) requestBody.structure_intro_lines = structureIntroLines;
-    if (structureOutroLines) requestBody.structure_outro_lines = structureOutroLines;
-    if (structureVerseCount) requestBody.structure_verse_count = structureVerseCount;
-    if (structureVerseLines) requestBody.structure_verse_lines = structureVerseLines;
-    if (structurePreChorusLines) requestBody.structure_pre_chorus_lines = structurePreChorusLines;
-    if (structureChorusLines) requestBody.structure_chorus_lines = structureChorusLines;
-    if (structureBridgeLines) requestBody.structure_bridge_lines = structureBridgeLines;
-    if (structureSyllables) requestBody.structure_average_syllables = structureSyllables;
-    if (structureVocalisationLevel) requestBody.structure_vocalisation_level = structureVocalisationLevel;
-    if (structureVocalisationLines) requestBody.structure_vocalisation_lines = structureVocalisationLines;
-    if (structureVocalisationTerms) requestBody.structure_vocalisation_terms = structureVocalisationTerms;
-    if (structureCustomRequest) requestBody.structure_custom_request = structureCustomRequest;
-    if (songStructure) requestBody.structure = songStructure;
+    if (structureIntroLines != undefined) requestBody.structure_intro_lines = structureIntroLines;
+    if (structureOutroLines != undefined) requestBody.structure_outro_lines = structureOutroLines;
+    if (structureVerseCount != undefined) requestBody.structure_verse_count = structureVerseCount;
+    if (structureVerseLines != undefined) requestBody.structure_verse_lines = structureVerseLines;
+    if (structurePreChorusLines != undefined) requestBody.structure_pre_chorus_lines = structurePreChorusLines;
+    if (structureChorusLines != undefined) requestBody.structure_chorus_lines = structureChorusLines;
+    if (structureBridgeLines != undefined) requestBody.structure_bridge_lines = structureBridgeLines;
+    if (structureSyllables != undefined) requestBody.structure_average_syllables = structureSyllables;
+    if (structureVocalisationLevel != undefined) requestBody.structure_vocalisation_level = structureVocalisationLevel;
+    if (structureVocalisationLines != undefined) requestBody.structure_vocalisation_lines = structureVocalisationLines;
+    if (structureVocalisationTerms != undefined) requestBody.structure_vocalisation_terms = structureVocalisationTerms;
+    if (structureCustomRequest != undefined) requestBody.structure_custom_request = structureCustomRequest;
+    if (songStructure != undefined) requestBody.structure = songStructure;
+
+    // log the request body for debugging
+    console.log('Request body for song edit:', JSON.stringify(requestBody, null, 2));
 
     // send the request to the server
     return fetch('/api_song_edit', {

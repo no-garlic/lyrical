@@ -110,6 +110,7 @@ class SongStructureTemplate(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
     # Structure Parameters
+    custom_request = models.TextField(default='')
     vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
     vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
     average_syllables = models.IntegerField(default=8)

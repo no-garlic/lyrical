@@ -129,6 +129,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("name", models.CharField(max_length=255, unique=True)),
+                ("custom_request", models.TextField(default="")),
                 ("vocalisation_level", models.IntegerField(choices=[(0, "None"), (1, "Low"), (2, "Medium"), (3, "High")], default=2,)),
                 ("vocalisation_terms", models.CharField(default="ah, ahh, oh, ooh, whoa", max_length=255)),
                 ("average_syllables", models.IntegerField(default=8)),
