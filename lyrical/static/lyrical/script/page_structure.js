@@ -361,27 +361,15 @@ function getDragAfterElement(container, y) {
 }
 
 
-
 /* 
-Song Structure Template:
+ * **************************************************************
+ *
+ * Song Structure Template Editing and Saving on the Modal Dialog
+ * 
+ * **************************************************************
+ */
 
-    modal-song-structure-template           - Main Window
-    modal-song-structure-title              - Title
-    modal-song-structure-message            - Information Message
-    modal-song-structure-cancel             - Cancel Button
-    modal-song-structure-ok                 - Ok (Save/Load) Button
 
-Each Field:
-
-    radio-option-{{index}}                  - Radio Option
-    dataset.index                           - Index (1 to 8)
-
-    data-template-id="{{template.id}}"      - Database Id
-    text-option-{{index}}                   - Text Input                (disabled)
-    
-    btn-edit-option-{{index}}               - Edit Button               (hidden)
-    btn-save-option-{{index}}               - Save Button               (hidden)
-*/
 function initSongStructureTemplates() {
     
     // testing
@@ -395,31 +383,39 @@ function initSongStructureTemplates() {
         option.onclick = onSongStructureTemplateOptionSelected;
     });
     
-    // setup callbacks for the edit buttons on each template
-    document.querySelectorAll('[id*="btn-edit-option-"').forEach(button => {
-        button.onclick = onSongStructureTemplateEditClicked;
+    document.querySelectorAll('[id*="text-option-"').forEach(option => {
+        option.onclick = onSongStructureTextInputClicked;
     });
 
-    // setup callbacks for the save buttons on each template
-    document.querySelectorAll('[id*="btn-save-option-"').forEach(button => {
-        button.onclick = onSongStructureTemplateSaveClicked;
-    });
+    if (document.getElementById('modal-song-structure-ok').innerHTML === 'Save') {
 
-    // setup callbacks for the cancel buttons on each template
-    document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => {
-        button.onclick = onSongStructureTemplateCancelClicked;
-    });
+        // setup callbacks for the edit buttons on each template
+        document.querySelectorAll('[id*="btn-edit-option-"').forEach(button => {
+            button.onclick = onSongStructureTemplateEditClicked;
+        });
 
-    // setup callbacks for the text input on each template
-    document.querySelectorAll('[id*="text-option-"').forEach(element => {
-        element.addEventListener('keydown', function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                onSongStructureTemplateEnterKeyPressed(element);
-            }
-        })
-    });
+        // setup callbacks for the save buttons on each template
+        document.querySelectorAll('[id*="btn-save-option-"').forEach(button => {
+            button.onclick = onSongStructureTemplateSaveClicked;
+        });
 
+        // setup callbacks for the cancel buttons on each template
+        document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => {
+            button.onclick = onSongStructureTemplateCancelClicked;
+        });
+
+        // setup callbacks for the text input on each template
+        document.querySelectorAll('[id*="text-option-"').forEach(element => {
+            element.addEventListener('keydown', function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    onSongStructureTemplateEnterKeyPressed(element);
+                }
+            })
+        });
+    } else {
+        document.querySelectorAll('[id*="btn-edit-option-').forEach(button => button.classList.add('hidden'));
+    }
 }
 
 
@@ -444,13 +440,40 @@ function showLoadTemplateModal() {
 
 
 function onSongStructureTemplateOkClicked() {
-    console.log(`ok clicked`);
+    console.log(`ok clicked: ${this.innerHTML}`);
+
+    if (this.innerHTML === "Save") {
+        saveSongStructureToTemplate();
+    } else {
+        loadSongStructurefromTemplate();
+    }
 }
 
 
 function onSongStructureTemplateOptionSelected() {
     console.log(`option selected: ${this.dataset.index}`);
+    handleSongStructureTemplateOptionSelected(this.dataset.index);
+}
 
+
+function onSongStructureTextInputClicked() {
+    const index = this.dataset.index;
+
+    console.log(`clicked on text input index: ${index}`);
+    
+    document.querySelectorAll('[id*="radio-option-').forEach(button => {
+        if (button.dataset.index === index) {
+            button.checked = true;
+        } else {
+            button.checked = false;
+        }
+    });
+
+    handleSongStructureTemplateOptionSelected(index);
+}
+
+
+function handleSongStructureTemplateOptionSelected(index) {
     document.querySelectorAll('[id*="btn-edit-option-').forEach(button => button.classList.add('hidden'));
     document.querySelectorAll('[id*="btn-save-option-"').forEach(button => button.classList.add('hidden'));
     document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => button.classList.add('hidden'));
@@ -460,7 +483,9 @@ function onSongStructureTemplateOptionSelected() {
         element.readOnly = true;
     });
     
-    document.getElementById(`btn-edit-option-${this.dataset.index}`).classList.remove('hidden');
+    if (document.getElementById('modal-song-structure-ok').innerHTML === 'Save') {
+        document.getElementById(`btn-edit-option-${index}`).classList.remove('hidden');
+    }
 }
 
 
@@ -512,7 +537,6 @@ function saveSongStructureTemplate(index) {
         .then(templateId => {
             console.log(`Successfully updated the song structure template for templateId: ${templateId}`);
 
-
             editControl.dataset.origText = editControl.value;
             editControl.readOnly = true;
 
@@ -541,6 +565,15 @@ function onSongStructureTemplateCancelClicked() {
     editControl.readOnly = true;
 }
 
+
+function saveSongStructureToTemplate() {
+    console.log('saving...');
+}
+
+
+function loadSongStructurefromTemplate() {
+    console.log('loading...');
+}
 
 
 
