@@ -78,7 +78,10 @@
  - Implement Clear
  - Implement Templates
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
-
+ - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
+ - Update prompt about other rules, like ... and rrrrrrun
+ - Song Structure dialog needs to be a few px wider to match style page width
+ 
  - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
  - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
  - refactor using btn-generate for songId

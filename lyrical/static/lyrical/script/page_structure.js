@@ -3,17 +3,166 @@ import { apiRenderComponent } from './api_render_component.js';
 let draggedItem = null;
 let placeholder = null;
 
+/*
+    x btn-generate - songId
+
+    btn-clear
+    badge-add-item-divider
+
+    btn-load-from-template
+    btn-save-to-template
+    btn-cancel
+    btn-save
+
+    input-intro-lines
+    input-outro-lines
+    input-verse-count
+    input-verse-lines
+    input-pre-chorus-lines
+    input-chorus-lines
+    input-bridge-lines
+    input-syllables-per-line
+    input-vocalisation-level
+    input-vocalisation-lines
+    input-vocalisation-terms
+    input-custom-request
+
+    drag and drop not working to the last slot
+
+*/
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initSongSections();
-    initDragAndDrop(); // Initialize drag and drop for existing items
+    initDragAndDrop();
 });
 
-function makeItemDraggable(item) {
-    item.setAttribute('draggable', true);
-    item.addEventListener('dragstart', handleDragStart);
-    item.addEventListener('dragend', handleDragEnd);
+
+
+function initPageActions() {
+    const songId = document.body.dataset.songId;
+
+    document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
+    document.getElementById('btn-navigate-next').onclick = () => { 
+        window.location.href = `/hook/${songId}`; 
+    };
+
+    document.getElementById('btn-navigate-prev').classList.remove('btn-disabled');
+    document.getElementById('btn-navigate-prev').onclick = () => { 
+        window.location.href = `/style/${songId}`; 
+    };
 }
+
+
+function initSongSections() {
+    // register an onclick callback for all menu options on the modal window
+    document.querySelectorAll('[id*="modal-add-"').forEach(choice => {
+        document.getElementById(choice.id).onclick = () => {
+            createAndAddSongSection(choice.innerHTML);
+        };
+    });
+
+    // register the onclick callback for the ADD ITEM button
+    document.getElementById('badge-add-item').onclick = (event) => {
+        document.getElementById('modal-select').showModal();
+    }
+
+    // register the close button for all badges already on the page that were loaded by
+    // the django template
+    document.querySelectorAll('.badge-edit-close-button').forEach(badge => {
+        badge.onclick = () => {
+            removeSongSection(badge);
+        }
+    });
+
+    // update the add button based on the number of items in the list
+    updateAddButtonUI();
+}
+
+
+function createAndAddSongSection(sectionName) {
+    // get the server to make a new item from the django-cotton template
+    apiRenderComponent('badge_edit', 'song-sections', { slot: sectionName })
+        .then(html => {
+            // get the song sections container
+            const songSections = document.getElementById('song-sections');
+            
+            // the item we just created is now the last child of the song sections container
+            const lastChild = songSections.lastElementChild;
+
+            // make the item we just created draggable
+            if (lastChild && lastChild.classList.contains('badge-edit-item')) {
+                makeItemDraggable(lastChild);
+            }
+
+            // add an event listener to the close button on the item we just created
+            lastChild.querySelector('.badge-edit-close-button').onclick = () => {
+                removeSongSection(lastChild.querySelector('.badge-edit-close-button'));
+            }
+
+            // move the item up 1 slot, above the add button
+            const addButton = lastChild.previousElementSibling;
+            songSections.insertBefore(lastChild, addButton);
+
+            // update the add button based on the number of items in the list
+            updateAddButtonUI();
+        })             
+        .catch(error => {
+            console.error('Failed to render or initialize new list item:', error);
+            toastSystem.showError('Failed to display the list item. Please refresh the page.');
+        });
+
+    // close the menu
+    document.activeElement.blur();
+}
+
+
+function removeSongSection(badge) {
+    const parent = badge.parentElement;
+    const songSections = document.getElementById('song-sections');
+    songSections.removeChild(parent);
+    updateAddButtonUI();
+}
+
+
+function updateAddButtonUI() {
+    const songSections = document.getElementById('song-sections');
+    const divider = document.getElementById('badge-add-item-divider');
+
+    if (songSections.childElementCount > 1) {
+        divider.classList.remove('hidden')
+    } else {
+        divider.classList.add('hidden')
+    }
+
+    
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function initDragAndDrop() {
     const songSectionsContainer = document.getElementById('song-sections');
@@ -32,18 +181,30 @@ function initDragAndDrop() {
     placeholder.style.display = 'none'; // Hidden by default
 }
 
+
+
+function makeItemDraggable(item) {
+    item.setAttribute('draggable', true);
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('dragend', handleDragEnd);
+}
+
+
 function handleDragStart(e) {
     draggedItem = e.target.closest('.badge-edit-item');
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', draggedItem.id || ''); // ID is optional but good practice
+    
     // Add a class to the dragged item for styling (e.g., opacity)
     draggedItem.classList.add('dragging');
+    
     // Ensure placeholder is initially hidden when a new drag starts
     if (placeholder.parentNode) {
         placeholder.parentNode.removeChild(placeholder);
     }
     placeholder.style.display = 'none';
 }
+
 
 function handleDragEnd(e) {
     if (draggedItem) {
@@ -56,8 +217,9 @@ function handleDragEnd(e) {
     placeholder.style.display = 'none';
 }
 
+
 function handleDragOver(e) {
-    e.preventDefault(); // Necessary to allow dropping
+    e.preventDefault();
     const songSectionsContainer = document.getElementById('song-sections');
     if (!songSectionsContainer.contains(e.target)) return;
 
@@ -65,6 +227,7 @@ function handleDragOver(e) {
     
     // Don't allow dropping at the end - only between items or at the beginning
     if (afterElement == null) {
+
         // Hide placeholder if trying to drop at the end
         if (placeholder.parentNode) {
             placeholder.parentNode.removeChild(placeholder);
@@ -78,6 +241,7 @@ function handleDragOver(e) {
     }
 }
 
+
 function handleDragLeave(e) {
     // Only hide placeholder if leaving the container itself, not just moving between items
     const songSectionsContainer = document.getElementById('song-sections');
@@ -86,6 +250,7 @@ function handleDragLeave(e) {
          placeholder.style.display = 'none';
     }
 }
+
 
 function handleDrop(e) {
     e.preventDefault();
@@ -104,6 +269,7 @@ function handleDrop(e) {
     }
     placeholder.style.display = 'none';
 }
+
 
 function getDragAfterElement(container, y) {
     // Only get badge-edit-item elements, excluding the song-sections-end area
@@ -125,81 +291,3 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-
-function initSongSections() {
-
-    const menuChoices = ['verse', 'chorus', 'bridge', 'pre-chorus', 'outro', 'hook', 'vocalisation', 'interlude', 'solo', 'intro'];
-
-    menuChoices.forEach(choice => {
-        document.getElementById(`modal-add-${choice}`).onclick = () => {
-            apiRenderComponent('badge_edit', 'song-sections', { slot: choice })
-                .then(html => {
-                    // get the song sections container
-                    const song_sections = document.getElementById('song-sections');
-                    
-                    // get the last child of the song sections container
-                    const lastChild = song_sections.lastElementChild;
-
-                    // Make the new item draggable
-                    if (lastChild && lastChild.classList.contains('badge-edit-item')) {
-                        makeItemDraggable(lastChild);
-                    }
-
-                    // add event listeners to the new badge edit buttons
-                    lastChild.querySelector('.badge-edit-close-button').onclick = () => {
-                        removeBadge(lastChild.querySelector('.badge-edit-close-button'));
-                    }
-
-                    const addButton = lastChild.previousElementSibling;
-                    song_sections.insertBefore(lastChild, addButton);
-
-
-                })             
-                .catch(error => {
-                    console.error('Failed to render or initialize new list item:', error);
-                    toastSystem.showError('Failed to display the list item. Please refresh the page.');
-                });
-            document.activeElement.blur();
-        }
-    });
-
-    document.getElementById('badge-add-item').onclick = (event) => {
-        document.getElementById('modal-select').showModal();
-    }
-
-
-    document.querySelectorAll('.badge-edit-close-button').forEach(badge => {
-        badge.onclick = () => {
-            removeBadge(badge);
-        }
-    });
-}
-
-
-function removeBadge(badge) {
-    const parent = badge.parentElement;
-    const song_sections = document.getElementById('song-sections');
-    song_sections.removeChild(parent);
-}
-
-
-function initPageActions() {
-    document.getElementById('btn-navigate-next').onclick = navigateNext;
-    document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
-    document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
-    document.getElementById('btn-navigate-prev').classList.remove('btn-disabled');
-}
-
-
-function navigateNext() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/hook/${songId}`;
-}
-
-
-function navigatePrevious() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
-    window.location.href = `/style/${songId}`;
-}
