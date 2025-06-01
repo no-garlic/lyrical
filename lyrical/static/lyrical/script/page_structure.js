@@ -1,6 +1,7 @@
 
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSongEdit } from './api_song_edit.js';
+import { apiStructureTemplateEdit } from './api_structure_template_edit.js'
 
 
 let draggedItem = null;
@@ -505,19 +506,25 @@ function saveSongStructureTemplate(index) {
 
     console.log(`saving template to the database: id=${templateId}, name="${templateName}"`);
 
+    apiStructureTemplateEdit(templateId, {
+        template_name: templateName,
+    })
+        .then(templateId => {
+            console.log(`Successfully updated the song structure template for templateId: ${templateId}`);
 
-    /*
 
-    apiSongStructureTemplate => in the .then()
+            editControl.dataset.origText = editControl.value;
+            editControl.readOnly = true;
 
-        editControl.dataset.origText = editControl.value;
-        editControl.readOnly = true;
-
-        const index = this.dataset.index;
-        document.getElementById(`btn-edit-option-${index}`).classList.remove('hidden');
-        document.getElementById(`btn-save-option-${index}`).classList.add('hidden');
-        document.getElementById(`btn-cancel-option-${index}`).classList.add('hidden');
-    */
+            document.getElementById(`btn-edit-option-${index}`).classList.remove('hidden');
+            document.getElementById(`btn-save-option-${index}`).classList.add('hidden');
+            document.getElementById(`btn-cancel-option-${index}`).classList.add('hidden');
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the song structure template:', error);
+            toastSystem.showError('Failed to update the song structure template. Please try again.');
+        });
 }
 
 
