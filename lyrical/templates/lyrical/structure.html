@@ -41,44 +41,30 @@
                     <!-- Left Panel (Settings Area) -->
                     <div class="flex flex-col flex-1 h-full w-[730px]">
 
-                        <!-- Custom Request -->
-                        <div class="flex flex-col flex-shrink-0 border-b border-base-300 h-35">
-                            <textarea 
-                                id="input-prompt-text" 
-                                type="text" 
-                                placeholder="add any custom request here..." 
-                                autocomplete="off" 
-                                class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
-                            >{{custom_request}}</textarea>
-                        </div>
-                        <!-- End: Custom Request -->
-
                         <!-- Settings Controls -->
-                        <table class="w-full">
+                        <table class="w-full mb-6">
                             <tr>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>INTRO LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-intro-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-intro-lines" type="range" min="0" max="6" value="{{song.structure_intro_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>0</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>OUTRO LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-outro-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-outro-lines" type="range" min="0" max="6" value="{{song.structure_outro_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>0</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
                                         </div>
                                     </div>
                                 </td>
@@ -87,26 +73,24 @@
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>VERSE COUNT:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-verse-count" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-verse-count" type="range" min="1" max="4" value="{{song.structure_verse_count}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>1</span>
+                                            <span>2</span>
                                             <span>3</span>
-                                            <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
+                                            <span>4</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>VERSE LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-verse-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-verse-lines" type="range" min="2" max="8" value="{{song.structure_verse_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
+                                            <span>8</span>
                                         </div>
                                     </div>
                                 </td>
@@ -115,26 +99,24 @@
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>PRE-CHORUS LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-pre-chorus-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-pre-chorus-lines" type="range" min="0" max="6" value="{{song.structure_pre_chorus_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>0</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>CHORUS LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-chorus-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-chorus-lines" type="range" min="2" max="8" value="{{song.structure_chorus_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
+                                            <span>8</span>
                                         </div>
                                     </div>
                                 </td>
@@ -143,25 +125,26 @@
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>BRIDGE LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-bridge-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-bridge-lines" type="range" min="0" max="6" value="{{song.structure_bridge_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
+                                            <span>0</span>
+                                            <span>2</span>
+                                            <span>4</span>
                                             <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>SYLLABLES PER LINE:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{song.structure_average_syllables}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
                                             <span>3</span>
-                                            <span>6</span>
+                                            <span>5</span>
+                                            <span>7</span>
                                             <span>9</span>
-                                            <span>12</span>
+                                            <span>11</span>
+                                            <span>13</span>
                                             <span>15</span>
                                         </div>
                                     </div>
@@ -171,26 +154,24 @@
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>VOCALISATION LEVEL:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-vocalisation-level" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-vocalisation-level" type="range" min="0" max="3" value="{{song.structure_vocalisation_level}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
-                                            <span>3</span>
-                                            <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
+                                            <span>Off</span>
+                                            <span>Low</span>
+                                            <span>Medium</span>
+                                            <span>High</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="w-[50%] px-4 pt-4">
                                     <c-input-label>VOCALISATION LINES:</c-input-label>
                                     <div class="w-full max-w-xs">
-                                        <input id="input-vocalisation-lines" type="range" min="3" max="15" value="{{average_syllables}}" class="range range-primary w-83" step="1"/>
+                                        <input id="input-vocalisation-lines" type="range" min="1" max="4" value="{{song.structure_vocalisation_lines}}" class="range range-primary w-83" step="1"/>
                                         <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <span>1</span>
+                                            <span>2</span>
                                             <span>3</span>
-                                            <span>6</span>
-                                            <span>9</span>
-                                            <span>12</span>
-                                            <span>15</span>
+                                            <span>4</span>
                                         </div>
                                     </div>
                                 </td>
@@ -203,15 +184,25 @@
                                         type="text" 
                                         placeholder="" 
                                         autocomplete="off" 
-                                        class="input-control input input-md input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
-                                        value="{{vocalisation_terms}}"
+                                        class="input-control input input-md text-[16px] input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                                        value="{{song.structure_vocalisation_terms}}"
                                     ></input>
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="px-4 pt-4" colspan="2">
+                                    <c-input-label>CUSTOM REQUEST:</c-input-label>
+                                    <textarea
+                                        id="input-custom-request" 
+                                        type="text" 
+                                        placeholder="" 
+                                        autocomplete="off" 
+                                        class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] h-30 border-base-300 shadow-none resize-none focus:outline-none" 
+                                        value=""
+                                    >{{song.structure_custom_request}}</textarea>
+                                </td>
+                            </tr>
                         </table>
-
-                            
-
                         <!-- End: Settings Controls -->
 
                     </div>

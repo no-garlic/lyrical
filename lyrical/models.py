@@ -78,10 +78,12 @@ class Song(models.Model):
     structure_vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
     structure_vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
     structure_average_syllables = models.IntegerField(default=8)
+    structure_verse_count = models.IntegerField(default=2)
     structure_verse_lines = models.IntegerField(default=4)
     structure_pre_chorus_lines = models.IntegerField(default=4)
     structure_chorus_lines = models.IntegerField(default=4)
     structure_bridge_lines = models.IntegerField(default=4)
+    structure_intro_lines = models.IntegerField(default=4)
     structure_outro_lines = models.IntegerField(default=4)
     structure_vocalisation_lines = models.IntegerField(default=2)
 
