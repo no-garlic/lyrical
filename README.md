@@ -64,11 +64,6 @@
  - Change order: Song -> Style -> Structure -> Hook -> Lyrics
  - Move hook page generation params into the database
  - Fix Previous button's for new flow
-
-
-
-## Todo
- - Structure: drag and drop not working to the last slot
  - Update layout so Save and Cancel appear to apply to the whole page
  - Implement Save and Cancel of Song Sections
  - Structure page can set song tags, and all song generation parameters
@@ -78,19 +73,29 @@
  - Implement Settings Controls and Default Values
  - Implement Clear
  - Implement Templates
+ - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
+
+
+
+## Todo
+ - SMS to Martin
+ - Structure: drag and drop not working to the last slot
+ - Add a cancel button for Structure page
+
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
  - Update prompt about other rules, like ... and rrrrrrun
  - Song Structure dialog needs to be a few px wider to match style page width
  
- - bug: API's dont send blank values to the database, so if I delete all text in a textbox and save, it wont delete it.
  - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
- - refactor using btn-generate for songId
+ - refactor using btn-generate for songId - get it from document.body instead
+ - drag and drop items dont animate back into place on Song Names page like they do on Structure page
 
  
  
 
 ## Backlog
+ - Update navigation system hyperlinks
  - Make all modals looks the same
  - Fix jitter upon closing a modal
  - Add href# to Navigation Timeline
