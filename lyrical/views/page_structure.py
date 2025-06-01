@@ -33,6 +33,8 @@ def page_structure(request, song_id: int):
         logger.error(f"page_structure: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
         return HttpResponseServerError("An error occurred while fetching the song")
 
+    song_sections = song.structure.split(',')
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
@@ -40,6 +42,7 @@ def page_structure(request, song_id: int):
         "btn_previous": None,
         "selectedSongId": song_id,
         "song": song,
+        "song_sections": song_sections
     }
 
     try:

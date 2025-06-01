@@ -232,6 +232,9 @@
                             <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
 
                                 <!-- Song Sections Added Here -->
+                                {% for item in song_sections %}
+                                    <c-badge-edit>{{ item }}</c-badge-edit>
+                                {% endfor %}
                                 
                                 <!-- Add Item -->
                                 <div id="song-sections-end">

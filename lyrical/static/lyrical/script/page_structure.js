@@ -34,23 +34,7 @@ const songId = document.body.dataset.songId;
     btn-load-from-template
     btn-save-to-template
     btn-cancel
-    btn-save
-
-
-    input-intro-lines           structure_intro_lines
-    input-outro-lines           structure_outro_lines
-    input-verse-count           structure_verse_count
-    input-verse-lines           structure_verse_lines
-    input-pre-chorus-lines      structure_pre_chorus_lines
-    input-chorus-lines          structure_chorus_lines
-    input-bridge-lines          structure_bridge_lines
-    input-syllables-per-line    structure_average_syllables
-    input-vocalisation-level    structure_vocalisation_level
-    input-vocalisation-lines    structure_vocalisation_lines
-    input-vocalisation-terms    structure_vocalisation_terms
-    input-custom-request        structure_custom_request
-    getSongSectionsAsText()     structure
-
+    x btn-save
     
     drag and drop not working to the last slot
 
