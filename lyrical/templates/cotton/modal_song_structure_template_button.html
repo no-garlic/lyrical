@@ -8,15 +8,16 @@
     <input data-template-id="{{template.id}}" 
            id="text-option-{{index}}" 
            data-index="{{index}}"
+           data-orig-text="{{template.name}}"
            type="text" 
            placeholder="" 
            autocomplete="off" 
-           class="input input-md text-[16px] input-neutral border-base-300 shadow-none focus:outline-none ml-3 w-75" 
+           class="input input-ghost bg-base-200 focus:bg-base-200 input-md text-[16px] input-neutral border-base-300 shadow-none focus:border-base-300 focus:outline-none ml-3 w-75" 
            readonly 
            value="{{template.name}}" />
     <div   id="btn-edit-option-{{index}}" 
            data-index="{{index}}"
-           class="bi bi-pencil btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>
+           class="bi bi-pencil btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 {% if index != "1" %}hidden{% endif %}"></div>
     <div   id="btn-save-option-{{index}}" 
            data-index="{{index}}"
            class="bi bi-floppy btn btn-md btn-neutral ml-1 mt-1 h-8 w-8 hidden"></div>

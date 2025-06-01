@@ -393,12 +393,6 @@ function initSongStructureTemplates() {
     document.querySelectorAll('[id*="radio-option-"').forEach(option => {
         option.onclick = onSongStructureTemplateOptionSelected;
     });
-
-    // setup callbacks for the text inputs on each template
-    document.querySelectorAll('[id*="text-option-"').forEach(element => {
-        element.onclick = onSongStructureTemplateTextClicked;
-    });
-
     
     // setup callbacks for the edit buttons on each template
     document.querySelectorAll('[id*="btn-edit-option-"').forEach(button => {
@@ -409,6 +403,22 @@ function initSongStructureTemplates() {
     document.querySelectorAll('[id*="btn-save-option-"').forEach(button => {
         button.onclick = onSongStructureTemplateSaveClicked;
     });
+
+    // setup callbacks for the cancel buttons on each template
+    document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => {
+        button.onclick = onSongStructureTemplateCancelClicked;
+    });
+
+    // setup callbacks for the text input on each template
+    document.querySelectorAll('[id*="text-option-"').forEach(element => {
+        element.addEventListener('keydown', function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                onSongStructureTemplateEnterKeyPressed(element);
+            }
+        })
+    });
+
 }
 
 
@@ -437,18 +447,20 @@ function onSongStructureTemplateOkClicked() {
 }
 
 
-function onSongStructureTemplateTextClicked() {
-    console.log(`text clicked: ${this.dataset.index}`);
-}
-
-
 function onSongStructureTemplateOptionSelected() {
     console.log(`option selected: ${this.dataset.index}`);
 
-    document.querySelectorAll('[id*="btn-edit-option-').forEach(element => element.classList.add('hidden'));
+    document.querySelectorAll('[id*="btn-edit-option-').forEach(button => button.classList.add('hidden'));
+    document.querySelectorAll('[id*="btn-save-option-"').forEach(button => button.classList.add('hidden'));
+    document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => button.classList.add('hidden'));
+
+    document.querySelectorAll('[id*="text-option-').forEach(element => {
+        element.value = element.dataset.origText;
+        element.readOnly = true;
+    });
+    
     document.getElementById(`btn-edit-option-${this.dataset.index}`).classList.remove('hidden');
 }
-
 
 
 function onSongStructureTemplateEditClicked() {
@@ -457,6 +469,9 @@ function onSongStructureTemplateEditClicked() {
     const saveButton = document.getElementById(`btn-save-option-${this.dataset.index}`);
     const cancelButton = document.getElementById(`btn-cancel-option-${this.dataset.index}`);
 
+    const textInput = document.getElementById(`text-option-${this.dataset.index}`);
+    textInput.dataset.origText = textInput.value;
+    
     saveButton.classList.remove('hidden');
     cancelButton.classList.remove('hidden');
 
@@ -470,11 +485,54 @@ function onSongStructureTemplateEditClicked() {
 }
 
 
-function onSongStructureTemplateSaveClicked() {
-    console.log(`save item clicked: ${this.id}`);
+function onSongStructureTemplateEnterKeyPressed(element) {
+    console.log(`enter key pressed: ${element.dataset.index}`);
+    saveSongStructureTemplate(element.dataset.index);
 }
 
 
+function onSongStructureTemplateSaveClicked() {
+    console.log(`save item clicked: ${this.dataset.index}`);
+    saveSongStructureTemplate(this.dataset.index);
+}
+
+
+function saveSongStructureTemplate(index) {
+    const editControl = document.getElementById(`text-option-${index}`);
+
+    const templateId = editControl.dataset.templateId;
+    const templateName = editControl.value;
+
+    console.log(`saving template to the database: id=${templateId}, name="${templateName}"`);
+
+
+    /*
+
+    apiSongStructureTemplate => in the .then()
+
+        editControl.dataset.origText = editControl.value;
+        editControl.readOnly = true;
+
+        const index = this.dataset.index;
+        document.getElementById(`btn-edit-option-${index}`).classList.remove('hidden');
+        document.getElementById(`btn-save-option-${index}`).classList.add('hidden');
+        document.getElementById(`btn-cancel-option-${index}`).classList.add('hidden');
+    */
+}
+
+
+function onSongStructureTemplateCancelClicked() {
+    console.log(`cancel item clicked: ${this.dataset.index}`);
+
+    const index = this.dataset.index;
+    document.getElementById(`btn-edit-option-${index}`).classList.remove('hidden');
+    document.getElementById(`btn-save-option-${index}`).classList.add('hidden');
+    document.getElementById(`btn-cancel-option-${index}`).classList.add('hidden');
+
+    const editControl = document.getElementById(`text-option-${index}`);
+    editControl.value = editControl.dataset.origText;
+    editControl.readOnly = true;
+}
 
 
 
