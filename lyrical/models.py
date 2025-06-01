@@ -105,6 +105,28 @@ class Song(models.Model):
         return f"{self.title} ({self.stage})"
     
 
+class SongStructureTemplate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='structure_templates')
+    name = models.CharField(max_length=255, unique=True)
+
+    # Structure Parameters
+    vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
+    vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
+    average_syllables = models.IntegerField(default=8)
+    verse_count = models.IntegerField(default=2)
+    verse_lines = models.IntegerField(default=4)
+    pre_chorus_lines = models.IntegerField(default=4)
+    chorus_lines = models.IntegerField(default=4)
+    bridge_lines = models.IntegerField(default=4)
+    intro_lines = models.IntegerField(default=4)
+    outro_lines = models.IntegerField(default=4)
+    vocalisation_lines = models.IntegerField(default=2)
+    structure = models.TextField(default='')
+
+    def __str__(self):
+        return f"{self.name} ({self.user.username})"
+
+
 class SongMetadata(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='metadata')
     key = models.CharField(max_length=255)

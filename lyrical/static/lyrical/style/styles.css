@@ -107,6 +107,7 @@
 @plugin "./daisyui.js" {
   themes: lyrical --default --prefersdark;
   logs: true;
+  exclude: rootscrollgutter;
 }
 
 @source "../../../templates";

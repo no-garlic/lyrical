@@ -125,6 +125,26 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="SongStructureTemplate",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("vocalisation_level", models.IntegerField(choices=[(0, "None"), (1, "Low"), (2, "Medium"), (3, "High")], default=2,)),
+                ("vocalisation_terms", models.CharField(default="ah, ahh, oh, ooh, whoa", max_length=255)),
+                ("average_syllables", models.IntegerField(default=8)),
+                ("verse_count", models.IntegerField(default=2)),
+                ("verse_lines", models.IntegerField(default=4)),
+                ("pre_chorus_lines", models.IntegerField(default=4)),
+                ("chorus_lines", models.IntegerField(default=4)),
+                ("bridge_lines", models.IntegerField(default=4)),
+                ("intro_lines", models.IntegerField(default=4)),
+                ("outro_lines", models.IntegerField(default=4)),
+                ("vocalisation_lines", models.IntegerField(default=2)),
+                ("structure", models.TextField(default="")),
+                ("user", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="structure_templates", to=settings.AUTH_USER_MODEL,)),
+            ],
+        ),
+        migrations.CreateModel(
             name="SongMetadata",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),

@@ -13,11 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initSongSections();
     initDragAndDrop();
+
+    document.getElementById('modal-song-structure-template').showModal();
 });
 
 
-function initPageActions() {
-    
+function initPageActions() {    
 
     document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
     document.getElementById('btn-navigate-next').onclick = () => { 
@@ -48,7 +49,7 @@ function initSongSections() {
 
     // register the onclick callback for the ADD ITEM button
     document.getElementById('badge-add-item').onclick = (event) => {
-        document.getElementById('modal-select').showModal();
+        document.getElementById('modal-select-song-section').showModal();
     }
 
     // register the close button for all badges already on the page that were loaded by

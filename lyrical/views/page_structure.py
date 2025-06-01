@@ -26,6 +26,7 @@ def page_structure(request, song_id: int):
 
     try:
         song = models.Song.objects.get(id=song_id, user=request.user)
+        song_structure_templates = models.SongStructureTemplate.objects.filter(user=request.user).order_by(Lower('name'))
     except models.Song.DoesNotExist:
         logger.error(f"page_structure: song with id {song_id} does not exist for user '{request.user.username}'")
         return HttpResponseServerError("Song not found")
@@ -35,6 +36,7 @@ def page_structure(request, song_id: int):
 
     song_sections = song.structure.split(',')
 
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
@@ -42,7 +44,8 @@ def page_structure(request, song_id: int):
         "btn_previous": None,
         "selectedSongId": song_id,
         "song": song,
-        "song_sections": song_sections
+        "song_sections": song_sections,
+        "song_structure_templates": song_structure_templates,
     }
 
     try:

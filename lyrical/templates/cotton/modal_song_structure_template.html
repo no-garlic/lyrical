@@ -1,0 +1,25 @@
+<dialog id="modal-song-structure-template" class="modal">
+    <div class="modal-box bg-base-300 w-[600px] h-[600px] rounded rounded-lg rounded-box">
+        <h3 id="modal-song-structure-title" class="text-2xl font-bold text-center text-primary mb-8" id="modal-select-title">Song Structure Template</h3>
+        <h5 id="modal-song-structure-message">Select the template to save to:</h5>
+        <div class="modal-action">
+            <form method="dialog" class="flex flex-col w-full ml-10 gap-2">
+
+                <c-modal-song-structure-template-button index="1" checked="true" />
+                <c-modal-song-structure-template-button index="2" />
+                <c-modal-song-structure-template-button index="3" />
+                <c-modal-song-structure-template-button index="4" />
+                <c-modal-song-structure-template-button index="5" />
+                <c-modal-song-structure-template-button index="6" />
+                <c-modal-song-structure-template-button index="7" />
+                <c-modal-song-structure-template-button index="8" />
+
+                <div class="flex flex-row gap-2 justify-end mr-18 mt-3.5">
+                    <button class="btn btn-md btn-primary" id="modal-textinput-cancel">Cancel</button>
+                    <button class="btn btn-md btn-primary" id="modal-textinput-ok">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</dialog>
