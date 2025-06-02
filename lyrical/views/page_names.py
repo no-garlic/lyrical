@@ -14,7 +14,7 @@ def page_names(request):
 
     context = {
         "active_page": "names",
-        "page_name": "SONG NAMES",
+#        "page_name": "SONG NAMES",
     }
 
     try:

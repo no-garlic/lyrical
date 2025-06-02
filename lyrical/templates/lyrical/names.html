@@ -1,8 +1,199 @@
-{% extends "lyrical/base_columns_3.html" %}
+{% extends "lyrical/base_columns.html" %}
 {% load static %}
 
 {% block head %}
 {% endblock %}
+
+{% block page_content %}
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
+        <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+
+            <!-- Title -->
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG NAMES</h2>
+
+            <!-- Content -->
+            <div class="flex flex-row flex-1 min-h-0 gap-4">
+
+                <!-- Left Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+
+                    <!-- Right Header -->
+                    <c-panel-header title="GENERATE NAMES" padding="4">
+                        <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
+                            GENERATE
+                        </c-panel-header-button>
+                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
+                            PLEASE WAIT...
+                        </c-panel-header-button-loading>
+                    </c-panel-header>
+                    <!-- End: Right Header -->
+
+                    <!-- Prompt Input -->
+                    <div class="flex flex-col flex-shrink-0 border-b border-base-300 rounded-none h-36">
+                        <textarea 
+                            id="prompt-text" 
+                            type="text" 
+                            placeholder="add an optional prompt or just click generate..." 
+                            autocomplete="off" 
+                            class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
+                        ></textarea>
+                    </div>
+                    <!-- End: Prompt Input -->
+
+                    <!-- Fields for Edit Song Style -->
+                    <div class="p-4" data-drop-zone="true">
+
+                        <c-input-label>
+                            INCLUDE THEMES:
+                        </c-input-label>                        
+                        <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
+                        <c-input-spacer />
+                        
+                        <c-input-label>
+                            EXCLUDE THEMES:
+                        </c-input-label>                        
+                        <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
+                        <c-input-spacer />
+
+                        <div class="flex flex-row gap-4 flex-1">
+                            <div class="flex flex-col flex-1">
+                                <c-input-label>
+                                    INCLUDE WORDS:
+                                </c-input-label>
+                                <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
+                                <c-input-spacer />
+
+                            </div>
+                            <div class="flex flex-col flex-1">
+
+                                <c-input-label>
+                                    EXCLUDE WORDS:
+                                </c-input-label>                        
+                                <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
+                                <c-input-spacer />
+                            </div>
+                        </div>
+
+                        <div class="flex flex-row gap-4 flex-1">
+                            <div class="flex flex-col flex-1">
+
+                                <c-input-label>
+                                    STARTS WITH:
+                                </c-input-label>                        
+                                <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
+                                <c-input-spacer />
+
+                            </div>
+                            <div class="flex flex-col flex-1">
+
+                                <c-input-label>
+                                    ENDS WITH:
+                                </c-input-label>                        
+                                <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
+                                <c-input-spacer />
+                            </div>
+                        </div>
+
+                        <c-input-label>
+                            MIN WORDS:
+                        </c-input-label>                        
+                        <input id="input-min-words" type="range" min="1" max="5" value="{{ user.song_name_length_min }}" class="range range-primary w-full" step="1" />
+                        <div class="flex justify-between px-2.5 mt-2 text-xs">
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                        </div>
+                        <c-input-spacer />
+
+                        <c-input-label>
+                            MAX WORDS:
+                        </c-input-label>                        
+                        <input id="input-max-words" type="range" min="1" max="5" value="{{ user.song_name_length_max }}" class="range range-primary w-full" step="1" />
+                        <div class="flex justify-between px-2.5 mt-2 text-xs">
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                        </div>
+                        <c-input-spacer />
+
+                        <c-input-label>
+                            COUNT:
+                        </c-input-label>                        
+                        <input id="input-count" type="range" min="1" max="25" value="{{ user.song_name_gen_count }}" class="range range-primary w-full" step="1" />
+                        <div class="flex justify-between px-2.5 mt-2 text-xs">
+                            <span>1</span>
+                            <span>5</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                            <span>25</span>
+                        </div>
+
+                    </div>
+                    <!-- End: Fields for Edit Song Style -->
+
+                </div>
+                <!-- End: Left Panel -->
+
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1 overflow-hidden">
+
+                    <!-- Splitter Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
+                                
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-start items-center ">
+                                    <div class="tabs tabs-border tabs-md mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-new" class="tab px-4" aria-label="NEW" checked="checked" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-liked" class="tab px-4" aria-label="LIKED" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-disliked" class="tab px-4" aria-label="DISLIKED" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-generated" class="tab px-4" aria-label="EDITING" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-published" class="tab px-4" aria-label="PUBLISHED" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Splitter Section -->
+
+                    <!-- Container for Generated Styles -->
+                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
+
+
+
+
+
+
+                    </div>
+                    <!-- End: Container for Generated Styles -->
+
+                </div>
+                <!-- End: Right Panel -->
+
+            </div>                
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- GENERATION PARAMETERS -->
@@ -15,96 +206,26 @@
 
             <!-- Column -->
             <div class="flex-1 pl-8 pr-6 mb-4">
-                <c-input-label>
-                    INCLUDE THEMES:
-                </c-input-label>                        
-                <c-input-textarea id="input-include-themes">{{user.song_name_theme_inc}}</c-input-textarea>
                 <c-input-spacer />
 
-                <c-input-label>
-                    INCLUDE WORDS:
-                </c-input-label>
-                <c-input-text id="input-include-words">{{user.song_name_words_inc}}</c-input-text>
             </div>
 
             <!-- Column -->
             <div class="flex-1 pl-4 pr-6 mb-4">
-                <c-input-label>
-                    EXCLUDE THEMES:
-                </c-input-label>                        
-                <c-input-textarea id="input-exclude-themes">{{user.song_name_theme_exc}}</c-input-textarea>
-                <c-input-spacer />
 
-                <c-input-label>
-                    EXCLUDE WORDS:
-                </c-input-label>                        
-                <c-input-text id="input-exclude-words">{{user.song_name_words_exc}}</c-input-text>
             </div>
 
             <!-- Column -->
             <div class="flex-1 pl-4 pr-4 mb-4">
-                <c-input-label>
-                    STARTS WITH:
-                </c-input-label>                        
-                <c-input-text id="input-starts-with">{{user.song_name_starts_with}}</c-input-text>
-                <c-input-spacer />
-
-                <c-input-label>
-                    ENDS WITH:
-                </c-input-label>                        
-                <c-input-text id="input-ends-with">{{user.song_name_ends_with}}</c-input-text>
             </div>
 
             <!-- Column -->
             <div class="flex-1 flex flex-col items-center mb-4">    
-                <c-input-label>
-                    MIN WORDS:
-                </c-input-label>                        
-                <div class="w-[80%] max-w-xs">
-                    <input id="input-min-words" type="range" min="1" max="5" value="{{ user.song_name_length_min }}" class="range range-primary" step="1" />
-                    <div class="flex justify-between px-2.5 mt-2 text-xs">
-                        <span>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>5</span>
-                    </div>
-                </div>
-                <c-input-spacer />
-
-                <c-input-label>
-                    MAX WORDS:
-                </c-input-label>                        
-                <div class="w-[80%] max-w-xs">
-                    <input id="input-max-words" type="range" min="1" max="5" value="{{ user.song_name_length_max }}" class="range range-primary" step="1" />
-                    <div class="flex justify-between px-2.5 mt-2 text-xs">
-                        <span>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>5</span>
-                    </div>
-                </div>
             </div>
 
             <!-- Column -->
             <div class="flex-1 flex flex-col items-center mb-4">    
                                 
-                <c-input-label>
-                    COUNT:
-                </c-input-label>                        
-                <div class="w-[80%] max-w-xs">
-                    <input id="input-count" type="range" min="1" max="25" value="{{ user.song_name_gen_count }}" class="range range-primary" step="1" />
-                    <div class="flex justify-between px-2.5 mt-2 text-xs">
-                        <span>1</span>
-                        <span>5</span>
-                        <span>10</span>
-                        <span>15</span>
-                        <span>20</span>
-                        <span>25</span>
-                    </div>
-                </div>                    
-                <c-input-spacer />
 
                 <div class="w-full text-center pt-6">
                     <a class="btn btn-md w-[250px] h-[44px] mt-1 mb-2 ml-2 btn-primary" id="btn-generate-song-names">
@@ -204,10 +325,6 @@
          </c-panel-container>
 
     </c-panel>
-{% endblock %}
-
-
-{% block footer %}
 {% endblock %}
 
 
