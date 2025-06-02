@@ -89,6 +89,7 @@
  - Cut Hair
  - Fill Tank
  - Cook Veg
+ - Bins Out
 
 
 ### Lyrics Page:

@@ -49,6 +49,16 @@ class SongNamesGenerator(LLMGenerator):
         return self.extracted_params['prompt_name']
     
 
+    def get_message_type(self) -> str:
+        # uses_conversation_history = false, so no message type needed
+        return ''
+    
+    
+    def get_song_id(self) -> int:
+        # uses_conversation_history = false, so no song id needed
+        return 0
+    
+
     def build_user_prompt_params(self) -> Dict[str, Any]:
         return {
             'include_themes': self.extracted_params['include_themes'],
