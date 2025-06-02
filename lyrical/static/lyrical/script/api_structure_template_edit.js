@@ -7,7 +7,6 @@ export function apiStructureTemplateEdit(templateId, updates = {}) {
 
         intro_lines: introLines,
         outro_lines: outroLines,
-        verse_count: verseCount,
         verse_lines: verseLines,
         pre_chorus_lines: preChorusLines,
         chorus_lines: chorusLines,
@@ -32,7 +31,6 @@ export function apiStructureTemplateEdit(templateId, updates = {}) {
     // song structure fields
     if (introLines != undefined) requestBody.intro_lines = introLines;
     if (outroLines != undefined) requestBody.outro_lines = outroLines;
-    if (verseCount != undefined) requestBody.verse_count = verseCount;
     if (verseLines != undefined) requestBody.verse_lines = verseLines;
     if (preChorusLines != undefined) requestBody.pre_chorus_lines = preChorusLines;
     if (chorusLines != undefined) requestBody.chorus_lines = chorusLines;

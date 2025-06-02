@@ -172,7 +172,6 @@ function saveSongStructure() {
     // get the data values to save
     const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
     const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
-    const newVerseCount = parseInt(document.getElementById('input-verse-count').value.trim());
     const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
     const newPreChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
     const newChorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
@@ -188,7 +187,6 @@ function saveSongStructure() {
     apiSongEdit(songId, {
         structure_intro_lines: newIntroLines,
         structure_outro_lines: newOutroLines,
-        structure_verse_count: newVerseCount,
         structure_verse_lines: newVerseLines,
         structure_pre_chorus_lines: newPreChorusLines,
         structure_chorus_lines: newChorusLines,
@@ -236,7 +234,6 @@ function updateSaveHistory() {
     // record the current state of the song structure in the save history
     saveHistory.intro_lines = parseInt(document.getElementById('input-intro-lines').value.trim());
     saveHistory.outro_lines = parseInt(document.getElementById('input-outro-lines').value.trim());
-    saveHistory.verse_count = parseInt(document.getElementById('input-verse-count').value.trim());
     saveHistory.verse_lines = parseInt(document.getElementById('input-verse-lines').value.trim());
     saveHistory.pre_chorus_lines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
     saveHistory.chorus_lines = parseInt(document.getElementById('input-chorus-lines').value.trim());
@@ -262,7 +259,6 @@ function revertSaveHistory() {
     // revert the last save by restoring the last saved state from the history
     document.getElementById('input-intro-lines').value = saveHistory.intro_lines;
     document.getElementById('input-outro-lines').value = saveHistory.outro_lines;
-    document.getElementById('input-verse-count').value = saveHistory.verse_count;
     document.getElementById('input-verse-lines').value = saveHistory.verse_lines;
     document.getElementById('input-pre-chorus-lines').value = saveHistory.pre_chorus_lines;
     document.getElementById('input-chorus-lines').value = saveHistory.chorus_lines;
@@ -722,7 +718,6 @@ function saveSongStructureToTemplate(templateId) {
     // get the data values to save
     const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
     const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
-    const newVerseCount = parseInt(document.getElementById('input-verse-count').value.trim());
     const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
     const newPreChorusLines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
     const newChorusLines = parseInt(document.getElementById('input-chorus-lines').value.trim());
@@ -738,7 +733,6 @@ function saveSongStructureToTemplate(templateId) {
     apiStructureTemplateEdit(templateId, {
         intro_lines: newIntroLines,
         outro_lines: newOutroLines,
-        verse_count: newVerseCount,
         verse_lines: newVerseLines,
         pre_chorus_lines: newPreChorusLines,
         chorus_lines: newChorusLines,
@@ -774,7 +768,6 @@ function loadSongStructurefromTemplate(templateId) {
             // update the UI with the loaded template data
             document.getElementById('input-intro-lines').value = templateData.intro_lines;
             document.getElementById('input-outro-lines').value = templateData.outro_lines;
-            document.getElementById('input-verse-count').value = templateData.verse_count;
             document.getElementById('input-verse-lines').value = templateData.verse_lines;
             document.getElementById('input-pre-chorus-lines').value = templateData.pre_chorus_lines;
             document.getElementById('input-chorus-lines').value = templateData.chorus_lines;

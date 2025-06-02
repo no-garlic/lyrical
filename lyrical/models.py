@@ -78,7 +78,6 @@ class Song(models.Model):
     structure_vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
     structure_vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
     structure_average_syllables = models.IntegerField(default=8)
-    structure_verse_count = models.IntegerField(default=2)
     structure_verse_lines = models.IntegerField(default=4)
     structure_pre_chorus_lines = models.IntegerField(default=4)
     structure_chorus_lines = models.IntegerField(default=4)
@@ -104,6 +103,10 @@ class Song(models.Model):
     def __str__(self):
         return f"{self.title} ({self.stage})"
     
+    @property
+    def structure_verse_count(self):
+        return self.structure.count('verse') if self.structure else 0
+    
 
 class SongStructureTemplate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='structure_templates')
@@ -114,7 +117,6 @@ class SongStructureTemplate(models.Model):
     vocalisation_level = models.IntegerField(default=2, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
     vocalisation_terms = models.CharField(default='ah, ahh, oh, ooh, whoa', max_length=255)
     average_syllables = models.IntegerField(default=8)
-    verse_count = models.IntegerField(default=2)
     verse_lines = models.IntegerField(default=4)
     pre_chorus_lines = models.IntegerField(default=4)
     chorus_lines = models.IntegerField(default=4)

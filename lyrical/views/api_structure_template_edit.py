@@ -35,7 +35,6 @@ def api_structure_template_edit(request):
 
         introLines = edit_data.get("intro_lines")
         outroLines = edit_data.get("outro_lines")
-        verseCount = edit_data.get("verse_count")
         verseLines = edit_data.get("verse_lines")
         preChorusLines = edit_data.get("pre_chorus_lines")
         chorusLines = edit_data.get("chorus_lines")
@@ -78,11 +77,6 @@ def api_structure_template_edit(request):
             old_outro = template.outro_lines
             template.outro_lines = outroLines
             updates.append(f"outro lines from '{old_outro}' to '{outroLines}'")
-
-        if verseCount is not None:
-            old_verse_count = template.verse_count
-            template.verse_count = verseCount
-            updates.append(f"verse count from {old_verse_count} to {verseCount}")
 
         if verseLines is not None:
             old_verse_lines = template.verse_lines

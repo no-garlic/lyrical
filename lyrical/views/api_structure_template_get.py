@@ -48,7 +48,6 @@ def api_structure_template_get(request):
             "template_name": template.name,
             "intro_lines": template.intro_lines,
             "outro_lines": template.outro_lines,
-            "verse_count": template.verse_count,
             "verse_lines": template.verse_lines,
             "pre_chorus_lines": template.pre_chorus_lines,
             "chorus_lines": template.chorus_lines,

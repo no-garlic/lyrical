@@ -48,7 +48,6 @@ def api_song_edit(request):
 
         structure_intro_lines = edit_data.get("structure_intro_lines")
         structure_outro_lines = edit_data.get("structure_outro_lines")
-        structure_verse_count = edit_data.get("structure_verse_count")
         structure_verse_lines = edit_data.get("structure_verse_lines")
         structure_pre_chorus_lines = edit_data.get("structure_pre_chorus_lines")
         structure_chorus_lines = edit_data.get("structure_chorus_lines")
@@ -146,11 +145,6 @@ def api_song_edit(request):
             old_outro_lines = song.structure_outro_lines
             song.structure_outro_lines = structure_outro_lines
             updates.append(f"outro lines from '{old_outro_lines}' to '{structure_outro_lines}'")
-
-        if structure_verse_count is not None:
-            old_verse_count = song.structure_verse_count
-            song.structure_verse_count = structure_verse_count
-            updates.append(f"verse count from '{old_verse_count}' to '{structure_verse_count}'")
 
         if structure_verse_lines is not None:
             old_verse_lines = song.structure_verse_lines

@@ -24,7 +24,6 @@ export function apiSongEdit(songId, updates = {}) {
 
         structure_intro_lines: structureIntroLines,
         structure_outro_lines: structureOutroLines,
-        structure_verse_count: structureVerseCount,
         structure_verse_lines: structureVerseLines,
         structure_pre_chorus_lines: structurePreChorusLines,
         structure_chorus_lines: structureChorusLines,
@@ -62,7 +61,6 @@ export function apiSongEdit(songId, updates = {}) {
     // song structure fields
     if (structureIntroLines != undefined) requestBody.structure_intro_lines = structureIntroLines;
     if (structureOutroLines != undefined) requestBody.structure_outro_lines = structureOutroLines;
-    if (structureVerseCount != undefined) requestBody.structure_verse_count = structureVerseCount;
     if (structureVerseLines != undefined) requestBody.structure_verse_lines = structureVerseLines;
     if (structurePreChorusLines != undefined) requestBody.structure_pre_chorus_lines = structurePreChorusLines;
     if (structureChorusLines != undefined) requestBody.structure_chorus_lines = structureChorusLines;
