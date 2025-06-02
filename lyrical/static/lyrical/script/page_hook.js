@@ -384,6 +384,10 @@ function updateNavigationButtonStates() {
 
     if (isSaved && hasHook) {
         nextButton.classList.remove('btn-disabled');
+        nextButton.innerHTML = nextButton.innerHTML.replace('Skip', 'Next');
+    } else if (isSaved && !hasHook) {
+        nextButton.classList.remove('btn-disabled');
+        nextButton.innerHTML = nextButton.innerHTML.replace('Next', 'Skip');
     } else {
         nextButton.classList.add('btn-disabled');
     }

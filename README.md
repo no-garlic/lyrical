@@ -77,13 +77,15 @@
  - Structure: drag and drop not working to the last slot
  - Add a cancel button for Structure page
  - Implement updateNavigationButtonStates
+ - Remove verse_count
+ - Can Skip Hook Page if empty
 
 
 
 ## Todo
- - remove verse_count
- - Can Skip Hook Page if empty
+ - Single Save Button for Song Hook Page
 
+ 
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
  - Update prompt about other rules, like ... and rrrrrrun
