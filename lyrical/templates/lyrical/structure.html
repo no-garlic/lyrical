@@ -9,13 +9,13 @@
     <c-modal-song-structure-template />
 
     <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
-        <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+        <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
             <!-- Title -->
             <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STRUCTURE - {{song.name|upper}}</h2>
 
             <!-- Content Outer Border -->
-            <div class="border-1 rounded border-base-300 flex flex-col flex-1">
+            <div class="border-1 w-[1116px] rounded border-base-300 flex flex-col flex-1">
                                 
                 <div class="border-b border-base-300 pt-1">
                     <!-- Right Header -->
@@ -50,8 +50,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>INTRO LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-intro-lines" type="range" min="0" max="6" value="{{song.structure_intro_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-intro-lines" type="range" min="0" max="6" value="{{song.structure_intro_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>0</span>
                                                 <span>2</span>
                                                 <span>4</span>
@@ -62,8 +62,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>VERSE LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-verse-lines" type="range" min="2" max="8" value="{{song.structure_verse_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-verse-lines" type="range" min="2" max="8" value="{{song.structure_verse_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>2</span>
                                                 <span>4</span>
                                                 <span>6</span>
@@ -76,8 +76,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>PRE-CHORUS LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-pre-chorus-lines" type="range" min="0" max="6" value="{{song.structure_pre_chorus_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-pre-chorus-lines" type="range" min="0" max="6" value="{{song.structure_pre_chorus_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>0</span>
                                                 <span>2</span>
                                                 <span>4</span>
@@ -88,8 +88,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>CHORUS LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-chorus-lines" type="range" min="2" max="8" value="{{song.structure_chorus_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-chorus-lines" type="range" min="2" max="8" value="{{song.structure_chorus_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>2</span>
                                                 <span>4</span>
                                                 <span>6</span>
@@ -102,8 +102,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>BRIDGE LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-bridge-lines" type="range" min="0" max="6" value="{{song.structure_bridge_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-bridge-lines" type="range" min="0" max="6" value="{{song.structure_bridge_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>0</span>
                                                 <span>2</span>
                                                 <span>4</span>
@@ -114,8 +114,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>OUTRO LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-outro-lines" type="range" min="0" max="6" value="{{song.structure_outro_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-outro-lines" type="range" min="0" max="6" value="{{song.structure_outro_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>0</span>
                                                 <span>2</span>
                                                 <span>4</span>
@@ -128,8 +128,8 @@
                                     <td class="px-4 pt-4" colspan="2">
                                         <c-input-label>SYLLABLES PER LINE:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{song.structure_average_syllables}}" class="range range-primary w-174" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-175">
+                                            <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{song.structure_average_syllables}}" class="range range-primary w-203" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-205">
                                                 <span>3</span>
                                                 <span>5</span>
                                                 <span>7</span>
@@ -145,8 +145,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>VOCALISATION LEVEL:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-vocalisation-level" type="range" min="0" max="3" value="{{song.structure_vocalisation_level}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-vocalisation-level" type="range" min="0" max="3" value="{{song.structure_vocalisation_level}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>Off</span>
                                                 <span>Low</span>
                                                 <span>Medium</span>
@@ -157,8 +157,8 @@
                                     <td class="w-[50%] px-4 pt-4">
                                         <c-input-label>VOCALISATION LINES:</c-input-label>
                                         <div class="w-full max-w-xs">
-                                            <input id="input-vocalisation-lines" type="range" min="1" max="4" value="{{song.structure_vocalisation_lines}}" class="range range-primary w-83" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-84">
+                                            <input id="input-vocalisation-lines" type="range" min="1" max="4" value="{{song.structure_vocalisation_lines}}" class="range range-primary w-97" step="1"/>
+                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
                                                 <span>1</span>
                                                 <span>2</span>
                                                 <span>3</span>
