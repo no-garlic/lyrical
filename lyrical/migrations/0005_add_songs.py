@@ -3,7 +3,7 @@
 from django.db import migrations
 from pathlib import Path
 from ..services.utils.prompts import get_system_prompt, get_user_prompt
-import os
+from .. import models
 
 
 published_songs = [
@@ -27,22 +27,21 @@ liked_songs = [
 
 
 def add_data(apps, schema_editor):
-    users = apps.get_model("lyrical", "User")
-    songs = apps.get_model("lyrical", "Song")
-
-    user = users.objects.get(username="mpetrou")
+    user = models.User.objects.get(username="mpetrou")
 
     # create all of the published songs for the user
     for song_name in published_songs:
-        songs.objects.create(user=user, name=song_name, stage="published")
+        song = models.Song(user=user, name=song_name, stage="published")
+        song.apply_user_defaults(user)
+        song.save()
 
     # create all of the liked songs for the user
     for song_name in liked_songs:
-        songs.objects.create(user=user, name=song_name, stage="liked")
+        song = models.Song(user=user, name=song_name, stage="liked")
+        song.apply_user_defaults(user)
+        song.save()
 
     
-
-
 def remove_data(apps, schema_editor):
     users = apps.get_model("lyrical", "User")
     songs = apps.get_model("lyrical", "Song")

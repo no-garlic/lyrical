@@ -102,12 +102,14 @@
 
 
 ### Song Names Page:
+ - Implement Custom Request in database & yaml
 
 
 ### Library Page:
 
 
 ### Bugs & Polish:
+ - Create 8 records for structure templates when creating a user
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
  - Update prompt about other rules, like ... and rrrrrrun
  - Song Structure dialog needs to be a few px wider to match style page width

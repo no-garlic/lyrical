@@ -23,8 +23,10 @@ class LLM(models.Model):
 
 class User(AbstractUser):
     llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
-    llm_temperature = models.FloatField(default=0.5)
-    llm_max_tokens = models.IntegerField(default=1000)
+    llm_temperature = models.FloatField(default=0.2)
+    llm_max_tokens = models.IntegerField(default=2000)
+
+    # song name default params
     song_name_theme_inc = models.CharField(max_length=255, default='')
     song_name_theme_exc = models.CharField(max_length=255, default='')
     song_name_words_inc = models.CharField(max_length=255, default='')
@@ -34,6 +36,14 @@ class User(AbstractUser):
     song_name_length_min = models.IntegerField(default=1)
     song_name_length_max = models.IntegerField(default=5)
     song_name_gen_count = models.IntegerField(default=5)
+
+    # song hook default params
+    song_hook_custom_request = models.TextField(default='')
+    song_hook_rhyme_with = models.CharField(default='', max_length=255)
+    song_hook_vocalisation_level = models.IntegerField(default=None, null=True, blank=True, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
+    song_hook_vocalisation_terms = models.CharField(default=None, null=True, blank=True, max_length=255)
+    song_hook_max_lines = models.IntegerField(default=2)
+    song_hook_average_syllables = models.IntegerField(default=None, null=True, blank=True)
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
@@ -126,6 +136,25 @@ class Song(models.Model):
     def structure_verse_count(self):
         return self.structure.count('verse') if self.structure else 0
     
+    def apply_user_defaults(self, user):
+        # song name default params
+        self.song_name_theme_inc = user.song_name_theme_inc
+        self.song_name_theme_exc = user.song_name_theme_exc
+        self.song_name_words_inc = user.song_name_words_inc
+        self.song_name_words_exc = user.song_name_words_exc
+        self.song_name_starts_with = user.song_name_starts_with
+        self.song_name_ends_with = user.song_name_ends_with
+        self.song_name_length_min = user.song_name_length_min
+        self.song_name_length_max = user.song_name_length_max
+        self.song_name_gen_count = user.song_name_gen_count
+        # song hook default params
+        self.song_hook_custom_request = user.song_hook_custom_request
+        self.song_hook_rhyme_with = user.song_hook_rhyme_with
+        self.song_hook_vocalisation_level = user.song_hook_vocalisation_level
+        self.song_hook_vocalisation_terms = user.song_hook_vocalisation_terms
+        self.song_hook_max_lines = user.song_hook_max_lines
+        self.song_hook_average_syllables = user.song_hook_average_syllables        
+    
 
 class SongStructureTemplate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='structure_templates')
@@ -155,7 +184,7 @@ class SongMetadata(models.Model):
     value = models.TextField(default='')
 
     def __str__(self):
-        return f"{self.song.name} - {self.key}: {self.value}"
+        return f"{self.self.name} - {self.key}: {self.value}"
 
 
 class Lyrics(models.Model):
@@ -208,5 +237,5 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.role}: {self.content[:50]}... ({self.song.title})"
+        return f"{self.role}: {self.content[:50]}... ({self.self.title})"
     

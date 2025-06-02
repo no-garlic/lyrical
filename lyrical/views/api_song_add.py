@@ -42,6 +42,7 @@ def api_song_add(request):
 
         # create a new song object
         song = models.Song(name=song_name.strip(), user=request.user)
+        song.apply_user_defaults(request.user)
         song.save()
 
         logger.info(f"User {request.user.username} created song '{song_name}' with ID {song.id}")
