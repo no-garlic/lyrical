@@ -79,8 +79,9 @@
 
 
 ## Todo
- - SMS to Martin
  - Add a cancel button for Structure page
+ - Implement updateNavigationButtonStates
+ - Add Skip to Hook Page if empty
 
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh

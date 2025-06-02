@@ -8,6 +8,7 @@ import { apiStructureTemplateGet } from './api_structure_template_get.js';
 let draggedItem = null;
 let placeholder = null;
 let saveDirty = false;
+let saveHistory = [];
 
 const songId = document.body.dataset.songId;
 
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initSongSections();
     initSongStructureTemplates();
     initDragAndDrop();
+
+    updateSaveHistory();
 });
 
 
@@ -34,6 +37,7 @@ function initPageActions() {
 
     document.getElementById('btn-clear').onclick = clearAllSongSections;
     document.getElementById('btn-save').onclick = saveSongStructure;
+    document.getElementById('btn-cancel').onclick = cancelSongStructureChanges;
 
     document.querySelectorAll('[id*="input-').forEach(input => {
         input.addEventListener('input', setSaveDirty);
@@ -198,9 +202,13 @@ function saveSongStructure() {
             // update the dirty state and the UI for the save button
             saveDirty = false;
             const saveButton = document.getElementById('btn-save');
+            const cancelButton = document.getElementById('btn-cancel');
             const saveToTemplateButton = document.getElementById('btn-save-to-template');
             saveButton.classList.add('btn-disabled');
+            cancelButton.classList.add('btn-disabled');
             saveToTemplateButton.classList.remove('btn-disabled');
+
+            updateSaveHistory();
 
             // update the state of the navigation buttons
             updateNavigationButtonStates();
@@ -213,14 +221,93 @@ function saveSongStructure() {
 }
 
 
+function cancelSongStructureChanges() {
+    revertSaveHistory();
+}
+
+
+function updateSaveHistory() {
+    console.log('Updating save history...');
+
+    // record the current state of the song structure in the save history
+    saveHistory.intro_lines = parseInt(document.getElementById('input-intro-lines').value.trim());
+    saveHistory.outro_lines = parseInt(document.getElementById('input-outro-lines').value.trim());
+    saveHistory.verse_count = parseInt(document.getElementById('input-verse-count').value.trim());
+    saveHistory.verse_lines = parseInt(document.getElementById('input-verse-lines').value.trim());
+    saveHistory.pre_chorus_lines = parseInt(document.getElementById('input-pre-chorus-lines').value.trim());
+    saveHistory.chorus_lines = parseInt(document.getElementById('input-chorus-lines').value.trim());
+    saveHistory.bridge_lines = parseInt(document.getElementById('input-bridge-lines').value.trim());
+    saveHistory.average_syllables = parseInt(document.getElementById('input-syllables-per-line').value.trim());
+    saveHistory.vocalisation_level = parseInt(document.getElementById('input-vocalisation-level').value.trim());
+    saveHistory.vocalisation_lines = parseInt(document.getElementById('input-vocalisation-lines').value.trim());
+    saveHistory.vocalisation_terms = document.getElementById('input-vocalisation-terms').value.trim();
+    saveHistory.custom_request = document.getElementById('input-custom-request').value.trim();
+    saveHistory.structure = getSongSectionsAsText().trim();
+}
+
+
+function revertSaveHistory() {
+    console.log('Reverting to the last saved state...');
+
+    // revert the last save by restoring the last saved state from the history
+    document.getElementById('input-intro-lines').value = saveHistory.intro_lines;
+    document.getElementById('input-outro-lines').value = saveHistory.outro_lines;
+    document.getElementById('input-verse-count').value = saveHistory.verse_count;
+    document.getElementById('input-verse-lines').value = saveHistory.verse_lines;
+    document.getElementById('input-pre-chorus-lines').value = saveHistory.pre_chorus_lines;
+    document.getElementById('input-chorus-lines').value = saveHistory.chorus_lines;
+    document.getElementById('input-bridge-lines').value = saveHistory.bridge_lines;
+    document.getElementById('input-syllables-per-line').value = saveHistory.average_syllables;
+    document.getElementById('input-vocalisation-level').value = saveHistory.vocalisation_level;
+    document.getElementById('input-vocalisation-lines').value = saveHistory.vocalisation_lines;
+    document.getElementById('input-vocalisation-terms').value = saveHistory.vocalisation_terms;
+    document.getElementById('input-custom-request').value = saveHistory.custom_request;
+    const songSections = document.getElementById('song-sections');
+
+    // clear existing song sections
+    while (songSections.childElementCount > 1) {
+        songSections.removeChild(songSections.firstChild);
+    }
+
+    // add the song sections from the saved history
+    const sections = saveHistory.structure.split(',');
+    console.log(`Reverting song sections: ${sections}`);
+    sections.forEach(section => {
+        if (!section.trim()) return;
+        createAndAddSongSection(section.trim());
+    });
+
+    // update the UI elements based on the reverted song sections
+    updateSongSectionsUIElements();
+
+    // reset the save dirty state
+    saveDirty = false;
+
+    // get the save and cancel buttons
+    const saveButton = document.getElementById('btn-save');
+    const cancelButton = document.getElementById('btn-cancel');
+    const saveToTemplateButton = document.getElementById('btn-save-to-template');
+
+    // update the UI to reflect the saved state
+    saveButton.classList.add('btn-disabled');
+    cancelButton.classList.add('btn-disabled');
+    saveToTemplateButton.classList.remove('btn-disabled');
+
+    // update the state of the navigation buttons
+    updateNavigationButtonStates();
+}
+
+
 function setSaveDirty() {
     if (!saveDirty) {
         saveDirty = true;
 
         const saveButton = document.getElementById('btn-save');
+        const cancelButton = document.getElementById('btn-cancel');
         const saveToTemplateButton = document.getElementById('btn-save-to-template');
         
         saveButton.classList.remove('btn-disabled');
+        cancelButton.classList.remove('btn-disabled');
         saveToTemplateButton.classList.add('btn-disabled');
 
         // update the state of the navigation buttons
@@ -675,7 +762,9 @@ function loadSongStructurefromTemplate(templateId) {
             updateSongSectionsUIElements();
             setSaveDirty();
             const saveButton = document.getElementById('btn-save');
+            const cancelButton = document.getElementById('btn-cancel');
             saveButton.classList.remove('btn-disabled');
+            cancelButton.classList.remove('btn-disabled');
             updateNavigationButtonStates();
             console.log('Song structure loaded successfully from the template.');
 

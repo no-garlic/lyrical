@@ -27,6 +27,9 @@
                             SAVE TO TEMPLATE
                         </c-panel-header-button>
                         <c-panel-header-divider />
+                        <c-panel-header-button id="btn-cancel" data-song-id="{{song.id}}" extrastyles="btn-disabled">
+                            CANCEL
+                        </c-panel-header-button>
                         <c-panel-header-button id="btn-save" data-song-id="{{song.id}}" extrastyles="btn-disabled">
                             SAVE
                         </c-panel-header-button>
@@ -215,13 +218,18 @@
 
                             <!-- Splitter Section (Clear) -->
                             <div class="flex flex-col flex-shrink-0">
-                                <div class="card w-full bg-transparent flex flex-row cursor-row-resize font-bold text-md text-primary">
-                                    <div class="flex flex-0 justify-end items-center flex-1">                
-                                        <c-panel-header title="SONG SECTIONS" padding="4">
-                                            <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
-                                                CLEAR
-                                            </c-panel-header-button>
-                                        </c-panel-header>
+                                <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
+                                    <div class="flex flex-0 justify-end items-center flex-1">   
+                                        <div class="card w-full bg-transparent border-b border-base-300 h-7 rounded-none flex flex-row text-md text-neutral-content">
+                                            <div class="flex flex-1 justify-start items-center pl-4">
+                                                SECTIONS
+                                            </div>
+                                            <div class="flex flex-0 justify-end items-center pr-4">
+                                                <a id="btn-clear" class="btn btn-xs h-5 mt-1 mb-2 ml-2 btn-primary btn-disabled">
+                                                    CLEAR
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +246,7 @@
                                 <!-- Add Item -->
                                 <div id="song-sections-end">
                                     <div id="badge-add-item-divider" class="border-b border-neutral mt-2 mb-1 hidden"></div>
-                                    <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-52 font-bold mb-3 mt-3 ml-2 cursor-pointer">ADD ITEM</button>
+                                    <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-52 font-bold mb-3 mt-3 ml-2 cursor-pointer text-neutral-content">ADD ITEM</button>
                                 </div>
                                 <!-- End: Add Item -->
 
