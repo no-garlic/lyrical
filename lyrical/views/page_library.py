@@ -12,16 +12,8 @@ logger = logging.getLogger('views')
 @login_required
 def page_library(request):
 
-    navigation = [
-        {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
-        {"name": "PREPARE", "url": "prepare", "active": True, "selected": True, "enabled": True},
-        {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": True},
-        {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
-    ]
-
     context = {
         "active_page": "library",
-        "navigation": navigation,
     }
 
     try:

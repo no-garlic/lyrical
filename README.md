@@ -87,7 +87,8 @@
  - Song Names should have a thumbs up and thumbs down on them
  - Get rid of archived status from songs
  - Song Names Page: TypeError: Can't instantiate abstract class SongNamesGenerator without an implementation for abstract methods 'get_message_type', 'get_song_id'
-
+ - Song Name Cards should show name in uppercase
+ - Implement Previous and Next buttons
 
 ## Todo
  - Cut Hair
@@ -101,7 +102,6 @@
 
 
 ### Song Names Page:
- - Song Name Cards should show name in uppercase
 
 
 ### Library Page:
