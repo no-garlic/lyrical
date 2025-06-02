@@ -101,6 +101,26 @@ class Song(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.stage})"
+
+    @property
+    def new(self):
+        return self.stage == 'new'
+    
+    @property
+    def liked(self):
+        return self.stage == 'liked'
+    
+    @property
+    def disliked(self):
+        return self.stage == 'disliked'
+
+    @property
+    def generated(self):
+        return self.stage == 'generated'
+
+    @property
+    def published(self):
+        return self.stage == 'published'
     
     @property
     def structure_verse_count(self):

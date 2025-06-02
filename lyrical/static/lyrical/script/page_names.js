@@ -4,10 +4,7 @@
  */
 
 // External imports
-import { makeHorizontallyResizable } from './util_sliders_horizontal.js';
-import { setNavigationIndex, setNavigationPrevious, setNavigationNext } from './util_navigation.js';
 import { SelectSystem } from './util_select.js';
-import { DragDropSystem } from './util_dragdrop.js';
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 
@@ -23,7 +20,6 @@ import { apiRenderComponent } from './api_render_component.js';
 // =============================================================================
 
 let selectSystem;
-let dragDropSystem;
 let streamHelper;
 
 // =============================================================================
@@ -34,59 +30,13 @@ let streamHelper;
  * Initialize the page when the DOM is fully loaded
  */
 document.addEventListener('DOMContentLoaded', () => {
-    setupResizeElements();
-    setupNavigation();
-    initializeAllSystems();
-});
-
-/**
- * Setup navigation state
- */
-function setupNavigation() {
-    setNavigationIndex(1);
-    setNavigationPrevious(false);
-}
-
-/**
- * Setup the horizontal resizable elements on the page
- */
-function setupResizeElements() {
-    makeHorizontallyResizable(
-        document.getElementById('panel3'), 
-        document.getElementById('splitter2'), 
-        document.getElementById('panel2')
-    );
-    
-    makeHorizontallyResizable(
-        document.getElementById('panel4'), 
-        document.getElementById('splitter3'), 
-        document.getElementById('panel3')
-    );
-}
-
-/**
- * Initialize all subsystems in the correct order
- */
-function initializeAllSystems() {
     initSelection();
-    initDragDrop();
     initSongManagement();
     initBulkOperations();
     initGeneration();
-    
-    setupDragDropZones();
-}
+    applyFilter();
+});
 
-/**
- * Setup drop zones for the drag drop system
- */
-function setupDragDropZones() {
-    if (dragDropSystem) {
-        dragDropSystem.registerDropZone(document.getElementById('new-songs-container'), { name: 'new', acceptedTypes: [] });
-        dragDropSystem.registerDropZone(document.getElementById('liked-songs-container'), { name: 'liked', acceptedTypes: [] });
-        dragDropSystem.registerDropZone(document.getElementById('disliked-songs-container'), { name: 'disliked', acceptedTypes: [] });
-    }
-}
 
 // =============================================================================
 // SELECTION SYSTEM
@@ -106,7 +56,7 @@ function initSelection() {
             allowNoSelection: true,
             autoSelectFirstElement: false,
             canDeselectOnEscape: true,
-            canDeselectOnClickAway: true,
+            canDeselectOnClickAway: false,
             selectOnMouseDown: true
         },
         {
@@ -132,22 +82,6 @@ function initSelection() {
     document.querySelectorAll('.song-card').forEach(card => {
         selectSystem.addElement(card);
     });
-
-    // Register click away elements
-    selectSystem.addClickAwayElement(document.getElementById('liked-songs-container'));
-    selectSystem.addClickAwayElement(document.getElementById('disliked-songs-container'));
-    selectSystem.addClickAwayElement(document.getElementById('new-songs-container'));
-
-    // Handle Enter key for editing when no input focused
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            if (document.activeElement === document.body) {
-                if (hasSelectedElement()) {
-                    editSelectedSong();
-                }
-            }
-        }
-    });
 }
 
 /**
@@ -156,7 +90,6 @@ function initSelection() {
 function registerCardForSelection(card) {
     if (selectSystem && card) {
         selectSystem.addElement(card);
-        selectSystem.selectElement(card);
     }
 }
 
@@ -205,89 +138,6 @@ function removeSelectionStyles(element) {
     element.classList.remove(...selectionStyleToAdd);
 }
 
-// =============================================================================
-// DRAG AND DROP SYSTEM
-// =============================================================================
-
-/**
- * Initialize the drag and drop system
- */
-function initDragDrop() {
-    dragDropSystem = new DragDropSystem();
-
-    dragDropSystem.init({
-        onDragStart: (item, event) => {
-        },
-        onDrop: handleCardDragDrop,
-        canDrop: (item, zone, event) => {
-            return true;
-        },
-        onDragEnterZone: (item, zone, event) => {
-        },
-        onDragLeaveZone: (item, zone, event) => {
-        }
-    });
-
-    // Register existing draggable items
-    document.querySelectorAll('.song-card').forEach(card => {
-        registerCardForDragDrop(card);
-    });
-}
-
-/**
- * Handle drag and drop of a song card
- */
-function handleCardDragDrop(item, zone, event) {
-    if (item.data.originalZone != zone.name) {
-        item.data.originalZone = zone.name;
-
-        const songId = item.element.dataset.songId;
-        const songStage = zone.name;
-
-        console.log(`moving song ${songId} to stage ${songStage}.`);
-        apiSongEdit(songId, { song_stage: songStage })
-            .then(() => {
-                console.log(`successfully moved song ${songId} to stage ${songStage}.`);
-
-                updateSongCardData(item.element, { songStage: songStage });
-                updateButtonStatesForSelection(getSelectedElement());
-                sortCardsInContainer(item.element.parentElement.id);
-            })
-            .catch(error => {
-                console.error(`failed to move song ${songId} to stage ${songStage}:`, error);
-                toastSystem.showError('Failed to move the song. Please try again.');
-            });
-    } else {
-        sortCardsInContainer(item.element.parentElement.id);
-    }
-}
-
-/**
- * Register a card for drag and drop
- */
-function registerCardForDragDrop(card) {
-    const { songId, songName } = getSongDataFromCard(card);
-    const originalZone = card.closest('[data-drop-zone="true"]').dataset.zoneName;
-    dragDropSystem.registerDraggable(card, { songId, songName, originalZone });
-}
-
-/**
- * Update drag drop item data
- */
-function updateDragDropItemData(element, data) {
-    if (dragDropSystem) {
-        dragDropSystem.updateItemData(element, data);
-    }
-}
-
-/**
- * Unregister a draggable element
- */
-function unregisterDraggableElement(element) {
-    if (dragDropSystem) {
-        dragDropSystem.unregisterDraggable(element);
-    }
-}
 
 // =============================================================================
 // SONG MANAGEMENT
@@ -299,14 +149,73 @@ function unregisterDraggableElement(element) {
 function initSongManagement() {
     // Bind buttons
     document.getElementById('btn-add-song-name').onclick = addSongName;
-    document.getElementById('btn-liked-edit-song-name').onclick = editSelectedSong;
-    document.getElementById('btn-liked-delete-song-name').onclick = deleteSelectedSong;
-    document.getElementById('btn-disliked-edit-song-name').onclick = editSelectedSong;
-    document.getElementById('btn-disliked-delete-song-name').onclick = deleteSelectedSong;
-    document.getElementById('btn-new-edit-song-name').onclick = editSelectedSong;
-    document.getElementById('btn-new-delete-song-name').onclick = deleteSelectedSong;
-    document.getElementById('btn-create-song-lyrics').onclick = createSongLyrics;
+    document.getElementById('btn-edit-song-name').onclick = editSelectedSong;
+    
+    document.getElementById('tab-filter-new').onclick = applyFilter;
+    document.getElementById('tab-filter-liked').onclick = applyFilter;
 }
+
+
+
+function getFilterStage() {
+    let filterStage = undefined;
+
+    document.querySelectorAll('[id*="tab-filter-"]').forEach(tab => {
+        if (tab.checked) {
+            filterStage = tab.dataset.filterStage;
+        }
+    });
+
+    return filterStage;
+}
+
+
+function applyFilter() {
+    const filterStage = getFilterStage();
+    const container = document.getElementById('songs-container');
+
+    console.log(`Applying filter: ${filterStage}`)
+
+    if (filterStage === undefined) {
+        Array.from(container.children).forEach(node => {
+            node.classList.remove('hidden');
+        });
+    } else {
+
+        let numVisible = 0;
+
+        Array.from(container.children).forEach(node => {
+            if (node.dataset.songStage === filterStage) {
+                node.classList.remove('hidden');
+                numVisible++;
+            } else {
+                node.classList.add('hidden');
+            }
+        });
+
+        if (filterStage === 'new') {
+            document.getElementById('btn-add-song-name').classList.remove('btn-disabled');
+            if (numVisible > 0) {
+                document.getElementById('btn-dislike-all-new-song-names').classList.remove('btn-disabled');
+            } else {
+                document.getElementById('btn-dislike-all-new-song-names').classList.add('btn-disabled');    
+            }
+        } else {
+            document.getElementById('btn-add-song-name').classList.add('btn-disabled');
+            document.getElementById('btn-dislike-all-new-song-names').classList.add('btn-disabled');
+        }
+    }
+
+    const selectedElement = selectSystem.getSelectedElement();
+    if (selectedElement) {
+        if (selectedElement.dataset.songStage != filterStage) {
+            console.log('deslecting the selected element as it is no longer visible');
+            selectSystem.deselectElement(selectedElement);
+        }
+    }
+}
+
+
 
 /**
  * Add a new song name
@@ -352,7 +261,7 @@ function handleAddSongCancel(event) {
  * Add a new song card to the page
  */
 function addNewSongCard(songId, songName) {
-    apiRenderComponent('card_song', 'new-songs-container', { song: { id: songId, name: songName, stage: 'new' }})
+    apiRenderComponent('card_song', 'songs-container', { song: { id: songId, name: songName, stage: 'new' }})
         .then(html => {
             initializeNewSongCard(songId, songName);
         })
@@ -374,9 +283,10 @@ function initializeNewSongCard(songId, songName) {
     }
 
     setupNewCardVisualState(newCard);
-    registerCardForDragDrop(newCard);
     registerCardForSelection(newCard);
-    sortCardsInContainer('new-songs-container');
+    sortCardsInContainer('songs-container');
+
+    applyFilter();
 }
 
 /**
@@ -481,12 +391,6 @@ function handleDeleteSongConfirm(event) {
         });
 }
 
-/**
- * Create song lyrics for the selected song
- */
-function createSongLyrics() {
-    // placeholder function - implementation to be added
-}
 
 // =============================================================================
 // BULK OPERATIONS
@@ -507,15 +411,17 @@ function dislikeAllNewSongs() {
         .then(data => {
             console.log(`Successfully moved all songs from new to disliked, id's: ${data}.`);
 
-            data.forEach(songId => {
-                const moveResult = moveSongCardById(songId, 'disliked-songs-container');
-                if (moveResult) {
-                    updateDragDropItemData(moveResult.songCard, { originalZone: moveResult.destinationPanel.dataset.zoneName });
+            selectSystem.deselectElement(selectSystem.getSelectedElement());
+
+            const container = document.getElementById('songs-container');
+            Array.from(container.children).forEach(child => {
+                if (child.dataset.songStage === 'new') {
+                    container.removeChild(child);
+                    selectSystem.removeElement(child);
                 }
             });
 
-            updateButtonStatesForSelection(getSelectedElement());
-            sortCardsInContainer('disliked-songs-container');
+            updateButtonStatesForSelection(null);
         })
         .catch(error => {
             console.error(`Failed to move all new songs to disliked:`, error);
@@ -538,7 +444,7 @@ function initGeneration() {
         generatingButton.classList.add('hidden', 'btn-disabled');
     }
 
-    const generateButton = document.getElementById('btn-generate-song-names');
+    const generateButton = document.getElementById('btn-generate');
     if (generateButton) {
         streamHelper = createStreamHelper();
         generateButton.addEventListener('click', handleGenerateClick);
@@ -635,8 +541,8 @@ function handleGenerationError(error) {
  * Handle UI changes when generation starts
  */
 function handleGenerationLoadingStart() {
-    const generateButton = document.getElementById('btn-generate-song-names');
-    const generatingButton = document.getElementById('btn-generating-song-names');
+    const generateButton = document.getElementById('btn-generate');
+    const generatingButton = document.getElementById('btn-generating');
     
     if (generateButton) {
         generateButton.classList.add('hidden');
@@ -645,14 +551,21 @@ function handleGenerationLoadingStart() {
     if (generatingButton) {
         generatingButton.classList.remove('hidden');
     }
+
+    const newTab = document.getElementById('tab-filter-new');
+    if (newTab.checked != true) {
+        newTab.checked = true;
+        applyFilter();
+        updateButtonStatesForSelection();
+    }
 }
 
 /**
  * Handle UI changes when generation ends
  */
 function handleGenerationLoadingEnd() {
-    const generateButton = document.getElementById('btn-generate-song-names');
-    const generatingButton = document.getElementById('btn-generating-song-names');
+    const generateButton = document.getElementById('btn-generate');
+    const generatingButton = document.getElementById('btn-generating');
     
     if (generateButton) {
         generateButton.classList.remove('hidden');
@@ -671,58 +584,12 @@ function handleGenerationLoadingEnd() {
  * Update button states based on selection and container counts
  */
 function updateButtonStatesForSelection(selectedElement) {
-    // Update bulk operation buttons based on container counts
-    const newItemsCount = getContainerChildCount('new-songs-container');
-    const dislikeAllButton = document.getElementById('btn-dislike-all-new-song-names');
-    if (dislikeAllButton) {
-        console.log(`new panel child count: ${newItemsCount}`);
-        if (newItemsCount === 0) {
-            dislikeAllButton.classList.add('btn-disabled');
-        } else {
-            dislikeAllButton.classList.remove('btn-disabled');
-        }
-    }
-
     if (selectedElement === null) {
-        // Disable all selection-dependent buttons
-        document.querySelectorAll('[id$="-edit-song-name"], [id$="-delete-song-name"], [id$="btn-create-song-lyrics"]').forEach(button => {
-            button.classList.add('btn-disabled');
-        });
-        setNavigationNext(false);
+        document.getElementById('btn-edit-song-name').classList.add('btn-disabled');
         return;
     } else {
-        // Update Create Lyrics button based on stage
-        const createLyricsButton = document.getElementById('btn-create-song-lyrics');
-        if (selectedElement.dataset.songStage === 'liked') {
-            createLyricsButton.classList.remove('btn-disabled');
-            setNavigationNext(true);
-        } else {
-            createLyricsButton.classList.add('btn-disabled');
-            setNavigationNext(false);
-        }
+        document.getElementById(`btn-edit-song-name`).classList.remove('btn-disabled');
     }
-
-    // Update stage-specific buttons
-    const parentContainer = selectedElement.parentElement;
-    const associatedButtons = [
-        {'liked-songs-container': ['liked', 'disliked', 'new']},
-        {'disliked-songs-container': ['disliked', 'liked', 'new']},
-        {'new-songs-container': ['new', 'liked', 'disliked']}
-    ];
-
-    associatedButtons.forEach(button => {
-        const containerId = Object.keys(button)[0];
-        const buttonTypes = button[containerId];
-
-        if (parentContainer.id === containerId) {        
-            document.getElementById(`btn-${buttonTypes[0]}-edit-song-name`).classList.remove('btn-disabled');
-            document.getElementById(`btn-${buttonTypes[0]}-delete-song-name`).classList.remove('btn-disabled');
-            document.getElementById(`btn-${buttonTypes[1]}-edit-song-name`).classList.add('btn-disabled');
-            document.getElementById(`btn-${buttonTypes[1]}-delete-song-name`).classList.add('btn-disabled');
-            document.getElementById(`btn-${buttonTypes[2]}-edit-song-name`).classList.add('btn-disabled');
-            document.getElementById(`btn-${buttonTypes[2]}-delete-song-name`).classList.add('btn-disabled');
-        }
-    });
 }
 
 // =============================================================================
@@ -760,38 +627,6 @@ function sortCardsInContainer(containerId) {
     cards.forEach(card => {
         container.appendChild(card);
     });
-}
-
-/**
- * Move a song card to a new container by song ID
- */
-function moveSongCardById(songId, newContainerId) {
-    console.log(`Moving song card: ${songId}`);
-
-    const destinationPanel = document.getElementById(newContainerId);
-    const songCard = document.getElementById(`song-card-${songId}`);
-
-    if (destinationPanel && songCard) {
-        destinationPanel.appendChild(songCard);
-
-        songCard.classList.remove('bg-neutral');
-        songCard.classList.add('bg-base-200');
-
-        songCard.dataset.songStage = destinationPanel.dataset.zoneName;
-
-        return { destinationPanel, songCard };
-    } else {
-        console.error(`Error occurred moving song card for songId: ${songId} to container ${newContainerId}`);
-        return null;
-    }
-}
-
-/**
- * Get the count of child elements in a container
- */
-function getContainerChildCount(containerId) {
-    const container = document.getElementById(containerId);
-    return container ? container.childElementCount : 0;
 }
 
 /**
