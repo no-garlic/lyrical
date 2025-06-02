@@ -117,7 +117,7 @@ class Migration(migrations.Migration):
                 ('structure_intro_lines', models.IntegerField(default=4)),
                 ('structure_outro_lines', models.IntegerField(default=4)),
                 ('structure_vocalisation_lines', models.IntegerField(default=2)),
-                ('stage', models.CharField(choices=[("new", "New"), ("liked", "Liked"), ("disliked", "Disliked"), ("generated", "Generated"), ("published", "Published"), ("archived", "Archived")], default="new", max_length=50)),
+                ('stage', models.CharField(choices=[("new", "New"), ("liked", "Liked"), ("disliked", "Disliked"), ("generated", "Generated"), ("published", "Published")], default="new", max_length=50)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="songs", to=settings.AUTH_USER_MODEL)),

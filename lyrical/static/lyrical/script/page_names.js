@@ -497,7 +497,6 @@ function createSongLyrics() {
  */
 function initBulkOperations() {
     document.getElementById('btn-dislike-all-new-song-names').onclick = dislikeAllNewSongs;
-    document.getElementById('btn-archive-all-disliked-song-names').onclick = archiveAllDislikedSongs;
 }
 
 /**
@@ -524,32 +523,6 @@ function dislikeAllNewSongs() {
         });
 }
 
-/**
- * Archive all disliked song names
- */
-function archiveAllDislikedSongs() {
-    apiSongEditBulk({ song_stage_from: 'disliked', song_stage_to: 'archived'})
-        .then(data => {
-            console.log(`Successfully moved all songs from disliked to archived, id's: ${data}.`);
-
-            const songsContainer = document.getElementById('disliked-songs-container');
-
-            data.forEach(songId => {
-                console.log(`removing song card id: ${songId}`);
-                const card = document.getElementById(`song-card-${songId}`);
-
-                unregisterDraggableElement(card);
-                removeElementFromSelection(card);
-                songsContainer.removeChild(card);
-            });
-
-            updateButtonStatesForSelection(getSelectedElement());
-        })
-        .catch(error => {
-            console.error(`Failed to move all disliked songs to archived:`, error);
-            toastSystem.showError('Failed to move one or more songs. Please try again.');
-        });
-}
 
 // =============================================================================
 // GENERATION SYSTEM
@@ -707,17 +680,6 @@ function updateButtonStatesForSelection(selectedElement) {
             dislikeAllButton.classList.add('btn-disabled');
         } else {
             dislikeAllButton.classList.remove('btn-disabled');
-        }
-    }
-
-    const dislikedItemsCount = getContainerChildCount('disliked-songs-container');
-    const archiveAllButton = document.getElementById('btn-archive-all-disliked-song-names');
-    if (archiveAllButton) {
-        console.log(`disliked panel child count: ${dislikedItemsCount}`);
-        if (dislikedItemsCount === 0) {
-            archiveAllButton.classList.add('btn-disabled');
-        } else {
-            archiveAllButton.classList.remove('btn-disabled');
         }
     }
 
