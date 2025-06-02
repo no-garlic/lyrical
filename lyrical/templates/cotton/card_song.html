@@ -7,4 +7,19 @@
      <div class="flex-grow truncate mr-2">
         <p class="" id="song-text-{{ song.id }}">{{ song.name }}</p>
     </div>
+
+    <div class="flex items-center gap-x-[5px] flex-shrink-0">
+        <div id="song-hover-{{ song.id }}" data-class="hidden">
+            <a class="bi bi-hand-thumbs-up{% if song.stage == 'liked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-like" 
+            {{ attrs }} i
+            d="song-like-{{ song.id }}"
+            data-song-id="{{ song.id }}">
+            </a>
+            <a class="bi bi-hand-thumbs-down btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-dislike" 
+            {{ attrs }} 
+            id="song-dislike-{{ song.id }}" 
+            data-song-id="{{ song.id }}">
+            </a>
+        </div>    
+    </div>
 </div>
