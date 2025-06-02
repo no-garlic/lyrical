@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDragAndDrop();
 
     updateSaveHistory();
+    updateNavigationButtonStates();
 });
 
 
@@ -74,7 +75,7 @@ function initSongSections() {
 }
 
 
-function createAndAddSongSection(sectionName) {
+function createAndAddSongSection(sectionName, suppressDirty = false) {
     // get the server to make a new item from the django-cotton template
     apiRenderComponent('badge_edit', 'song-sections', { slot: sectionName })
         .then(html => {
@@ -99,8 +100,11 @@ function createAndAddSongSection(sectionName) {
             songSections.insertBefore(lastChild, addButton);
 
             // update the add button based on the number of items in the list
-            setSaveDirty();
+            if (!suppressDirty) {
+                setSaveDirty();
+            }
             updateSongSectionsUIElements();
+            updateNavigationButtonStates();
         })             
         .catch(error => {
             console.error('Failed to render or initialize new list item:', error);
@@ -249,6 +253,12 @@ function updateSaveHistory() {
 function revertSaveHistory() {
     console.log('Reverting to the last saved state...');
 
+    // temporarily remove event listeners to prevent triggering setSaveDirty
+    const inputs = document.querySelectorAll('[id*="input-"]');
+    inputs.forEach(input => {
+        input.removeEventListener('input', setSaveDirty);
+    });
+
     // revert the last save by restoring the last saved state from the history
     document.getElementById('input-intro-lines').value = saveHistory.intro_lines;
     document.getElementById('input-outro-lines').value = saveHistory.outro_lines;
@@ -262,6 +272,7 @@ function revertSaveHistory() {
     document.getElementById('input-vocalisation-lines').value = saveHistory.vocalisation_lines;
     document.getElementById('input-vocalisation-terms').value = saveHistory.vocalisation_terms;
     document.getElementById('input-custom-request').value = saveHistory.custom_request;
+
     const songSections = document.getElementById('song-sections');
 
     // clear existing song sections
@@ -274,9 +285,9 @@ function revertSaveHistory() {
     console.log(`Reverting song sections: ${sections}`);
     sections.forEach(section => {
         if (!section.trim()) return;
-        createAndAddSongSection(section.trim());
+        createAndAddSongSection(section.trim(), true); // suppress dirty state
     });
-
+    
     // update the UI elements based on the reverted song sections
     updateSongSectionsUIElements();
 
@@ -295,12 +306,21 @@ function revertSaveHistory() {
 
     // update the state of the navigation buttons
     updateNavigationButtonStates();
+
+    // re-add event listeners
+    inputs.forEach(input => {
+        input.addEventListener('input', setSaveDirty);
+    });
+
+    console.log('Reverting to the last saved state...done.');
 }
 
 
 function setSaveDirty() {
     if (!saveDirty) {
         saveDirty = true;
+
+        console.log('Setting save dirty state to true.');
 
         const saveButton = document.getElementById('btn-save');
         const cancelButton = document.getElementById('btn-cancel');
@@ -317,9 +337,30 @@ function setSaveDirty() {
 
 
 function updateNavigationButtonStates() {
+    const nextButton = document.getElementById('btn-navigate-next');
+    const prevButton = document.getElementById('btn-navigate-prev');
+    const songSections = document.getElementById('song-sections');
 
+    const isSaved = !saveDirty;
+
+    let hasSections = songSections.childElementCount > 1;
+
+    if (!hasSections) {
+        hasSections = saveHistory.structure.trim().length > 0;
+    }
+
+    if (isSaved && hasSections) {
+        nextButton.classList.remove('btn-disabled');
+    } else {
+        nextButton.classList.add('btn-disabled');
+    }
+
+    if (isSaved) {
+        prevButton.classList.remove('btn-disabled');
+    } else {
+        prevButton.classList.add('btn-disabled');
+    }
 }
-
 
 
 
