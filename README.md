@@ -79,61 +79,62 @@
  - Implement updateNavigationButtonStates
  - Remove verse_count
  - Can Skip Hook Page if empty
-
+ - Single Save Button for Song Hook Page
+ - Fix jitter upon closing a modal
+ - Link to home on login and register pages
+ - Bug: Unable to save an empty Song Hook, Theme, Mood, Narrative, etc...
 
 
 ## Todo
- - Single Save Button for Song Hook Page
+ - Cut Hair
+ - Fill Tank
+ - Cook Veg
 
- 
+
+### Lyrics Page:
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
- - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
- - Update prompt about other rules, like ... and rrrrrrun
- - Song Structure dialog needs to be a few px wider to match style page width
- 
- - badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
- - refactor using btn-generate for songId - get it from document.body instead
- - drag and drop items dont animate back into place on Song Names page like they do on Structure page
 
- 
- 
 
-## Backlog
- - Update navigation system hyperlinks
- - Make all modals looks the same
- - Fix jitter upon closing a modal
- - Add href# to Navigation Timeline
- - Make all panels use scrollbars the same
- - Create follow up prompts, eg, song_hooks.follow_up.
+### Song Names Page:
  - Redo the song names page, remove disliked list
  - Song Names should have a thumbs up and thumbs down on them
  - Get rid of archived status from songs
+ - Song Names Page: TypeError: Can't instantiate abstract class SongNamesGenerator without an implementation for abstract methods 'get_message_type', 'get_song_id'
+ - Song Name Cards should show name in uppercase
+
+
+### Library Page:
+
+
+### Bugs & Polish:
+ - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
+ - Update prompt about other rules, like ... and rrrrrrun
+ - Song Structure dialog needs to be a few px wider to match style page width
+ - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
+ - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ - Refactor using btn-generate for songId - get it from document.body instead
+ - Drag and drop items dont animate back into place on Song Names page like they do on Structure page
+ - Double click on song page to go to Next
+ - Update navigation system hyperlinks
+ - Make all modals looks the same
+ - Add href# to Navigation Timeline
+ - Make all panels use scrollbars the same
+ - Create follow up prompts, eg, song_hooks.follow_up.
  - Song page same height as style page
- - Make DragDrop target certain drop zones based on drag item
  - Add bootstrap icons to buttons
  - Update register and login pages
- - Make the library page page 1 of the timeline
+ - Make the library page page 1 of the timeline??
  - Create Lyrics button on names.html goes to page 2 of edit
  - Use tabs on song page instead of booleans
  - Complete or delete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
  - Change Toast system to be a singleton
- - Filtering song names (library page)
  - Drag and drop not showing custom cursors
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - Change font color on login and register pages
- - Link to home on login and register pages
  - Click close button on a card, shows another X and Tick as a confirmation
  - review scrollbars use on all pages
-
-
-## Maybe
  - Able to set default panel widths and panel slider position
  - Save Column Widths & panel slider position
- - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
  - Put instructional text on every page to tell the user what to do
-
-
-## Bugs:
- - Unable to save an empty Song Hook, Theme, Mood, Narrative, etc...
  

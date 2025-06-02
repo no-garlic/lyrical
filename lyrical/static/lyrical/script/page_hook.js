@@ -14,9 +14,8 @@ import { DragDropSystem } from './util_dragdrop.js';
 
 let streamHelper;
 let dragDropSystem;
-let hookTextDirty = false;
-let songParamsDirty = false;
-let saveHistory = { theme: '', narrative: '', mood: '' };
+let saveDirty = false;
+let saveHistory = {};
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -107,7 +106,7 @@ function handleDragDrop(item, zone, event) {
 
     if (destination.value.trim() != text) {
         destination.value = text;
-        setSongHookDirty();
+        setSaveDirty();
     }
 }
 
@@ -128,17 +127,15 @@ function initPageActions() {
     document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
     document.getElementById('btn-clear').onclick = clearGeneratedHooks;
     document.getElementById('btn-save').onclick = saveHook;
-    document.getElementById('btn-save-parameters').onclick = saveParameters;
     document.getElementById('btn-cancel').onclick = cancelHook;
 
-    document.getElementById('hook-text').addEventListener('input', setSongHookDirty);
-
-    document.getElementById('prompt-text').addEventListener('input', setSongParamsDirty);
-    document.getElementById('rhyme-with').addEventListener('input', setSongParamsDirty);
-    document.getElementById('vocalisation-level').addEventListener('input', setSongParamsDirty);
-    document.getElementById('vocalisation-terms').addEventListener('input', setSongParamsDirty);
-    document.getElementById('max-hook-lines').addEventListener('input', setSongParamsDirty);
-    document.getElementById('max-syllables-per-line').addEventListener('input', setSongParamsDirty);
+    document.getElementById('hook-text').addEventListener('input', setSaveDirty);
+    document.getElementById('prompt-text').addEventListener('input', setSaveDirty);
+    document.getElementById('rhyme-with').addEventListener('input', setSaveDirty);
+    document.getElementById('vocalisation-level').addEventListener('input', setSaveDirty);
+    document.getElementById('vocalisation-terms').addEventListener('input', setSaveDirty);
+    document.getElementById('max-hook-lines').addEventListener('input', setSaveDirty);
+    document.getElementById('max-syllables-per-line').addEventListener('input', setSaveDirty);
 }
 
 
@@ -338,19 +335,9 @@ function initNewStyleCard(sectionId) {
 }
 
 
-function setSongParamsDirty() {
-    if (!songParamsDirty) {
-        songParamsDirty = true;
-
-        const saveButton = document.getElementById('btn-save-parameters');
-        saveButton.classList.remove('btn-disabled');
-    }
-}
-
-
-function setSongHookDirty() {
-    if (!hookTextDirty) {
-        hookTextDirty = true;
+function setSaveDirty() {
+    if (!saveDirty) {
+        saveDirty = true;
 
         const saveButton = document.getElementById('btn-save');
         const cancelButton = document.getElementById('btn-cancel');
@@ -379,7 +366,7 @@ function updateNavigationButtonStates() {
     const prevButton = document.getElementById('btn-navigate-prev');
     const hook = document.getElementById('hook-text');
 
-    const isSaved = !hookTextDirty;
+    const isSaved = !saveDirty;
     const hasHook = hook.value.trim().length > 0;
 
     if (isSaved && hasHook) {
@@ -433,17 +420,35 @@ function clearGeneratedHooks() {
 
 
 function updateSaveHistory() {
-    const hookElement = document.getElementById('hook-text');
-    saveHistory.hook = hookElement.value.trim();
+    console.log('Updating save history...');
+
+    // record the current state of the song structure in the save history
+    saveHistory.hook = document.getElementById('hook-text').value.trim();
+    saveHistory.customPrompt = document.getElementById('prompt-text').value.trim();
+    saveHistory.rhymeWith = document.getElementById('rhyme-with').value.trim();
+    saveHistory.vocalisationLevel = document.getElementById('vocalisation-level').value.trim();
+    saveHistory.vocalisationTerms = document.getElementById('vocalisation-terms').value.trim();
+    saveHistory.maxHookLines = document.getElementById('max-hook-lines').value.trim();
+    saveHistory.maxSyllablesPerLine = document.getElementById('max-syllables-per-line').value.trim();
 }
 
 
 function revertSaveHistory() {
-    const hookElement = document.getElementById('hook-text');
-    hookElement.value = saveHistory.hook;
+    console.log('Reverting to the last saved state...');
 
-    hookTextDirty = false;
+    // revert the last save by restoring the last saved state from the history
+    document.getElementById('hook-text').value = saveHistory.hook.trim();
+    document.getElementById('prompt-text').value = saveHistory.customPrompt.trim();
+    document.getElementById('rhyme-with').value = saveHistory.rhymeWith.trim();
+    document.getElementById('vocalisation-level').value = saveHistory.vocalisationLevel.trim();
+    document.getElementById('vocalisation-terms').value = saveHistory.vocalisationTerms.trim();
+    document.getElementById('max-hook-lines').value = saveHistory.maxHookLines.trim();
+    document.getElementById('max-syllables-per-line').value = saveHistory.maxSyllablesPerLine.trim();
 
+    // reset the dirty state and update the UI for the save button
+    saveDirty = false;
+
+    // get the save and cancel buttons and disable them
     const saveButton = document.getElementById('btn-save');
     const cancelButton = document.getElementById('btn-cancel');
     saveButton.classList.add('btn-disabled');
@@ -455,19 +460,40 @@ function revertSaveHistory() {
 
 
 function saveHook() {
-    const hookElement = document.getElementById('hook-text');
-    const newSongHook = hookElement.value.trim();
+    const newSongHook = document.getElementById('hook-text').value.trim();
+    const customPrompt = document.getElementById('prompt-text').value.trim();
+    const rhymeWith = document.getElementById('rhyme-with').value.trim();
+    const vocalisationLevel  = document.getElementById('vocalisation-level').value.trim();
+    const vocalisationTerms = document.getElementById('vocalisation-terms').value.trim();
+    const maxHookLines = document.getElementById('max-hook-lines').value.trim();
+    const maxSyllablesPerLine = document.getElementById('max-syllables-per-line').value.trim();
+
+    console.log(`hook: ${newSongHook},
+        custom_prompt: ${customPrompt},
+        rhyme_with: ${rhymeWith},
+        vocalisation_level: ${vocalisationLevel},
+        vocalisation_terms: ${vocalisationTerms},
+        max_hook_lines: ${maxHookLines},
+        max_syllables_per_line: ${maxSyllablesPerLine}`)
 
     const generateButton = document.getElementById('btn-generate');
     const songId = parseInt(generateButton.dataset.songId);    
 
-    // call the api to update the song styles
-    apiSongEdit(songId, { hook: newSongHook })
+    // call the api to update the song parameters
+    apiSongEdit(songId, { 
+        hook: newSongHook,
+        hook_custom_request: customPrompt,
+        hook_rhyme_with: rhymeWith,
+        hook_vocalisation_level: vocalisationLevel,
+        hook_vocalisation_terms: vocalisationTerms,
+        hook_max_lines: maxHookLines,
+        hook_average_syllables: maxSyllablesPerLine
+     })
         .then(songId => {
-            console.log(`Successfully updated the song hook for songId: ${songId}`);
+            console.log(`Successfully updated the song parameters for songId: ${songId}`);
 
             // update the dirty state and the UI for the save button
-            hookTextDirty = false;
+            saveDirty = false;
             const saveButton = document.getElementById('btn-save');
             const cancelButton = document.getElementById('btn-cancel');
             saveButton.classList.add('btn-disabled');
@@ -481,57 +507,14 @@ function saveHook() {
         })
         .catch(error => {
             // handle the error if the API call fails
-            console.error('Failed to edit the song hook:', error);
-            toastSystem.showError('Failed to update the song hook. Please try again.');
+            console.error('Failed to edit the song parameters:', error);
+            toastSystem.showError('Failed to update the song parameters. Please try again.');
         });
 }
 
 
 function cancelHook() {
     revertSaveHistory();
-}
-
-
-function saveParameters() {
-    const customPrompt = document.getElementById('prompt-text').value.trim();
-    const rhymeWith = document.getElementById('rhyme-with').value.trim();
-    const vocalisationLevel  = document.getElementById('vocalisation-level').value.trim();
-    const vocalisationTerms = document.getElementById('vocalisation-terms').value.trim();
-    const maxHookLines = document.getElementById('max-hook-lines').value.trim();
-    const maxSyllablesPerLine = document.getElementById('max-syllables-per-line').value.trim();
-
-    console.log(`custom_prompt: ${customPrompt},
-        rhyme_with: ${rhymeWith},
-        vocalisation_level: ${vocalisationLevel},
-        vocalisation_terms: ${vocalisationTerms},
-        max_hook_lines: ${maxHookLines},
-        max_syllables_per_line: ${maxSyllablesPerLine}`)
-
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);    
-
-    // call the api to update the song parameters
-    apiSongEdit(songId, { 
-        hook_custom_request: customPrompt,
-        hook_rhyme_with: rhymeWith,
-        hook_vocalisation_level: vocalisationLevel,
-        hook_vocalisation_terms: vocalisationTerms,
-        hook_max_lines: maxHookLines,
-        hook_average_syllables: maxSyllablesPerLine
-     })
-        .then(songId => {
-            console.log(`Successfully updated the song parameters for songId: ${songId}`);
-
-            // update the dirty state and the UI for the save button
-            songParamsDirty = false;
-            const saveButton = document.getElementById('btn-save-parameters');
-            saveButton.classList.add('btn-disabled');
-        })
-        .catch(error => {
-            // handle the error if the API call fails
-            console.error('Failed to edit the song parameters:', error);
-            toastSystem.showError('Failed to update the song parameters. Please try again.');
-        });
 }
 
 

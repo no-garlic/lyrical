@@ -17,20 +17,47 @@
                 <!-- Left Panel -->
                 <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
-                    <!-- Right Header -->
-                    <c-panel-header title="PARAMETERS" padding="4">
-                        <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
-                            GENERATE
+                    <!-- Edit Song Hook Section -->
+                    <c-panel-header title="EDIT YOUR SONG HOOK" padding="4">
+                        <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                            CANCEL
                         </c-panel-header-button>
-                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
-                            PLEASE WAIT...
-                        </c-panel-header-button-loading>
-                        <c-panel-header-divider />
-                        <c-panel-header-button id="btn-save-parameters" extrastyles="btn-disabled">
+                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
                             SAVE
                         </c-panel-header-button>
                     </c-panel-header>
-                    <!-- End: Right Header -->
+                    <!-- End: Edit Song Hook Section -->
+
+                    <!-- Fields for Edit Song Hook -->
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+                       
+                        <!-- Hook -->
+                        <c-badge extrastyles="ml-6">hook</c-badge>
+                        <div class="flex flex-col">
+                            <textarea 
+                                id="hook-text" 
+                                type="text" 
+                                placeholder="drag-drop a generated hook here..." 
+                                autocomplete="off" 
+                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                style="field-sizing: content;"
+                            >{{song.hook}}</textarea>
+                        </div>
+                        <!-- End: Hook -->
+
+                    </div>
+                    <!-- End: Fields for Edit Song Hook -->
+
+                    <!-- Parameters Header -->
+                    <c-panel-header title="PARAMETERS" padding="4" extrastyles="border-t mt-1 pt-1">
+                        <c-panel-header-button id="btn-generate" extrastyles="w-30 h-7.5" data-song-id="{{song.id}}">
+                            GENERATE
+                        </c-panel-header-button>
+                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-30 h-7.5">
+                            PLEASE WAIT...
+                        </c-panel-header-button-loading>
+                    </c-panel-header>
+                    <!-- End: Parameters Header -->
 
                     <!-- Prompt Input -->
                     <div class="flex flex-col flex-shrink-0 border-b border-base-300 h-25">
@@ -45,7 +72,7 @@
                     <!-- End: Prompt Input -->
 
                     <!-- Song Structure Controls -->
-                    <div class="p-4">
+                    <div class="p-4 mb-2">
 
                         <c-input-label>RHYME WITH:</c-input-label>
                         <input
@@ -108,52 +135,10 @@
                     </div>
                     <!-- End: Song Structure Controls -->
 
-
-                    <!-- Splitter Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-t border-base-300 rounded-none flex flex-row cursor-row-resize font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
-
-                                <!-- Edit Song Hook Section -->
-                                <c-panel-header title="EDIT YOUR SONG HOOK" padding="4">
-                                    <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
-                                        CANCEL
-                                    </c-panel-header-button>
-                                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
-                                        SAVE
-                                    </c-panel-header-button>
-                                </c-panel-header>
-                                <!-- End: Edit Song Hook Section -->
-
-                            </div>
-                        </div>
+                    <!-- Spare Space -->
+                    <div class="flex-1 border-t border-base-300">
                     </div>
-                    <!-- End: Splitter Section -->
-
-                    <!-- Fields for Edit Song Hook -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
-                       
-                        <!-- Hook -->
-                        <div class="badge badge-outline badge-hook w-40 font-bold mb-3 mt-3 ml-2">HOOK</div>
-                        <div class="flex flex-col">
-                            <textarea 
-                                id="hook-text" 
-                                type="text" 
-                                placeholder="drag-drop a generated hook here..." 
-                                autocomplete="off" 
-                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                style="field-sizing: content;"
-                            >{{song.hook}}</textarea>
-                        </div>
-                        <!-- End: Hook -->
-
-                    </div>
-                    <!-- End: Fields for Edit Song Hook -->
-
-                    <!-- Drop Zone Buffer -->
-                    <div class="flex-1" data-drop-zone="true">
-                    </div>
-                    <!-- End: Drop Zone Buffer -->
+                    <!-- End: Spare Space -->
 
                 </div>
                 <!-- End: Left Panel -->

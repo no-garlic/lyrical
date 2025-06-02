@@ -8,7 +8,7 @@ import { apiStructureTemplateGet } from './api_structure_template_get.js';
 let draggedItem = null;
 let placeholder = null;
 let saveDirty = false;
-let saveHistory = [];
+let saveHistory = {};
 
 const songId = document.body.dataset.songId;
 

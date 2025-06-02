@@ -74,6 +74,10 @@ def api_song_edit(request):
             if models.Song.objects.filter(name=song_name.strip(), user=request.user).exclude(id=song_id).exists():
                 return JsonResponse({"error": f"A song with the name '{song_name}' already exists"}, status=400)
 
+        # check if the song name is empty string
+        if song_name and song_name.strip() == "":
+            return JsonResponse({"error": "Song name cannot be an empty string"}, status=400)
+
         # update fields based on what was provided
         updates = []
         if song_name:
@@ -81,37 +85,37 @@ def api_song_edit(request):
             song.name = song_name.strip()
             updates.append(f"name from '{old_name}' to '{song.name}'")
         
-        if song_stage:
+        if song_stage is not None:
             old_stage = song.stage
             song.stage = song_stage
             updates.append(f"stage from '{old_stage}' to '{song_stage}'")
         
-        if song_theme:
+        if song_theme is not None:
             old_theme = song.theme
             song.theme = song_theme
             updates.append(f"theme from '{old_theme}' to '{song_theme}'")
 
-        if song_narrative:
+        if song_narrative is not None:
             old_narrative = song.narrative
             song.narrative = song_narrative
             updates.append(f"narrative from '{old_narrative}' to '{song_narrative}'")
 
-        if song_mood:
+        if song_mood is not None:
             old_mood = song.mood
             song.mood = song_mood
             updates.append(f"mood from '{old_mood}' to '{song_mood}'")
 
-        if hook:
+        if hook is not None:
             old_hook = song.hook
             song.hook = hook
             updates.append(f"hook from '{old_hook}' to '{hook}'")
 
-        if hook_custom_request:
+        if hook_custom_request is not None:
             old_custom_prompt = song.hook_custom_request
             song.hook_custom_request = hook_custom_request
             updates.append(f"custom prompt from '{old_custom_prompt}' to '{hook_custom_request}'")
 
-        if hook_rhyme_with:
+        if hook_rhyme_with is not None:
             old_rhyme_with = song.hook_rhyme_with
             song.hook_rhyme_with = hook_rhyme_with
             updates.append(f"rhyme with from '{old_rhyme_with}' to '{hook_rhyme_with}'")
@@ -121,7 +125,7 @@ def api_song_edit(request):
             song.hook_vocalisation_level = hook_vocalisation_level
             updates.append(f"vocalisation level from '{old_vocalisation_level}' to '{hook_vocalisation_level}'")
 
-        if hook_vocalisation_terms:
+        if hook_vocalisation_terms is not None:
             old_vocalisation_terms = song.hook_vocalisation_terms
             song.hook_vocalisation_terms = hook_vocalisation_terms
             updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{hook_vocalisation_terms}'")
@@ -181,12 +185,12 @@ def api_song_edit(request):
             song.structure_vocalisation_lines = structure_vocalisation_lines
             updates.append(f"vocalisation lines from '{old_vocalisation_lines}' to '{structure_vocalisation_lines}'")
 
-        if structure_vocalisation_terms:
+        if structure_vocalisation_terms is not None:
             old_vocalisation_terms = song.structure_vocalisation_terms
             song.structure_vocalisation_terms = structure_vocalisation_terms
             updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{structure_vocalisation_terms}'")
 
-        if structure_custom_request:
+        if structure_custom_request is not None:
             old_custom_request = song.structure_custom_request
             song.structure_custom_request = structure_custom_request
             updates.append(f"custom request from '{old_custom_request}' to '{structure_custom_request}'")
