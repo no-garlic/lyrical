@@ -110,13 +110,6 @@ function removeElementFromSelection(element) {
 }
 
 /**
- * Check if there is a selected element
- */
-function hasSelectedElement() {
-    return selectSystem ? selectSystem.hasSelectedElement() : false;
-}
-
-/**
  * Apply selection styles to an element
  */
 function applySelectionStyles(element) {
@@ -153,6 +146,19 @@ function initSongManagement() {
     
     document.getElementById('tab-filter-new').onclick = applyFilter;
     document.getElementById('tab-filter-liked').onclick = applyFilter;
+
+    
+    document.querySelectorAll('[id*="song-like"').forEach(button => {
+        button.onclick = () => {
+            likeSong(button.dataset.songId);
+        }
+    });
+
+    document.querySelectorAll('[id*="song-dislike"').forEach(button => {
+        button.onclick = () => {
+            dislikeSong(button.dataset.songId);
+        }
+    });
 }
 
 
@@ -274,12 +280,29 @@ function addNewSongCard(songId, songName) {
 /**
  * Initialize a newly added song card
  */
-function initializeNewSongCard(songId, songName) {
+function initializeNewSongCard(songId, songName) { 
+    console.log(`initialising new song card (${songName}) with id=${songId}`)
     const newCard = document.querySelector(`.song-card[data-song-id="${songId}"]`);
 
     if (!newCard) {
         console.error('Could not find the newly added song card for songId:', songId);
         return;
+    }
+
+    /*
+    <div class="song-card" id="song-card-163" data-song-id="163" data-song-name="Victory In My Heart" data-song-stage="new">
+    <p id="song-text-163">Victory In My Heart</p>
+    <div id="song-hover-163" data-class="hidden">
+    <a class="bi-hand-thumbs-up btn-song-like" id="song-like-163" data-song-id="163">
+    <a class="bi-hand-thumbs-down btn-song-dislike" id="song-dislike-163" data-song-id="163">
+    */
+
+    document.getElementById(`song-like-${songId}`).onclick = () => {
+        likeSong(songId);
+    }
+
+    document.getElementById(`song-dislike-${songId}`).onclick = () => {
+        dislikeSong(songId);
     }
 
     setupNewCardVisualState(newCard);
@@ -288,6 +311,57 @@ function initializeNewSongCard(songId, songName) {
 
     applyFilter();
 }
+
+
+function likeSong(songId) {
+
+    const card = document.getElementById(`song-card-${songId}`);
+    if (card.dataset.songStage === 'liked') {
+        console.log(`Ssong stage of song id=${songId} is already 'liked'.`);
+        return;
+    }
+
+    console.log(`Setting song stage of song id=${songId} to 'liked'.`);
+
+    apiSongEdit(songId, { song_stage: 'liked' })
+        .then(songId => {
+            console.log(`Successfully updated song stage for songId: ${songId}`);
+
+            document.getElementById(`song-card-${songId}`).dataset.songStage = 'liked';
+            document.getElementById(`song-like-${songId}`).classList.remove('bi-hand-thumbs-up');
+            document.getElementById(`song-like-${songId}`).classList.add('bi-hand-thumbs-up-fill');     
+
+            applyFilter();
+        })
+        .catch(error => {
+            console.error('Failed to edit the song stage:', error);
+            toastSystem.showError('Failed to update the song stage. Please try again.');
+        });
+}
+
+
+function dislikeSong(songId) {
+    console.log(`Setting song stage of song id=${songId} to 'disliked'.`);
+
+    apiSongEdit(songId, { song_stage: 'disliked' })
+        .then(songId => {
+            console.log(`Successfully updated song stage for songId: ${songId}`);
+
+            const card = document.getElementById(`song-card-${songId}`);
+
+            selectSystem.deselectElement(card);
+            selectSystem.removeElement(card);
+
+            const container = card.parentElement;
+            container.removeChild(card);           
+        })
+        .catch(error => {
+            console.error('Failed to edit the song stage:', error);
+            toastSystem.showError('Failed to update the song stage. Please try again.');
+        });
+}
+
+
 
 /**
  * Edit the name of the selected song
@@ -378,9 +452,6 @@ function handleDeleteSongConfirm(event) {
             removeElementFromSelection(card);
             updateButtonStatesForSelection(getSelectedElement());
             
-            // Remove from drag and drop
-            unregisterDraggableElement(card);
-
             // Remove from DOM
             const container = card.parentElement;
             container.removeChild(card);
@@ -527,6 +598,8 @@ function handleGeneratedSongData(data) {
     } else {
         handleGenerationError(data);
     }
+
+    sortCardsInContainer('songs-container');
 }
 
 /**

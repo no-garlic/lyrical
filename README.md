@@ -83,6 +83,10 @@
  - Fix jitter upon closing a modal
  - Link to home on login and register pages
  - Bug: Unable to save an empty Song Hook, Theme, Mood, Narrative, etc...
+ - Redo the song names page, remove disliked list
+ - Song Names should have a thumbs up and thumbs down on them
+ - Get rid of archived status from songs
+ - Song Names Page: TypeError: Can't instantiate abstract class SongNamesGenerator without an implementation for abstract methods 'get_message_type', 'get_song_id'
 
 
 ## Todo
@@ -97,10 +101,6 @@
 
 
 ### Song Names Page:
- - Redo the song names page, remove disliked list
- - Song Names should have a thumbs up and thumbs down on them
- - Get rid of archived status from songs
- - Song Names Page: TypeError: Can't instantiate abstract class SongNamesGenerator without an implementation for abstract methods 'get_message_type', 'get_song_id'
  - Song Name Cards should show name in uppercase
 
 
@@ -138,4 +138,5 @@
  - Able to set default panel widths and panel slider position
  - Save Column Widths & panel slider position
  - Put instructional text on every page to tell the user what to do
+ - Bug: Handle duplicate song name from LLM quietly
  
