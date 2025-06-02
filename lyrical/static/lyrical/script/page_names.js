@@ -146,6 +146,7 @@ function initSongManagement() {
     
     document.getElementById('tab-filter-new').onclick = applyFilter;
     document.getElementById('tab-filter-liked').onclick = applyFilter;
+    document.getElementById('tab-filter-disliked').onclick = applyFilter;
 
     document.getElementById('btn-navigate-next').classList.add('hidden');
     document.getElementById('btn-navigate-prev').classList.add('hidden');
@@ -316,22 +317,26 @@ function initializeNewSongCard(songId, songName) {
 
 
 function likeSong(songId) {
-
     const card = document.getElementById(`song-card-${songId}`);
+
+    let vars = [];
     if (card.dataset.songStage === 'liked') {
-        console.log(`Ssong stage of song id=${songId} is already 'liked'.`);
-        return;
+        vars = ['new', 'bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up'];
+    } else {
+        vars = ['liked', 'bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill'];
     }
 
-    console.log(`Setting song stage of song id=${songId} to 'liked'.`);
+    console.log(`Setting song stage of song id=${songId} to '${vars[0]}'.`);
 
-    apiSongEdit(songId, { song_stage: 'liked' })
+    apiSongEdit(songId, { song_stage: vars[0] })
         .then(songId => {
             console.log(`Successfully updated song stage for songId: ${songId}`);
 
-            document.getElementById(`song-card-${songId}`).dataset.songStage = 'liked';
-            document.getElementById(`song-like-${songId}`).classList.remove('bi-hand-thumbs-up');
-            document.getElementById(`song-like-${songId}`).classList.add('bi-hand-thumbs-up-fill');     
+            document.getElementById(`song-card-${songId}`).dataset.songStage = vars[0];
+            document.getElementById(`song-like-${songId}`).classList.remove(vars[1]);
+            document.getElementById(`song-like-${songId}`).classList.add(vars[2]);     
+            document.getElementById(`song-dislike-${songId}`).classList.remove('bi-hand-thumbs-down-fill');
+            document.getElementById(`song-dislike-${songId}`).classList.add('bi-hand-thumbs-down');     
 
             applyFilter();
         })
@@ -343,19 +348,28 @@ function likeSong(songId) {
 
 
 function dislikeSong(songId) {
-    console.log(`Setting song stage of song id=${songId} to 'disliked'.`);
+    const card = document.getElementById(`song-card-${songId}`);
 
-    apiSongEdit(songId, { song_stage: 'disliked' })
+    let vars = [];
+    if (card.dataset.songStage === 'disliked') {
+        vars = ['new', 'bi-hand-thumbs-down-fill', 'bi-hand-thumbs-down'];
+    } else {
+        vars = ['disliked', 'bi-hand-thumbs-down', 'bi-hand-thumbs-down-fill'];
+    }
+
+    console.log(`Setting song stage of song id=${songId} to '${vars[0]}'.`);
+
+    apiSongEdit(songId, { song_stage: vars[0] })
         .then(songId => {
             console.log(`Successfully updated song stage for songId: ${songId}`);
 
-            const card = document.getElementById(`song-card-${songId}`);
+            document.getElementById(`song-card-${songId}`).dataset.songStage = vars[0];
+            document.getElementById(`song-like-${songId}`).classList.remove('bi-hand-thumbs-up-fill');     
+            document.getElementById(`song-like-${songId}`).classList.add('bi-hand-thumbs-up');
+            document.getElementById(`song-dislike-${songId}`).classList.remove(vars[1]);
+            document.getElementById(`song-dislike-${songId}`).classList.add(vars[2]);     
 
-            selectSystem.deselectElement(card);
-            selectSystem.removeElement(card);
-
-            const container = card.parentElement;
-            container.removeChild(card);           
+            applyFilter();
         })
         .catch(error => {
             console.error('Failed to edit the song stage:', error);
@@ -489,8 +503,13 @@ function dislikeAllNewSongs() {
             const container = document.getElementById('songs-container');
             Array.from(container.children).forEach(child => {
                 if (child.dataset.songStage === 'new') {
-                    container.removeChild(child);
-                    selectSystem.removeElement(child);
+
+                    const songId = child.dataset.songId;
+                    document.getElementById(`song-card-${songId}`).dataset.songStage = 'disliked';
+                    document.getElementById(`song-dislike-${songId}`).classList.remove('bi-hand-thumbs-up');
+                    document.getElementById(`song-dislike-${songId}`).classList.add('bi-hand-thumbs-up-fill');     
+
+                    applyFilter();
                 }
             });
 

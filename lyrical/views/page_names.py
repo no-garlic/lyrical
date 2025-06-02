@@ -19,7 +19,7 @@ def page_names(request):
     try:
         context.update({
             "llm_models": models.LLM.objects.all(),
-            "songs": models.Song.objects.filter(user=request.user, stage__in=['new', 'liked']).order_by(Lower('name')),
+            "songs": models.Song.objects.filter(user=request.user, stage__in=['new', 'liked', 'disliked']).order_by(Lower('name')),
         })
 
     except Exception as db_error:

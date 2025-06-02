@@ -91,11 +91,8 @@
  - Implement Previous and Next buttons
 
 ## Todo
- - Cut Hair
- - Fill Tank
- - Cook Veg
- - Bins Out
-
+ - max-w[100%]
+ - 550px / 550px
 
 ### Lyrics Page:
  - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections

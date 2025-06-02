@@ -15,7 +15,7 @@
             id="song-like-{{ song.id }}"
             data-song-id="{{ song.id }}">
             </a>
-            <a class="bi bi-hand-thumbs-down btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-dislike" 
+            <a class="bi bi-hand-thumbs-down{% if song.stage == 'disliked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-dislike" 
             {{ attrs }} 
             id="song-dislike-{{ song.id }}" 
             data-song-id="{{ song.id }}">

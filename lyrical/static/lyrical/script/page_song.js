@@ -88,6 +88,7 @@ function initEventHandlers() {
     const filterGenerated = document.getElementById('filter-generated');
     const filterPublished = document.getElementById('filter-published');
     const btnNext = document.getElementById('btn-navigate-next');
+    const btnPrev = document.getElementById('btn-navigate-prev');
 
     filterTerm.onkeyup = applyFilters;
     filterNew.onchange = applyFilters;
@@ -95,6 +96,7 @@ function initEventHandlers() {
     filterGenerated.onchange = applyFilters;
     filterPublished.onchange = applyFilters;
     btnNext.onclick = navigateNext;
+    btnPrev.classList.add('hidden');
 }
 
 
