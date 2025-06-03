@@ -32,6 +32,8 @@
   {% if starts_with %}The song names MUST start with the word(s): '{{ starts_with }}'{% endif %}
   {% if ends_with %}The song names MUST end with the word(s): '{{ ends_with }}'{% endif %}
 
+  {% if custom_prompt %}Also follow these instructions: {{custom_prompt}}.{% endif %}
+
   Use Title Case for song names, where every word starts with an uppercase letter.
 
   Use the following NDJSON format, with one name per row:

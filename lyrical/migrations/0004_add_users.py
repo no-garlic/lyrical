@@ -28,7 +28,7 @@ def add_data(apps, schema_editor):
         is_superuser=True, 
         is_staff=True,
         llm_max_tokens=2000,
-        llm_temperature=0.5, 
+        llm_temperature=0.2, 
         llm_model=default_llm_model,
 
         song_name_theme_inc='happy, positive, inspirational, motivational, an accomplishment, success from difficult odds, or about winning',
