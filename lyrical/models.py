@@ -197,7 +197,7 @@ class Lyrics(models.Model):
         ('outro', 'Outro'),
     ])
     index = models.IntegerField(default=0)
-    lyrics = models.TextField(default='')
+    words = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,1 +1,1 @@
-<div {{attrs}} class="badge badge-sm rounded badge-{{slot|lower}} w-40 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{{slot|upper}}</div>
+<div {{attrs}} class="badge badge-sm rounded badge-{{slot|lower}} w-40 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{% if song_section.name %}{{song_section.name}}{% else %}{{slot|upper}}{% endif %}</div>

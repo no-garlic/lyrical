@@ -140,7 +140,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('type', models.CharField(choices=[("verse", "Verse"), ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro")], max_length=50)),
                 ('index', models.IntegerField(default=0)),
-                ('lyrics', models.TextField(default="")),
+                ('words', models.TextField(default="")),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="lyrics", to="lyrical.song")),
