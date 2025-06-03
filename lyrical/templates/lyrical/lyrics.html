@@ -36,16 +36,16 @@
                             <div class="flex flex-1">                
                                 
                                 <!-- Tabs Group -->
-                                <div class="flex flex-1 justify-center items-center">
+                                <div class="flex flex-1 justify-left ml-3 items-center">
                                     <div class="tabs tabs-border tabs-xs mr-1">
                                         <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab" aria-label="ALL" checked="checked" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="VERSE" class="tab" aria-label="VERSE" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="PRE-CHORUS" class="tab" aria-label="PRE-CHORUS" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-narratives" data-style-type="CHORUS" class="tab" aria-label="CHORUS" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="BRIDGE" class="tab" aria-label="BRIDGE" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="INTERLUDE" class="tab" aria-label="INTERLUDE" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="VOCALISATION" class="tab" aria-label="VOCALISATION" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="OUTRO" class="tab" aria-label="OUTRO" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-verse" data-style-type="VERSE" class="tab" aria-label="VERSE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-pre-chorus" data-style-type="PRE-CHORUS" class="tab" aria-label="PRE-CHORUS" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-chorus" data-style-type="CHORUS" class="tab" aria-label="CHORUS" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-bridge" data-style-type="BRIDGE" class="tab" aria-label="BRIDGE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-interlude" data-style-type="INTERLUDE" class="tab" aria-label="INTERLUDE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-voclaisation" data-style-type="VOCALISATION" class="tab" aria-label="VOCALISATION" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-outro" data-style-type="OUTRO" class="tab" aria-label="OUTRO" />
                                     </div>
                                 </div>
                                 <!-- End: Tabs Group -->
@@ -97,7 +97,7 @@
 
 
                     <!-- Fields for Edit Song Style -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200  overflow-y-auto min-h-0" data-drop-zone="true">
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto min-h-0" data-drop-zone="true">
 
                         {% for song_section in song_lyrics %}
                             <c-badge>{{song_section.type}}</c-badge>
