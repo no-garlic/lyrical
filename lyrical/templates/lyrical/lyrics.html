@@ -20,7 +20,7 @@
 
                     <!-- Right Header -->
                     <c-panel-header title="SONG LYRICS" padding="4">
-                        <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
+                        <c-panel-header-button id="btn-generate" extrastyles="w-40">
                             GENERATE
                         </c-panel-header-button>
                         <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
@@ -105,7 +105,8 @@
                             {% if song_section.allow_words %}
                                 <div class="flex flex-col">
                                     <textarea 
-                                        id="style-text-theme" 
+                                        id="lyrics-text-{{song_section.id}}" 
+                                        data-lyrics-id="{{song_section.id}}"
                                         type="text" 
                                         placeholder="drag-drop words here..." 
                                         autocomplete="off" 
