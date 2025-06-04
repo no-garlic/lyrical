@@ -17,6 +17,7 @@ def page_song(request):
         {"name": "STYLE", "url": "style", "active": False, "selected": False, "enabled": False},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
+        {"name": "EDIT", "url": "edit", "active": False, "selected": False, "enabled": False},
     ]
 
     stages = ['new', 'liked', 'generated', 'published']

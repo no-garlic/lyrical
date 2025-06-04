@@ -85,6 +85,7 @@ def page_lyrics(request, song_id: int):
         {"name": "STYLE", "url": "style", "active": True, "selected": False, "enabled": True},
         {"name": "STRUCTURE", "url": "structure", "active": True, "selected": False, "enabled": True},
         {"name": "LYRICS", "url": "lyrics", "active": True, "selected": True, "enabled": True},
+        {"name": "EDIT", "url": "edit", "active": False, "selected": False, "enabled": False},
     ]
 
     if not song_id:

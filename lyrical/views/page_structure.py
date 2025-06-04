@@ -17,6 +17,7 @@ def page_structure(request, song_id: int):
         {"name": "STYLE", "url": "style", "active": True, "selected": False, "enabled": True},
         {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
+        {"name": "EDIT", "url": "edit", "active": False, "selected": False, "enabled": False},
     ]
 
     if not song_id:
