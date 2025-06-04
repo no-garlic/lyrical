@@ -165,13 +165,13 @@ function updateLyricsListing() {
         const sectionWordsId = element.dataset.sectionWordsId;
 
         if (sectionType === 'INTRO') {
-            container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
+            container.innerHTML += '<strong>[INSTRUMENTAL INTRO]</strong>';
         } else if (sectionType === 'INTERLUDE') {
-            container.innerHTML += '[MELODIC INTERLUDE]<br>';
+            container.innerHTML += '<strong>[MELODIC INTERLUDE]</strong>';
         } else if (sectionIndex > 0) {
-            container.innerHTML += '[' + sectionType + ' ' + sectionIndex + ']<br>';
+            container.innerHTML += '<strong>[' + sectionType + ' ' + sectionIndex + ']</strong>';
         } else {
-            container.innerHTML += '[' + sectionType + ']<br>';
+            container.innerHTML += '<strong>[' + sectionType + ']</strong>';
         }
 
         if (sectionWordsId.length > 0) {
@@ -184,7 +184,7 @@ function updateLyricsListing() {
         container.innerHTML += '<br>';
     });
 
-    container.innerHTML += '[END]';
+    container.innerHTML += '<strong>[END]</strong>';
 
     if (container.innerHTML.length > 0) {
         container.classList.remove('hidden');
@@ -196,7 +196,7 @@ function updateLyricsListing() {
 
 function copyLyrics() {
     const container = document.getElementById('song-lyrics-text')
-    const lyrics = container.innerText;
+    const lyrics = container.innerText.replace(/\n\s*\n\s*\n+/g, '\n\n');
 
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(lyrics).then(() => {
@@ -231,7 +231,7 @@ function copyLyrics() {
 
 function exportLyrics() {
     const container = document.getElementById('song-lyrics-text')
-    const lyrics = container.innerText;
+    const lyrics = container.innerText.replace(/\n\s*\n\s*\n+/g, '\n\n');
 
     const exportButton = document.getElementById('btn-export');
     const songName = exportButton.dataset.songName;
