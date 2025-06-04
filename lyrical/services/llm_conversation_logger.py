@@ -58,7 +58,7 @@ class LLMConversationLogger:
         Get the log file path for a specific message type and song ID.
         
         Args:
-            message_type: The message type ('style', 'hook', 'lyrics')
+            message_type: The message type ('style', 'lyrics')
             song_id: The song ID
             
         Returns:
@@ -98,7 +98,7 @@ class LLMConversationLogger:
         Log a conversation to the appropriate file with a timestamped header.
         
         Args:
-            message_type: The message type ('style', 'hook', 'lyrics')
+            message_type: The message type ('style', 'lyrics')
             song_id: The song ID
             conversation_content: The full conversation content (from MessageBuilder.__str__())
         """

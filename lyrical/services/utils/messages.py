@@ -44,7 +44,7 @@ class MessageBuilder:
         
         Args:
             song_id: ID of the song
-            message_type: Type of messages ('style', 'hook', 'lyrics')
+            message_type: Type of messages ('style', 'lyrics')
             user: User object for security scoping
             
         Returns:
@@ -82,7 +82,7 @@ class MessageBuilder:
         Args:
             content: Message content
             song_id: ID of the song
-            message_type: Type of message ('style', 'hook', 'lyrics')
+            message_type: Type of message ('style', 'lyrics')
             user: User object
             
         Returns:
@@ -97,7 +97,7 @@ class MessageBuilder:
         Args:
             content: Message content (complete LLM response)
             song_id: ID of the song
-            message_type: Type of message ('style', 'hook', 'lyrics')
+            message_type: Type of message ('style', 'lyrics')
             user: User object
             
         Returns:
@@ -139,7 +139,7 @@ class MessageBuilder:
         LLM interactions and analyzing conversation patterns.
         
         Args:
-            message_type: The message type ('style', 'hook', 'lyrics')
+            message_type: The message type ('style', 'lyrics')
             song_id: The song ID for organizing logs
         """
         try:

@@ -267,5 +267,5 @@ function exportSong() {
 
 
 function navigatePrevious() {
-    window.location.href = `/hook/${songId}`;
+    window.location.href = `/structure/${songId}`;
 }

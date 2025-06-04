@@ -293,7 +293,7 @@ class LLMGenerator(ABC):
         Get the message type for conversation history.
         
         Returns:
-            String message type ('style', 'hook', 'lyrics')
+            String message type ('style', 'lyrics')
         """
         pass
     

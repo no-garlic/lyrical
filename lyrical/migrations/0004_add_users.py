@@ -40,14 +40,7 @@ def add_data(apps, schema_editor):
         song_name_length_min=1,
         song_name_length_max=4,
         song_name_gen_count=5,
-
-        song_hook_custom_request='',
-        song_hook_rhyme_with='',
-        song_hook_vocalisation_level=2,
-        song_hook_vocalisation_terms='oh, ooh, ah, ahh, whoa',
-        song_hook_max_lines=2,
-        song_hook_average_syllables=8
-        )
+    )
 
     # Create the default song structure templates
     for i in range(8):

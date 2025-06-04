@@ -93,51 +93,6 @@
     ...
 
 
-"song_hooks": |-
-  You are tasked with creating some song hook options for an upbeat catchy pop song. The song should embody the essence of modern 
-  pop music, focusing on themes that resonate with a wide audience, such as inspiration, empowerment, joy, or self-discovery. The song should have 
-  a balance of emotional depth and playful energy to ensure it captivates listeners.
-
-  A song hook is the “catchiest” element of a song—the part that makes people want to hear it again.
-
-  A song hook is a memorable and emotionally engaging musical or lyrical phrase designed to grab the listener's attention and make the song unforgettable.
-  It's often the most recognizable and repeated part of the song—like a catchy line, melody, or rhythm that “hooks” the audience and sticks in their mind long after the music stops.
-  Song hooks can appear in different forms:
-  - Lyrical hook: A standout phrase or line (sometimes the song title) that's repeated, especially in the chorus.
-  - Melodic hook: A distinctive vocal melody or vocal riff that's easy to remember and sing along to.
-
-  The name of the song is "{{ song_name }}".
-
-  {% if include_themes %}These are the styles and topics to focus on: {{ include_themes }}{% endif %}
-  {% if exclude_themes %}These are the styles and topics to avoid: {{ exclude_themes }}{% endif %}
-
-  {% if theme %}The theme of the song is: {{theme}}{% endif %}
-  {% if narrative %}The narrative of the song is: {{narrative}}{% endif %}
-  {% if mood %}The mood of the song is: {{mood}}{% endif %}
-
-  {% if vocalisation_level %}The song hooks you generate should use a {{ vocalisation_level }} amount of vocalisation.{% endif %}
-  {% if vocalisation_terms %}Use only the following vocalisation terms: {{ vocalisation_terms }}.{% endif %}
-
-  {% if rhyme %}The final word in each line of lyrics should rhyme with "{{rhyme}}".{% endif %}
-
-  {% if custom_prompt %}Also follow these instructions: {{custom_prompt}}.{% endif %}
-
-  Each line of lyrics should have approximately {{ syllables }} syllables.
-  Each song hook should contain EXACTLY {{ lines }} lines of lyrics.
-  Each song hook should either:
-  (a) contain the song name, or
-  (b) contain a part of the song name, or 
-  (c) be a strong reference to the song name.
-
-  Generate {{ count }} song hooks with a variety of styles.
-
-  Use the following NDJSON format, with EXACTLY ONE song hook per row, and each separate line of lyrics as an element in a list:
-    {"hook": ["Oh, I will survive!!!,"]}
-    {"hook": ["From the ashes I am reborn,", "Into the light of a new dawn."]}
-    {"hook": ["Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
-    ...
-
-
 "song_lyrics": |-
   You are tasked with creating an upbeat catchy pop song. The song should embody the essence of modern pop music, focusing 
   on themes that resonate with a wide audience, such as inspiration, empowerment, joy, or self-discovery. The song should have 
@@ -160,11 +115,6 @@
   {% if vocalisation_terms %}Use only the following vocalisation terms: {{ vocalisation_terms }}.{% endif %}
 
   Each line of lyrics should have approximately {{ syllables }} syllables.
-
-  {% if hook %}
-  Use the following lyrical song hook in the chorus:
-  {{hook}}
-  {% endif %}
 
   Generate the following song sections:
   {% if verse_count %}- {{ verse_count }} verses, each with {{ verse_lines }} lines of lyrics

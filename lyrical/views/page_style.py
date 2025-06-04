@@ -16,7 +16,6 @@ def page_style(request, song_id: int):
         {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
         {"name": "STYLE", "url": "style", "active": True, "selected": True, "enabled": True},
         {"name": "STRUCTURE", "url": "structure", "active": False, "selected": False, "enabled": False},
-        {"name": "HOOK", "url": "hook", "active": False, "selected": False, "enabled": False},
         {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
     ]
 

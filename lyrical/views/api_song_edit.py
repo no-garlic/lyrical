@@ -38,14 +38,6 @@ def api_song_edit(request):
         song_narrative = edit_data.get("song_narrative")
         song_mood = edit_data.get("song_mood")
         
-        hook = edit_data.get("hook")
-        hook_custom_request = edit_data.get("hook_custom_request")
-        hook_rhyme_with = edit_data.get("hook_rhyme_with")
-        hook_vocalisation_level = edit_data.get("hook_vocalisation_level")
-        hook_vocalisation_terms = edit_data.get("hook_vocalisation_terms")
-        hook_max_lines = edit_data.get("hook_max_lines")
-        hook_average_syllables = edit_data.get("hook_average_syllables")
-
         structure_intro_lines = edit_data.get("structure_intro_lines")
         structure_outro_lines = edit_data.get("structure_outro_lines")
         structure_verse_lines = edit_data.get("structure_verse_lines")
@@ -104,41 +96,6 @@ def api_song_edit(request):
             old_mood = song.mood
             song.mood = song_mood
             updates.append(f"mood from '{old_mood}' to '{song_mood}'")
-
-        if hook is not None:
-            old_hook = song.hook
-            song.hook = hook
-            updates.append(f"hook from '{old_hook}' to '{hook}'")
-
-        if hook_custom_request is not None:
-            old_custom_prompt = song.hook_custom_request
-            song.hook_custom_request = hook_custom_request
-            updates.append(f"custom prompt from '{old_custom_prompt}' to '{hook_custom_request}'")
-
-        if hook_rhyme_with is not None:
-            old_rhyme_with = song.hook_rhyme_with
-            song.hook_rhyme_with = hook_rhyme_with
-            updates.append(f"rhyme with from '{old_rhyme_with}' to '{hook_rhyme_with}'")
-
-        if hook_vocalisation_level is not None:
-            old_vocalisation_level = song.hook_vocalisation_level
-            song.hook_vocalisation_level = hook_vocalisation_level
-            updates.append(f"vocalisation level from '{old_vocalisation_level}' to '{hook_vocalisation_level}'")
-
-        if hook_vocalisation_terms is not None:
-            old_vocalisation_terms = song.hook_vocalisation_terms
-            song.hook_vocalisation_terms = hook_vocalisation_terms
-            updates.append(f"vocalisation terms from '{old_vocalisation_terms}' to '{hook_vocalisation_terms}'")
-
-        if hook_max_lines is not None:
-            old_max_hook_lines = song.hook_max_lines
-            song.hook_max_lines = hook_max_lines
-            updates.append(f"max hook lines from '{old_max_hook_lines}' to '{hook_max_lines}'")
-
-        if hook_average_syllables is not None:
-            old_max_syllables = song.hook_average_syllables
-            song.hook_average_syllables = hook_average_syllables
-            updates.append(f"max syllables per line from '{old_max_syllables}' to '{hook_average_syllables}'")
 
         if structure_intro_lines is not None:
             old_intro_lines = song.structure_intro_lines

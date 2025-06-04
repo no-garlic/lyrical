@@ -14,14 +14,6 @@ export function apiSongEdit(songId, updates = {}) {
         song_narrative: songNarrative,
         song_mood: songMood,
         
-        hook: songHook,
-        hook_custom_request: hookCustomRequest,
-        hook_rhyme_with: hookRhymeWith,
-        hook_vocalisation_level: hookVocalisationLevel,
-        hook_vocalisation_terms: hookVocalisationTerms,
-        hook_max_lines: hookMaxLines,
-        hook_average_syllables: hookAverageSyllables,
-
         structure_intro_lines: structureIntroLines,
         structure_outro_lines: structureOutroLines,
         structure_verse_lines: structureVerseLines,
@@ -48,15 +40,6 @@ export function apiSongEdit(songId, updates = {}) {
     if (songTheme != undefined) requestBody.song_theme = songTheme;
     if (songNarrative  != undefined) requestBody.song_narrative = songNarrative;
     if (songMood != undefined) requestBody.song_mood = songMood;
-
-    // song hook fields
-    if (songHook != undefined) requestBody.hook = songHook;
-    if (hookCustomRequest != undefined) requestBody.hook_custom_request = hookCustomRequest;
-    if (hookRhymeWith != undefined) requestBody.hook_rhyme_with = hookRhymeWith;
-    if (hookVocalisationLevel != undefined) requestBody.hook_vocalisation_level = hookVocalisationLevel;
-    if (hookVocalisationTerms != undefined) requestBody.hook_vocalisation_terms = hookVocalisationTerms;
-    if (hookMaxLines != undefined) requestBody.hook_max_lines = hookMaxLines;
-    if (hookAverageSyllables != undefined) requestBody.hook_average_syllables = hookAverageSyllables;
 
     // song structure fields
     if (structureIntroLines != undefined) requestBody.structure_intro_lines = structureIntroLines;

@@ -37,14 +37,6 @@ class User(AbstractUser):
     song_name_length_max = models.IntegerField(default=5)
     song_name_gen_count = models.IntegerField(default=5)
 
-    # song hook default params
-    song_hook_custom_request = models.TextField(default='')
-    song_hook_rhyme_with = models.CharField(default='', max_length=255)
-    song_hook_vocalisation_level = models.IntegerField(default=None, null=True, blank=True, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
-    song_hook_vocalisation_terms = models.CharField(default=None, null=True, blank=True, max_length=255)
-    song_hook_max_lines = models.IntegerField(default=2)
-    song_hook_average_syllables = models.IntegerField(default=None, null=True, blank=True)
-
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
@@ -69,17 +61,6 @@ class Song(models.Model):
     narrative = models.TextField(default='')
     mood = models.TextField(default='')
     
-    # Song Hook
-    hook = models.TextField(default='')
-
-    # Song Hook Generation Parameters
-    hook_custom_request = models.TextField(default='')
-    hook_max_lines = models.IntegerField(default=2)
-    hook_vocalisation_level = models.IntegerField(default=None, null=True, blank=True, choices=[(0, 'None'), (1, 'Low'), (2, 'Medium'), (3, 'High')])
-    hook_vocalisation_terms = models.CharField(default=None, null=True, blank=True, max_length=255)
-    hook_rhyme_with = models.CharField(default='', max_length=255)
-    hook_average_syllables = models.IntegerField(default=None, null=True, blank=True)
-
     # Song Structure
     structure = models.TextField(default='')
 
@@ -147,13 +128,6 @@ class Song(models.Model):
         self.song_name_length_min = user.song_name_length_min
         self.song_name_length_max = user.song_name_length_max
         self.song_name_gen_count = user.song_name_gen_count
-        # song hook default params
-        self.song_hook_custom_request = user.song_hook_custom_request
-        self.song_hook_rhyme_with = user.song_hook_rhyme_with
-        self.song_hook_vocalisation_level = user.song_hook_vocalisation_level
-        self.song_hook_vocalisation_terms = user.song_hook_vocalisation_terms
-        self.song_hook_max_lines = user.song_hook_max_lines
-        self.song_hook_average_syllables = user.song_hook_average_syllables        
     
 
 class SongStructureTemplate(models.Model):
@@ -210,7 +184,6 @@ class Section(models.Model):
         ('theme', 'Theme'),
         ("narrative", "Narrative"),
         ("mood", "Mood"),
-        ('hook', 'Hook'),
         ('intro', 'Intro'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),
@@ -232,7 +205,7 @@ class Section(models.Model):
 
 
 class Message(models.Model):
-    type = models.CharField(max_length=50, choices=[('style', 'style'), ('hook', 'hook'), ('lyrics', 'Lyrics')])
+    type = models.CharField(max_length=50, choices=[('style', 'style'), ('lyrics', 'Lyrics')])
     role = models.CharField(max_length=50, choices=[('system', 'System'), ('user', 'User'), ('assistant', 'Assistant')])
     content = models.TextField()
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')

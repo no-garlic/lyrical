@@ -19,10 +19,6 @@
     --badge-color: #baf9b1;
     color: #558855;
 }
-.badge-hook {
-    --badge-color: #bfcaff;
-    color: #555588;
-}
 .badge-verse {
     --badge-color: #ffd99f;
     color: #757545;
@@ -66,6 +62,10 @@
 .badge-spare2 {
     --badge-color: #f7db99;
     color: #757545;
+}
+.badge-spare3 {
+    --badge-color: #bfcaff;
+    color: #555588;
 }
 
 

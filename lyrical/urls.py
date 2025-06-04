@@ -3,7 +3,6 @@ from django.urls import path
 from .views.page_index import *
 from .views.page_register import *
 from .views.page_style import *
-from .views.page_hook import *
 from .views.page_login import *
 from .views.page_library import *
 from .views.page_names import *
@@ -31,7 +30,6 @@ from .views.api_section_edit_bulk import *
 from .views.api_gen_song_lyrics import *
 from .views.api_gen_song_names import *
 from .views.api_gen_song_styles import *
-from .views.api_gen_song_hooks import *
 
 
 urlpatterns = [
@@ -51,7 +49,6 @@ urlpatterns = [
     # edit pages
     path("song", page_song, name="song"),
     path("style/<int:song_id>", page_style, name="style"),
-    path("hook/<int:song_id>", page_hook, name="hook"),
     path("lyrics/<int:song_id>", page_lyrics, name="lyrics"),
     path("structure/<int:song_id>", page_structure, name="structure"),
 
@@ -80,6 +77,5 @@ urlpatterns = [
     path("api_gen_song_lyrics", api_gen_song_lyrics, name="api_gen_song_lyrics"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
     path("api_gen_song_styles", api_gen_song_styles, name="api_gen_song_styles"),
-    path("api_gen_song_hooks", api_gen_song_hooks, name="api_gen_song_hooks"),
     
 ]

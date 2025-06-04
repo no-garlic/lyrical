@@ -28,7 +28,7 @@ function initPageActions() {
 
     document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
     document.getElementById('btn-navigate-next').onclick = () => { 
-        window.location.href = `/hook/${songId}`; 
+        window.location.href = `/lyrics/${songId}`; 
     };
 
     document.getElementById('btn-navigate-prev').classList.remove('btn-disabled');
