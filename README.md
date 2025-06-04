@@ -115,6 +115,7 @@
 
 
 ### Bugs & Polish:
+ - Set browser title to song name
  - Create 8 records for structure templates when creating a user
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
  - Update prompt about other rules, like ... and rrrrrrun

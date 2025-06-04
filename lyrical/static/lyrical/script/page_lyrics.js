@@ -31,6 +31,12 @@ function initPageActions() {
         item.addEventListener('input', setLyricsDirty);
     });
 
+    // button.parentNode.nextElementSibling.children[1].value
+    document.querySelectorAll('.badge-edit-button').forEach(button => {
+        button.onclick = editButtonClick;
+    });
+
+
     const saveButton = document.getElementById('btn-save');
     saveButton.onclick = saveLyrics;
     const undoButton = document.getElementById('btn-undo');
@@ -330,6 +336,26 @@ function copyFromSaveHistory() {
         item.value = lyricsHistory[item.dataset.lyricsId];
     });
 }
+
+
+function editButtonClick() {
+    const button = this;
+
+    const editPanel = button.parentNode.nextElementSibling.children[0];
+    const textArea = button.parentNode.nextElementSibling.children[1];
+    const lyrics = textArea.value;
+
+    editPanel.classList.remove('hidden');
+    textArea.classList.add('hidden');
+
+    editPanel.innerText = lyrics;
+
+
+
+
+
+}
+
 
 
 function navigateNext() {
