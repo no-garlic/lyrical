@@ -107,8 +107,6 @@ def page_lyrics(request, song_id: int):
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
-        "btn_next": None,
-        "btn_previous": None,
         "selectedSongId": song_id,
         "song": song,
         "song_lyrics": song_lyrics,

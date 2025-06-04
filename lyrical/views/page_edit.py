@@ -10,41 +10,35 @@ logger = logging.getLogger('views')
 
 
 @login_required
-def page_structure(request, song_id: int):
+def page_edit(request, song_id: int):
 
     navigation = [
         {"name": "SONG", "url": "song", "active": True, "selected": False, "enabled": True},
         {"name": "STYLE", "url": "style", "active": True, "selected": False, "enabled": True},
-        {"name": "STRUCTURE", "url": "structure", "active": True, "selected": True, "enabled": True},
-        {"name": "LYRICS", "url": "lyrics", "active": False, "selected": False, "enabled": False},
-        {"name": "EDIT", "url": "edit", "active": False, "selected": False, "enabled": False},
+        {"name": "STRUCTURE", "url": "structure", "active": True, "selected": False, "enabled": True},
+        {"name": "LYRICS", "url": "lyrics", "active": True, "selected": False, "enabled": True},
+        {"name": "EDIT", "url": "edit", "active": True, "selected": True, "enabled": True},
     ]
 
     if not song_id:
-        logger.error("page_structure: song_id is None or invalid")
+        logger.error("page_lyrics: song_id is None or invalid")
         return HttpResponseServerError("Invalid song ID")
 
     try:
         song = models.Song.objects.get(id=song_id, user=request.user)
-        song_structure_templates = models.SongStructureTemplate.objects.filter(user=request.user).order_by(Lower('name'))
     except models.Song.DoesNotExist:
-        logger.error(f"page_structure: song with id {song_id} does not exist for user '{request.user.username}'")
+        logger.error(f"page_lyrics: song with id {song_id} does not exist for user '{request.user.username}'")
         return HttpResponseServerError("Song not found")
     except Exception as e:
-        logger.error(f"page_structure: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
+        logger.error(f"page_lyrics: error fetching song with id {song_id} for user '{request.user.username}': {str(e)}")
         return HttpResponseServerError("An error occurred while fetching the song")
 
-    song_sections = None
-    if len(song.structure.strip()) > 0:
-        song_sections = song.structure.split(',')
 
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
         "selectedSongId": song_id,
         "song": song,
-        "song_sections": song_sections,
-        "song_structure_templates": song_structure_templates,
     }
 
     try:
@@ -59,4 +53,4 @@ def page_structure(request, song_id: int):
             "error_message": "unable to load data at this time, please try again later"
         })
 
-    return render(request, "lyrical/structure.html", context)
+    return render(request, "lyrical/edit.html", context)

@@ -20,11 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function initPageActions() {
-    document.getElementById('btn-navigate-next').onclick = navigateNext;
+    document.getElementById('btn-navigate-next').onclick = exportSong;
     document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
 
     document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
     document.getElementById('btn-navigate-prev').classList.remove('btn-disabled');
+
+    document.getElementById('btn-navigate-next').innerHTML = '<p>Export Song</p>';
 
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
         item.addEventListener('input', setLyricsDirty);
@@ -212,11 +214,11 @@ function copyFromSaveHistory() {
 }
 
 
-function navigateNext() {
-    window.location.href = `/edit/${songId}`;
+function exportSong() {
+    
 }
 
 
 function navigatePrevious() {
-    window.location.href = `/structure/${songId}`;
+    window.location.href = `/lyrics/${songId}`;
 }

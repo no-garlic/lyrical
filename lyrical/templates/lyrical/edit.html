@@ -1,0 +1,138 @@
+{% extends "lyrical/base_columns.html" %}
+{% load static %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block page_content %}
+    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
+        <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+
+            <!-- Title -->
+            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
+
+            <!-- Content -->
+            <div class="flex flex-row flex-1 min-h-0 gap-4">
+
+                <!-- Left Panel -->
+                <div class="w-[600px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+
+                    <!-- Right Header -->
+                    <c-panel-header title="SONG LYRICS" padding="4">
+                        <c-panel-header-button id="btn-generate" extrastyles="w-40">
+                            GENERATE
+                        </c-panel-header-button>
+                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
+                            PLEASE WAIT...
+                        </c-panel-header-button-loading>
+                    </c-panel-header>
+                    <!-- End: Right Header -->
+
+
+                    <!-- Splitter Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row font-bold text-md text-primary">
+                            <div class="flex flex-1">                
+                                
+                                <!-- Tabs Group -->
+                                <div class="flex flex-1 justify-left ml-3 items-center">
+                                    <div class="tabs tabs-border tabs-xs mr-1">
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab" aria-label="ALL" checked="checked" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-verse" data-style-type="VERSE" class="tab" aria-label="VERSE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-pre-chorus" data-style-type="PRE-CHORUS" class="tab" aria-label="PRE-CHORUS" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-chorus" data-style-type="CHORUS" class="tab" aria-label="CHORUS" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-bridge" data-style-type="BRIDGE" class="tab" aria-label="BRIDGE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-interlude" data-style-type="INTERLUDE" class="tab" aria-label="INTERLUDE" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-voclaisation" data-style-type="VOCALISATION" class="tab" aria-label="VOCALISATION" />
+                                        <input type="radio" name="tab-group-filter" id="tab-filter-outro" data-style-type="OUTRO" class="tab" aria-label="OUTRO" />
+                                    </div>
+                                </div>
+                                <!-- End: Tabs Group -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Splitter Section -->
+
+
+
+                    <!-- Container for Generated Styles -->
+                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
+                        {% for section in song_sections %}
+                            {% if not section.hidden %}
+                                <c-card-style />
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End: Container for Generated Styles -->
+
+                </div>
+                <!-- End: Left Panel -->
+
+                <!-- Right Panel -->
+                <div class="w-[500px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full overflow-hidden">
+
+                    <!-- Header Section -->
+                    <div class="flex flex-col flex-shrink-0">
+                        <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
+                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
+                    
+                                <!-- Edit Song Style Section -->
+                                <c-panel-header title="EDIT YOUR SONG LYRICS" padding="4">
+                                    <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
+                                        CANCEL
+                                    </c-panel-header-button>
+                                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
+                                        SAVE
+                                    </c-panel-header-button>
+                                </c-panel-header>
+                                <!-- End: Edit Song Style Section -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Header Section -->
+
+
+                    <!-- Fields for Edit Song Style -->
+                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto min-h-0" data-drop-zone="true">
+
+                        {% for song_section in song_lyrics %}
+                            <c-badge>{{song_section.type}}</c-badge>
+
+                            {% if song_section.allow_words %}
+                                <div class="flex flex-col">
+                                    <textarea 
+                                        id="lyrics-text-{{song_section.id}}" 
+                                        data-lyrics-id="{{song_section.id}}"
+                                        type="text" 
+                                        placeholder="drag-drop words here..." 
+                                        autocomplete="off" 
+                                        class="{{song_section.item_name}} input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                        style="field-sizing: content;"
+                                    >{{song_section.words}}</textarea>
+                                </div>
+                            {% else %}
+                            <div class=" border-y border-base-100"></div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                    <!-- End: Fields for Edit Song Style -->
+
+                </div>
+                <!-- End: Right Panel -->
+
+            </div>                
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="module" src="{% static 'lyrical/script/page_edit.js' %}"></script>
+{% endblock %}
+
+
