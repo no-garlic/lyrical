@@ -387,7 +387,6 @@ function badgeToolsButtonClick() {
 
 function badgeExitButtonClick() {
     const buttonExit = this;
-
     
     const buttonEdit = buttonExit.nextElementSibling;
     const buttonInteractive = buttonExit.previousElementSibling;
@@ -438,14 +437,71 @@ function hideOrShowAllSections(showOrHide, except=null) {
     document.querySelectorAll('.song-section-card').forEach(card => {
         if (card != except) {
             if (showOrHide === 'show') {
-                card.classList.remove('hidden');
+                showSectionCard(card);
             } else if (showOrHide === 'hide') {
-                card.classList.add('hidden');
+                hideSectionCard(card);
             } else {
                 console.error(`hideOrShowAllSections: invalid showOrHide argument (${showOrHide}), must be 'show' or 'hide' `);
             }
         }
     });
+}
+
+function hideSectionCard(card) {
+    // If already hidden or in process of hiding, do nothing
+    if (card.classList.contains('collapsed') || card.classList.contains('collapsing-hide')) {
+        return;
+    }
+    
+    // Get the current height and set it explicitly
+    const height = card.offsetHeight;
+    card.style.height = height + 'px';
+    
+    // Force a reflow to ensure the height is set
+    card.offsetHeight;
+    
+    // Add collapsing-hide class to start opacity/margin animation
+    card.classList.add('collapsing-hide');
+    
+    // Start the height animation
+    card.style.height = '0px';
+    
+    // After animation completes, add collapsed class and clean up
+    setTimeout(() => {
+        card.classList.remove('collapsing-hide');
+        card.classList.add('collapsed');
+        card.style.height = '';
+    }, 500);
+}
+
+function showSectionCard(card) {
+    // If already visible or in process of showing, do nothing
+    if (!card.classList.contains('collapsed') && !card.classList.contains('collapsing-show')) {
+        return;
+    }
+    
+    // Remove collapsed state
+    card.classList.remove('collapsed');
+    
+    // Get the natural height by temporarily removing height restriction
+    card.style.height = 'auto';
+    const height = card.offsetHeight;
+    
+    // Set height to 0 and prepare for animation
+    card.style.height = '0px';
+    card.classList.add('collapsing-show');
+    
+    // Force a reflow
+    card.offsetHeight;
+    
+    // Start the height animation
+    card.style.height = height + 'px';
+    
+    // After animation completes, clean up
+    setTimeout(() => {
+        card.classList.remove('collapsing-show');
+        card.style.height = '';
+    }, 500);
 }
 
 

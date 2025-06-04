@@ -2,10 +2,10 @@
     <div {{attrs}} class="badge badge-sm rounded badge-{{slot|lower}} w-40 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{% if song_section.name %}{{song_section.name}}{% else %}{{slot|upper}}{% endif %}</div>
     {% if song_section.allow_words %}
     <div class="flex flex-grow"></div>
-    <button class="badge-regenerate-button btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-arrow-clockwise text-xl text-neutral"></i></button>
-    <button class="badge-textedit-button btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-fonts text-xl text-neutral"></i></button>
-    <button class="badge-interactive-button btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-highlighter text-xl text-neutral"></i></button>
-    <button class="badge-exit-button btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-x-square text-xl text-neutral"></i></button>
-    <button class="badge-tools-button btn-style btn btn-xs btn-ghost h-full"><i class="bi bi-three-dots-vertical text-xl text-neutral"></i></button>
+    <button class="badge-regenerate-button mt-1 btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-arrow-clockwise text-xl text-neutral"></i></button>
+    <button class="badge-textedit-button mt-1 btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-fonts text-xl text-neutral"></i></button>
+    <button class="badge-interactive-button mt-1 btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-highlighter text-xl text-neutral"></i></button>
+    <button class="badge-exit-button mt-1 btn-style btn btn-xs btn-ghost h-full hidden"><i class="bi bi-x-square text-xl text-neutral"></i></button>
+    <button class="badge-tools-button mt-1 btn-style btn btn-xs btn-ghost h-full"><i class="bi bi-three-dots-vertical text-xl text-neutral"></i></button>
     {% endif %}
 </div>

@@ -40,7 +40,7 @@
 
                         {% for song_section in song_lyrics %}
                             <!-- Song Section Card -->
-                            <div class="song-section-card mx-1 mt-1">
+                            <div class="song-section-card mx-1">
 
                                 <!-- Badge header row -->
                                 <c-badge-lyrics 
@@ -67,7 +67,7 @@
                                             placeholder="" 
                                             readonly
                                             autocomplete="off" 
-                                            class="{{song_section.item_name}} input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                            class="{{song_section.item_name}} mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
                                             style="field-sizing: content;"
                                         >{{song_section.words}}</textarea>
                                     </div>

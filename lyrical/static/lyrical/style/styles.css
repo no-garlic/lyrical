@@ -1,12 +1,4 @@
 
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
 .badge-theme {
     --badge-color: #ffb7d1;
     color: #885555;
@@ -66,6 +58,27 @@
 .badge-spare3 {
     --badge-color: #bfcaff;
     color: #555588;
+}
+
+.song-section-card {
+    overflow: hidden;
+    transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin 0.5s ease-in-out;
+}
+.song-section-card.collapsing-hide {
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.song-section-card.collapsing-show {
+    opacity: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.song-section-card.collapsed {
+    height: 0 !important;
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 
