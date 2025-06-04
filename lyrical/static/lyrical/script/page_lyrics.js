@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initGeneration();
     copyToSaveHistory();
+    updateLyricsListing();
 });
 
 
@@ -32,8 +33,12 @@ function initPageActions() {
 
     const saveButton = document.getElementById('btn-save');
     saveButton.onclick = saveLyrics;
-    const cancelButton = document.getElementById('btn-cancel');
-    cancelButton.onclick = cancelLyrics;
+    const undoButton = document.getElementById('btn-undo');
+    undoButton.onclick = undoLyrics;
+    const copyButton = document.getElementById('btn-copy');
+    copyButton.onclick = copyLyrics;
+    const exportButton = document.getElementById('btn-export');
+    exportButton.onclick = exportLyrics;
 }
 
 
@@ -149,21 +154,82 @@ function displayLyrics(section, words) {
 }
 
 
+function updateLyricsListing() {
+    const container = document.getElementById('song-lyrics-text')
+    container.innerHTML = '';
+
+
+    document.querySelectorAll('.badge').forEach(element => {
+        const sectionType = element.dataset.sectionType;
+        const sectionIndex = element.dataset.sectionIndex;
+        const sectionWordsId = element.dataset.sectionWordsId;
+
+        if (sectionType === 'INTRO') {
+            container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
+        } else if (sectionType === 'INTERLUDE') {
+            container.innerHTML += '[MELODIC INTERLUDE]<br>';
+        } else if (sectionIndex > 0) {
+            container.innerHTML += '[' + sectionType + ' ' + sectionIndex + ']<br>';
+        } else {
+            container.innerHTML += '[' + sectionType + ']<br>';
+        }
+
+        if (sectionWordsId.length > 0) {
+            const textArea = document.getElementById(sectionWordsId);
+            const textValue = textArea.value;
+            const htmlValue = textValue.replace(/\n/g, '<br>');
+
+            container.innerHTML += htmlValue + '<br>';
+        }
+        container.innerHTML += '<br>';
+    });
+
+    container.innerHTML += '[END]';
+
+    if (container.innerHTML.length > 0) {
+        container.classList.remove('hidden');
+    } else {
+        container.classList.add('hidden');
+    }
+
+    console.log(container.innerText);
+}
+
+
+function copyLyrics() {
+    const container = document.getElementById('song-lyrics-text')
+    const lyrics = container.innerText;
+
+
+}
+
+
+function exportLyrics() {
+    const container = document.getElementById('song-lyrics-text')
+    const lyrics = container.innerText;
+
+    
+
+}
+
+
 function setLyricsDirty(dirty = true) {
+    if (dirty) updateLyricsListing();
+
     if (dirty && !lyricsDirty) {
         lyricsDirty = true;
 
         const saveButton = document.getElementById('btn-save');
         saveButton.classList.remove('btn-disabled');
-        const cancelButton = document.getElementById('btn-cancel');
-        cancelButton.classList.remove('btn-disabled');
+        const undoButton = document.getElementById('btn-undo');
+        undoButton.classList.remove('btn-disabled');
     } else if (!dirty && lyricsDirty) {
         lyricsDirty = false;
 
         const saveButton = document.getElementById('btn-save');
         saveButton.classList.add('btn-disabled');
-        const cancelButton = document.getElementById('btn-cancel');
-        cancelButton.classList.add('btn-disabled');
+        const undoButton = document.getElementById('btn-undo');
+        undoButton.classList.add('btn-disabled');
     }
 }
 
@@ -192,8 +258,9 @@ function saveLyrics() {
 }
 
 
-function cancelLyrics() {
+function undoLyrics() {
     copyFromSaveHistory();
+    updateLyricsListing();
     setLyricsDirty(false);
 }
 
