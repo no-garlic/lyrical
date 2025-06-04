@@ -190,11 +190,13 @@ class SongMetadata(models.Model):
 class Lyrics(models.Model):
     song = models.ForeignKey('Song', on_delete=models.CASCADE, related_name='lyrics')
     type = models.CharField(max_length=50, choices=[
+        ('intro', 'Intro'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),
         ('bridge', 'Bridge'),
         ('pre-chorus', 'Pre-Chorus'),
         ('outro', 'Outro'),
+        ('vocalisation', 'Vocalisation'),
     ])
     index = models.IntegerField(default=0)
     words = models.TextField(default='')
@@ -209,6 +211,7 @@ class Section(models.Model):
         ("narrative", "Narrative"),
         ("mood", "Mood"),
         ('hook', 'Hook'),
+        ('intro', 'Intro'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),
         ('bridge', 'Bridge'),
