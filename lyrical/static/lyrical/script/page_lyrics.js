@@ -191,8 +191,6 @@ function updateLyricsListing() {
     } else {
         container.classList.add('hidden');
     }
-
-    console.log(container.innerText);
 }
 
 
@@ -200,7 +198,34 @@ function copyLyrics() {
     const container = document.getElementById('song-lyrics-text')
     const lyrics = container.innerText;
 
-
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(lyrics).then(() => {
+            console.log('Lyrics copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy lyrics:', err);
+            toastSystem.showError('Failed to copy lyrics to clipboard');
+        });
+    } else {
+        // Fallback for older browsers or non-secure contexts
+        const textArea = document.createElement('textarea');
+        textArea.value = lyrics;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            console.log('Lyrics copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy lyrics:', err);
+            toastSystem.showError('Failed to copy lyrics to clipboard');
+        }
+        
+        document.body.removeChild(textArea);
+    }
 }
 
 
@@ -208,8 +233,36 @@ function exportLyrics() {
     const container = document.getElementById('song-lyrics-text')
     const lyrics = container.innerText;
 
-    
+    const exportButton = document.getElementById('btn-export');
+    const songName = exportButton.dataset.songName;
 
+    // Clean up the filename by replacing spaces and removing special characters
+    // Fallback to 'song_lyrics' if songName is empty or undefined
+    const cleanName = (songName || 'song_lyrics')
+        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .replace(/\s+/g, '_')
+        .trim() || 'song_lyrics';
+    const fileName = cleanName + '.txt';
+
+    // Create a blob with the lyrics content
+    const blob = new Blob([lyrics], { type: 'text/plain' });
+    
+    // Create a download link
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = fileName;
+    
+    // Append to body, click, and remove
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    
+    console.log(`Lyrics exported as ${fileName}`);
 }
 
 
