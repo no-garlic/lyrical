@@ -36,38 +36,48 @@
                     <!-- End: Right Header -->
 
                     <!-- Fields for Edit Song Style -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto min-h-0">
+                    <div class="bg-base-200 overflow-y-auto min-h-0">
 
                         {% for song_section in song_lyrics %}
-                            <c-badge-lyrics 
-                                data-section-type="{{song_section.type|upper}}"
-                                data-section-index="{{song_section.index}}"
-                                data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
-                                >{{song_section.type}}
-                            </c-badge-lyrics>
+                            <!-- Song Section Card -->
+                            <div class="song-section-card mx-1 mt-1">
 
-                            {% if song_section.allow_words %}
-                                <div class="flex flex-col">
+                                <!-- Badge header row -->
+                                <c-badge-lyrics 
+                                    data-section-type="{{song_section.type|upper}}"
+                                    data-section-index="{{song_section.index}}"
+                                    data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
+                                    >{{song_section.type}}
+                                </c-badge-lyrics>
+                                <!-- End: Badge header row -->
 
-                                    <!-- Edit Controls -->
-                                    <div class="h-50 hidden pl-3 pt-2">
+                                <!-- Song Section Lyrics & Edit UI -->
+                                {% if song_section.allow_words %}
+                                    <div class="flex flex-col">
+
+                                        <!-- Edit Controls -->
+                                        <div class="h-50 hidden pl-3 pt-2">
+                                        </div>
+                                        <!-- End: Edit Controls -->
+
+                                        <textarea 
+                                            id="lyrics-text-{{ forloop.counter }}" 
+                                            data-lyrics-id="{{song_section.id}}"
+                                            type="text" 
+                                            placeholder="" 
+                                            readonly
+                                            autocomplete="off" 
+                                            class="{{song_section.item_name}} input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                            style="field-sizing: content;"
+                                        >{{song_section.words}}</textarea>
                                     </div>
-                                    <!-- End: Edit Controls -->
-
-                                    <textarea 
-                                        id="lyrics-text-{{ forloop.counter }}" 
-                                        data-lyrics-id="{{song_section.id}}"
-                                        type="text" 
-                                        placeholder="" 
-                                        readonly
-                                        autocomplete="off" 
-                                        class="{{song_section.item_name}} input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                        style="field-sizing: content;"
-                                    >{{song_section.words}}</textarea>
-                                </div>
-                            {% else %}
-                            <div class=" border-y border-base-100"></div>
-                            {% endif %}
+                                {% else %}
+                                    <div class=" border-y border-base-100"></div>
+                                {% endif %}
+                                <!-- Song Section Lyrics & Edit UI -->
+                                
+                            </div>
+                            <!-- End: Song Section Card -->
                         {% endfor %}
 
                     </div>
@@ -101,7 +111,7 @@
                     <!-- End: Header Section -->
 
                    <!-- Export Song Lyrics -->
-                    <div id="song-lyrics-text" class="px-3 py-3 mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto min-h-0 hidden">
+                    <div id="song-lyrics-text" class="px-3 py-3 card border-none bg-base-200 overflow-y-auto min-h-0 hidden">
                     </div>
                     <!-- End: Export Song Lyrics -->
 
