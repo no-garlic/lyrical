@@ -35,7 +35,9 @@ def make_song_lyrics(song):
         # get the item type
         item_name = item_name.strip().lower()
 
-        if item_name not in index:
+        if item_name not in ['verse']:
+            index[item_name] = 0
+        elif item_name not in index:
             index[item_name] = 1
         else:
             index[item_name] += 1

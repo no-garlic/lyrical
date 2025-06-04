@@ -77,7 +77,7 @@ def setup_logging():
     
     # Create console handler (WARNING and above)
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.WARNING)
+    console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(console_formatter)
     
     # Create file handler (DEBUG and above, rotating file)

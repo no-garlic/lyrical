@@ -99,9 +99,7 @@ function createStreamHelper() {
 function handleIncomingData(data) {
     if (data) {
         for (const [section, words] of Object.entries(data)) {
-            
             const lyrics = words.join('\n');
-
             displayLyrics(section, lyrics);
         }
     } else {
@@ -194,12 +192,10 @@ function applyFilter() {
 
 
 function displayLyrics(section, words) {
-    console.log(`lyrics [${section}]:\n${words}\n`);
-
     document.querySelectorAll(`.section-${section}`).forEach(element => {
         element.value = words;
+        setLyricsDirty(true);
     });
-
 }
 
 
