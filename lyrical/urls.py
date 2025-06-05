@@ -29,6 +29,7 @@ from .views.api_section_edit import *
 from .views.api_section_edit_bulk import *
 
 from .views.api_gen_song_lyrics import *
+from .views.api_gen_song_lyrics_section import *
 from .views.api_gen_song_names import *
 from .views.api_gen_song_styles import *
 
@@ -77,6 +78,7 @@ urlpatterns = [
 
     # llm calls
     path("api_gen_song_lyrics", api_gen_song_lyrics, name="api_gen_song_lyrics"),
+    path("api_gen_song_lyrics_section", api_gen_song_lyrics_section, name="api_gen_song_lyrics_section"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
     path("api_gen_song_styles", api_gen_song_styles, name="api_gen_song_styles"),
     

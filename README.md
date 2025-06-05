@@ -95,23 +95,13 @@
  - Song page same height as style page
  - Change font color on login and register pages
  - Implement Custom Request in database & yaml for Song Names
+ - Replace the Next and Prev icons with bootstrap instead of svg
 
 
 ## Todo
  - Admin classes
  - Move Next and Prev Buttons - try just under the page
-
-
-### Lyrics Page:
- - Lyrics page is 2 parts: first time, show: Generate Lyrics only, after that change the controls so can only generate new lyrics for sections, and edit lines of sections
- - Export Song button needs an icon
- - Replace the Next and Prev icons with bootstrap instead of svg
-
-
-### Song Names Page:
-
-
-### Library Page:
+ - Follow Up Prompt
 
 
 ### Bugs & Polish:

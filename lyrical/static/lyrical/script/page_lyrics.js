@@ -4,10 +4,11 @@ import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { toastSystem } from './util_toast.js';
 
 
-let streamHelper;
+let streamHelperPrimary;
+let streamHelperSecondary;
+let streamHelperSecondaryClickedButton;
 let lyricsDirty = false;
 let lyricsHistory = {};
-let editMode = 'none';
 let editCard = null;
 
 
@@ -17,7 +18,7 @@ const songId = document.body.dataset.songId;
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initBadgeActions();
-    initStreamHelper();
+    initStreamHelpers();
     copyToSaveHistory();
     updateLyricsListing();
     applyFilter();
@@ -72,12 +73,20 @@ function initBadgeActions() {
 }
 
 
-function initStreamHelper() {
-    const generateButton = document.getElementById('btn-generate');
-    if (generateButton) {
-        streamHelper = createStreamHelper();
-        generateButton.addEventListener('click', handleGenerateClick);
-    }
+function initStreamHelpers() {
+    document.getElementById('btn-generate').addEventListener('click', handleGenerateClick);
+
+    document.querySelectorAll('.btn-regenerate').forEach(button => {
+        button.addEventListener('click', function() {
+            streamHelperSecondaryClickedButton = this;
+            console.log(`clicked button: ${streamHelperSecondaryClickedButton}`);
+
+            handleRegenerateClick.call();
+        });
+    });
+
+    streamHelperPrimary = createStreamHelperPrimary();
+    streamHelperSecondary = createStreamHelperSecondary();
 }
 
 
@@ -91,38 +100,83 @@ function handleGenerateClick() {
         prompt: 'song_lyrics',
         song_id: songId,
     };
-    streamHelper.initiateRequest(requestParams);
+    streamHelperPrimary.initiateRequest(requestParams);
 }
 
 
-function createStreamHelper() {
+function handleRegenerateClick() {
+    if (editCard) {
+        const sectionType = editCard.firstElementChild.dataset.sectionName;
+        console.log(`initiate request for sectionType: ${sectionType}`)
+
+        const requestParams = {
+            prompt: 'song_lyrics_section',
+            song_id: songId,
+            section_type: sectionType,
+            count: 2,
+        };
+        streamHelperSecondary.initiateRequest(requestParams);
+    } else {
+        console.error('editCard is null!!')
+    }
+}
+
+
+function createStreamHelperPrimary() {
     return new StreamHelper('/api_gen_song_lyrics', {
         callbacks: {
             onPreRequest: () => {
                 console.log("stream prerequest");
-                handleDataStreamStart();
+                handlePrimaryDataStreamStart();
             },
             onIncomingData: (data) => {
                 console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
-                handleDataStreamData(data);
+                handlePrimaryDataStreamData(data);
             },
             onStreamEnd: () => {
                 console.log("stream end");
             },
             onComplete: () => {
                 console.log("stream complete");
-                handleDataStreamEnd();
+                handlePrimaryDataStreamEnd();
             },
             onError: (error) => {
                 console.error("stream error:", error);
-                handleDataStreamError(error);
+                handlePrimaryDataStreamError(error);
             }
         }
     });
 }
 
 
-function handleDataStreamStart() {
+function createStreamHelperSecondary() {
+    return new StreamHelper('/api_gen_song_lyrics_section', {
+        callbacks: {
+            onPreRequest: () => {
+                console.log("stream prerequest");
+                handleSecondaryDataStreamStart();
+            },
+            onIncomingData: (data) => {
+                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                handleSecondaryDataStreamData(data);
+            },
+            onStreamEnd: () => {
+                console.log("stream end");
+            },
+            onComplete: () => {
+                console.log("stream complete");
+                handleSecondaryDataStreamEnd();
+            },
+            onError: (error) => {
+                console.error("stream error:", error);
+                handleSecondaryDataStreamError(error);
+            }
+        }
+    });
+}
+
+
+function handlePrimaryDataStreamStart() {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -139,7 +193,26 @@ function handleDataStreamStart() {
 }
 
 
-function handleDataStreamEnd() {
+function handleSecondaryDataStreamStart() {
+    console.log(`handleSecondaryDataStreamStart: ${streamHelperSecondaryClickedButton}`);
+
+    // get the buttons
+    const regenerateButton = streamHelperSecondaryClickedButton;
+    const regeneratingButton = regenerateButton.nextElementSibling;
+    
+    // hide the regenerate button
+    if (regenerateButton) {
+        regenerateButton.classList.add('hidden');
+    }
+
+    // show the regenerating button in disabled state
+    if (regeneratingButton) {
+        regeneratingButton.classList.remove('hidden');
+    }
+}
+
+
+function handlePrimaryDataStreamEnd() {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -156,19 +229,58 @@ function handleDataStreamEnd() {
 }
 
 
-function handleDataStreamData(data) {
+function handleSecondaryDataStreamEnd() {
+    console.log(`handleSecondaryDataStreamEnd: ${streamHelperSecondaryClickedButton}`);
+
+    // get the buttons
+    const regenerateButton = streamHelperSecondaryClickedButton;
+    const regeneratingButton = regenerateButton.nextElementSibling;
+    
+    // hide the regenerate button
+    if (regenerateButton) {
+        regenerateButton.classList.remove('hidden');
+    }
+
+    // show the regenerating button in disabled state
+    if (regeneratingButton) {
+        regeneratingButton.classList.add('hidden');
+    }
+
+    streamHelperSecondaryClickedButton = null;
+}
+
+
+function handlePrimaryDataStreamData(data) {
     if (data) {
         for (const [section, words] of Object.entries(data)) {
             const lyrics = words.join('\n');
             displayLyrics(section, lyrics);
         }
     } else {
-        handleDataStreamError(data);
+        handlePrimaryDataStreamError(data);
     }
 }
 
 
-function handleDataStreamError(error) {
+function handleSecondaryDataStreamData(data) {
+    if (data) {
+        for (const [section, words] of Object.entries(data)) {
+            const lyrics = words.join('\n');
+            addNewLyricsSection(section, lyrics);
+        }
+    } else {
+        handleSecondaryDataStreamError(data);
+    }
+}
+
+
+function handlePrimaryDataStreamError(error) {
+    const errorStr = JSON.stringify(error, null, 2);
+    toastSystem.showError(errorStr);
+}
+
+
+function handleSecondaryDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
 }
@@ -401,8 +513,6 @@ function badgeRegenerateButtonClick() {
 
 
 function enterEditMode(mode, allButtons) {
-    editMode = mode;
-
     const buttonRegenerate = allButtons[0];
     const buttonTextEdit = allButtons[1];
     const buttonInteractive = allButtons[2];
@@ -540,6 +650,11 @@ function hideOrShowAllSections(showOrHide, except=null) {
             }
         }
     });
+}
+
+
+function addNewLyricsSection(section, lyrics) {
+    console.log(`create card for section (${section}) with lyrics:\n${lyrics}.`)
 }
 
 

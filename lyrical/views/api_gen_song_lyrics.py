@@ -17,7 +17,6 @@ class SongLyricsGenerator(LLMGenerator):
         return {
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
-            'filter': self.request.GET.get("filter", "").strip(),
         }
     
     def query_database_data(self) -> Dict[str, Any]:
@@ -71,9 +70,8 @@ class SongLyricsGenerator(LLMGenerator):
         }    
 
     def uses_conversation_history(self) -> bool:
-        return False
-        # TODO: This should be true after testing, and we relly need the follow_up prompt
-        # return True
+        # TODO: We relly need the follow_up prompt
+        return True
 
     def get_prompt_name(self) -> str:
         return self.extracted_params['prompt_name']
@@ -120,7 +118,7 @@ class SongLyricsGenerator(LLMGenerator):
     
         # validate the song ID
         if not song_id:
-            logger.error("Song ID is required for generating styles")
+            logger.error("Song ID is required for generating songs")
             return {}
         
         try:
