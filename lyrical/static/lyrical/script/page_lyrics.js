@@ -615,7 +615,7 @@ function badgeHideButtonClick() {
     console.log(`hiding section with Id=${sectionId}`);
 
     const sectionCard = this.parentNode.parentNode;
-    const container = document.getElementById('content-panel-regenerate');
+    const container = document.getElementById('generated-sections');
 
     apiSectionEdit(sectionId, true)
         .then(sectionId => {
@@ -717,7 +717,7 @@ function showEditTextArea(show, buttonTextEdit) {
 function showEditRegenerate(show, buttonRegenerate) {
     const panels = buttonRegenerate.parentNode.nextElementSibling.children;
     const editRegeneratePanel = panels[2];
-    const regenerateContainer = document.getElementById('content-panel-regenerate');
+    const regenerateContainer = document.getElementById('generated-sections');
 
     if (show) {
         editRegeneratePanel.classList.remove('hidden');
@@ -732,17 +732,39 @@ function showEditRegenerate(show, buttonRegenerate) {
 function showEditInteractive(show, buttonInteractive) {
     const panels = buttonInteractive.parentNode.nextElementSibling.children;
     const editInteractivePanel = panels[1];
+    const editRegeneratePanel = panels[2];
     const textArea = panels[0];
+    const regenerateContainer = document.getElementById('generated-sections');
 
     if (show) {
-        const lyrics = textArea.value;
-        editInteractivePanel.innerText = lyrics;
-        editInteractivePanel.classList.remove('hidden');
+        // show the ui elements
         textArea.classList.add('hidden');  
+        editInteractivePanel.classList.remove('hidden');
+        editRegeneratePanel.classList.remove('hidden');
+        regenerateContainer.classList.remove('hidden');
+
+        // copy the lyrics into the panel for selection
+        const lyrics = textArea.value;
+        copyTextToInteractivePanel(lyrics, editInteractivePanel);
     } else {
+        // show the ui elements
         editInteractivePanel.classList.add('hidden');
+        editRegeneratePanel.classList.add('hidden');
+        regenerateContainer.classList.add('hidden');
         textArea.classList.remove('hidden');  
     }
+}
+
+
+function copyTextToInteractivePanel(lyrics, panel) {
+    // todo: this needs to be changed to generate <span> elements that we can select
+    panel.innerText = lyrics;
+}
+
+
+function getTextFromInteractivePanel(panel) {
+    // todo: this needs to be changed to generate text from the <span> elements
+    return panel.innerText;
 }
 
 
@@ -782,7 +804,7 @@ function hideOrShowAllSections(showOrHide, except=null) {
 function addNewLyricsSection(sectionId, section, lyrics) {
     console.log(`create card for section (${section}) with lyrics:\n${lyrics}.`)
 
-    apiRenderComponent('card_lyrics_section', 'content-panel-regenerate', { section: { id: sectionId, type: section, text: lyrics }})
+    apiRenderComponent('card_lyrics_section', 'generated-sections', { section: { id: sectionId, type: section, text: lyrics }})
         .then(html => {
             // initialize the new section card for interactions
             document.getElementById(`badge-hide-button-${sectionId}`).onclick = badgeHideButtonClick;
