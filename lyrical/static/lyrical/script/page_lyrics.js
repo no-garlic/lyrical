@@ -6,7 +6,8 @@ import { toastSystem } from './util_toast.js';
 
 let streamHelper;
 let lyricsDirty = false;
-let lyricsHistory = {}
+let lyricsHistory = {};
+let editMode = 'none';
 
 
 const songId = document.body.dataset.songId;
@@ -367,69 +368,154 @@ function setLyricsDirty(dirty = true) {
 
 
 function badgeToolsButtonClick() {
-    const buttonEdit = this;
-
-    const songSectionCard = buttonEdit.parentNode.parentNode;
-    const buttonExit = buttonEdit.previousElementSibling;
-    const buttonInteractive = buttonExit.previousElementSibling;
-    const buttonTextEdit = buttonInteractive.previousElementSibling;
-    const buttonRegenerate = buttonTextEdit.previousElementSibling;
-
-    buttonEdit.classList.add('hidden');
-    buttonExit.classList.remove('hidden');
-    buttonInteractive.classList.remove('hidden');
-    buttonTextEdit.classList.remove('hidden');
-    buttonRegenerate.classList.remove('hidden');   
-
-    hideOrShowAllSections('hide', songSectionCard);
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('textedit', allButtons);
 }
 
 
 function badgeExitButtonClick() {
-    const buttonExit = this;
-    
-    const buttonEdit = buttonExit.nextElementSibling;
-    const buttonInteractive = buttonExit.previousElementSibling;
-    const buttonTextEdit = buttonInteractive.previousElementSibling;
-    const buttonRegenerate = buttonTextEdit.previousElementSibling;
-
-    buttonEdit.classList.remove('hidden');
-    buttonExit.classList.add('hidden');
-    buttonInteractive.classList.add('hidden');
-    buttonTextEdit.classList.add('hidden');
-    buttonRegenerate.classList.add('hidden');
-
-    const editPanel = buttonEdit.parentNode.nextElementSibling.children[0];
-    const textArea = buttonEdit.parentNode.nextElementSibling.children[1];
-
-    editPanel.classList.add('hidden');
-    textArea.classList.remove('hidden');
-
-    hideOrShowAllSections('show');
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('none', allButtons);
 }
 
 
 function badgeInteractiveButtonClick() {
-    const buttonInteractive = this;
-
-    const editPanel = buttonInteractive.parentNode.nextElementSibling.children[0];
-    const textArea = buttonInteractive.parentNode.nextElementSibling.children[1];
-    const lyrics = textArea.value;
-
-    editPanel.innerText = lyrics;
-
-    editPanel.classList.remove('hidden');
-    textArea.classList.add('hidden');    
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('interactive', allButtons);  
 }
 
 
 function badgeTextEditButtonClick() {
-    
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('textedit', allButtons);    
 }
 
 
 function badgeRegenerateButtonClick() {
-    
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('regenerate', allButtons);
+}
+
+
+function enterEditMode(mode, allButtons) {
+    editMode = mode;
+
+    const buttonRegenerate = allButtons[0];
+    const buttonTextEdit = allButtons[1];
+    const buttonInteractive = allButtons[2];
+    const buttonExit = allButtons[3];
+    const buttonTools = allButtons[4];
+
+    console.log(allButtons);
+    console.log(buttonTools);
+
+
+    const songSectionCard = buttonTools.parentNode.parentNode;
+
+    if (mode === 'none') {
+        showEditTextArea(false, buttonTextEdit);
+        showEditInteractive(false, buttonInteractive);
+        showEditRegenerate(false, buttonRegenerate);
+        updateButtonAppearance(buttonTools, 'shown');
+        updateButtonAppearance(buttonExit, 'hidden');
+        updateButtonAppearance(buttonInteractive, 'hidden');
+        updateButtonAppearance(buttonTextEdit, 'hidden');
+        updateButtonAppearance(buttonRegenerate, 'hidden');
+        hideOrShowAllSections('show');
+    } else if (mode === 'textedit') {
+        showEditInteractive(false, buttonInteractive);
+        showEditRegenerate(false, buttonRegenerate);
+        showEditTextArea(true, buttonTextEdit);
+        updateButtonAppearance(buttonTools, 'hidden');
+        updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonInteractive, 'shown');
+        updateButtonAppearance(buttonTextEdit, 'active');
+        updateButtonAppearance(buttonRegenerate, 'shown');
+        hideOrShowAllSections('hide', songSectionCard);
+    } else if (mode === 'interactive') {
+        showEditTextArea(false, buttonTextEdit);
+        showEditRegenerate(false, buttonRegenerate);
+        showEditInteractive(true, buttonInteractive);
+        updateButtonAppearance(buttonTools, 'hidden');
+        updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonInteractive, 'active');
+        updateButtonAppearance(buttonTextEdit, 'shown');
+        updateButtonAppearance(buttonRegenerate, 'shown');
+        hideOrShowAllSections('hide', songSectionCard);
+    } else if (mode === 'regenerate') {
+        showEditTextArea(false, buttonTextEdit);
+        showEditInteractive(false, buttonInteractive);
+        showEditRegenerate(true, buttonRegenerate);
+        updateButtonAppearance(buttonTools, 'hidden');
+        updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonInteractive, 'shown');
+        updateButtonAppearance(buttonTextEdit, 'shown');
+        updateButtonAppearance(buttonRegenerate, 'active');
+        hideOrShowAllSections('hide', songSectionCard);
+    } else {
+        console.error(`enterEditMode: invalid mode argument (${mode}), must be 'none', 'textedit', 'interactive', or 'regenerate' `);
+    }
+}
+
+
+function showEditTextArea(show, buttonTextEdit) {
+    const panels = buttonTextEdit.parentNode.nextElementSibling.children;
+    //const editTextEditPanel = panels[0];
+    const textArea = panels[3];
+
+    if (show) {
+        textArea.readOnly = false;
+    } else {
+        textArea.readOnly = true;
+    }
+}
+
+
+function showEditRegenerate(show, buttonRegenerate) {
+    const panels = buttonRegenerate.parentNode.nextElementSibling.children;
+    const editRegeneratePanel = panels[2];
+    const textArea = panels[3];
+
+    if (show) {
+        editRegeneratePanel.classList.remove('hidden');
+    } else {
+        editRegeneratePanel.classList.add('hidden');
+    }
+}
+
+
+function showEditInteractive(show, buttonInteractive) {
+    const panels = buttonInteractive.parentNode.nextElementSibling.children;
+    const editInteractivePanel = panels[1];
+    const textArea = panels[3];
+
+    if (show) {
+        const lyrics = textArea.value;
+        editInteractivePanel.innerText = lyrics;
+        editInteractivePanel.classList.remove('hidden');
+        textArea.classList.add('hidden');  
+    } else {
+        editInteractivePanel.classList.add('hidden');
+        textArea.classList.remove('hidden');  
+    }
+}
+
+
+function updateButtonAppearance(button, appearance) {
+    if (appearance === 'shown') {
+        button.classList.remove('hidden', 'bg-primary', 'hover:border-primary');
+        button.classList.add('text-neutral');
+
+    } else if (appearance === 'active') {
+        button.classList.remove('hidden', 'text-neutral');
+        button.classList.add('bg-primary', 'hover:border-primary');
+
+    } else if (appearance === 'hidden') {
+        button.classList.add('hidden', 'text-neutral');
+        button.classList.remove('bg-primary', 'hover:border-primary');
+    } else {
+        console.error(`updateButtonAppearance: invalid apperance argument (${appearance}), must be 'shown', 'active', or 'hidden' `);
+    }
 }
 
 
@@ -446,6 +532,7 @@ function hideOrShowAllSections(showOrHide, except=null) {
         }
     });
 }
+
 
 function hideSectionCard(card) {
     // If already hidden or in process of hiding, do nothing
@@ -475,6 +562,7 @@ function hideSectionCard(card) {
         card.style.height = '';
     }, 500);
 }
+
 
 function showSectionCard(card) {
     // If already visible or in process of showing, do nothing
