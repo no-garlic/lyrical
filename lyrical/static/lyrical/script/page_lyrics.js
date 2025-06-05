@@ -234,7 +234,7 @@ function updateLyricsListing() {
     const container = document.getElementById('song-lyrics-text')
     container.innerHTML = '';
 
-    document.querySelectorAll('.badge').forEach(element => {
+    document.querySelectorAll('.badge-lyrics').forEach(element => {
         const sectionType = element.dataset.sectionType;
         const sectionIndex = element.dataset.sectionIndex;
         const sectionWordsId = element.dataset.sectionWordsId;

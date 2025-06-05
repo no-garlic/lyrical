@@ -104,12 +104,17 @@ def page_lyrics(request, song_id: int):
     # make sure the lyrics sections are created for the song
     song_lyrics = make_song_lyrics(song)
 
+    # extract song sections
+    section_names_exclude = ['theme', 'narrative', 'mood']
+    song_sections = models.Section.objects.exclude(song=song, type__in=section_names_exclude).order_by('created_at')
+
     context = {
         "active_page": "lyrics",
         "navigation": navigation,
         "selectedSongId": song_id,
         "song": song,
         "song_lyrics": song_lyrics,
+        "song_sections": song_sections,
     }
 
     try:

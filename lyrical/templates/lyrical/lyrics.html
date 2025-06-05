@@ -85,8 +85,41 @@
                         </div>
 
                         <!-- Container for regenrated lyrics -->
-                        <div class="bg-orange-300 flex-1 hidden overflow-y-auto" id="content-panel-regenerate">
-                            content
+                        <div class="flex-1 hidden overflow-y-auto" id="content-panel-regenerate">
+                            {% for section in song_sections %}
+                                {% if not section.hidden %}
+
+                                    <!-- Song Section Card -->
+                                    <div class="section-text-card mx-1">
+
+                                        <!-- Badge header row -->
+                                        <c-badge-lyrics 
+                                            data-section-type="{{section.type|upper}}"
+                                            data-section-words-id="section-text-{{ forloop.counter }}"
+                                            >{{section.type}}
+                                        </c-badge-lyrics>
+                                        <!-- End: Badge header row -->
+
+                                        <!-- Song Section Lyrics & Edit UI -->
+                                            <div class="flex flex-col">
+                                                <textarea 
+                                                    id="section-text-{{ forloop.counter }}" 
+                                                    data-lyrics-id="{{section.id}}"
+                                                    type="text" 
+                                                    placeholder="" 
+                                                    readonly
+                                                    autocomplete="off" 
+                                                    class="mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                                    style="field-sizing: content;"
+                                                >{{section.text}}</textarea>
+                                            </div>
+                                        <!-- Song Section Lyrics & Edit UI -->
+                                        
+                                    </div>
+                                    <!-- End: Song Section Card -->
+
+                                {% endif %}
+                            {% endfor %}
                         </div>
                         <!-- End: Container for regenrated lyrics -->
 
