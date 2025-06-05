@@ -36,54 +36,56 @@
                     <!-- End: Right Header -->
 
                     <!-- Fields for Edit Song Style -->
-                    <div class="bg-base-200 overflow-y-auto min-h-0">
+                    <div class="bg-base-200 overflow-y-auto min-h-0 flex flex-col flex-1">
 
-                        {% for song_section in song_lyrics %}
-                            <!-- Song Section Card -->
-                            <div class="song-section-card mx-1">
+                        <div class="flex-shrink-0">
+                            {% for song_section in song_lyrics %}
+                                <!-- Song Section Card -->
+                                <div class="song-section-card mx-1">
 
-                                <!-- Badge header row -->
-                                <c-badge-lyrics 
-                                    data-section-type="{{song_section.type|upper}}"
-                                    data-section-index="{{song_section.index}}"
-                                    data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
-                                    >{{song_section.type}}
-                                </c-badge-lyrics>
-                                <!-- End: Badge header row -->
+                                    <!-- Badge header row -->
+                                    <c-badge-lyrics 
+                                        data-section-type="{{song_section.type|upper}}"
+                                        data-section-index="{{song_section.index}}"
+                                        data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
+                                        >{{song_section.type}}
+                                    </c-badge-lyrics>
+                                    <!-- End: Badge header row -->
 
-                                <!-- Song Section Lyrics & Edit UI -->
-                                {% if song_section.allow_words %}
-                                    <div class="flex flex-col">
+                                    <!-- Song Section Lyrics & Edit UI -->
+                                    {% if song_section.allow_words %}
+                                        <div class="flex flex-col">
 
-                                        <!-- Edit Panels -->
-                                        <div class="edit-panel-interactive h-30 bg-blue-300 hidden pl-3 pt-2">
+                                            <!-- Edit Panels -->
+                                            <div class="edit-panel-interactive h-30 bg-blue-300 hidden pl-3 pt-2">
+                                            </div>
+                                            <div class="edit-panel-regenerate h-30 bg-green-300 hidden pl-3 pt-2">
+                                            </div>
+                                            <!-- End: Edit Panels -->
+
+                                            <textarea 
+                                                id="lyrics-text-{{ forloop.counter }}" 
+                                                data-lyrics-id="{{song_section.id}}"
+                                                type="text" 
+                                                placeholder="" 
+                                                readonly
+                                                autocomplete="off" 
+                                                class="{{song_section.item_name}} mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                                style="field-sizing: content;"
+                                            >{{song_section.words}}</textarea>
                                         </div>
-                                        <div class="edit-panel-regenerate h-30 bg-green-300 hidden pl-3 pt-2">
-                                        </div>
-                                        <!-- End: Edit Panels -->
-
-                                        <textarea 
-                                            id="lyrics-text-{{ forloop.counter }}" 
-                                            data-lyrics-id="{{song_section.id}}"
-                                            type="text" 
-                                            placeholder="" 
-                                            readonly
-                                            autocomplete="off" 
-                                            class="{{song_section.item_name}} mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                            style="field-sizing: content;"
-                                        >{{song_section.words}}</textarea>
-                                    </div>
-                                {% else %}
-                                    <div class="border-y border-base-100"></div>
-                                {% endif %}
-                                <!-- Song Section Lyrics & Edit UI -->
-                                
-                            </div>
-                            <!-- End: Song Section Card -->
-                        {% endfor %}
+                                    {% else %}
+                                        <div class="border-y border-base-100"></div>
+                                    {% endif %}
+                                    <!-- Song Section Lyrics & Edit UI -->
+                                    
+                                </div>
+                                <!-- End: Song Section Card -->
+                            {% endfor %}
+                        </div>
 
                         <!-- Container for regenrated lyrics -->
-                        <div class="bg-orange-300 h-150 hidden" id="content-panel-regenerate">
+                        <div class="bg-orange-300 flex-1 hidden" id="content-panel-regenerate">
                             content
                         </div>
                         <!-- End: Container for regenrated lyrics -->
