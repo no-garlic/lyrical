@@ -1,5 +1,5 @@
 <div data-section-name="{{slot|lower}}" class="badge-edit-item flex flex-row mr-1 cursor-grab mx-1">
-    <div {{attrs}} class="badge-lyrics badge badge-sm rounded badge-{{slot|lower}} w-40 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{% if song_section.name %}{{song_section.name}}{% else %}{{slot|upper}}{% endif %}</div>
+    <div {{attrs}} class="badge badge-sm rounded badge-{{slot|lower}} w-40 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{% if song_section.name %}{{song_section.name}}{% else %}{{slot|upper}}{% endif %}</div>
     <div class="flex flex-grow"></div>
     <button id="badge-hide-button-{{section.id}}" data-lyrics-id="{{section.id}}" class="badge-hide-button mt-1 ml-2 btn-style btn btn-xs btn-ghost h-full text-neutral"><i class="bi bi-x-circle text-xl"></i></button>
 </div>

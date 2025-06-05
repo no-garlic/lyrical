@@ -370,13 +370,13 @@ function updateLyricsListing() {
         const sectionWordsId = element.dataset.sectionWordsId;
 
         if (sectionType === 'INTRO') {
-            container.innerHTML += '<strong>[INSTRUMENTAL INTRO]</strong>';
+            container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
         } else if (sectionType === 'INTERLUDE') {
-            container.innerHTML += '<strong>[MELODIC INTERLUDE]</strong>';
+            container.innerHTML += '[MELODIC INTERLUDE]<br>';
         } else if (sectionIndex > 0) {
-            container.innerHTML += '<strong>[' + sectionType + ' ' + sectionIndex + ']</strong>';
+            container.innerHTML += '[' + sectionType + ' ' + sectionIndex + ']<br>';
         } else {
-            container.innerHTML += '<strong>[' + sectionType + ']</strong>';
+            container.innerHTML += '[' + sectionType + ']<br>';
         }
 
         if (sectionWordsId.length > 0) {
@@ -389,7 +389,7 @@ function updateLyricsListing() {
         container.innerHTML += '<br>';
     });
 
-    container.innerHTML += '<strong>[END]</strong>';
+    container.innerHTML += '[END]';
 
     if (container.innerHTML.length > 0) {
         container.classList.remove('hidden');
