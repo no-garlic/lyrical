@@ -457,14 +457,16 @@ function hideSectionCard(card) {
     const height = card.offsetHeight;
     card.style.height = height + 'px';
     
-    // Force a reflow to ensure the height is set
-    card.offsetHeight;
-    
-    // Add collapsing-hide class to start opacity/margin animation
-    card.classList.add('collapsing-hide');
-    
-    // Start the height animation
-    card.style.height = '0px';
+    // Use requestAnimationFrame to avoid forced reflow
+    requestAnimationFrame(() => {
+        // Add collapsing-hide class to start opacity/margin animation
+        card.classList.add('collapsing-hide');
+        
+        // Start the height animation in the next frame
+        requestAnimationFrame(() => {
+            card.style.height = '0px';
+        });
+    });
     
     // After animation completes, add collapsed class and clean up
     setTimeout(() => {
@@ -487,15 +489,17 @@ function showSectionCard(card) {
     card.style.height = 'auto';
     const height = card.offsetHeight;
     
-    // Set height to 0 and prepare for animation
-    card.style.height = '0px';
-    card.classList.add('collapsing-show');
-    
-    // Force a reflow
-    card.offsetHeight;
-    
-    // Start the height animation
-    card.style.height = height + 'px';
+    // Use requestAnimationFrame to avoid forced reflow
+    requestAnimationFrame(() => {
+        // Set height to 0 and prepare for animation
+        card.style.height = '0px';
+        card.classList.add('collapsing-show');
+        
+        // Start the height animation in the next frame
+        requestAnimationFrame(() => {
+            card.style.height = height + 'px';
+        });
+    });
     
     // After animation completes, clean up
     setTimeout(() => {
