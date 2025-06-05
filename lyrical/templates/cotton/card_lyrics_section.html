@@ -1,18 +1,19 @@
 <!-- Song Section Card -->
 <div id="section-card-{{section.id}}" 
+     data-section-id="{{section.id}}"
      class="section-text-card card border border-base-300 bg-base-300 cursor-grab m-4">
 
     <!-- Badge header row -->
     <c-badge-lyrics-section
         data-section-type="{{section.type|upper}}"
-        data-section-words-id="section-text-{{ forloop.counter }}"
+        data-section-words-id="section-text-{{section.id}}"
         >{{section.type}}</c-badge-lyrics-section>
     <!-- End: Badge header row -->
 
     <!-- Song Section Lyrics & Edit UI -->
         <div class="flex flex-col">
             <textarea 
-                id="section-text-{{ forloop.counter }}" 
+                id="section-text-{{section.id}}" 
                 data-lyrics-id="{{section.id}}"
                 type="text" 
                 placeholder="" 

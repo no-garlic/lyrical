@@ -1,6 +1,7 @@
 
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
+import { DragDropSystem } from './util_dragdrop.js';
 import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiRenderComponent } from './api_render_component.js';
@@ -9,6 +10,7 @@ import { apiRenderComponent } from './api_render_component.js';
 let streamHelperPrimary;
 let streamHelperSecondary;
 let streamHelperSecondaryClickedButton;
+let dragDropSystem;
 let lyricsDirty = false;
 let lyricsHistory = {};
 let editCard = null;
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initBadgeActions();
     initStreamHelpers();
+    initDragDrop();
     copyToSaveHistory();
     updateLyricsListing();
     applyFilter();
@@ -92,6 +95,36 @@ function initStreamHelpers() {
 
     streamHelperPrimary = createStreamHelperPrimary();
     streamHelperSecondary = createStreamHelperSecondary();
+}
+
+
+function initDragDrop() {
+    
+    // create the drag and drop system and assign to module-level variable
+    dragDropSystem = new DragDropSystem({ 
+        insertElementOnDrop: false
+    });
+
+    // initialise it
+    dragDropSystem.init({
+        onDragStart: (item, event) => {
+        },
+        onDrop: handleDragDrop,
+        canDrop: (item, zone, event) => {
+            return true;
+        },
+        onDragEnterZone: (item, zone, event) => {
+        },
+        onDragLeaveZone: (item, zone, event) => {
+        }
+    });
+
+    // register draggable items
+    document.querySelectorAll('.section-text-card').forEach(card => {
+        registerCardForDragDrop(card);
+    });
+
+    return dragDropSystem;
 }
 
 
@@ -303,6 +336,32 @@ function handleSecondaryDataStreamError(error) {
 
 
 // =================================================================================
+// Drag Drop System
+// =================================================================================
+
+
+function handleDragDrop(item, zone, event) {
+    const sectionId = item.element.dataset.sectionId;
+    const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
+    const sourceText = sourceTextElement.innerHTML.trim();
+
+    const destination = zone.element.children[1].children[0];
+
+    if (destination.value.trim() != sourceText) {
+        destination.value = sourceText;
+        setLyricsDirty();
+    }
+}
+
+
+function registerCardForDragDrop(card) {
+    const sectionId = card.dataset.sectionId;
+    console.log(`registering card for drag-drop: ${sectionId}`)
+    dragDropSystem.registerDraggable(card, { sectionId: sectionId });
+}
+
+
+// =================================================================================
 // Lyrics Management & Actions
 // =================================================================================
 
@@ -310,10 +369,18 @@ function handleSecondaryDataStreamError(error) {
 function saveLyrics() {
     let lyrics = {}
 
-    document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
-         console.log(`saving lyrics for id='${item.dataset.lyricsId}' with words='${item.value}'`);
-         lyrics[item.dataset.lyricsId] = item.value;
+    if (editCard) {
+        const textareaId = editCard.dataset.textareaId;
+        const textarea = document.getElementById(textareaId);
+        console.log(`saving lyrics for id='${textarea.dataset.lyricsId}' with words='${textarea.value}'`);
+        lyrics[textarea.dataset.lyricsId] = textarea.value;
+        updateAllDuplicateSections(textarea);
+    } else {
+        document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
+            console.log(`saving lyrics for id='${item.dataset.lyricsId}' with words='${item.value}'`);
+            lyrics[item.dataset.lyricsId] = item.value;
         });
+    }
 
     console.log(`the lyrics are: ${lyrics}`);
 
@@ -335,6 +402,18 @@ function undoLyrics() {
     copyFromSaveHistory();
     updateLyricsListing();
     setLyricsDirty(false);
+}
+
+
+function updateAllDuplicateSections(textarea) {
+    const lyricsId = textarea.dataset.lyricsId;
+
+    document.querySelectorAll('[id*="lyrics-text-"').forEach(destination => {
+        if (destination != textarea && destination.dataset.lyricsId === lyricsId) {
+            console.log(`copying contents of ${textarea.id} to ${destination.id}`);
+            destination.value = textarea.value;
+        }
+    });
 }
 
 
@@ -506,6 +585,9 @@ function badgeToolsButtonClick() {
 
 function badgeExitButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    if (lyricsDirty) {
+        undoLyrics();
+    }    
     enterEditMode('none', allButtons);
 }
 
@@ -542,6 +624,9 @@ function badgeHideButtonClick() {
 
             // hide the card from the list
             container.removeChild(sectionCard);
+
+            // remove the card from the drag drop system
+            dragDropSystem.unregisterDraggable(sectionCard);
         })
         .catch(error => {
             // handle the error if the API call fails
@@ -561,9 +646,11 @@ function enterEditMode(mode, allButtons) {
     
     if (mode === 'none') {
         editCard = null;
+        console.log(`setting editCard=null`);
         document.getElementById('btn-generate').classList.remove('btn-disabled');
         document.getElementById('btn-generating').classList.remove('btn-disabled');
     } else {
+        console.log(`setting editCard=${songSectionCard}`);
         editCard = songSectionCard;
         document.getElementById('btn-generate').classList.add('btn-disabled');
         document.getElementById('btn-generating').classList.add('btn-disabled');
@@ -701,8 +788,8 @@ function addNewLyricsSection(sectionId, section, lyrics) {
             document.getElementById(`badge-hide-button-${sectionId}`).onclick = badgeHideButtonClick;
 
             // register with the drag-drop system
-            //const styleCard = document.getElementById(`style-card-${sectionId}`);
-            //registerCardForDragDrop(styleCard);
+            const sectionCard = document.getElementById(`section-card-${sectionId}`);
+            registerCardForDragDrop(sectionCard);
 
         })
         .catch(error => {
