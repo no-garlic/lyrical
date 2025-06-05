@@ -41,28 +41,19 @@
                         <div class="flex-shrink-0">
                             {% for song_section in song_lyrics %}
                                 <!-- Song Section Card -->
-                                <div class="song-section-card mx-1">
+                                <div class="song-section-card">
 
                                     <!-- Badge header row -->
-                                    <c-badge-lyrics 
+                                    <c-badge-lyrics
                                         data-section-type="{{song_section.type|upper}}"
                                         data-section-index="{{song_section.index}}"
                                         data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
-                                        >{{song_section.type}}
-                                    </c-badge-lyrics>
+                                        >{{song_section.type}}</c-badge-lyrics>
                                     <!-- End: Badge header row -->
 
                                     <!-- Song Section Lyrics & Edit UI -->
                                     {% if song_section.allow_words %}
                                         <div class="flex flex-col">
-
-                                            <!-- Edit Panels -->
-                                            <div class="edit-panel-interactive h-30 bg-blue-300 hidden pl-3 pt-2">
-                                            </div>
-                                            <div class="edit-panel-regenerate h-30 bg-green-300 hidden pl-3 pt-2">
-                                            </div>
-                                            <!-- End: Edit Panels -->
-
                                             <textarea 
                                                 id="lyrics-text-{{ forloop.counter }}" 
                                                 data-lyrics-id="{{song_section.id}}"
@@ -70,9 +61,52 @@
                                                 placeholder="" 
                                                 readonly
                                                 autocomplete="off" 
-                                                class="{{song_section.item_name}} mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                                class="{{song_section.item_name}} mx-1 mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
                                                 style="field-sizing: content;"
                                             >{{song_section.words}}</textarea>
+
+                                            <!-- Edit Panel: Interactive -->
+                                            <div class="edit-panel-interactive h-30 bg-blue-300 hidden">
+                                            </div>
+                                            <!-- Edit Panel: Interactive -->
+
+                                            <!-- Edit Panel: Regenerate -->
+                                            <div class="edit-panel-regenerate h-auto hidden">
+                                                <div class="flex flex-col flex-1 px-1 pb-1">
+                                                    <c-input-label>CUSTOM REQUEST:</c-input-label>
+                                                    <textarea
+                                                        id="input-custom-request" 
+                                                        type="text" 
+                                                        placeholder="" 
+                                                        autocomplete="off" 
+                                                        class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
+                                                        value=""
+                                                    ></textarea>
+                                                </div>
+
+                                                <!-- Separator Bar -->
+                                                <div class="card w-full bg-base-100 border-b border-base-300 h-11 rounded-none flex flex-row">
+                                                    <div class="flex flex-1 justify-start items-center font-bold text-md text-primary pl-4">
+                                                        ALTERNATIVE LYRICS
+                                                    </div>
+
+                                                    <!-- Generate Buttons -->
+                                                    <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
+                                                        <c-panel-header-button id="btn-regenerate" extrastyles="w-40 bi bi-music-note-list">
+                                                            GENERATE
+                                                        </c-panel-header-button>
+                                                        <c-panel-header-button-loading id="btn-regenerating" extrastyles="w-40">
+                                                            PLEASE WAIT...
+                                                        </c-panel-header-button-loading>
+                                                    </div>
+                                                    <!-- End: Generate Buttons -->
+
+                                                </div>
+                                                <!-- End: Separator Bar -->
+
+                                            </div>
+                                            <!-- End: Edit Panel: Regenerate -->
+
                                         </div>
                                     {% else %}
                                         <div class="border-y border-base-100"></div>
@@ -85,19 +119,18 @@
                         </div>
 
                         <!-- Container for regenrated lyrics -->
-                        <div class="flex-1 hidden overflow-y-auto" id="content-panel-regenerate">
+                        <div class="flex-1 hidden overflow-y-auto bg-base-100" id="content-panel-regenerate">
                             {% for section in song_sections %}
                                 {% if not section.hidden %}
 
                                     <!-- Song Section Card -->
-                                    <div class="section-text-card mx-1">
+                                    <div class="section-text-card card border border-base-300 bg-base-300 cursor-grab m-4">
 
                                         <!-- Badge header row -->
                                         <c-badge-lyrics 
                                             data-section-type="{{section.type|upper}}"
                                             data-section-words-id="section-text-{{ forloop.counter }}"
-                                            >{{section.type}}
-                                        </c-badge-lyrics>
+                                            >{{section.type}}</c-badge-lyrics>
                                         <!-- End: Badge header row -->
 
                                         <!-- Song Section Lyrics & Edit UI -->
@@ -109,7 +142,7 @@
                                                     placeholder="" 
                                                     readonly
                                                     autocomplete="off" 
-                                                    class="mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                                    class="mb-1 input-control cursor-grab textarea bg-base-200 text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
                                                     style="field-sizing: content;"
                                                 >{{section.text}}</textarea>
                                             </div>

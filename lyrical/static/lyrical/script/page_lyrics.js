@@ -8,6 +8,7 @@ let streamHelper;
 let lyricsDirty = false;
 let lyricsHistory = {};
 let editMode = 'none';
+let editCard = null;
 
 
 const songId = document.body.dataset.songId;
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStreamHelper();
     copyToSaveHistory();
     updateLyricsListing();
+    applyFilter();
 });
 
 
@@ -370,6 +372,7 @@ function setLyricsDirty(dirty = true) {
 function badgeToolsButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('textedit', allButtons);
+    applyFilter();
 }
 
 
@@ -405,12 +408,17 @@ function enterEditMode(mode, allButtons) {
     const buttonInteractive = allButtons[2];
     const buttonExit = allButtons[3];
     const buttonTools = allButtons[4];
-
-    console.log(allButtons);
-    console.log(buttonTools);
-
-
     const songSectionCard = buttonTools.parentNode.parentNode;
+    
+    if (mode === 'none') {
+        editCard = null;
+        document.getElementById('btn-generate').classList.remove('btn-disabled');
+        document.getElementById('btn-generating').classList.remove('btn-disabled');
+    } else {
+        editCard = songSectionCard;
+        document.getElementById('btn-generate').classList.add('btn-disabled');
+        document.getElementById('btn-generating').classList.add('btn-disabled');
+    }
 
     if (mode === 'none') {
         showEditTextArea(false, buttonTextEdit);
@@ -460,7 +468,7 @@ function enterEditMode(mode, allButtons) {
 
 function showEditTextArea(show, buttonTextEdit) {
     const panels = buttonTextEdit.parentNode.nextElementSibling.children;
-    const textArea = panels[2];
+    const textArea = panels[0];
 
     if (show) {
         textArea.readOnly = false;
@@ -472,7 +480,7 @@ function showEditTextArea(show, buttonTextEdit) {
 
 function showEditRegenerate(show, buttonRegenerate) {
     const panels = buttonRegenerate.parentNode.nextElementSibling.children;
-    const editRegeneratePanel = panels[1];
+    const editRegeneratePanel = panels[2];
     const regenerateContainer = document.getElementById('content-panel-regenerate');
 
     if (show) {
@@ -487,8 +495,8 @@ function showEditRegenerate(show, buttonRegenerate) {
 
 function showEditInteractive(show, buttonInteractive) {
     const panels = buttonInteractive.parentNode.nextElementSibling.children;
-    const editInteractivePanel = panels[0];
-    const textArea = panels[2];
+    const editInteractivePanel = panels[1];
+    const textArea = panels[0];
 
     if (show) {
         const lyrics = textArea.value;
@@ -532,6 +540,20 @@ function hideOrShowAllSections(showOrHide, except=null) {
             }
         }
     });
+}
+
+
+function applyFilter() {
+    if (editCard) {
+        const filter = editCard.firstElementChild.dataset.sectionName;
+        document.querySelectorAll('.section-text-card').forEach(card => {
+            if (card.firstElementChild.dataset.sectionName === filter) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
 }
 
 
