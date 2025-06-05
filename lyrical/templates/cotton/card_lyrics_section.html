@@ -1,11 +1,12 @@
 <!-- Song Section Card -->
-<div class="section-text-card card border border-base-300 bg-base-300 cursor-grab m-4">
+<div id="section-card-{{section.id}}" 
+     class="section-text-card card border border-base-300 bg-base-300 cursor-grab m-4">
 
     <!-- Badge header row -->
-    <c-badge-lyrics 
+    <c-badge-lyrics-section
         data-section-type="{{section.type|upper}}"
         data-section-words-id="section-text-{{ forloop.counter }}"
-        >{{section.type}}</c-badge-lyrics>
+        >{{section.type}}</c-badge-lyrics-section>
     <!-- End: Badge header row -->
 
     <!-- Song Section Lyrics & Edit UI -->

@@ -2,6 +2,7 @@
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 import { apiLyricsEdit } from './api_lyrics_edit.js';
+import { apiSectionEdit } from './api_section_edit.js';
 import { apiRenderComponent } from './api_render_component.js';
 
 
@@ -70,6 +71,9 @@ function initBadgeActions() {
     });
     document.querySelectorAll('.badge-regenerate-button').forEach(button => {
         button.onclick = badgeRegenerateButtonClick;
+    });
+    document.querySelectorAll('.badge-hide-button').forEach(button => {
+        button.onclick = badgeHideButtonClick;
     });
 }
 
@@ -264,11 +268,22 @@ function handlePrimaryDataStreamData(data) {
 
 
 function handleSecondaryDataStreamData(data) {
+    let section = '';
+    let lyrics = '';
+    let id = 0;
+
     if (data) {
-        for (const [section, words] of Object.entries(data)) {
-            const lyrics = words.join('\n');
-            addNewLyricsSection(section, lyrics);
+        for (const [key, value] of Object.entries(data)) {
+            console.log(`handleSecondaryDataStreamData: key:${key} value:${value}`)
+
+            if (key == 'id') {
+                id = parseInt(value);
+            } else {
+                section = key;
+                lyrics = value.join('\n');
+            }
         }
+        addNewLyricsSection(id, section, lyrics);
     } else {
         handleSecondaryDataStreamError(data);
     }
@@ -513,6 +528,29 @@ function badgeRegenerateButtonClick() {
 }
 
 
+function badgeHideButtonClick() {
+    const sectionId = this.dataset.lyricsId;
+    console.log(`hiding section with Id=${sectionId}`);
+
+    const sectionCard = this.parentNode.parentNode;
+    const container = document.getElementById('content-panel-regenerate');
+
+    apiSectionEdit(sectionId, true)
+        .then(sectionId => {
+            // update the text on the song card
+            console.log(`Successfully updated sectionId: ${sectionId}`);
+
+            // hide the card from the list
+            container.removeChild(sectionCard);
+        })
+        .catch(error => {
+            // handle the error if the API call fails
+            console.error('Failed to edit the section:', error);
+            toastSystem.showError('Failed to update the section. Please try again.');
+        });
+}
+
+
 function enterEditMode(mode, allButtons) {
     const buttonRegenerate = allButtons[0];
     const buttonTextEdit = allButtons[1];
@@ -654,32 +692,24 @@ function hideOrShowAllSections(showOrHide, except=null) {
 }
 
 
-function addNewLyricsSection(section, lyrics) {
+function addNewLyricsSection(sectionId, section, lyrics) {
     console.log(`create card for section (${section}) with lyrics:\n${lyrics}.`)
 
-
-
-    apiRenderComponent('card_lyrics_section', 'content-panel-regenerate', { section: { type: section, text: lyrics }})
+    apiRenderComponent('card_lyrics_section', 'content-panel-regenerate', { section: { id: sectionId, type: section, text: lyrics }})
         .then(html => {
-            // initialize the new style card for interactions
-            //initNewStyleCard(sectionId);
+            // initialize the new section card for interactions
+            document.getElementById(`badge-hide-button-${sectionId}`).onclick = badgeHideButtonClick;
 
             // register with the drag-drop system
             //const styleCard = document.getElementById(`style-card-${sectionId}`);
             //registerCardForDragDrop(styleCard);
 
-            // update the UI button states
-            //updateClearButtonState();
         })
         .catch(error => {
             // handle the error if the component rendering fails
             console.error('Failed to render or initialize new song section card:', error);
             toastSystem.showError('Failed to display the new song section. Please refresh the page.');
         });
-
-
-
-
 }
 
 

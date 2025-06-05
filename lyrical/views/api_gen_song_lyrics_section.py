@@ -98,6 +98,9 @@ class SongLyricsSectionGenerator(LLMGenerator):
         # update data with cleaned section names
         data = cleaned_data
 
+        # add the song section ID to the data
+        data['id'] = song_section.id
+
         # return the updated data as a NDJSON string to process in javascript
         print(f'out:\n{json.dumps(data, indent=2)}')
         return json.dumps(data)
