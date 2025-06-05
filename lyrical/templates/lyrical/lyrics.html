@@ -56,8 +56,6 @@
                                     <div class="flex flex-col">
 
                                         <!-- Edit Panels -->
-                                        <div class="edit-panel-textedit h-30 bg-red-300 hidden pl-3 pt-2">
-                                        </div>
                                         <div class="edit-panel-interactive h-30 bg-blue-300 hidden pl-3 pt-2">
                                         </div>
                                         <div class="edit-panel-regenerate h-30 bg-green-300 hidden pl-3 pt-2">
@@ -76,7 +74,7 @@
                                         >{{song_section.words}}</textarea>
                                     </div>
                                 {% else %}
-                                    <div class=" border-y border-base-100"></div>
+                                    <div class="border-y border-base-100"></div>
                                 {% endif %}
                                 <!-- Song Section Lyrics & Edit UI -->
                                 
@@ -85,7 +83,7 @@
                         {% endfor %}
 
                         <!-- Container for regenrated lyrics -->
-                        <div class=" bg-orange-300 h-150">
+                        <div class="bg-orange-300 h-150 hidden" id="content-panel-regenerate">
                             content
                         </div>
                         <!-- End: Container for regenrated lyrics -->

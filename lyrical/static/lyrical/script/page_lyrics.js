@@ -460,8 +460,7 @@ function enterEditMode(mode, allButtons) {
 
 function showEditTextArea(show, buttonTextEdit) {
     const panels = buttonTextEdit.parentNode.nextElementSibling.children;
-    //const editTextEditPanel = panels[0];
-    const textArea = panels[3];
+    const textArea = panels[2];
 
     if (show) {
         textArea.readOnly = false;
@@ -473,21 +472,23 @@ function showEditTextArea(show, buttonTextEdit) {
 
 function showEditRegenerate(show, buttonRegenerate) {
     const panels = buttonRegenerate.parentNode.nextElementSibling.children;
-    const editRegeneratePanel = panels[2];
-    const textArea = panels[3];
+    const editRegeneratePanel = panels[1];
+    const regenerateContainer = document.getElementById('content-panel-regenerate');
 
     if (show) {
         editRegeneratePanel.classList.remove('hidden');
+        regenerateContainer.classList.remove('hidden');
     } else {
         editRegeneratePanel.classList.add('hidden');
+        regenerateContainer.classList.add('hidden');
     }
 }
 
 
 function showEditInteractive(show, buttonInteractive) {
     const panels = buttonInteractive.parentNode.nextElementSibling.children;
-    const editInteractivePanel = panels[1];
-    const textArea = panels[3];
+    const editInteractivePanel = panels[0];
+    const textArea = panels[2];
 
     if (show) {
         const lyrics = textArea.value;
