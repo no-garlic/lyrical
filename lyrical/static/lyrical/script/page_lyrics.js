@@ -1,7 +1,8 @@
 
 import { StreamHelper } from "./util_stream_helper.js";
-import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { toastSystem } from './util_toast.js';
+import { apiLyricsEdit } from './api_lyrics_edit.js';
+import { apiRenderComponent } from './api_render_component.js';
 
 
 let streamHelperPrimary;
@@ -655,6 +656,30 @@ function hideOrShowAllSections(showOrHide, except=null) {
 
 function addNewLyricsSection(section, lyrics) {
     console.log(`create card for section (${section}) with lyrics:\n${lyrics}.`)
+
+
+
+    apiRenderComponent('card_lyrics_section', 'content-panel-regenerate', { section: { type: section, text: lyrics }})
+        .then(html => {
+            // initialize the new style card for interactions
+            //initNewStyleCard(sectionId);
+
+            // register with the drag-drop system
+            //const styleCard = document.getElementById(`style-card-${sectionId}`);
+            //registerCardForDragDrop(styleCard);
+
+            // update the UI button states
+            //updateClearButtonState();
+        })
+        .catch(error => {
+            // handle the error if the component rendering fails
+            console.error('Failed to render or initialize new song section card:', error);
+            toastSystem.showError('Failed to display the new song section. Please refresh the page.');
+        });
+
+
+
+
 }
 
 

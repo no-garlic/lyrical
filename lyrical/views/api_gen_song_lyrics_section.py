@@ -57,7 +57,7 @@ class SongLyricsSectionGenerator(LLMGenerator):
 
     def preprocess_ndjson(self, ndjson_line: str) -> str:
         data = json.loads(ndjson_line)
-        print(json.dumps(data, indent=2))
+        print(f'in:\n{json.dumps(data, indent=2)}')
 
         # get the song ID from the request parameters
         song_id = self.extracted_params.get('song_id')
@@ -77,26 +77,29 @@ class SongLyricsSectionGenerator(LLMGenerator):
             logger.error(f"Error fetching song with ID {song_id} for user '{self.request.user.username}': {str(e)}")
             return {}
 
-        # loop over all keys in the data
+        # create a new dictionary with cleaned section names
+        cleaned_data = {}
         for section, words in data.items():
-            # split the section into section_type and section_index if there are trailing numbers
-            if section[-1].isdigit():
-                section_type = section[:-1]
-            else:
-                section_type = section
+            # extract section type by removing trailing digits
+            section_type = section.rstrip('0123456789')
+            cleaned_data[section_type] = words
 
             # normalize the words to ASCII
             lyrics = "\n".join(words)
         
-            # savce the section to the database
+            # save the section to the database
             try:
                 song_section = models.Section.objects.create(song=song, type=section_type, text=lyrics)
                 song_section.save()
             except Exception as e:
                 logger.error(f"Error creating section '{section_type}' for song ID {song_id}: {str(e)}")
                 continue
+        
+        # update data with cleaned section names
+        data = cleaned_data
 
-        # return the original data as a NDJSON string to process in javascript
+        # return the updated data as a NDJSON string to process in javascript
+        print(f'out:\n{json.dumps(data, indent=2)}')
         return json.dumps(data)
         
 

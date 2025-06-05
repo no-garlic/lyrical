@@ -123,34 +123,8 @@
                             {% for section in song_sections %}
                                 {% if not section.hidden %}
 
-                                    <!-- Song Section Card -->
-                                    <div class="section-text-card card border border-base-300 bg-base-300 cursor-grab m-4">
-
-                                        <!-- Badge header row -->
-                                        <c-badge-lyrics 
-                                            data-section-type="{{section.type|upper}}"
-                                            data-section-words-id="section-text-{{ forloop.counter }}"
-                                            >{{section.type}}</c-badge-lyrics>
-                                        <!-- End: Badge header row -->
-
-                                        <!-- Song Section Lyrics & Edit UI -->
-                                            <div class="flex flex-col">
-                                                <textarea 
-                                                    id="section-text-{{ forloop.counter }}" 
-                                                    data-lyrics-id="{{section.id}}"
-                                                    type="text" 
-                                                    placeholder="" 
-                                                    readonly
-                                                    autocomplete="off" 
-                                                    class="mb-1 input-control cursor-grab textarea bg-base-200 text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                                    style="field-sizing: content;"
-                                                >{{section.text}}</textarea>
-                                            </div>
-                                        <!-- Song Section Lyrics & Edit UI -->
-                                        
-                                    </div>
-                                    <!-- End: Song Section Card -->
-
+                                    <c-card-lyrics-section />
+                                    
                                 {% endif %}
                             {% endfor %}
                         </div>
