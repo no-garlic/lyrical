@@ -143,7 +143,7 @@ class SongLyricsGenerator(LLMGenerator):
                 section_type = section
                 section_index = 0
 
-            # get the section object from the database
+            # get the lyrics object from the database
             try:
                 lyrics_obj = models.Lyrics.objects.get(song=song, type=section_type, index=section_index)
             except models.Lyrics.DoesNotExist:
@@ -157,18 +157,48 @@ class SongLyricsGenerator(LLMGenerator):
             lyrics = "\n".join(words)
             logger.debug(f"lyrics for section '{section_type}' with index {section_index}:\n{lyrics}")
 
-            # update the section object with the normalized words
+            # update the lyrics object with the normalized words
             lyrics_obj.words = lyrics
             
-            # save the section object to the database
+            # save the lyrics object to the database
             try:
                 lyrics_obj.save()
                 logger.debug(f"Updated section '{section_type}' with index {section_index} for song ID {song_id}")
             except Exception as e:
                 logger.error(f"Error saving section '{section_type}' with index {section_index} for song ID {song_id}: {str(e)}")
         
+            # savce the section to the database
+            try:
+                song_section = models.Section.objects.create(song=song, type=section_type, text=lyrics)
+                song_section.save()
+            except Exception as e:
+                logger.error(f"Error creating section '{section_type}' for song ID {song_id}: {str(e)}")
+                continue
+
         # return the original data as a NDJSON string to process in javascript
         return json.dumps(data)
+    
+    def on_response_complete(self) -> None:
+        """
+        Called after the full LLM response has been received.
+        Updates the song stage to 'generated' when lyrics generation is complete.
+        """
+        song_id = self.get_song_id()
+        
+        if not song_id:
+            logger.error("Song ID is required for updating song stage")
+            return
+        
+        try:
+            # fetch the song and update its stage
+            song = models.Song.objects.get(id=song_id, user=self.user)
+            song.stage = 'generated'
+            song.save()
+            logger.info(f"Updated song {song_id} stage to 'generated' after lyrics generation completion")
+        except models.Song.DoesNotExist:
+            logger.error(f"Song with ID {song_id} does not exist for user '{self.user.username}'")
+        except Exception as e:
+            logger.error(f"Error updating song {song_id} stage: {str(e)}")
         
 
 @login_required

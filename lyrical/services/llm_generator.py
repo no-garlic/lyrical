@@ -377,6 +377,16 @@ class LLMGenerator(ABC):
         """
         return ndjson_line
     
+    def on_response_complete(self) -> None:
+        """
+        Called after the full LLM response has been received and processed.
+        
+        Subclasses can override this method to perform actions when the
+        generation is complete, such as updating database records or
+        triggering follow-up processes.
+        """
+        pass
+    
     def _normalize_text(self, text):
         """
         Convert Unicode characters to closest ASCII equivalent.
@@ -516,6 +526,12 @@ class LLMGenerator(ABC):
                         logger.debug(f"Saved assistant message {saved_assistant_msg.id} after LLM completion")
                     else:
                         logger.warning(f"Failed to save assistant message after LLM completion for song {song_id}")
+            
+            # Call on_response_complete after successful generation
+            try:
+                self.on_response_complete()
+            except Exception as e:
+                logger.error(f"Error in on_response_complete: {str(e)}")
                 
         except Exception as e:
             logger.error(f"LLM_SERVICE_EXCEPTION: An error occurred during the LLM stream: {e}")
