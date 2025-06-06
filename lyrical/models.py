@@ -91,7 +91,7 @@ class Song(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title} ({self.stage})"
+        return f"{self.name} ({self.stage})"
 
     @property
     def new(self):
@@ -213,5 +213,5 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.role}: {self.content[:50]}... ({self.self.title})"
+        return f"{self.role}: {self.content[:50]}... ({self.song.name})"
     
