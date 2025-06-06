@@ -345,9 +345,21 @@ function handleSecondaryDataStreamEnd(summaryInfo) {
 
 function handlePrimaryDataStreamData(data) {
     if (data) {
+        // Check if this is an error response
+        if (data.error) {
+            console.warn('LLM generation error:', data.error, 'Details:', data.details);
+            toastSystem.showError(`Generation error: ${data.error}`);
+            return;
+        }
+        
         for (const [section, words] of Object.entries(data)) {
-            const lyrics = words.join('\n');
-            displayLyrics(section, lyrics);
+            // Ensure words is an array before joining
+            if (Array.isArray(words)) {
+                const lyrics = words.join('\n');
+                displayLyrics(section, lyrics);
+            } else {
+                console.warn(`Unexpected data format for section ${section}:`, words);
+            }
         }
     } else {
         handlePrimaryDataStreamError(data);
@@ -356,22 +368,34 @@ function handlePrimaryDataStreamData(data) {
 
 
 function handleSecondaryDataStreamData(data) {
-    let section = '';
-    let lyrics = '';
-    let id = 0;
-
     if (data) {
+        // Check if this is an error response
+        if (data.error) {
+            console.warn('LLM generation error:', data.error, 'Details:', data.details);
+            toastSystem.showError(`Generation error: ${data.error}`);
+            return;
+        }
+        
+        let section = '';
+        let lyrics = '';
+        let id = 0;
+
         for (const [key, value] of Object.entries(data)) {
             console.log(`handleSecondaryDataStreamData: key:${key} value:${value}`)
 
             if (key == 'id') {
                 id = parseInt(value);
-            } else {
+            } else if (Array.isArray(value)) {
                 section = key;
                 lyrics = value.join('\n');
+            } else {
+                console.warn(`Unexpected data format for key ${key}:`, value);
             }
         }
-        addNewLyricsSection(id, section, lyrics);
+        
+        if (section && lyrics && id) {
+            addNewLyricsSection(id, section, lyrics);
+        }
     } else {
         handleSecondaryDataStreamError(data);
     }

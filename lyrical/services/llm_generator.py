@@ -406,8 +406,12 @@ class LLMGenerator(ABC):
         """
         stripped_line = line.strip()
         
-        # Skip markdown fence lines
-        if stripped_line in ["```json", "```", "```ndjson"] or not stripped_line:
+        # Skip markdown fence lines (including long strings of backticks)
+        if (stripped_line in ["```json", "```", "```ndjson"] or 
+            not stripped_line or 
+            stripped_line.startswith("```") or
+            all(c == '`' for c in stripped_line)):
+            logger.debug(f"Skipping markdown fence or backtick line: {stripped_line[:50]}{'...' if len(stripped_line) > 50 else ''}")
             return
         
         try:
@@ -499,9 +503,16 @@ class LLMGenerator(ABC):
             
             # Process streaming chunks
             current_line = ""
+            chunk_count = 0
             for chunk in response_stream:
                 if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
                     content = self._normalize_text(chunk.choices[0].delta.content)
+                    chunk_count += 1
+                    
+                    # Log suspicious content containing many backticks
+                    if '`' in content and len([c for c in content if c == '`']) > 10:
+                        logger.warning(f"LLM_STREAM_CHUNK_{chunk_count}: Detected chunk with many backticks: {repr(content)}")
+                    
                     current_line += content
                     accumulated_response.append(content)
                     
