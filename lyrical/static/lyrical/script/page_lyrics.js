@@ -5,12 +5,14 @@ import { DragDropSystem } from './util_dragdrop.js';
 import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiRenderComponent } from './api_render_component.js';
+import { Markup } from './util_markup.js';
 
 
 let streamHelperPrimary;
 let streamHelperSecondary;
 let streamHelperSecondaryClickedButton;
 let dragDropSystem;
+let markupSystem;
 let lyricsDirty = false;
 let lyricsHistory = {};
 let editCard = null;
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBadgeActions();
     initStreamHelpers();
     initDragDrop();
+    initMarkupSystem();
     copyToSaveHistory();
     updateLyricsListing();
     applyFilter();
@@ -131,6 +134,26 @@ function initDragDrop() {
     });
 
     return dragDropSystem;
+}
+
+
+function initMarkupSystem() {
+    markupSystem = new Markup({
+        containerId: 'edit-panel-interactive',
+        marker: 'bg-error',
+        replaceMarkedLinesWith: '<line>',
+        replaceMarkedSequencesWith: '<words>',
+        replaceMarkedWordsWith: '<word>'
+    });
+    
+    markupSystem.init({
+        onTextChanged: () => {
+            setLyricsDirty(true);
+        },
+        onToolChanged: (tool) => {
+            updateMarkupButtonAppearances();
+        }
+    });
 }
 
 
@@ -583,12 +606,16 @@ function setLyricsDirty(dirty = true) {
 
 
 function badgeMarkerButtonClick() {
-    // TODO: select the marker tool
+    if (markupSystem) {
+        markupSystem.selectMarker();
+    }
 }
 
 
 function badgeEraserButtonClick() {
-    // TODO: select the eraser tool
+    if (markupSystem) {
+        markupSystem.selectEraser();
+    }
 }
 
 
@@ -707,8 +734,7 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonInteractive, 'active');
         updateButtonAppearance(buttonTextEdit, 'shown');
         updateButtonAppearance(buttonRegenerate, 'shown');
-        updateButtonAppearance(buttonMarker, 'active');  //TODO: use 'active' if this is the active tool (call the Markup utility), otherwise use 'shown'
-        updateButtonAppearance(buttonEraser, 'shown');  //TODO: use 'active' if this is the active tool (call the Markup utility), otherwise use 'shown'
+        updateMarkupButtonAppearances();
         hideOrShowAllSections('hide', songSectionCard);
     } else if (mode === 'regenerate') {
         showEditTextArea(false, buttonTextEdit);
@@ -783,13 +809,16 @@ function showEditInteractive(show, buttonInteractive) {
 
 
 function copyTextToInteractivePanel(lyrics, panel) {
-    // TODO: this needs to call the Markup utility
-    panel.innerText = lyrics;
+    if (markupSystem) {
+        markupSystem.setText(lyrics);
+    }
 }
 
 
 function getTextFromInteractivePanel(panel) {
-    // TODO: this needs to call the Markup utility
+    if (markupSystem) {
+        return markupSystem.getText('replacement');
+    }
     return panel.innerText;
 }
 
@@ -922,6 +951,23 @@ function showSectionCard(card) {
         card.classList.remove('collapsing-show');
         card.style.height = '';
     }, 500);
+}
+
+
+function updateMarkupButtonAppearances() {
+    if (!editCard || !markupSystem) return;
+    
+    const allButtons = editCard.querySelectorAll('.badge-button');
+    const buttonMarker = allButtons[0];
+    const buttonEraser = allButtons[1];
+    
+    if (markupSystem.isMarkerSelected()) {
+        updateButtonAppearance(buttonMarker, 'active');
+        updateButtonAppearance(buttonEraser, 'shown');
+    } else if (markupSystem.isEraserSelected()) {
+        updateButtonAppearance(buttonMarker, 'shown');
+        updateButtonAppearance(buttonEraser, 'active');
+    }
 }
 
 

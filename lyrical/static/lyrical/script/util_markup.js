@@ -3,40 +3,69 @@ export class Markup {
 
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
+            containerId: '',
+            marker: 'bg-error',
+            replaceMarkedLinesWith: '<line>',
+            replaceMarkedSequencesWith: '<words>',
+            replaceMarkedWordsWith: '<word>',
             ...initialConfig,
         };
         this.callbacks = {
             ...initialCallbacks,
         };
+        
+        this.text = '';
+        this.lines = [];
+        this.markedState = {};
+        this.selectedTool = 'marker';
+        this.container = null;
+        this.isDragging = false;
+        this.dragStartWord = null;
     }
 
     init(callbacks = {}) {
         this.callbacks = { ...this.callbacks, ...callbacks };
-        
+        this.container = document.getElementById(this.config.containerId);
+        if (!this.container) {
+            throw new Error(`Container with id '${this.config.containerId}' not found`);
+        }
     }
 
     /*
      * Select which marker to use
      */
     selectMarker() {
+        this.selectedTool = 'marker';
+        if (this.callbacks.onToolChanged) {
+            this.callbacks.onToolChanged('marker');
+        }
     }
 
     /*
      * Select the eraser to use
      */
     selectEraser() {
+        this.selectedTool = 'eraser';
+        if (this.callbacks.onToolChanged) {
+            this.callbacks.onToolChanged('eraser');
+        }
     }
 
     isMarkerSelected() {
+        return this.selectedTool === 'marker';
     }
 
     isEraserSelected() {
+        return this.selectedTool === 'eraser';
     }
 
     /*
      * Clear all highlighting
      */
-    clearHighlighting() {        
+    clearHighlighting() {
+        this.markedState = {};
+        this._renderText();
+        this._notifyTextChanged();
     }
 
     /*
@@ -46,62 +75,287 @@ export class Markup {
      *        can be changed anytime, and clears all highlighting when new text is set.
      */
     setText(text) {
+        this.text = text;
+        this.lines = text.split('\n').map(line => line.trim().split(/\s+/).filter(word => word.length > 0));
+        this.markedState = {};
+        this._renderText();
     }
 
-    getText(style) {
-        // if style === 'raw':
-        //      get the full text
-
-        // if style === 'replacement':
-        //      gets the full text, but replaces marked words, sequences of words, and lines of words with special tokens.
-        //      Follow these rules, in order - each word will only apply to a single rule based on the adjacent words and line's markup state.
-        //      this.config.replaceMarkedLinesWith: '<line>',      // replaces each complete marked line with this token
-        //      this.configreplaceMarkedSequencesWith: '<words>',  // when calling getText(), replaces each sequence of words with this token
-        //      this.configreplaceMarkedWordsWith: '<word>',       // when calling getText(), replaces each single isolated marked word with this token
-
-        // if style === 'markup': (this is the default style if no argument is passed to the method)
-        //      get the full text, but inserts symbols around words, sequences of words, and lines that are markedup.
-        //      Follow these rules, in order - each word will only apply to a single rule based on the adjacent words and line's markup state.
-        //      - for a full line of markup, replace the line of text with <<line>>
-        //      - for a sequence of words, put the symbol << at the start of the sequence, and the symbol >> at the end of the sequence and keep the words
-        //      - for an individual marked word, keep the word and surround it with << and >>
-
-        // If there are marked words that span multiple lines, stick to precedence rules above, replacing lines first, then sequences, then individual words.
-        // Therefore, there will never be a sequence that spans multiple lines.
+    getText(style = 'markup') {
+        if (style === 'raw') {
+            return this.text;
+        }
+        
+        const result = [];
+        
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineState = this.markedState[lineIndex] || {};
+            
+            // Check if entire line is marked
+            const isFullLineMarked = line.every((_, wordIndex) => lineState[wordIndex]);
+            
+            if (isFullLineMarked && line.length > 0) {
+                if (style === 'replacement') {
+                    result.push(this.config.replaceMarkedLinesWith);
+                } else {
+                    result.push('<<line>>');
+                }
+            } else {
+                const lineResult = [];
+                let i = 0;
+                
+                while (i < line.length) {
+                    if (lineState[i]) {
+                        // Find sequence of marked words
+                        let sequenceEnd = i;
+                        while (sequenceEnd < line.length && lineState[sequenceEnd]) {
+                            sequenceEnd++;
+                        }
+                        
+                        const sequenceLength = sequenceEnd - i;
+                        if (sequenceLength === 1) {
+                            // Single word
+                            if (style === 'replacement') {
+                                lineResult.push(this.config.replaceMarkedWordsWith);
+                            } else {
+                                lineResult.push(`<<${line[i]}>>`);
+                            }
+                        } else {
+                            // Sequence of words
+                            if (style === 'replacement') {
+                                lineResult.push(this.config.replaceMarkedSequencesWith);
+                            } else {
+                                const words = line.slice(i, sequenceEnd).join(' ');
+                                lineResult.push(`<<${words}>>`);
+                            }
+                        }
+                        i = sequenceEnd;
+                    } else {
+                        lineResult.push(line[i]);
+                        i++;
+                    }
+                }
+                
+                result.push(lineResult.join(' '));
+            }
+        }
+        
+        return result.join('\n');
     }
 
     getMarkedText() {
-        // gets the marked text only
+        const result = [];
+        
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineState = this.markedState[lineIndex] || {};
+            const markedWords = line.filter((_, wordIndex) => lineState[wordIndex]);
+            
+            if (markedWords.length > 0) {
+                result.push(markedWords.join(' '));
+            }
+        }
+        
+        return result.join('\n');
     }
 
     getUnmarkedText() {
-        // gets the unmarked text only
+        const result = [];
+        
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineState = this.markedState[lineIndex] || {};
+            const unmarkedWords = line.filter((_, wordIndex) => !lineState[wordIndex]);
+            
+            if (unmarkedWords.length > 0) {
+                result.push(unmarkedWords.join(' '));
+            }
+        }
+        
+        return result.join('\n');
     }
 
     getMarkedState() {
-        // returns a dict containing a list for each line of the text, with a boolean set to true if the word
-        // was marked, and false if the word was not marked.
-        return {
-            '0': [false, false, false, false, true, true, true],
-            '1': [false, false, true, false, true, false, false],
-            '2': [true, true, true, false, true, true, true],
-            '3': [true, false, true, true, false, true, true],
+        const result = {};
+        
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineState = this.markedState[lineIndex] || {};
+            result[lineIndex.toString()] = line.map((_, wordIndex) => !!lineState[wordIndex]);
         }
+        
+        return result;
     }
 
     isWordMarked(line, word) {
-        // checks if a word was marked
-        // line - the index of the line (0 based indexing)
-        // word - the index of the word within that line (0 based indexing)
+        const lineState = this.markedState[line];
+        return lineState ? !!lineState[word] : false;
     }
 
     getNumLines() {
-        // gets the number of lines of text
+        return this.lines.length;
     }
 
     getNumWords(line) {
-        // gets the number of words for the given line index (0 based indexing)
-    }   
+        return this.lines[line] ? this.lines[line].length : 0;
+    }
+    
+    _renderText() {
+        console.log(`_renderText container: ${this.container}`);
+        console.log(`_renderText text:\n${this.text}`);
+        if (!this.container) return;
+        
+        this.container.innerHTML = 'start';
+        
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'markup-line';
+            lineDiv.style.cssText = 'line-height: 1.5; margin-bottom: 0.25rem; white-space: nowrap;';
+            
+            for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
+                const word = line[wordIndex];
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word;
+                wordSpan.className = 'markup-word cursor-pointer';
+                wordSpan.dataset.line = lineIndex;
+                wordSpan.dataset.word = wordIndex;
+                wordSpan.style.cssText = 'padding: 2px 1px; margin-right: -1px; user-select: none;';
+                
+                // Apply marking if word is marked
+                if (this.isWordMarked(lineIndex, wordIndex)) {
+                    wordSpan.classList.add(this.config.marker);
+                }
+                
+                // Add event listeners
+                wordSpan.addEventListener('mousedown', (e) => this._handleMouseDown(e, lineIndex, wordIndex));
+                wordSpan.addEventListener('mouseenter', (e) => this._handleMouseEnter(e, lineIndex, wordIndex));
+                wordSpan.addEventListener('mouseup', (e) => this._handleMouseUp(e, lineIndex, wordIndex));
+                
+                lineDiv.appendChild(wordSpan);
+                
+                // Add space between words (except for last word)
+                if (wordIndex < line.length - 1) {
+                    const spaceSpan = document.createElement('span');
+                    spaceSpan.textContent = ' ';
+                    spaceSpan.style.cssText = 'user-select: none;';
+                    lineDiv.appendChild(spaceSpan);
+                }
+            }
+            
+            this.container.appendChild(lineDiv);
+        }
+        
+        // Prevent text selection and context menu
+        this.container.addEventListener('selectstart', (e) => e.preventDefault());
+        this.container.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.addEventListener('mouseup', () => this._handleDocumentMouseUp());
+    }
+    
+    _handleMouseDown(e, lineIndex, wordIndex) {
+        e.preventDefault();
+        
+        if (e.shiftKey) {
+            // Shift-click: mark/unmark entire line
+            this._toggleLine(lineIndex);
+        } else {
+            // Regular click: start drag or toggle single word
+            this.isDragging = true;
+            this.dragStartWord = { line: lineIndex, word: wordIndex };
+            this._toggleWord(lineIndex, wordIndex);
+        }
+    }
+    
+    _handleMouseEnter(e, lineIndex, wordIndex) {
+        if (this.isDragging && this.dragStartWord) {
+            // During drag: mark range from start to current
+            this._markRange(this.dragStartWord.line, this.dragStartWord.word, lineIndex, wordIndex);
+        }
+    }
+    
+    _handleMouseUp(e, lineIndex, wordIndex) {
+        this.isDragging = false;
+        this.dragStartWord = null;
+    }
+    
+    _handleDocumentMouseUp() {
+        this.isDragging = false;
+        this.dragStartWord = null;
+    }
+    
+    _toggleWord(lineIndex, wordIndex) {
+        if (!this.markedState[lineIndex]) {
+            this.markedState[lineIndex] = {};
+        }
+        
+        if (this.selectedTool === 'eraser') {
+            this.markedState[lineIndex][wordIndex] = false;
+        } else {
+            this.markedState[lineIndex][wordIndex] = !this.markedState[lineIndex][wordIndex];
+        }
+        
+        this._renderText();
+        this._notifyTextChanged();
+    }
+    
+    _toggleLine(lineIndex) {
+        if (!this.lines[lineIndex]) return;
+        
+        if (!this.markedState[lineIndex]) {
+            this.markedState[lineIndex] = {};
+        }
+        
+        const lineState = this.markedState[lineIndex];
+        const isLineMarked = this.lines[lineIndex].some((_, wordIndex) => lineState[wordIndex]);
+        
+        for (let wordIndex = 0; wordIndex < this.lines[lineIndex].length; wordIndex++) {
+            if (this.selectedTool === 'eraser') {
+                lineState[wordIndex] = false;
+            } else {
+                lineState[wordIndex] = !isLineMarked;
+            }
+        }
+        
+        this._renderText();
+        this._notifyTextChanged();
+    }
+    
+    _markRange(startLine, startWord, endLine, endWord) {
+        // For simplicity, only handle ranges within the same line
+        if (startLine !== endLine) return;
+        
+        const lineIndex = startLine;
+        const startIndex = Math.min(startWord, endWord);
+        const endIndex = Math.max(startWord, endWord);
+        
+        if (!this.markedState[lineIndex]) {
+            this.markedState[lineIndex] = {};
+        }
+        
+        // Determine the action based on the first word's state and tool
+        const firstWordMarked = this.markedState[lineIndex][startWord];
+        let targetState;
+        
+        if (this.selectedTool === 'eraser') {
+            targetState = false;
+        } else {
+            targetState = !firstWordMarked;
+        }
+        
+        for (let wordIndex = startIndex; wordIndex <= endIndex; wordIndex++) {
+            this.markedState[lineIndex][wordIndex] = targetState;
+        }
+        
+        this._renderText();
+        this._notifyTextChanged();
+    }
+    
+    _notifyTextChanged() {
+        if (this.callbacks.onTextChanged) {
+            this.callbacks.onTextChanged();
+        }
+    }
 }
 
 
