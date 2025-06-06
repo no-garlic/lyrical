@@ -142,7 +142,12 @@ function initMarkupSystem() {
         marker: 'bg-error',
         replaceMarkedLinesWith: '<line>',
         replaceMarkedSequencesWith: '<words>',
-        replaceMarkedWordsWith: '<word>'
+        replaceMarkedWordsWith: '<word>',
+        highlightHeight: '-5px',
+        paddingLeft: '12px',
+        paddingTop: '9px',
+        lineSpacing: '0.13rem',
+        lineHeight: '1.37',
     });
     
     markupSystem.init({

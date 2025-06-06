@@ -7,6 +7,11 @@ export class Markup {
             replaceMarkedLinesWith: '<line>',
             replaceMarkedSequencesWith: '<words>',
             replaceMarkedWordsWith: '<word>',
+            highlightHeight: '2px',
+            paddingLeft: '0px',
+            paddingTop: '0px',
+            lineSpacing: '0.125rem',
+            lineHeight: '1.35',
             ...initialConfig,
         };
         this.callbacks = {
@@ -200,11 +205,15 @@ export class Markup {
         
         this.container.innerHTML = '';
         
+        // Apply container padding
+        this.container.style.paddingLeft = this.config.paddingLeft;
+        this.container.style.paddingTop = this.config.paddingTop;
+        
         for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
             const line = this.lines[lineIndex];
             const lineDiv = document.createElement('div');
             lineDiv.className = 'markup-line';
-            lineDiv.style.cssText = 'line-height: 1.35; margin-bottom: 0.125rem; white-space: nowrap;';
+            lineDiv.style.cssText = `line-height: ${this.config.lineHeight}; margin-bottom: ${this.config.lineSpacing}; white-space: nowrap;`;
             
             for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
                 const word = line[wordIndex];
@@ -213,7 +222,7 @@ export class Markup {
                 wordSpan.className = 'markup-word cursor-pointer';
                 wordSpan.dataset.line = lineIndex;
                 wordSpan.dataset.word = wordIndex;
-                wordSpan.style.cssText = 'padding: 2px 1px; margin-right: -1px; user-select: none;';
+                wordSpan.style.cssText = `padding: ${this.config.highlightHeight} 1px; margin-right: -1px; user-select: none;`;
                 
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {
@@ -231,7 +240,7 @@ export class Markup {
                 if (wordIndex < line.length - 1) {
                     const spaceSpan = document.createElement('span');
                     spaceSpan.textContent = ' ';
-                    spaceSpan.style.cssText = 'user-select: none; padding: 2px 0px;';
+                    spaceSpan.style.cssText = `user-select: none; padding: ${this.config.highlightHeight} 0px;`;
                     
                     // Apply highlighting to space if both adjacent words are marked
                     if (this.isWordMarked(lineIndex, wordIndex) && 
