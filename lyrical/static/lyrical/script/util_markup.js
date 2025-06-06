@@ -20,6 +20,7 @@ export class Markup {
         this.container = null;
         this.isDragging = false;
         this.dragStartWord = null;
+        this.dragTargetState = null;
         this.renderDebounceTimer = null;
     }
 
@@ -262,7 +263,14 @@ export class Markup {
             // Regular mousedown: start potential drag
             this.isDragging = true;
             this.dragStartWord = { line: lineIndex, word: wordIndex };
-            // Don't toggle yet - wait for mouseup to determine if it's a click or drag
+            
+            // Capture the intended state at the start of drag
+            const currentWordMarked = this.isWordMarked(lineIndex, wordIndex);
+            if (this.selectedTool === 'eraser') {
+                this.dragTargetState = false;
+            } else {
+                this.dragTargetState = !currentWordMarked;
+            }
         }
     }
     
@@ -288,11 +296,13 @@ export class Markup {
         
         this.isDragging = false;
         this.dragStartWord = null;
+        this.dragTargetState = null;
     }
     
     _handleDocumentMouseUp() {
         this.isDragging = false;
         this.dragStartWord = null;
+        this.dragTargetState = null;
     }
     
     _toggleWord(lineIndex, wordIndex) {
@@ -344,15 +354,8 @@ export class Markup {
             this.markedState[lineIndex] = {};
         }
         
-        // Determine the action based on the first word's state and tool
-        const firstWordMarked = this.markedState[lineIndex][startWord];
-        let targetState;
-        
-        if (this.selectedTool === 'eraser') {
-            targetState = false;
-        } else {
-            targetState = !firstWordMarked;
-        }
+        // Use the target state captured at drag start
+        const targetState = this.dragTargetState;
         
         for (let wordIndex = startIndex; wordIndex <= endIndex; wordIndex++) {
             this.markedState[lineIndex][wordIndex] = targetState;
