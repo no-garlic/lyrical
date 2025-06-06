@@ -33,8 +33,7 @@ class Migration(migrations.Migration):
         migrations.AddField(model_name="user", name="llm_max_tokens", field=models.IntegerField(default=2000)),
         migrations.AddField(model_name="user", name="llm_temperature", field=models.FloatField(default=0.2)),
         migrations.AddField(model_name="user", name="llm_model", field=models.ForeignKey(blank=False, null=False, on_delete=django.db.models.deletion.PROTECT, to="lyrical.llm")),
-        migrations.AddField(model_name='user', name='llm_model_summarise', field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='lyrical.llm')),
-
+        migrations.AddField(model_name='user', name='llm_model_summarise', field=models.ForeignKey(blank=False, null=False, on_delete=django.db.models.deletion.PROTECT, related_name='users_summarise', to='lyrical.llm')),
         migrations.AddField(model_name="user", name="song_name_ends_with", field=models.CharField(default="", max_length=255)),
         migrations.AddField(model_name="user", name="song_name_gen_count", field=models.IntegerField(default=5)),
         migrations.AddField(model_name="user", name="song_name_length_max", field=models.IntegerField(default=5)),

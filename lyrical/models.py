@@ -23,7 +23,7 @@ class LLM(models.Model):
 
 class User(AbstractUser):
     llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
-    llm_model_summarise = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False, related_name='users_summarise', default=1)
+    llm_model_summarise = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False, related_name='users_summarise')
     llm_temperature = models.FloatField(default=0.2)
     llm_max_tokens = models.IntegerField(default=2000)
 
