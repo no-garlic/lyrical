@@ -27,6 +27,12 @@ export class Markup {
     selectEraser() {
     }
 
+    isMarkerSelected() {
+    }
+
+    isEraserSelected() {
+    }
+
     /*
      * Clear all highlighting
      */

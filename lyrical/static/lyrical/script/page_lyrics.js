@@ -60,6 +60,12 @@ function initPageActions() {
 
 
 function initBadgeActions() {
+    document.querySelectorAll('.badge-marker-button').forEach(button => {
+        button.onclick = badgeMarkerButtonClick;
+    });
+    document.querySelectorAll('.badge-eraser-button').forEach(button => {
+        button.onclick = badgeEraserButtonClick;
+    });
     document.querySelectorAll('.badge-tools-button').forEach(button => {
         button.onclick = badgeToolsButtonClick;
     });
@@ -576,6 +582,16 @@ function setLyricsDirty(dirty = true) {
 // =================================================================================
 
 
+function badgeMarkerButtonClick() {
+    // TODO: select the marker tool
+}
+
+
+function badgeEraserButtonClick() {
+    // TODO: select the eraser tool
+}
+
+
 function badgeToolsButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('textedit', allButtons);
@@ -637,11 +653,13 @@ function badgeHideButtonClick() {
 
 
 function enterEditMode(mode, allButtons) {
-    const buttonRegenerate = allButtons[0];
-    const buttonTextEdit = allButtons[1];
+    const buttonMarker = allButtons[0];
+    const buttonEraser = allButtons[1];
     const buttonInteractive = allButtons[2];
-    const buttonExit = allButtons[3];
-    const buttonTools = allButtons[4];
+    const buttonRegenerate = allButtons[3];
+    const buttonTextEdit = allButtons[4];
+    const buttonExit = allButtons[5];
+    const buttonTools = allButtons[6];
     const songSectionCard = buttonTools.parentNode.parentNode;
     
     if (mode === 'none') {
@@ -665,6 +683,8 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonInteractive, 'hidden');
         updateButtonAppearance(buttonTextEdit, 'hidden');
         updateButtonAppearance(buttonRegenerate, 'hidden');
+        updateButtonAppearance(buttonMarker, 'hidden');
+        updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('show');
     } else if (mode === 'textedit') {
         showEditInteractive(false, buttonInteractive);
@@ -675,6 +695,8 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonInteractive, 'shown');
         updateButtonAppearance(buttonTextEdit, 'active');
         updateButtonAppearance(buttonRegenerate, 'shown');
+        updateButtonAppearance(buttonMarker, 'hidden');
+        updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('hide', songSectionCard);
     } else if (mode === 'interactive') {
         showEditTextArea(false, buttonTextEdit);
@@ -685,6 +707,8 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonInteractive, 'active');
         updateButtonAppearance(buttonTextEdit, 'shown');
         updateButtonAppearance(buttonRegenerate, 'shown');
+        updateButtonAppearance(buttonMarker, 'active');  //TODO: use 'active' if this is the active tool (call the Markup utility), otherwise use 'shown'
+        updateButtonAppearance(buttonEraser, 'shown');  //TODO: use 'active' if this is the active tool (call the Markup utility), otherwise use 'shown'
         hideOrShowAllSections('hide', songSectionCard);
     } else if (mode === 'regenerate') {
         showEditTextArea(false, buttonTextEdit);
@@ -695,6 +719,8 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonInteractive, 'shown');
         updateButtonAppearance(buttonTextEdit, 'shown');
         updateButtonAppearance(buttonRegenerate, 'active');
+        updateButtonAppearance(buttonMarker, 'hidden');
+        updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('hide', songSectionCard);
     } else {
         console.error(`enterEditMode: invalid mode argument (${mode}), must be 'none', 'textedit', 'interactive', or 'regenerate' `);
@@ -757,13 +783,13 @@ function showEditInteractive(show, buttonInteractive) {
 
 
 function copyTextToInteractivePanel(lyrics, panel) {
-    // todo: this needs to be changed to generate <span> elements that we can select
+    // TODO: this needs to call the Markup utility
     panel.innerText = lyrics;
 }
 
 
 function getTextFromInteractivePanel(panel) {
-    // todo: this needs to be changed to generate text from the <span> elements
+    // TODO: this needs to call the Markup utility
     return panel.innerText;
 }
 
