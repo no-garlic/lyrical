@@ -33,6 +33,8 @@ class Migration(migrations.Migration):
         migrations.AddField(model_name="user", name="llm_max_tokens", field=models.IntegerField(default=2000)),
         migrations.AddField(model_name="user", name="llm_temperature", field=models.FloatField(default=0.2)),
         migrations.AddField(model_name="user", name="llm_model", field=models.ForeignKey(blank=False, null=False, on_delete=django.db.models.deletion.PROTECT, to="lyrical.llm")),
+        migrations.AddField(model_name='user', name='llm_model_summarise', field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='lyrical.llm')),
+
         migrations.AddField(model_name="user", name="song_name_ends_with", field=models.CharField(default="", max_length=255)),
         migrations.AddField(model_name="user", name="song_name_gen_count", field=models.IntegerField(default=5)),
         migrations.AddField(model_name="user", name="song_name_length_max", field=models.IntegerField(default=5)),
@@ -66,6 +68,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="songs", to=settings.AUTH_USER_MODEL)),
+                ('needs_summarisation', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
@@ -114,12 +117,13 @@ class Migration(migrations.Migration):
             name="Message",
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('style', 'style'), ('lyrics', 'Lyrics')], max_length=50)),
+                ('type', models.CharField(choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('summary', 'Summary')], max_length=50)),
                 ('role', models.CharField(choices=[("system", "System"), ("user", "User"), ("assistant", "Assistant")], max_length=50)),
                 ('content', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('song', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="messages", to="lyrical.song")),
+                ('active', models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(

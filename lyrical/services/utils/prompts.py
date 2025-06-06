@@ -11,9 +11,11 @@ logger = get_logger('services')
 
 
 DEFAULT_PROMPT_FILE = "defaults.yaml"
+INTERNAL_PROMPT_FILE = "internal.yaml"
 PROMPTS_FILE_PATH = Path(__file__).parent.parent.parent / "prompts" 
 
 _default_prompts = None
+_internal_prompts = None
 _model_prompts = {}
 
 
@@ -49,6 +51,7 @@ def get_user_prompt(prompt_name: str, llm: LLM = None, **kwargs) -> str:
 def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
     # Keep track of loaded prompts    
     global _default_prompts
+    global _internal_prompts
     global _model_prompts
 
     # Check if the prompt name is provided
@@ -66,6 +69,19 @@ def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
             return None
         except yaml.YAMLError as e:
             logger.error(f"Could not parse default prompts at {PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE}: {e}")
+
+    # Check if the internal prompts have been loaded
+    if _internal_prompts is None:
+        try:
+            logger.info(f"Loading internal prompts from {PROMPTS_FILE_PATH / INTERNAL_PROMPT_FILE}")
+            with open(PROMPTS_FILE_PATH / INTERNAL_PROMPT_FILE, "r") as f:
+                _internal_prompts = yaml.safe_load(f)
+        except FileNotFoundError:
+            logger.debug(f"Internal prompts not found at {PROMPTS_FILE_PATH / INTERNAL_PROMPT_FILE}")
+            _internal_prompts = {}
+        except yaml.YAMLError as e:
+            logger.error(f"Could not parse internal prompts at {PROMPTS_FILE_PATH / INTERNAL_PROMPT_FILE}: {e}")
+            _internal_prompts = {}
 
     # Check if a model is provided, if so then get the model name
     model_name = llm.internal_name if llm else None
@@ -99,8 +115,13 @@ def _get_prompt(prompt_name: str, llm: LLM = None) -> str:
             logger.debug(f"Prompt '{prompt_name}' found in model-specific prompts")
             return model_prompts.get(prompt_name)
     
-    # If the prompt is not found in the model-specific prompts, check the default prompts
-    if prompt_name in _default_prompts:
+    # Check internal prompts (for system operations like summarization)
+    if _internal_prompts and prompt_name in _internal_prompts:
+        logger.debug(f"Prompt '{prompt_name}' found in internal prompts")
+        return _internal_prompts.get(prompt_name)
+    
+    # If the prompt is not found in the model-specific or internal prompts, check the default prompts
+    if _default_prompts and prompt_name in _default_prompts:
         logger.debug(f"Prompt '{prompt_name}' found in default prompts")
         return _default_prompts.get(prompt_name)
     

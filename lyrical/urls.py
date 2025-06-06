@@ -33,6 +33,8 @@ from .views.api_gen_song_lyrics_section import *
 from .views.api_gen_song_names import *
 from .views.api_gen_song_styles import *
 
+from .views.api_summarise_chat_history import *
+
 
 urlpatterns = [
     # landing page
@@ -81,5 +83,9 @@ urlpatterns = [
     path("api_gen_song_lyrics_section", api_gen_song_lyrics_section, name="api_gen_song_lyrics_section"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
     path("api_gen_song_styles", api_gen_song_styles, name="api_gen_song_styles"),
+
+    # chat history management
+    path("api_summarise_chat_history", api_summarise_chat_history, name="api_summarise_chat_history"),
+    path("api_check_summarisation_status", api_check_summarisation_status, name="api_check_summarisation_status"),
     
 ]

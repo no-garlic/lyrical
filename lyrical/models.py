@@ -23,6 +23,7 @@ class LLM(models.Model):
 
 class User(AbstractUser):
     llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
+    llm_model_summarise = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False, related_name='users_summarise', default=1)
     llm_temperature = models.FloatField(default=0.2)
     llm_max_tokens = models.IntegerField(default=2000)
 
@@ -85,6 +86,9 @@ class Song(models.Model):
         ('generated', 'Generated'), # song is no longer a song name, but now a full song
         ('published', 'Published'), # song is published and available in the song names list
     ], default='new')
+
+    # Chat History Management
+    needs_summarisation = models.BooleanField(default=False)
 
     # Audit History
     created_at = models.DateTimeField(auto_now_add=True)
@@ -205,10 +209,11 @@ class Section(models.Model):
 
 
 class Message(models.Model):
-    type = models.CharField(max_length=50, choices=[('style', 'style'), ('lyrics', 'Lyrics')])
+    type = models.CharField(max_length=50, choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('summary', 'Summary')])
     role = models.CharField(max_length=50, choices=[('system', 'System'), ('user', 'User'), ('assistant', 'Assistant')])
     content = models.TextField()
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')
+    active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

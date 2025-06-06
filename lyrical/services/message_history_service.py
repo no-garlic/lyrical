@@ -23,9 +23,10 @@ class MessageHistoryService:
         """
         Retrieve valid message history for a song and message type.
         
-        Filters out incomplete conversations by only returning messages up to 
-        the last assistant response. Any user messages after the last assistant
-        response are considered incomplete/unprocessed.
+        Now includes summarization support:
+        - Returns all summary messages (these provide context from previous conversations)
+        - Returns active messages of the specified type up to the last assistant response
+        - Filters out incomplete conversations (user messages after last assistant response)
         
         Args:
             song_id: ID of the song
@@ -33,35 +34,56 @@ class MessageHistoryService:
             user: User object for security scoping
             
         Returns:
-            List of Message objects in chronological order
+            List of Message objects in chronological order (summaries + active messages)
         """
         try:
-            # Get all messages for this conversation
-            messages = Message.objects.filter(
+            # Get all summary messages (these are always included for context)
+            summary_messages = Message.objects.filter(
                 song_id=song_id,
-                type=message_type,
-                song__user=user
+                type='summary',
+                song__user=user,
+                active=True
             ).order_by('created_at')
             
-            if not messages.exists():
+            # Get active messages for this specific conversation type
+            active_messages = Message.objects.filter(
+                song_id=song_id,
+                type=message_type,
+                song__user=user,
+                active=True
+            ).order_by('created_at')
+            
+            if not active_messages.exists() and not summary_messages.exists():
                 logger.debug(f"No message history found for song {song_id}, type '{message_type}'")
                 return []
             
-            # Find the index of the last assistant message
-            last_assistant_idx = -1
-            for i, message in enumerate(messages):
-                if message.role == 'assistant':
-                    last_assistant_idx = i
+            # For active messages, filter out incomplete conversations
+            valid_active_messages = []
+            if active_messages.exists():
+                # Find the index of the last assistant message
+                last_assistant_idx = -1
+                for i, message in enumerate(active_messages):
+                    if message.role == 'assistant':
+                        last_assistant_idx = i
+                
+                # Include messages up to and including the last assistant response
+                if last_assistant_idx >= 0:
+                    valid_active_messages = list(active_messages[:last_assistant_idx + 1])
+                    logger.debug(f"Found {len(valid_active_messages)} valid active messages for song {song_id}, type '{message_type}'")
+                else:
+                    # No assistant messages found in active messages
+                    logger.debug(f"No assistant messages found in active messages for song {song_id}, type '{message_type}'")
             
-            # Return messages up to and including the last assistant response
-            if last_assistant_idx >= 0:
-                valid_messages = list(messages[:last_assistant_idx + 1])
-                logger.info(f"Retrieved {len(valid_messages)} valid messages for song {song_id}, type '{message_type}' (user: {user.username})")
-                return valid_messages
-            else:
-                # No assistant messages found - return empty to start fresh
-                logger.debug(f"No assistant messages found for song {song_id}, type '{message_type}' - starting fresh conversation")
-                return []
+            # Combine summary messages and valid active messages, sort by creation time
+            all_messages = list(summary_messages) + valid_active_messages
+            all_messages.sort(key=lambda msg: msg.created_at)
+            
+            summary_count = len(summary_messages)
+            active_count = len(valid_active_messages)
+            total_count = len(all_messages)
+            
+            logger.info(f"Retrieved {summary_count} summary + {active_count} active = {total_count} total messages for song {song_id}, type '{message_type}' (user: {user.username})")
+            return all_messages
                 
         except Exception as e:
             logger.error(f"Error retrieving message history for song {song_id}, type '{message_type}': {str(e)}")
@@ -107,6 +129,8 @@ class MessageHistoryService:
         """
         Save an assistant message to the database.
         
+        After saving, checks if the conversation needs summarisation and updates the song flag.
+        
         Args:
             content: Message content (complete LLM response)
             song_id: ID of the song
@@ -128,6 +152,10 @@ class MessageHistoryService:
             )
             
             logger.debug(f"Saved assistant message for song {song_id}, type '{message_type}', message ID {message.id}")
+            
+            # Check if conversation now needs summarisation and update song flag
+            MessageHistoryService._check_and_update_summarisation_flag(song_id, user)
+            
             return message
             
         except Song.DoesNotExist:
@@ -142,6 +170,7 @@ class MessageHistoryService:
         """
         Remove incomplete conversations (user messages after last assistant response).
         
+        Now respects the active flag - only processes active messages.
         This is useful for cleaning up after failed LLM calls or interrupted streams.
         
         Args:
@@ -154,11 +183,12 @@ class MessageHistoryService:
         """
         try:
             with transaction.atomic():
-                # Get all messages for this conversation
+                # Get all active messages for this conversation
                 messages = Message.objects.filter(
                     song_id=song_id,
                     type=message_type,
-                    song__user=user
+                    song__user=user,
+                    active=True
                 ).order_by('created_at')
                 
                 if not messages.exists():
@@ -230,6 +260,8 @@ class MessageHistoryService:
         """
         Get statistics about a conversation.
         
+        Now includes summarization-aware statistics.
+        
         Args:
             song_id: ID of the song
             message_type: Type of messages ('style', 'lyrics')
@@ -239,31 +271,92 @@ class MessageHistoryService:
             Dictionary with conversation statistics
         """
         try:
-            messages = Message.objects.filter(
+            # Get active messages for the specific type
+            active_messages = Message.objects.filter(
                 song_id=song_id,
                 type=message_type,
-                song__user=user
+                song__user=user,
+                active=True
             )
             
-            total_messages = messages.count()
-            user_messages = messages.filter(role='user').count()
-            assistant_messages = messages.filter(role='assistant').count()
-            system_messages = messages.filter(role='system').count()
+            # Get summary messages
+            summary_messages = Message.objects.filter(
+                song_id=song_id,
+                type='summary',
+                song__user=user,
+                active=True
+            )
+            
+            # Get inactive messages (for historical tracking)
+            inactive_messages = Message.objects.filter(
+                song_id=song_id,
+                type=message_type,
+                song__user=user,
+                active=False
+            )
+            
+            active_total = active_messages.count()
+            active_user = active_messages.filter(role='user').count()
+            active_assistant = active_messages.filter(role='assistant').count()
+            active_system = active_messages.filter(role='system').count()
             
             return {
-                'total_messages': total_messages,
-                'user_messages': user_messages,
-                'assistant_messages': assistant_messages,
-                'system_messages': system_messages,
-                'has_incomplete': user_messages > assistant_messages
+                'active_total_messages': active_total,
+                'active_user_messages': active_user,
+                'active_assistant_messages': active_assistant,
+                'active_system_messages': active_system,
+                'summary_messages': summary_messages.count(),
+                'inactive_messages': inactive_messages.count(),
+                'has_incomplete': active_user > active_assistant,
+                'has_summaries': summary_messages.exists()
             }
             
         except Exception as e:
             logger.error(f"Error getting conversation stats for song {song_id}, type '{message_type}': {str(e)}")
             return {
-                'total_messages': 0,
-                'user_messages': 0,
-                'assistant_messages': 0,
-                'system_messages': 0,
-                'has_incomplete': False
+                'active_total_messages': 0,
+                'active_user_messages': 0,
+                'active_assistant_messages': 0,
+                'active_system_messages': 0,
+                'summary_messages': 0,
+                'inactive_messages': 0,
+                'has_incomplete': False,
+                'has_summaries': False
             }
+    
+    @staticmethod
+    def _check_and_update_summarisation_flag(song_id: int, user: User) -> None:
+        """
+        Check if any conversations for a song need summarisation and update the song flag.
+        
+        This is called after saving assistant messages to keep the needs_summarisation flag current.
+        
+        Args:
+            song_id: ID of the song
+            user: User object
+        """
+        try:
+            # Import here to avoid circular imports
+            from ..services.utils.summarise import ChatSummarisationService
+            
+            # Check both conversation types
+            style_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                song_id, 'style', user
+            )
+            lyrics_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                song_id, 'lyrics', user
+            )
+            
+            # Update song flag if either conversation needs summarisation
+            needs_summary = style_needs_summary or lyrics_needs_summary
+            
+            song = Song.objects.get(id=song_id, user=user)
+            if song.needs_summarisation != needs_summary:
+                song.needs_summarisation = needs_summary
+                song.save()
+                logger.info(f"Updated song {song_id} needs_summarisation flag to: {needs_summary}")
+            
+        except Song.DoesNotExist:
+            logger.error(f"Song {song_id} not found when updating summarisation flag")
+        except Exception as e:
+            logger.error(f"Error checking/updating summarisation flag for song {song_id}: {str(e)}")
