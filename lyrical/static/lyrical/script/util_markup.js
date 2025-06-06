@@ -12,6 +12,7 @@ export class Markup {
             paddingTop: '0px',
             lineSpacing: '0.125rem',
             lineHeight: '1.35',
+            wordSpacing: '-1px',
             ...initialConfig,
         };
         this.callbacks = {
@@ -222,7 +223,7 @@ export class Markup {
                 wordSpan.className = 'markup-word cursor-pointer';
                 wordSpan.dataset.line = lineIndex;
                 wordSpan.dataset.word = wordIndex;
-                wordSpan.style.cssText = `padding: ${this.config.highlightHeight} 1px; margin-right: -1px; user-select: none;`;
+                wordSpan.style.cssText = `padding: ${this.config.highlightHeight} 1px; margin-right: ${this.config.wordSpacing}; user-select: none;`;
                 
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {

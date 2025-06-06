@@ -148,6 +148,7 @@ function initMarkupSystem() {
         paddingTop: '9px',
         lineSpacing: '0.13rem',
         lineHeight: '1.37',
+        wordSpacing: '0px',
     });
     
     markupSystem.init({
