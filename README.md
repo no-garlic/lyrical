@@ -96,24 +96,33 @@
  - Change font color on login and register pages
  - Implement Custom Request in database & yaml for Song Names
  - Replace the Next and Prev icons with bootstrap instead of svg
+ - Admin classes
+ - Delete the implementation of util_navigation.js
+ - Delete horizontal and vertical resize code
 
 
 ## Todo
+ - Review all code from LLM on Friday
+ - Update code documentation (use co-pilot)
+ - Profile Page
+ - Library Page
  - Regenerate -> send custom request (check), and send current section lyrics to llm.
  - Disable Regenerate button if not saved.
  - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
-
-
- - Admin classes
+ - Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
  - Move Next and Prev Buttons - try just under the page
  - Follow Up Prompt
+ - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
+ - Update default page upon login
+ - Update modals to look consistent
 
 
 ### Bugs & Polish:
  - Set browser title to song name
  - Create 8 records for structure templates when creating a user
+ - Create at least 1 proper structure template in the migration 
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
- - Update prompt about other rules, like ... and rrrrrrun
+ - Update prompt about other rules, like ... and rrrrrrun, and trailing ``````
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
  - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
  - Refactor using btn-generate for songId - get it from document.body instead
@@ -126,14 +135,14 @@
  - Update register and login pages
  - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
  - Use tabs on song page instead of booleans
- - Complete or delete the implementation of util_navigation.js
  - Update LLM Costs and maybe add other models for testing
+ - Update range for Max Tokens, set better default, update range based on selected model maybe?
  - Change Toast system to be a singleton
  - Drag and drop not showing custom cursors
+ - Drag and drop not animating back upon drop out of bounds for lyrics page
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - Click close button on a card, shows another X and Tick as a confirmation
  - Review scrollbars use on all pages
- - Delete horizontal and vertical resize code
  - Put instructional text on every page to tell the user what to do
  - Bug: Handle duplicate song name from LLM quietly
  
