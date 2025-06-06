@@ -36,11 +36,21 @@ class ChatSummarisationService:
             Estimated token count
         """
         try:
-            # Use tiktoken for precise token counting
-            encoding = tiktoken.encoding_for_model(model_name)
+            # Map common model patterns to tiktoken encodings
+            if "gpt-4" in model_name.lower():
+                encoding = tiktoken.encoding_for_model("gpt-4")
+            elif "gpt-3.5" in model_name.lower():
+                encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            elif "claude" in model_name.lower():
+                # Claude uses similar tokenization to GPT-4
+                encoding = tiktoken.encoding_for_model("gpt-4")
+            else:
+                # For other models (like Gemini), use cl100k_base which is general purpose
+                encoding = tiktoken.get_encoding("cl100k_base")
+            
             return len(encoding.encode(text))
         except Exception as e:
-            logger.warning(f"tiktoken failed for model {model_name}, falling back to character estimation: {e}")
+            logger.debug(f"tiktoken failed for model {model_name}, falling back to character estimation: {e}")
             # Fallback to character-based estimation (1 token = 4 characters)
             return len(text) // 4
     
