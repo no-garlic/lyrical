@@ -167,9 +167,9 @@ function createStreamHelper() {
             onStreamEnd: () => {
                 console.log("stream end");
             },
-            onComplete: () => {
+            onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handleLoadingEnd();
+                handleLoadingEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
@@ -251,7 +251,7 @@ function handleLoadingStart() {
 /**
  * Handle UI changes when loading ends.
  */
-function handleLoadingEnd() {
+function handleLoadingEnd(summaryInfo) {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -264,6 +264,13 @@ function handleLoadingEnd() {
     // show the generating button in disabled state
     if (generatingButton) {
         generatingButton.classList.add('hidden');
+    }
+
+    // Handle summarization notification
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showErrorToast }) => {
+            showErrorToast('Your style conversation is getting long. Consider summarizing to improve performance.');
+        });
     }
 }
 

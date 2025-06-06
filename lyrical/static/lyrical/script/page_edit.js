@@ -78,9 +78,9 @@ function createStreamHelper() {
             onStreamEnd: () => {
                 console.log("stream end");
             },
-            onComplete: () => {
+            onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handleLoadingEnd();
+                handleLoadingEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
@@ -126,7 +126,7 @@ function handleLoadingStart() {
 }
 
 
-function handleLoadingEnd() {
+function handleLoadingEnd(summaryInfo) {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -139,6 +139,14 @@ function handleLoadingEnd() {
     // show the generating button in disabled state
     if (generatingButton) {
         generatingButton.classList.add('hidden');
+    }
+
+    // Note: Edit page style generation doesn't typically create conversation history that needs summarization
+    // but we include this for completeness
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showErrorToast }) => {
+            showErrorToast('Your conversation is getting long. Consider summarizing to improve performance.');
+        });
     }
 }
 

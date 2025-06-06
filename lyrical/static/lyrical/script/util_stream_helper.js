@@ -226,7 +226,7 @@ export class StreamHelper {
         } finally {
             reader.releaseLock();
             if (!this.abortController || !this.abortController.signal.aborted) {
-                this.callbacks.onComplete();
+                this._handleCompletion();
             }
             this.abortController = null;
         }
@@ -308,5 +308,52 @@ export class StreamHelper {
             details: error.toString(),
             originalError: error,
         });
+    }
+
+    /**
+     * handles completion by checking summarization status and calling onComplete callback
+     * @private
+     */
+    async _handleCompletion() {
+        try {
+            // Check if this is a generation endpoint that should check summarization
+            const songId = this.params.get('song_id');
+            if (songId && this._shouldCheckSummarization()) {
+                // Import the summarization API
+                const { apiCheckSummarisationStatus } = await import('./api_summarise_chat_history.js');
+                
+                // Check summarization status
+                const statusData = await apiCheckSummarisationStatus(songId);
+                
+                // Call onComplete with summarization information
+                this.callbacks.onComplete({
+                    needsSummarisation: statusData.any_needs_summarisation,
+                    summarisationDetails: statusData
+                });
+            } else {
+                // Call onComplete without summarization data for backwards compatibility
+                this.callbacks.onComplete();
+            }
+        } catch (error) {
+            console.warn('Failed to check summarization status after stream completion:', error);
+            // Fall back to standard completion call
+            this.callbacks.onComplete();
+        }
+    }
+
+    /**
+     * determines if summarization status should be checked for this endpoint
+     * @returns {boolean} true if summarization check should be performed
+     * @private
+     */
+    _shouldCheckSummarization() {
+        // Check if this is a generation endpoint that creates messages
+        const generationEndpoints = [
+            'api_gen_song_lyrics',
+            'api_gen_song_lyrics_section', 
+            'api_gen_song_styles'
+        ];
+        
+        return generationEndpoints.some(endpoint => this.baseUrl.includes(endpoint));
     }
 }

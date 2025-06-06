@@ -214,9 +214,9 @@ function createStreamHelperPrimary() {
             onStreamEnd: () => {
                 console.log("stream end");
             },
-            onComplete: () => {
+            onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handlePrimaryDataStreamEnd();
+                handlePrimaryDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
@@ -241,9 +241,9 @@ function createStreamHelperSecondary() {
             onStreamEnd: () => {
                 console.log("stream end");
             },
-            onComplete: () => {
+            onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handleSecondaryDataStreamEnd();
+                handleSecondaryDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
@@ -290,7 +290,7 @@ function handleSecondaryDataStreamStart() {
 }
 
 
-function handlePrimaryDataStreamEnd() {
+function handlePrimaryDataStreamEnd(summaryInfo) {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -304,10 +304,17 @@ function handlePrimaryDataStreamEnd() {
     if (generatingButton) {
         generatingButton.classList.add('hidden');
     }
+
+    // Handle summarization notification
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showErrorToast }) => {
+            showErrorToast('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
+        });
+    }
 }
 
 
-function handleSecondaryDataStreamEnd() {
+function handleSecondaryDataStreamEnd(summaryInfo) {
     console.log(`handleSecondaryDataStreamEnd: ${streamHelperSecondaryClickedButton}`);
 
     // get the buttons
@@ -322,6 +329,13 @@ function handleSecondaryDataStreamEnd() {
     // show the regenerating button in disabled state
     if (regeneratingButton) {
         regeneratingButton.classList.add('hidden');
+    }
+
+    // Handle summarization notification
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showErrorToast }) => {
+            showErrorToast('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
+        });
     }
 
     streamHelperSecondaryClickedButton = null;

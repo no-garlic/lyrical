@@ -70,7 +70,9 @@ class ChatSummarisationService:
         for message in messages:
             total_tokens += ChatSummarisationService.estimate_tokens(message.content, model_name)
         
-        logger.debug(f"Conversation token count: {total_tokens} tokens across {len(messages)} messages")
+        # Only log if it's a significant conversation or for debugging
+        if len(messages) > 5 or total_tokens > 1000:
+            logger.debug(f"Conversation token count: {total_tokens} tokens across {len(messages)} messages")
         return total_tokens
     
     @staticmethod

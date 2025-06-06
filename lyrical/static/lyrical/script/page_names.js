@@ -580,9 +580,9 @@ function createStreamHelper() {
             onStreamEnd: () => {
                 console.log("stream end");
             },
-            onComplete: () => {
+            onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handleGenerationLoadingEnd();
+                handleGenerationLoadingEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
@@ -658,7 +658,7 @@ function handleGenerationLoadingStart() {
 /**
  * Handle UI changes when generation ends
  */
-function handleGenerationLoadingEnd() {
+function handleGenerationLoadingEnd(summaryInfo) {
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
     
@@ -668,6 +668,14 @@ function handleGenerationLoadingEnd() {
 
     if (generatingButton) {
         generatingButton.classList.add('hidden');
+    }
+
+    // Note: Names generation doesn't typically create conversation history that needs summarization
+    // but we include this for completeness
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showErrorToast }) => {
+            showErrorToast('Your conversation is getting long. Consider summarizing to improve performance.');
+        });
     }
 }
 

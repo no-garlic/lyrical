@@ -154,7 +154,7 @@ class MessageHistoryService:
             logger.debug(f"Saved assistant message for song {song_id}, type '{message_type}', message ID {message.id}")
             
             # Check if conversation now needs summarisation and update song flag
-            MessageHistoryService._check_and_update_summarisation_flag(song_id, user)
+            MessageHistoryService._check_and_update_summarisation_flag(song_id, user, message_type)
             
             return message
             
@@ -325,7 +325,7 @@ class MessageHistoryService:
             }
     
     @staticmethod
-    def _check_and_update_summarisation_flag(song_id: int, user: User) -> None:
+    def _check_and_update_summarisation_flag(song_id: int, user: User, updated_message_type: str = None) -> None:
         """
         Check if any conversations for a song need summarisation and update the song flag.
         
@@ -334,23 +334,52 @@ class MessageHistoryService:
         Args:
             song_id: ID of the song
             user: User object
+            updated_message_type: The message type that was just updated (for efficiency)
         """
         try:
             # Import here to avoid circular imports
             from ..services.utils.summarise import ChatSummarisationService
             
-            # Check both conversation types
-            style_needs_summary = ChatSummarisationService.check_needs_summarisation(
-                song_id, 'style', user
-            )
-            lyrics_needs_summary = ChatSummarisationService.check_needs_summarisation(
-                song_id, 'lyrics', user
-            )
-            
-            # Update song flag if either conversation needs summarisation
-            needs_summary = style_needs_summary or lyrics_needs_summary
-            
+            # Get current song state
             song = Song.objects.get(id=song_id, user=user)
+            current_needs_summary = song.needs_summarisation
+            
+            # If we know which conversation type was updated, check it first
+            if updated_message_type:
+                updated_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                    song_id, updated_message_type, user
+                )
+                
+                # If the updated conversation needs summary, we can short-circuit
+                if updated_needs_summary and not current_needs_summary:
+                    song.needs_summarisation = True
+                    song.save()
+                    logger.info(f"Updated song {song_id} needs_summarisation flag to: True (due to {updated_message_type} conversation)")
+                    return
+                
+                # If we already needed summary and this conversation still needs it, no change needed
+                if updated_needs_summary and current_needs_summary:
+                    logger.debug(f"Song {song_id} already marked as needing summarisation")
+                    return
+                
+                # Check the other conversation type only if needed
+                other_type = 'lyrics' if updated_message_type == 'style' else 'style'
+                other_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                    song_id, other_type, user
+                )
+                
+                needs_summary = updated_needs_summary or other_needs_summary
+            else:
+                # Check both conversation types (fallback)
+                style_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                    song_id, 'style', user
+                )
+                lyrics_needs_summary = ChatSummarisationService.check_needs_summarisation(
+                    song_id, 'lyrics', user
+                )
+                needs_summary = style_needs_summary or lyrics_needs_summary
+            
+            # Update song flag if changed
             if song.needs_summarisation != needs_summary:
                 song.needs_summarisation = needs_summary
                 song.save()
