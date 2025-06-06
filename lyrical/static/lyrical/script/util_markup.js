@@ -203,7 +203,7 @@ export class Markup {
             const line = this.lines[lineIndex];
             const lineDiv = document.createElement('div');
             lineDiv.className = 'markup-line';
-            lineDiv.style.cssText = 'line-height: 1.5; margin-bottom: 0.1875rem; white-space: nowrap;';
+            lineDiv.style.cssText = 'line-height: 1.35; margin-bottom: 0.125rem; white-space: nowrap;';
             
             for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
                 const word = line[wordIndex];
@@ -217,15 +217,6 @@ export class Markup {
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {
                     wordSpan.classList.add(this.config.marker);
-                    // Extend background to cover gaps for continuous highlighting
-                    if (wordIndex > 0 && this.isWordMarked(lineIndex, wordIndex - 1)) {
-                        wordSpan.style.marginLeft = '-1px';
-                        wordSpan.style.paddingLeft = '2px';
-                    }
-                    if (wordIndex < line.length - 1 && this.isWordMarked(lineIndex, wordIndex + 1)) {
-                        wordSpan.style.marginRight = '0px';
-                        wordSpan.style.paddingRight = '2px';
-                    }
                 }
                 
                 // Add event listeners
@@ -240,6 +231,14 @@ export class Markup {
                     const spaceSpan = document.createElement('span');
                     spaceSpan.textContent = ' ';
                     spaceSpan.style.cssText = 'user-select: none;';
+                    
+                    // Apply highlighting to space if both adjacent words are marked
+                    if (this.isWordMarked(lineIndex, wordIndex) && 
+                        wordIndex + 1 < line.length && 
+                        this.isWordMarked(lineIndex, wordIndex + 1)) {
+                        spaceSpan.classList.add(this.config.marker);
+                    }
+                    
                     lineDiv.appendChild(spaceSpan);
                 }
             }
@@ -356,7 +355,7 @@ export class Markup {
             this.markedState[lineIndex][wordIndex] = targetState;
         }
         
-        this._renderTextImmediate();
+        this._renderText();
         this._notifyTextChanged();
     }
     
