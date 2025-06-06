@@ -4,9 +4,9 @@ export class Markup {
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
             marker: 'bg-error',
-            replaceMarkedLinesWith: '<line>',
-            replaceMarkedSequencesWith: '<words>',
-            replaceMarkedWordsWith: '<word>',
+            replaceMarkedLinesWith: '<<line>>',
+            replaceMarkedSequencesWith: '<<words>>',
+            replaceMarkedWordsWith: '<<word>>',
             highlightHeight: '2px',
             paddingLeft: '0px',
             paddingTop: '0px',

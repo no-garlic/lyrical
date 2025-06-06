@@ -154,7 +154,7 @@ function initMarkupSystem() {
     
     markupSystem.init({
         onTextChanged: () => {
-            setLyricsDirty(true);
+            debugShowInteractiveText();
         },
         onToolChanged: (tool) => {
             updateMarkupButtonAppearances();
@@ -396,7 +396,7 @@ function handleDragDrop(item, zone, event) {
 
 function registerCardForDragDrop(card) {
     const sectionId = card.dataset.sectionId;
-    console.log(`registering card for drag-drop: ${sectionId}`)
+    //console.log(`registering card for drag-drop: ${sectionId}`)
     dragDropSystem.registerDraggable(card, { sectionId: sectionId });
 }
 
@@ -830,11 +830,19 @@ function copyTextToInteractivePanel(lyrics, panel) {
 }
 
 
-function getTextFromInteractivePanel(panel) {
-    if (markupSystem) {
-        return markupSystem.getText('replacement');
-    }
-    return panel.innerText;
+function getTextFromInteractivePanel(style = 'markup') {
+    return markupSystem.getText(style);
+}
+
+
+function debugShowInteractiveText() {
+    const textRaw = getTextFromInteractivePanel('raw');
+    const textMarkup = getTextFromInteractivePanel('markup');
+    const textReplacement = getTextFromInteractivePanel('replacement');
+
+    console.log(`textRaw:\n${textRaw}`)
+    console.log(`textMarkup:\n${textMarkup}`)
+    console.log(`textReplacement:\n${textReplacement}`)
 }
 
 
