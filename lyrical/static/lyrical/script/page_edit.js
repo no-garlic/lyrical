@@ -144,8 +144,8 @@ function handleLoadingEnd(summaryInfo) {
     // Note: Edit page style generation doesn't typically create conversation history that needs summarization
     // but we include this for completeness
     if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showErrorToast }) => {
-            showErrorToast('Your conversation is getting long. Consider summarizing to improve performance.');
+        import('./util_toast.js').then(({ showError }) => {
+            showError('Your conversation is getting long. Consider summarizing to improve performance.');
         });
     }
 }

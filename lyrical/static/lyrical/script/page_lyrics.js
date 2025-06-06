@@ -212,10 +212,11 @@ function createStreamHelperPrimary() {
                 handlePrimaryDataStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("stream end");
+                console.log("=== Primary stream end ===");
             },
             onComplete: (summaryInfo) => {
-                console.log("stream complete");
+                console.log("=== Primary stream complete ===");
+                console.log("Received summaryInfo:", summaryInfo);
                 handlePrimaryDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
@@ -307,8 +308,8 @@ function handlePrimaryDataStreamEnd(summaryInfo) {
 
     // Handle summarization notification
     if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showErrorToast }) => {
-            showErrorToast('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
+        import('./util_toast.js').then(({ showError }) => {
+            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
         });
     }
 }
@@ -333,8 +334,8 @@ function handleSecondaryDataStreamEnd(summaryInfo) {
 
     // Handle summarization notification
     if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showErrorToast }) => {
-            showErrorToast('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
+        import('./util_toast.js').then(({ showError }) => {
+            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
         });
     }
 

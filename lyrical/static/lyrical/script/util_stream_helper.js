@@ -62,6 +62,9 @@ export class StreamHelper {
         this.abortController = new AbortController();
         const signal = this.abortController.signal;
 
+        // Store request params for later use (e.g., in completion handler)
+        this.lastRequestParams = requestSpecificParams;
+
         this.callbacks.onPreRequest();
 
         const finalParams = this._buildFinalParams(requestSpecificParams);
@@ -317,19 +320,28 @@ export class StreamHelper {
     async _handleCompletion() {
         try {
             // Check if this is a generation endpoint that should check summarization
-            const songId = this.params.get('song_id');
-            if (songId && this._shouldCheckSummarization()) {
+            // Try to get song_id from either the default params or the last request params
+            let songId = this.params.get('song_id');
+            if (!songId && this.lastRequestParams) {
+                songId = this.lastRequestParams['song_id'];
+            }
+            
+            const shouldCheck = this._shouldCheckSummarization();
+            
+            if (songId && shouldCheck) {
                 // Import the summarization API
                 const { apiCheckSummarisationStatus } = await import('./api_summarise_chat_history.js');
                 
                 // Check summarization status
                 const statusData = await apiCheckSummarisationStatus(songId);
                 
-                // Call onComplete with summarization information
-                this.callbacks.onComplete({
+                const callbackData = {
                     needsSummarisation: statusData.any_needs_summarisation,
                     summarisationDetails: statusData
-                });
+                };
+                
+                // Call onComplete with summarization information
+                this.callbacks.onComplete(callbackData);
             } else {
                 // Call onComplete without summarization data for backwards compatibility
                 this.callbacks.onComplete();
