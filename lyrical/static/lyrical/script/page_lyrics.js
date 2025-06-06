@@ -383,19 +383,24 @@ function handleSecondaryDataStreamError(error) {
 function handleDragDrop(item, zone, event) {
     const sectionId = item.element.dataset.sectionId;
     const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
-    const sourceText = sourceTextElement.innerHTML.trim();
-
+    let sourceText = sourceTextElement.innerHTML.trim();
     const destination = zone.element.children[1].children[0];
+
+    const shiftDrop = false;
+
+    if (shiftDrop) {
+        sourceText = destination.value + '\n' + sourceText;
+    }
 
     if (destination.value.trim() != sourceText) {
         destination.value = sourceText;
         setLyricsDirty();
-    }
-    
-    if (editMode === 'interactive') {
-        const interactivePanel = editCard.children[1].children[1];
-        copyTextToInteractivePanel(sourceText, interactivePanel);
-    }
+
+        if (editMode === 'interactive') {
+            const interactivePanel = editCard.children[1].children[1];
+            copyTextToInteractivePanel(sourceText, interactivePanel);
+        }
+    }    
 }
 
 
@@ -446,6 +451,7 @@ function saveLyrics() {
 function undoLyrics() {
     copyFromSaveHistory();
     updateLyricsListing();
+    updateInteractivePanel();
     setLyricsDirty(false);
 }
 
@@ -837,6 +843,15 @@ function copyTextToInteractivePanel(lyrics, panel) {
 
 function getTextFromInteractivePanel(style = 'markup') {
     return markupSystem.getText(style);
+}
+
+
+function updateInteractivePanel() {
+    if (editCard && editMode == 'interactive') {
+        const textArea = editCard.children[1].children[0];
+        const interactivePanel = editCard.children[1].children[1];
+        copyTextToInteractivePanel(textArea.value, interactivePanel);
+    }
 }
 
 
