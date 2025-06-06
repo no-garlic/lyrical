@@ -16,6 +16,7 @@ let markupSystem;
 let lyricsDirty = false;
 let lyricsHistory = {};
 let editCard = null;
+let editMode = 'none';
 
 
 const songId = document.body.dataset.songId;
@@ -385,6 +386,11 @@ function handleDragDrop(item, zone, event) {
         destination.value = sourceText;
         setLyricsDirty();
     }
+    
+    if (editMode === 'interactive') {
+        const interactivePanel = editCard.children[1].children[1];
+        copyTextToInteractivePanel(sourceText, interactivePanel);
+    }
 }
 
 
@@ -685,6 +691,8 @@ function badgeHideButtonClick() {
 
 
 function enterEditMode(mode, allButtons) {
+    editMode = mode;
+
     const buttonMarker = allButtons[0];
     const buttonEraser = allButtons[1];
     const buttonInteractive = allButtons[2];
