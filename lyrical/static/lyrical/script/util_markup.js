@@ -20,6 +20,7 @@ export class Markup {
         this.container = null;
         this.isDragging = false;
         this.dragStartWord = null;
+        this.renderDebounceTimer = null;
     }
 
     init(callbacks = {}) {
@@ -55,7 +56,7 @@ export class Markup {
 
     clearHighlighting() {
         this.markedState = {};
-        this._renderText();
+        this._renderTextImmediate();
         this._notifyTextChanged();
     }
 
@@ -187,13 +188,14 @@ export class Markup {
     }
     
     _renderText() {
-        console.log(`_renderText text:\n${this.text}`);
-
+        // Remove debouncing - render immediately
+        this._performRender();
+    }
+    
+    _performRender() {
         if (!this.container) {
             throw new Error(`Container has not been set (container is null)`);
         }
-
-        console.log(`_renderText container: ${this.container}`);
         
         this.container.innerHTML = '';
         
@@ -201,7 +203,7 @@ export class Markup {
             const line = this.lines[lineIndex];
             const lineDiv = document.createElement('div');
             lineDiv.className = 'markup-line';
-            lineDiv.style.cssText = 'line-height: 1.5; margin-bottom: 0.25rem; white-space: nowrap;';
+            lineDiv.style.cssText = 'line-height: 1.5; margin-bottom: 0.1875rem; white-space: nowrap;';
             
             for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
                 const word = line[wordIndex];
@@ -215,6 +217,15 @@ export class Markup {
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {
                     wordSpan.classList.add(this.config.marker);
+                    // Extend background to cover gaps for continuous highlighting
+                    if (wordIndex > 0 && this.isWordMarked(lineIndex, wordIndex - 1)) {
+                        wordSpan.style.marginLeft = '-1px';
+                        wordSpan.style.paddingLeft = '2px';
+                    }
+                    if (wordIndex < line.length - 1 && this.isWordMarked(lineIndex, wordIndex + 1)) {
+                        wordSpan.style.marginRight = '0px';
+                        wordSpan.style.paddingRight = '2px';
+                    }
                 }
                 
                 // Add event listeners
@@ -249,10 +260,10 @@ export class Markup {
             // Shift-click: mark/unmark entire line
             this._toggleLine(lineIndex);
         } else {
-            // Regular click: start drag or toggle single word
+            // Regular mousedown: start potential drag
             this.isDragging = true;
             this.dragStartWord = { line: lineIndex, word: wordIndex };
-            this._toggleWord(lineIndex, wordIndex);
+            // Don't toggle yet - wait for mouseup to determine if it's a click or drag
         }
     }
     
@@ -264,6 +275,15 @@ export class Markup {
     }
     
     _handleMouseUp(e, lineIndex, wordIndex) {
+        if (this.isDragging && this.dragStartWord) {
+            // Check if this is a simple click (same word) or end of drag
+            if (this.dragStartWord.line === lineIndex && this.dragStartWord.word === wordIndex) {
+                // Simple click - toggle just this word
+                this._toggleWord(lineIndex, wordIndex);
+            }
+            // If it's a drag, the range has already been marked in _markRange
+        }
+        
         this.isDragging = false;
         this.dragStartWord = null;
     }
@@ -284,7 +304,7 @@ export class Markup {
             this.markedState[lineIndex][wordIndex] = !this.markedState[lineIndex][wordIndex];
         }
         
-        this._renderText();
+        this._renderTextImmediate();
         this._notifyTextChanged();
     }
     
@@ -306,7 +326,7 @@ export class Markup {
             }
         }
         
-        this._renderText();
+        this._renderTextImmediate();
         this._notifyTextChanged();
     }
     
@@ -336,8 +356,12 @@ export class Markup {
             this.markedState[lineIndex][wordIndex] = targetState;
         }
         
-        this._renderText();
+        this._renderTextImmediate();
         this._notifyTextChanged();
+    }
+    
+    _renderTextImmediate() {
+        this._performRender();
     }
     
     _notifyTextChanged() {

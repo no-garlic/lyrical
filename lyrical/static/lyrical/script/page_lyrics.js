@@ -139,7 +139,6 @@ function initDragDrop() {
 
 function initMarkupSystem() {
     markupSystem = new Markup({
-        containerId: 'edit-panel-interactive',
         marker: 'bg-error',
         replaceMarkedLinesWith: '<line>',
         replaceMarkedSequencesWith: '<words>',
