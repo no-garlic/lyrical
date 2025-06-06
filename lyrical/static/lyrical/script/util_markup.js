@@ -230,7 +230,7 @@ export class Markup {
                 if (wordIndex < line.length - 1) {
                     const spaceSpan = document.createElement('span');
                     spaceSpan.textContent = ' ';
-                    spaceSpan.style.cssText = 'user-select: none;';
+                    spaceSpan.style.cssText = 'user-select: none; padding: 2px 0px;';
                     
                     // Apply highlighting to space if both adjacent words are marked
                     if (this.isWordMarked(lineIndex, wordIndex) && 
@@ -268,8 +268,11 @@ export class Markup {
     
     _handleMouseEnter(e, lineIndex, wordIndex) {
         if (this.isDragging && this.dragStartWord) {
-            // During drag: mark range from start to current
-            this._markRange(this.dragStartWord.line, this.dragStartWord.word, lineIndex, wordIndex);
+            // Check if we've moved to a different word to avoid unnecessary re-renders
+            if (this.dragStartWord.line !== lineIndex || this.dragStartWord.word !== wordIndex) {
+                // During drag: mark range from start to current
+                this._markRange(this.dragStartWord.line, this.dragStartWord.word, lineIndex, wordIndex);
+            }
         }
     }
     
