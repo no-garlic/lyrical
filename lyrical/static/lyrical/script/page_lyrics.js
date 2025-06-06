@@ -6,6 +6,7 @@ import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiRenderComponent } from './api_render_component.js';
 import { Markup } from './util_markup.js';
+import { checkSummarizationAndGenerate } from './util_summarization_modal.js';
 
 
 let streamHelperPrimary;
@@ -169,31 +170,39 @@ function initMarkupSystem() {
 
 
 function handleGenerateClick() {
-    const requestParams = {
-        prompt: 'song_lyrics',
-        song_id: songId,
+    const actualGenerate = () => {
+        const requestParams = {
+            prompt: 'song_lyrics',
+            song_id: songId,
+        };
+        streamHelperPrimary.initiateRequest(requestParams);
     };
-    streamHelperPrimary.initiateRequest(requestParams);
+    
+    checkSummarizationAndGenerate(songId, actualGenerate, 'lyrics');
 }
 
 
 function handleRegenerateClick() {
     if (editCard) {
-        const sectionType = editCard.firstElementChild.dataset.sectionName;
-        console.log(`initiate request for sectionType: ${sectionType}`)
+        const actualRegenerate = () => {
+            const sectionType = editCard.firstElementChild.dataset.sectionName;
+            console.log(`initiate request for sectionType: ${sectionType}`)
 
-        const requestParams = {
-            prompt: 'song_lyrics_section',
-            song_id: songId,
-            section_type: sectionType,
-            count: 2,
+            const requestParams = {
+                prompt: 'song_lyrics_section',
+                song_id: songId,
+                section_type: sectionType,
+                count: 2,
+            };
+
+            if (editMode === 'interactive') {
+                requestParams['markup_lyrics'] = getTextFromInteractivePanel().trim();
+            }
+
+            streamHelperSecondary.initiateRequest(requestParams);
         };
-
-        if (editMode === 'interactive') {
-            requestParams['markup_lyrics'] = getTextFromInteractivePanel().trim();
-        }
-
-        streamHelperSecondary.initiateRequest(requestParams);
+        
+        checkSummarizationAndGenerate(songId, actualRegenerate, 'lyrics');
     } else {
         console.error('editCard is null!!')
     }

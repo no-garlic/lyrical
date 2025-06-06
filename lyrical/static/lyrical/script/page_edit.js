@@ -2,6 +2,7 @@
 import { StreamHelper } from "./util_stream_helper.js";
 import { apiLyricsEdit } from './api_lyrics_edit.js';
 import { toastSystem } from './util_toast.js';
+import { checkSummarizationAndGenerate } from './util_summarization_modal.js';
 
 
 let streamHelper;
@@ -49,8 +50,12 @@ function initGeneration() {
 
 
 function handleGenerateClick() {
-    const requestParams = buildRequestParams();
-    streamHelper.initiateRequest(requestParams);
+    const actualGenerate = () => {
+        const requestParams = buildRequestParams();
+        streamHelper.initiateRequest(requestParams);
+    };
+    
+    checkSummarizationAndGenerate(songId, actualGenerate, 'edit');
 }
 
 

@@ -10,6 +10,7 @@ import { apiSongEdit } from './api_song_edit.js';
 import { apiSectionEdit } from './api_section_edit.js';
 import { apiSectionEditBulk } from './api_section_edit_bulk.js';
 import { DragDropSystem } from './util_dragdrop.js';
+import { checkSummarizationAndGenerate } from './util_summarization_modal.js';
 
 
 let streamHelper;
@@ -143,8 +144,15 @@ function initPageActions() {
  * Builds request parameters and initiates the stream request.
  */
 function handleGenerateClick() {
-    const requestParams = buildRequestParams();
-    streamHelper.initiateRequest(requestParams);
+    const generateButton = document.getElementById('btn-generate');
+    const songId = parseInt(generateButton.dataset.songId);
+    
+    const actualGenerate = () => {
+        const requestParams = buildRequestParams();
+        streamHelper.initiateRequest(requestParams);
+    };
+    
+    checkSummarizationAndGenerate(songId, actualGenerate, 'style');
 }
 
 

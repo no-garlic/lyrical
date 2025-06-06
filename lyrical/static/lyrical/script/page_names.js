@@ -670,13 +670,7 @@ function handleGenerationLoadingEnd(summaryInfo) {
         generatingButton.classList.add('hidden');
     }
 
-    // Note: Names generation doesn't typically create conversation history that needs summarization
-    // but we include this for completeness
-    if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showError }) => {
-            showError('Your conversation is getting long. Consider summarizing to improve performance.');
-        });
-    }
+    // Names generation doesn't use conversation history, so no summarization needed
 }
 
 // =============================================================================
