@@ -188,6 +188,11 @@ function handleRegenerateClick() {
             section_type: sectionType,
             count: 2,
         };
+
+        if (editMode === 'interactive') {
+            requestParams['markup_lyrics'] = getTextFromInteractivePanel().trim();
+        }
+
         streamHelperSecondary.initiateRequest(requestParams);
     } else {
         console.error('editCard is null!!')

@@ -18,6 +18,7 @@ class SongLyricsSectionGenerator(LLMGenerator):
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
             'section_type': self.request.GET.get("section_type", "").strip(),
+            'markup_lyrics': self.request.GET.get("markup_lyrics", "").strip(),
             'count': int(self.request.GET.get("count", 1)),
         }
     
@@ -43,11 +44,16 @@ class SongLyricsSectionGenerator(LLMGenerator):
 
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
-        return {
+        params = {
             'section_type': self.extracted_params.get('section_type', ''),
             'custom_request': self.extracted_params.get('custom_request', ''),
             'count': self.extracted_params.get('count', 1),
         }
+
+        if len(self.extracted_params.get('markup_lyrics', '')) > 0:
+            params['markup_lyrics'] = self.extracted_params['markup_lyrics']
+
+        return params
 
 
     def log_generation_params(self) -> None:
