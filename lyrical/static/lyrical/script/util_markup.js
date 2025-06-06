@@ -260,17 +260,14 @@ export class Markup {
             // Shift-click: mark/unmark entire line
             this._toggleLine(lineIndex);
         } else {
-            // Regular mousedown: start potential drag
+            // Regular mousedown: toggle immediately and prepare for potential drag
+            this._toggleWord(lineIndex, wordIndex);
+            
             this.isDragging = true;
             this.dragStartWord = { line: lineIndex, word: wordIndex };
             
-            // Capture the intended state at the start of drag
-            const currentWordMarked = this.isWordMarked(lineIndex, wordIndex);
-            if (this.selectedTool === 'eraser') {
-                this.dragTargetState = false;
-            } else {
-                this.dragTargetState = !currentWordMarked;
-            }
+            // Capture the state we just set for consistent drag behavior
+            this.dragTargetState = this.isWordMarked(lineIndex, wordIndex);
         }
     }
     
@@ -285,15 +282,7 @@ export class Markup {
     }
     
     _handleMouseUp(e, lineIndex, wordIndex) {
-        if (this.isDragging && this.dragStartWord) {
-            // Check if this is a simple click (same word) or end of drag
-            if (this.dragStartWord.line === lineIndex && this.dragStartWord.word === wordIndex) {
-                // Simple click - toggle just this word
-                this._toggleWord(lineIndex, wordIndex);
-            }
-            // If it's a drag, the range has already been marked in _markRange
-        }
-        
+        // Just clean up drag state - word was already toggled on mousedown
         this.isDragging = false;
         this.dragStartWord = null;
         this.dragTargetState = null;
