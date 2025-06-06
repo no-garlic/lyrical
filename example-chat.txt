@@ -1,0 +1,984 @@
+role: system
+You are a helpful assistant that returns information in NDJSON (newline delimitered JSON) format.
+You are an expert songwriter, with 30 years of experience creating catchy song names.
+Always respond with valid NDJSON that can be parsed by json.loads().
+Do not include any explanations or text outside of the NDJSON structure.
+For example, some NDJSON might looks like this:
+{"key": "val"}
+{"key": ["val1": "val2"]}
+{"key": {"sub-key1": "val1", "sub-key2", "val2"}}
+...
+As you can see, there is a complete and valid JSON structure on each individual line.
+
+role: user
+You are tasked with creating an upbeat catchy pop song. The song should embody the essence of modern pop music, focusing
+on themes that resonate with a wide audience, such as inspiration, empowerment, joy, or self-discovery. The song should have
+a balance of emotional depth and playful energy to ensure it captivates listeners.
+
+The name of the song is "Hidden Sights".
+
+These are the styles and topics to focus on: happy, positive, inspirational, motivational, an accomplishment, success from difficult odds, or about winning
+These are the styles and topics to avoid: futuristic, electric, cyber, technology, hate, anger, sadness, pain, loss, or anything negative
+
+The theme of the song is: This song is about recognizing the potential within myself and finding joy in my personal growth.
+The narrative of the song is: I'm on a journey of self-discovery, finally seeing the world and myself in a new, positive light. Each step forward reveals hidden strengths and unexpected joys, making me feel unstoppable.
+The mood of the song is: Empowering and uplifting, inspiring listeners to feel confident, motivated, and ready to conquer their own challenges with a smile.
+
+The song should have a medium amount of vocalisation.
+Lead singer vocalisation is written as a part of the lyrics, eg: "Whoa, oh, the sunshine is here" or "take me higher, ooh-ah".
+Backing singer vocalisation is written in brackets, eg: "The world is mine! (oh-oh-oh)".
+Use only the following vocalisation terms: ah, ahh, oh, ooh, whoa.
+
+Each line of lyrics should have approximately 8 syllables.
+
+Generate the following song sections:
+- 2 verses, each with 4 lines of lyrics
+- a chorus with 4 lines of lyrics
+- a bridge with 4 lines of lyrics
+- an outro with 4 lines of lyrics
+
+Use the following NDJSON format, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse1": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["In shadows, I start to see,", "The strength that's always been me.", "A journey just begun (ooh-ooh),", "My spirit soaring, wild and free."]}
+{"verse2": ["Each step, a brand new surprise,", "Reflecting in my own eyes.", "The world is mine! (oh-oh-oh),", "My hidden power starts to rise."]}
+{"chorus": ["Hidden sights, now in view,", "My dreams are coming true (ahh-ahh).", "I'm breaking through, it's all new,", "Whoa, my heart knows what to do."]}
+{"bridge": ["I'm unstoppable, I feel,", "This joy is so very real.", "No looking back, I'm on track,", "My future's here, it's my deal."]}
+{"outro": ["The world is mine! (oh-oh-oh),", "My spirit starts to shine (ahh-ahh),", "Hidden sights, now I find,", "Whoa, peace of mind."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the :
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["I see the world anew,", "My strength is shining through (ooh-ooh).", "My spirit's bold and true,", "Whoa, I know just what to do."]}
+{"bridge": ["I'm dancing in the light,", "Everything feels so right.", "No more fear, I am here,", "My future's looking bright."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the :
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I used to hide away,", "But now I greet the day.", "The world is mine! (oh-oh-oh),", "My spirit wants to play."]}
+{"verse2": ["I'm finding my own way,", "Brighter with each new day.", "The world is mine! (oh-oh-oh),", "I'm stronger than I say."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm waking up brand new,", "With a clearer point of view.", "The world is mine! (oh-oh-oh),", "My dreams are coming true."]}
+{"verse2": ["The path ahead is clear,", "No longer filled with fear.", "The world is mine! (oh-oh-oh),", "My happiness is here."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm shedding all my doubt,", "Ready to scream and shout.", "The world is mine! (oh-oh-oh),", "My future's all mapped out."]}
+{"verse2": ["I'm climbing to the top,", "And I will never stop.", "The world is mine! (oh-oh-oh),", "My spirit's gonna pop."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the bridge:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"bridge": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"bridge": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"bridge": ["I'm feeling so alive,", "Ready to truly thrive.", "No looking back, I'm on track,", "My spirit will survive."]}
+{"bridge": ["I'm reaching for the sky,", "I know that I can fly.", "No more chains, break the pains,", "My future's passing by."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the chorus:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"chorus": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["Hidden sights, now I see,", "The power inside of me (ahh-ahh).", "I'm finally truly free,", "Whoa, just watch me be."]}
+{"chorus": ["Hidden sights, shining bright,", "My future feels so right (ooh-ooh).", "I'm stepping into the light,", "Whoa, with all my might."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the outro:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"outro": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"outro": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"outro": ["The world is mine! (oh-oh-oh),", "My spirit starts to glow (ahh-ahh),", "Hidden sights, start to flow,", "Whoa, let's go, let's go."]}
+{"outro": ["The world is mine! (oh-oh-oh),", "My spirit's feeling bold (ahh-ahh),", "Hidden sights, to behold,", "Whoa, a story to be told."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm breaking free at last,", "The future coming fast.", "The world is mine! (oh-oh-oh),", "My worries in the past."]}
+{"verse2": ["I'm feeling so much stronger,", "My journey will last longer.", "The world is mine! (oh-oh-oh),", "My happiness is on offer."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm stepping out of line,", "My future will be fine.", "The world is mine! (oh-oh-oh),", "My spirit starts to shine."]}
+{"verse2": ["I'm feeling so much bolder,", "My story will unfold her.", "The world is mine! (oh-oh-oh),", "My happiness is older."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm leaving all behind,", "A new path I will find.", "The world is mine! (oh-oh-oh),", "My future's so aligned."]}
+{"verse2": ["I'm feeling so much freer,", "A brand new me, I see her.", "The world is mine! (oh-oh-oh),", "My happiness, I'll be her."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm stepping into sun,", "My journey's just begun.", "The world is mine! (oh-oh-oh),", "My victory is won."]}
+{"verse2": ["I'm feeling so alive,", "My spirit starts to thrive.", "The world is mine! (oh-oh-oh),", "My future I will drive."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm reaching for the stars,", "Ignoring all the scars.", "The world is mine! (oh-oh-oh),", "My future opens far."]}
+{"verse2": ["I'm feeling so much bolder,", "My story will enfold her.", "The world is mine! (oh-oh-oh),", "My happiness is older."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm painting my own sky,", "My spirit starts to fly.", "The world is mine! (oh-oh-oh),", "My future's passing by."]}
+{"verse2": ["I'm feeling so much stronger,", "My journey will last longer.", "The world is mine! (oh-oh-oh),", "My happiness is on offer."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm writing my own rules,", "Ignoring all the fools.", "The world is mine! (oh-oh-oh),", "My future's full of jewels."]}
+{"verse2": ["I'm feeling so much bolder,", "My story will enfold her.", "The world is mine! (oh-oh-oh),", "My happiness is older."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm dancing in the rain,", "Washing away the pain.", "The world is mine! (oh-oh-oh),", "My spirit will remain."]}
+{"verse2": ["I'm feeling so much lighter,", "My future's getting brighter.", "The world is mine! (oh-oh-oh),", "My happiness, a writer."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm singing my own song,", "Where I truly belong.", "The world is mine! (oh-oh-oh),", "My spirit's feeling strong."]}
+{"verse2": ["I'm feeling so much braver,", "My future, I will savor.", "The world is mine! (oh-oh-oh),", "My happiness, engraver."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm walking on the moon,", "Arriving very soon.", "The world is mine! (oh-oh-oh),", "My spirit's like a tune."]}
+{"verse2": ["I'm feeling so much bolder,", "My story will enfold her.", "The world is mine! (oh-oh-oh),", "My happiness is older."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single care.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+{"verse2": ["I'm feeling so much lighter,", "My future's getting brighter.", "The world is mine! (oh-oh-oh),", "My happiness, a writer."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the chorus:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"chorus": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["Hidden sights, I now claim,", "My future's not the same (ahh-ahh).", "I'm winning at this game,", "Whoa, shout out my name."]}
+{"chorus": ["Hidden sights, I embrace,", "My spirit finds its place (ooh-ooh).", "I'm running at my pace,", "Whoa, with joy on my face."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the chorus:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"chorus": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["Hidden sights, I can feel,", "My happiness is real (ahh-ahh).", "My destiny reveal,", "Whoa, my wounds start to heal."]}
+{"chorus": ["Hidden sights, I now see,", "The best version of me (ooh-ooh).", "I'm finally truly free,", "Whoa, just watch me be."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the chorus:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"chorus": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["Hidden sights, I embrace,", "My spirit finds its place (ahh-ahh).", "I'm running at my pace,", "Whoa, with joy on my face."]}
+{"chorus": ["Hidden sights, shining bright,", "My future feels so right (ooh-ooh).", "I'm stepping into the light,", "Whoa, with all my might."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the chorus:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"chorus": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"chorus": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"chorus": ["Hidden sights, I can see,", "The power inside of me (ahh-ahh).", "I'm finally truly free,", "Whoa, just watch me be."]}
+{"chorus": ["Hidden sights, now I know,", "My confidence will grow (ooh-ooh).", "I'm putting on a show,", "Whoa, watch my spirit glow."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm standing on the edge,", "No longer on the ledge.", "The world is mine! (oh-oh-oh),", "My spirit, I will pledge."]}
+{"verse2": ["I'm feeling so much stronger,", "My journey will last longer.", "The world is mine! (oh-oh-oh),", "My happiness is on offer."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+Without a single <<care.>>
+The world is mine! (oh-oh-oh),
+My future's beyond compare.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+{"verse2": ["I'm soaring through the air,", "Without a single prayer.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+<<line>>
+<<line>>
+My future's beyond compare.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single care.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+{"verse2": ["I'm soaring through the air,", "My spirit starts to flare.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+<<line>>
+<<line>>
+My future's beyond compare.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "With sunlight in my hair.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+{"verse2": ["I'm soaring through the air,", "With laughter everywhere.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+Without a single snare.
+<<line>>
+My future's beyond compare.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is mine! (oh-oh-oh),", "My future's beyond compare."]}
+{"verse2": ["I'm soaring through the air,", "Without a single snare.", "My heart is light, aglow,", "My future's beyond compare."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+Without a single snare.
+<<line>>
+<<line>>
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm chasing every hue."]}
+{"verse2": ["I'm soaring through the air,", "Without a single snare.", "My laughter fills the sky,", "I'm reaching up so high."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+<<line>>
+<<line>>
+I'm chasing every hue.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace any <<line>> token you see with a new lyrics line
+- replace any <<words>> token you see with new lyrics words
+- replace any <<word> token you see with a new lyrics word
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "With sunlight in my hair.", "The world is bright and new,", "I'm chasing every hue."]}
+{"verse2": ["I'm soaring through the air,", "With laughter everywhere.", "My dreams are coming true,", "I'm chasing every hue."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+<<line>>
+<<line>>
+I'm chasing every hue.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace every <<line>> token you see with a new lyrics line, every time you see this token you must replace the line with a new line that has never been seen in our chat history for this verse.
+- replace any <<words>> token you see with new lyrics words, every time you see this token you must replace the words with new words that have never been seen in our chat history for this verse.
+- replace any <<word> token you see with a new lyrics word, every time you see this token you must replace the word with a new word that has never been seen in our chat history for this verse.
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "With hope in every stare.", "My laughter rings so true,", "I'm chasing every hue."]}
+{"verse2": ["I'm soaring through the air,", "With dreams beyond compare.", "The sky is wide and blue,", "I'm chasing every hue."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+Without a single snare.
+The world is bright and new,
+<<I'm chasing>> every hue.
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace every <<line>> token you see with a new lyrics line, every time you see this token you must replace the line with a new line that has never been seen in our chat history for this verse.
+- replace any <<words>> token you see with new lyrics words, every time you see this token you must replace the words with new words that have never been seen in our chat history for this verse.
+- replace any <<word> token you see with a new lyrics word, every time you see this token you must replace the word with a new word that has never been seen in our chat history for this verse.
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm finding every hue."]}
+{"verse2": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm dancing every hue."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to the following verse:
+I'm soaring through the air,
+Without a single snare.
+The world is bright and new,
+I'm <<chasing>> every <<hue.>>
+
+Your new alternatives must include the exact words and structure of the above verse, except:
+- replace every <<line>> token you see with a new lyrics line, every time you see this token you must replace the line with a new line that has never been seen in our chat history for this verse.
+- replace any <<words>> token you see with new lyrics words, every time you see this token you must replace the words with new words that have never been seen in our chat history for this verse.
+- replace any <<word> token you see with a new lyrics word, every time you see this token you must replace the word with a new word that has never been seen in our chat history for this verse.
+All other words must match the above verse.
+
+Ensure that the new lyrics that you add rhyme with the existing lyrics.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm painting every view."]}
+{"verse2": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm spinning something true."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
+
+role: assistant
+{"verse1": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm dancing in the blue."]}
+{"verse2": ["I'm soaring through the air,", "Without a single snare.", "The world is bright and new,", "I'm shining right on cue."]}
+
+
+role: user
+You are tasked with creating some alternatives song sections for the song you have generated.
+Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables
+per line, and all other specific details that I previously provided.
+
+IMPORTANT!!! You must follow these instructions:
+Your task is to create alternatives to an existing verse.
+Your new alternatives must not include the same lines as previously generated lines of lyrics for this verse.
+Ensure that the new lyrics that you generate still rhyme with the existing lyrics, and follow the rhythm and theme of the song.
+At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+
+Generate 2 new song sections for the verse:
+
+Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+{"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+...
+
+For example:
+{"verse": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+{"verse": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+...
