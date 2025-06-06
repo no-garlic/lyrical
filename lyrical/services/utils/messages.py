@@ -58,8 +58,19 @@ class MessageBuilder:
                 logger.debug(f"No message history found for song {song_id}, type '{message_type}' - starting fresh")
                 return True  # No history is still a valid state
             
+            # Preserve system message if it exists
+            system_message = None
+            for msg in self.messages:
+                if msg.get("role") == "system":
+                    system_message = msg
+                    break
+            
             # Clear current messages
             self.messages.clear()
+            
+            # Re-add system message if it existed
+            if system_message:
+                self.messages.append(system_message)
             
             # Rebuild from database messages
             for message in db_messages:
