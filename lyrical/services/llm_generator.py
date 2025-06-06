@@ -399,6 +399,47 @@ class LLMGenerator(ABC):
             return {self._normalize_text(k): self._normalize_text(v) for k, v in text.items()}
         return text
     
+    def _clean_assistant_response(self, response_text: str) -> str:
+        """
+        Clean assistant response by removing excessive trailing backticks.
+        Leaves at most 3 trailing backticks to preserve intentional formatting.
+        
+        Args:
+            response_text: Raw assistant response text
+            
+        Returns:
+            Cleaned response text with excessive backticks removed
+        """
+        if not response_text:
+            return response_text
+        
+        # Find trailing backticks at the end of the response
+        stripped_response = response_text.rstrip()
+        if not stripped_response.endswith('`'):
+            return response_text
+        
+        # Count trailing backticks
+        trailing_backticks = 0
+        for i in range(len(stripped_response) - 1, -1, -1):
+            if stripped_response[i] == '`':
+                trailing_backticks += 1
+            else:
+                break
+        
+        if trailing_backticks > 3:
+            # Remove excessive backticks, keep at most 3
+            content_without_backticks = stripped_response[:-trailing_backticks]
+            cleaned_response = content_without_backticks + '```'
+            
+            # Preserve any whitespace that was after the original content
+            original_whitespace = response_text[len(stripped_response):]
+            cleaned_response += original_whitespace
+            
+            logger.debug(f"Cleaned {trailing_backticks} trailing backticks, reduced to 3")
+            return cleaned_response
+        
+        return response_text
+    
     def _process_response_line(self, line: str):
         """
         Process a single line of LLM response text and yield valid JSON.
@@ -530,8 +571,10 @@ class LLMGenerator(ABC):
             if self.uses_conversation_history():
                 complete_response = ''.join(accumulated_response)
                 if complete_response.strip():
+                    # Clean excessive backticks before saving to database
+                    cleaned_response = self._clean_assistant_response(complete_response)
                     saved_assistant_msg = self.prompt_messages.save_assistant_message(
-                        complete_response, song_id, message_type, self.user
+                        cleaned_response, song_id, message_type, self.user
                     )
                     if saved_assistant_msg:
                         logger.debug(f"Saved assistant message {saved_assistant_msg.id} after LLM completion")
