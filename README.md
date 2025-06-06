@@ -99,6 +99,11 @@
 
 
 ## Todo
+ - Regenerate -> send custom request (check), and send current section lyrics to llm.
+ - Disable Regenerate button if not saved.
+ - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
+
+
  - Admin classes
  - Move Next and Prev Buttons - try just under the page
  - Follow Up Prompt
