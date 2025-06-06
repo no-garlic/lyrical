@@ -3,7 +3,6 @@ export class Markup {
 
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
-            containerId: '',
             marker: 'bg-error',
             replaceMarkedLinesWith: '<line>',
             replaceMarkedSequencesWith: '<words>',
@@ -25,15 +24,13 @@ export class Markup {
 
     init(callbacks = {}) {
         this.callbacks = { ...this.callbacks, ...callbacks };
-        this.container = document.getElementById(this.config.containerId);
-        if (!this.container) {
-            throw new Error(`Container with id '${this.config.containerId}' not found`);
-        }
+        this.container = null;
     }
 
-    /*
-     * Select which marker to use
-     */
+    setContainer(container) {
+        this.container = container;
+    }
+
     selectMarker() {
         this.selectedTool = 'marker';
         if (this.callbacks.onToolChanged) {
@@ -41,9 +38,6 @@ export class Markup {
         }
     }
 
-    /*
-     * Select the eraser to use
-     */
     selectEraser() {
         this.selectedTool = 'eraser';
         if (this.callbacks.onToolChanged) {
@@ -59,21 +53,12 @@ export class Markup {
         return this.selectedTool === 'eraser';
     }
 
-    /*
-     * Clear all highlighting
-     */
     clearHighlighting() {
         this.markedState = {};
         this._renderText();
         this._notifyTextChanged();
     }
 
-    /*
-     * Sets the text that is rendered on the panel
-     * 
-     * text - the text that will be rendered (will be multi-line with \n linebreaks).
-     *        can be changed anytime, and clears all highlighting when new text is set.
-     */
     setText(text) {
         this.text = text;
         this.lines = text.split('\n').map(line => line.trim().split(/\s+/).filter(word => word.length > 0));
@@ -202,11 +187,15 @@ export class Markup {
     }
     
     _renderText() {
-        console.log(`_renderText container: ${this.container}`);
         console.log(`_renderText text:\n${this.text}`);
-        if (!this.container) return;
+
+        if (!this.container) {
+            throw new Error(`Container has not been set (container is null)`);
+        }
+
+        console.log(`_renderText container: ${this.container}`);
         
-        this.container.innerHTML = 'start';
+        this.container.innerHTML = '';
         
         for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
             const line = this.lines[lineIndex];

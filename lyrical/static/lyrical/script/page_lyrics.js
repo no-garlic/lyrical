@@ -809,7 +809,9 @@ function showEditInteractive(show, buttonInteractive) {
 
 
 function copyTextToInteractivePanel(lyrics, panel) {
+    console.log(`panel: ${panel.id}`)
     if (markupSystem) {
+        markupSystem.setContainer(panel);
         markupSystem.setText(lyrics);
     }
 }
