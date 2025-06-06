@@ -186,7 +186,7 @@ export class StreamHelper {
             originalError: error
         };
         this.callbacks.onError(errorObject);
-        this.callbacks.onComplete();
+        this._handleCompletion();
     }
 
     /**

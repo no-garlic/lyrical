@@ -543,6 +543,12 @@ class LLMGenerator(ABC):
             }
             yield json.dumps(error_response)
             
+            # Call on_response_complete even on error in case we saved some messages
+            try:
+                self.on_response_complete()
+            except Exception as complete_error:
+                logger.error(f"Error in on_response_complete during error handling: {str(complete_error)}")
+            
             # Note: If the stream fails, we still have the user message saved in the database
             # The next time we load history, incomplete conversations will be filtered out automatically
 
