@@ -1,11 +1,12 @@
 import logging
 import os
-import json
 from typing import List, Optional, Tuple
 from django.db import transaction
 import tiktoken
 from litellm import completion
-from ...models import Message, Song, User, UserAPIKey
+from ...models import Message, Song, User
+from .apikey import get_user_api_key
+
 
 logger = logging.getLogger('services')
 
@@ -174,10 +175,7 @@ class ChatSummarisationService:
             from .prompts import get_system_prompt, get_user_prompt
             
             model_name = f"{user.llm_model_summarise.provider.internal_name}/{user.llm_model_summarise.internal_name}"
-            user_api_key = UserAPIKey.objects.filter(
-                user=user, 
-                provider=user.llm_model_summarise.provider
-            ).first()
+            user_api_key = get_user_api_key(user=user, provider=user.llm_model_summarise.provider)
             
             # Set Ollama base URL if needed
             if user.llm_model_summarise.provider.internal_name == "ollama" and "OLLAMA_API_BASE" not in os.environ:
@@ -210,8 +208,8 @@ class ChatSummarisationService:
                 "stream": False  # Non-streaming for simplicity
             }
             
-            if user_api_key and user_api_key.api_key:
-                llm_params["api_key"] = user_api_key.api_key
+            if user_api_key and len(user_api_key) > 0:
+                llm_params["api_key"] = user_api_key
             
             logger.info(f"Calling summarisation model {model_name} for {message_type} conversation")
             

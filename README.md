@@ -102,6 +102,7 @@
 
 
 ## Todo
+ - Hot-Reload yaml files
  - Review all code from LLM on Friday
  - Update code documentation (use co-pilot)
  - Profile Page

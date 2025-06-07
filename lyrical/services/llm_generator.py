@@ -1,15 +1,13 @@
 import os
 import json
-import logging
 import unicodedata
+import litellm
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 from django.http import JsonResponse, StreamingHttpResponse
-from litellm import completion
 from .utils.prompts import get_system_prompt, get_user_prompt
 from .utils.messages import MessageBuilder
-from .. import models
-from ..models import User, LLM, UserAPIKey
+from .utils.apikey import get_user_api_key
 from ..logging_config import get_logger
 
 
@@ -493,7 +491,7 @@ class LLMGenerator(ABC):
         model_name = f"{self.llm_model.provider.internal_name}/{self.llm_model.internal_name}"
         temperature = self.user.llm_temperature
         max_tokens = self.user.llm_max_tokens
-        user_api_key = UserAPIKey.objects.filter(user=self.user, provider=self.llm_model.provider).first()
+        user_api_key = get_user_api_key(user=self.user, provider=self.llm_model.provider)
         
         # Get parameters for message persistence
         song_id = self.get_song_id()
@@ -525,8 +523,8 @@ class LLMGenerator(ABC):
                 "stream": True
             }
             
-            if user_api_key and user_api_key.api_key:
-                llm_params["api_key"] = user_api_key.api_key
+            if user_api_key and len(user_api_key) > 0:
+                llm_params["api_key"] = user_api_key
             
             logger.info(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
             logger.debug(f"LLM_SERVICE: Messages: {self.prompt_messages.get()}")
@@ -537,7 +535,7 @@ class LLMGenerator(ABC):
             except Exception as e:
                 logger.warning(f"Failed to log conversation to file: {e}")
             
-            response_stream = completion(**llm_params)
+            response_stream = litellm.completion(**llm_params)
             
             # Accumulate assistant response for database persistence
             accumulated_response = []
