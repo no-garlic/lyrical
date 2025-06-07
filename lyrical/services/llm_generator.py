@@ -525,8 +525,6 @@ class LLMGenerator(ABC):
             
             if user_api_key and len(user_api_key) > 0:
                 llm_params["api_key"] = user_api_key
-                #litellm.api_key = user_api_key
-                #os.environ["ANTHROPIC_API_KEY"] = user_api_key
             
             logger.info(f"LLM_SERVICE: Calling model {model_name} with temperature {temperature} and max_tokens {max_tokens}")
             logger.debug(f"LLM_SERVICE: Messages: {self.prompt_messages.get()}")
