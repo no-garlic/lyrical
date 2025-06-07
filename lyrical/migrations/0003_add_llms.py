@@ -16,6 +16,7 @@ def add_data(apps, schema_editor):
     #     print(model)
 
     llm.objects.create(display_name="GPT:4.1", internal_name="gpt-4.1", provider=llm_provider.objects.get(internal_name="openai"), cost_per_1m_tokens=16.0)
+    llm.objects.create(display_name="Claude:3.5", internal_name="claude-3-5-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"), cost_per_1m_tokens=5.0)
     llm.objects.create(display_name="Claude:3.7", internal_name="claude-3-7-sonnet-latest", provider=llm_provider.objects.get(internal_name="anthropic"), cost_per_1m_tokens=15.0)
     llm.objects.create(display_name="Gemini-Flash:2.0", internal_name="gemini-2.0-flash", provider=llm_provider.objects.get(internal_name="gemini"), cost_per_1m_tokens=1.20)
     llm.objects.create(display_name="Gemini-Flash:1.5", internal_name="gemini-1.5-flash", provider=llm_provider.objects.get(internal_name="gemini"), cost_per_1m_tokens=0.10)
