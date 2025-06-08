@@ -104,6 +104,16 @@ def setup_logging():
     # Add custom filter to django.request logger
     django_request_logger = logging.getLogger('django.request')
     django_request_logger.addFilter(WellKnownFilter())
+
+    # Disable some basic informational loggers
+    logging.getLogger('django.db.backends').setLevel(logging.WARNING)
+    logging.getLogger('django.security').setLevel(logging.WARNING)
+    logging.getLogger('django.template').setLevel(logging.WARNING)
+    logging.getLogger('django.server').setLevel(logging.WARNING)
+    logging.getLogger('django.request').setLevel(logging.WARNING)
+    logging.getLogger('django').setLevel(logging.WARNING)
+    logging.getLogger('httpcore.connection').setLevel(logging.WARNING)
+    logging.getLogger('httpcore.http11').setLevel(logging.WARNING)
     
     # Configure individual loggers
     for logger_name, level in LOGGER_LEVELS.items():

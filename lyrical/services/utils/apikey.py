@@ -18,7 +18,7 @@ def get_user_api_key(user, provider):
     user_api_key = UserAPIKey.objects.filter(user=user, provider=provider).first()
 
     if user_api_key:
-        logger.info(f"Using user API key (from the database) for provider {provider.internal_name} for user {user.username}\n{user_api_key.api_key}")
+        logger.info(f"Using user API key (from the database) for provider {provider.internal_name} for user {user.username}")
         return user_api_key.api_key
 
     # Fallback to .env values
@@ -31,7 +31,7 @@ def get_user_api_key(user, provider):
         system_apikey = env.get("GEMINI_API_KEY")
 
     if system_apikey:
-        logger.info(f"Using system API key (from dotenv) for provider {provider.internal_name}\n{system_apikey}")
+        logger.info(f"Using system API key (from dotenv) for provider {provider.internal_name}")
         return system_apikey
 
     logger.warning(f"No API key found for provider {provider.internal_name} for user {user.username}")
