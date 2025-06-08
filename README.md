@@ -103,6 +103,8 @@
 
 ## Todo
  - Hot-Reload yaml files
+ - Sort order of new generations
+ - Make new generations light grey until clicked on
  - Review all code from LLM on Friday
  - Update code documentation (use co-pilot)
  - Profile Page
@@ -145,5 +147,6 @@
  - Click close button on a card, shows another X and Tick as a confirmation
  - Review scrollbars use on all pages
  - Put instructional text on every page to tell the user what to do
+ - Add filter to ignore specific words for song names (Victorious for example)
  - Bug: Handle duplicate song name from LLM quietly
  
