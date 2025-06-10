@@ -119,8 +119,12 @@ export class Markup {
         
         const oldWord = this.lines[line][index];
         
-        // Replace the word in the data structure
-        this.lines[line][index] = word;
+        // Extract any trailing punctuation from the old word
+        const punctuationMatch = oldWord.match(/[.,]+$/);
+        const trailingPunctuation = punctuationMatch ? punctuationMatch[0] : '';
+        
+        // Replace the word in the data structure, preserving trailing punctuation
+        this.lines[line][index] = word + trailingPunctuation;
         
         // Update the raw text to match
         this.text = this.lines.map(line => line.join(' ')).join('\n');
@@ -139,7 +143,7 @@ export class Markup {
         
         // Call callbacks
         if (this.callbacks.onWordReplaced) {
-            this.callbacks.onWordReplaced(line, index, oldWord, word);
+            this.callbacks.onWordReplaced(line, index, oldWord, this.lines[line][index]);
         }
         this._notifyTextChanged();
     }
