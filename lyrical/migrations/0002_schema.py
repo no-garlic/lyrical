@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
             name="Message",
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('summary', 'Summary')], max_length=50)),
+                ('type', models.CharField(choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('rhyme', 'Rhyme'), ('summary', 'Summary')], max_length=50)),
                 ('role', models.CharField(choices=[("system", "System"), ("user", "User"), ("assistant", "Assistant")], max_length=50)),
                 ('content', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

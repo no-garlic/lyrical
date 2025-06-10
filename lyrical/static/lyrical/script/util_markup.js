@@ -153,6 +153,22 @@ export class Markup {
         return result.join('\n');
     }
 
+    getFirstMarkedWord() {
+        for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
+            const line = this.lines[lineIndex];
+            const lineState = this.markedState[lineIndex] || {};
+            
+            for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
+                if (lineState[wordIndex]) {
+                    const word = line[wordIndex];
+                    return word.trim().replace(/[.,]+$/, '');
+                }
+            }
+        }
+        
+        return null;
+    }
+
     getUnmarkedText() {
         const result = [];
         

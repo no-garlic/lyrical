@@ -166,5 +166,7 @@ bug - textedit + save does not update right song lyrics
  - Review scrollbars use on all pages
  - Put instructional text on every page to tell the user what to do
  - Add filter to ignore specific words for song names (Victorious for example)
- - Bug: Handle duplicate song name from LLM quietly
+ - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
+ - Add Tooltips to buttons
+
  

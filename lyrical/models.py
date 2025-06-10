@@ -210,7 +210,7 @@ class Section(models.Model):
 
 
 class Message(models.Model):
-    type = models.CharField(max_length=50, choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('summary', 'Summary')])
+    type = models.CharField(max_length=50, choices=[('style', 'style'), ('lyrics', 'Lyrics'), ('rhyme', 'Rhyme'), ('summary', 'Summary')])
     role = models.CharField(max_length=50, choices=[('system', 'System'), ('user', 'User'), ('assistant', 'Assistant')])
     content = models.TextField()
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='messages')

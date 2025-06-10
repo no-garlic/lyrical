@@ -30,9 +30,10 @@ const PANELS = {
 };
 
 
-let streamHelperPrimary;
-let streamHelperSecondary;
-let streamHelperSecondaryClickedButton;
+let streamHelperSong;
+let streamHelperSection;
+let streamHelperRhyme;
+let regenerateButton;
 let dragDropSystem;
 let markupSystem;
 let lyricsDirty = false;
@@ -121,15 +122,16 @@ function initStreamHelpers() {
 
     document.querySelectorAll('.btn-regenerate').forEach(button => {
         button.addEventListener('click', function() {
-            streamHelperSecondaryClickedButton = this;
-            console.log(`clicked button: ${streamHelperSecondaryClickedButton}`);
+            regenerateButton = this;
+            console.log(`clicked button: ${regenerateButton}`);
 
             handleRegenerateClick.call();
         });
     });
 
-    streamHelperPrimary = createStreamHelperPrimary();
-    streamHelperSecondary = createStreamHelperSecondary();
+    streamHelperSong = createStreamHelperSong();
+    streamHelperSection = createStreamHelperSection();
+    streamHelperRhyme = createStreamHelperRhyme();
 }
 
 
@@ -199,7 +201,7 @@ function handleGenerateClick() {
             prompt: 'song_lyrics',
             song_id: songId,
         };
-        streamHelperPrimary.initiateRequest(requestParams);
+        streamHelperSong.initiateRequest(requestParams);
     };
     
     checkSummarizationAndGenerate(songId, actualGenerate, 'lyrics');
@@ -212,83 +214,127 @@ function handleRegenerateClick() {
             const sectionType = editCard.firstElementChild.dataset.sectionName;
             console.log(`initiate request for sectionType: ${sectionType}`)
 
+            const customRequest = document.getElementById('input-custom-request');
+
             const requestParams = {
-                prompt: 'song_lyrics_section',
                 song_id: songId,
                 section_type: sectionType,
-                count: 2,
+                custom_prompt: customRequest.value.trim()
             };
 
             if (editMode === 'interactive') {
+                requestParams['prompt'] = 'song_lyrics_section';
                 requestParams['markup_lyrics'] = getTextFromInteractivePanel().trim();
+                requestParams['count'] = 2;
+                streamHelperSection.initiateRequest(requestParams);
+            } else if (editMode === 'rhyme') {
+                requestParams['prompt'] = 'song_words';
+                requestParams['rhyme_with'] = getFirstMarkedWordFromInteractivePanel().trim();
+                requestParams['count'] = 12;
+                requestParams['song_section'] = getTextFromInteractivePanel('raw').trim();
+                streamHelperRhyme.initiateRequest(requestParams);
+            } else {
+                requestParams['prompt'] = 'song_lyrics_section';
+                requestParams['count'] = 2;
+                streamHelperSection.initiateRequest(requestParams);
             }
-
-            streamHelperSecondary.initiateRequest(requestParams);
         };
         
-        checkSummarizationAndGenerate(songId, actualRegenerate, 'lyrics');
+        if (editMode === 'rhyme') {
+            checkSummarizationAndGenerate(songId, actualRegenerate, 'rhyme');
+        } else {
+            checkSummarizationAndGenerate(songId, actualRegenerate, 'section');
+        }        
     } else {
         console.error('editCard is null!!')
     }
 }
 
 
-function createStreamHelperPrimary() {
+function createStreamHelperSong() {
     return new StreamHelper('/api_gen_song_lyrics', {
         callbacks: {
             onPreRequest: () => {
                 console.log("stream prerequest");
-                handlePrimaryDataStreamStart();
+                handleSongDataStreamStart();
             },
             onIncomingData: (data) => {
                 console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
-                handlePrimaryDataStreamData(data);
+                handleSongDataStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("=== Primary stream end ===");
+                console.log("=== Song stream end ===");
             },
             onComplete: (summaryInfo) => {
-                console.log("=== Primary stream complete ===");
+                console.log("=== Song stream complete ===");
                 console.log("Received summaryInfo:", summaryInfo);
-                handlePrimaryDataStreamEnd(summaryInfo);
+                handleSongDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
-                handlePrimaryDataStreamError(error);
+                handleSongDataStreamError(error);
             }
         }
     });
 }
 
 
-function createStreamHelperSecondary() {
+function createStreamHelperSection() {
     return new StreamHelper('/api_gen_song_lyrics_section', {
         callbacks: {
             onPreRequest: () => {
                 console.log("stream prerequest");
-                handleSecondaryDataStreamStart();
+                handleSectionDataStreamStart();
             },
             onIncomingData: (data) => {
                 console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
-                handleSecondaryDataStreamData(data);
+                handleSectionDataStreamData(data);
             },
             onStreamEnd: () => {
                 console.log("stream end");
             },
             onComplete: (summaryInfo) => {
                 console.log("stream complete");
-                handleSecondaryDataStreamEnd(summaryInfo);
+                handleSectionDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
                 console.error("stream error:", error);
-                handleSecondaryDataStreamError(error);
+                handleSectionDataStreamError(error);
             }
         }
     });
 }
 
 
-function handlePrimaryDataStreamStart() {
+
+function createStreamHelperRhyme() {
+    return new StreamHelper('/api_gen_song_words', {
+        callbacks: {
+            onPreRequest: () => {
+                console.log("stream prerequest");
+                handleRhymeDataStreamStart();
+            },
+            onIncomingData: (data) => {
+                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                handleRhymeDataStreamData(data);
+            },
+            onStreamEnd: () => {
+                console.log("stream end");
+            },
+            onComplete: (summaryInfo) => {
+                console.log("stream complete");
+                handleRhymeDataStreamEnd(summaryInfo);
+            },
+            onError: (error) => {
+                console.error("stream error:", error);
+                handleRhymeDataStreamError(error);
+            }
+        }
+    });
+}
+
+
+function handleSongDataStreamStart() {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -305,11 +351,10 @@ function handlePrimaryDataStreamStart() {
 }
 
 
-function handleSecondaryDataStreamStart() {
-    console.log(`handleSecondaryDataStreamStart: ${streamHelperSecondaryClickedButton}`);
+function handleSectionDataStreamStart() {
+    console.log(`handleSectionDataStreamStart: ${regenerateButton}`);
 
-    // get the buttons
-    const regenerateButton = streamHelperSecondaryClickedButton;
+    // get the regenerating button
     const regeneratingButton = regenerateButton.nextElementSibling;
     
     // hide the regenerate button
@@ -324,7 +369,25 @@ function handleSecondaryDataStreamStart() {
 }
 
 
-function handlePrimaryDataStreamEnd(summaryInfo) {
+function handleRhymeDataStreamStart() {
+    console.log(`handleRhymeDataStreamStart: ${regenerateButton}`);
+
+    // get the regenerating button
+    const regeneratingButton = regenerateButton.nextElementSibling;
+    
+    // hide the regenerate button
+    if (regenerateButton) {
+        regenerateButton.classList.add('hidden');
+    }
+
+    // show the regenerating button in disabled state
+    if (regeneratingButton) {
+        regeneratingButton.classList.remove('hidden');
+    }
+}
+
+
+function handleSongDataStreamEnd(summaryInfo) {
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -348,11 +411,10 @@ function handlePrimaryDataStreamEnd(summaryInfo) {
 }
 
 
-function handleSecondaryDataStreamEnd(summaryInfo) {
-    console.log(`handleSecondaryDataStreamEnd: ${streamHelperSecondaryClickedButton}`);
+function handleSectionDataStreamEnd(summaryInfo) {
+    console.log(`handleSectionDataStreamEnd: ${regenerateButton}`);
 
-    // get the buttons
-    const regenerateButton = streamHelperSecondaryClickedButton;
+    // get the regenerating button
     const regeneratingButton = regenerateButton.nextElementSibling;
     
     // hide the regenerate button
@@ -372,11 +434,38 @@ function handleSecondaryDataStreamEnd(summaryInfo) {
         });
     }
 
-    streamHelperSecondaryClickedButton = null;
+    regenerateButton = null;
 }
 
 
-function handlePrimaryDataStreamData(data) {
+function handleRhymeDataStreamEnd(summaryInfo) {
+    console.log(`handleRhymeDataStreamEnd: ${regenerateButton}`);
+
+    // get the regenerating button
+    const regeneratingButton = regenerateButton.nextElementSibling;
+    
+    // hide the regenerate button
+    if (regenerateButton) {
+        regenerateButton.classList.remove('hidden');
+    }
+
+    // show the regenerating button in disabled state
+    if (regeneratingButton) {
+        regeneratingButton.classList.add('hidden');
+    }
+
+    // Handle summarization notification
+    if (summaryInfo && summaryInfo.needsSummarisation) {
+        import('./util_toast.js').then(({ showError }) => {
+            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
+        });
+    }
+
+    regenerateButton = null;
+}
+
+
+function handleSongDataStreamData(data) {
     if (data) {
         // Check if this is an error response
         if (data.error) {
@@ -395,12 +484,12 @@ function handlePrimaryDataStreamData(data) {
             }
         }
     } else {
-        handlePrimaryDataStreamError(data);
+        handleSongDataStreamError(data);
     }
 }
 
 
-function handleSecondaryDataStreamData(data) {
+function handleSectionDataStreamData(data) {
     if (data) {
         // Check if this is an error response
         if (data.error) {
@@ -414,7 +503,7 @@ function handleSecondaryDataStreamData(data) {
         let id = 0;
 
         for (const [key, value] of Object.entries(data)) {
-            console.log(`handleSecondaryDataStreamData: key:${key} value:${value}`)
+            console.log(`handleSectionDataStreamData: key:${key} value:${value}`);
 
             if (key == 'id') {
                 id = parseInt(value);
@@ -430,18 +519,43 @@ function handleSecondaryDataStreamData(data) {
             addNewLyricsSection(id, section, lyrics);
         }
     } else {
-        handleSecondaryDataStreamError(data);
+        handleSectionDataStreamError(data);
     }
 }
 
 
-function handlePrimaryDataStreamError(error) {
+function handleRhymeDataStreamData(data) {
+    if (data) {
+        // Check if this is an error response
+        if (data.error) {
+            console.warn('LLM generation error:', data.error, 'Details:', data.details);
+            toastSystem.showError(`Generation error: ${data.error}`);
+            return;
+        }
+        
+        for (const [key, value] of Object.entries(data)) {
+            console.log(`handleSectionDataStreamData: key:${key} value:${value}`);
+            addNewRhymeWord(value);
+        }
+    } else {
+        handleSectionDataStreamError(data);
+    }
+}
+
+
+function handleSongDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
 }
 
 
-function handleSecondaryDataStreamError(error) {
+function handleSectionDataStreamError(error) {
+    const errorStr = JSON.stringify(error, null, 2);
+    toastSystem.showError(errorStr);
+}
+
+
+function handleRhymeDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
 }
@@ -990,6 +1104,11 @@ function getTextFromInteractivePanel(style = 'markup') {
 }
 
 
+function getFirstMarkedWordFromInteractivePanel() {
+    return markupSystem.getFirstMarkedWord();
+}
+
+
 function updateInteractivePanel() {
     if (editCard && editMode == 'interactive') {
         const textArea = editCard.children[1].children[PANELS.TEXTAREA];
@@ -1061,6 +1180,19 @@ function addNewLyricsSection(sectionId, section, lyrics) {
             console.error('Failed to render or initialize new song section card:', error);
             toastSystem.showError('Failed to display the new song section. Please refresh the page.');
         });
+}
+
+
+function addNewRhymeWord(word) {
+    console.log(`####################### ${word}`)
+
+
+
+    // TODO
+
+
+
+
 }
 
 

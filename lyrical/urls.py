@@ -32,6 +32,8 @@ from .views.api_gen_song_lyrics import *
 from .views.api_gen_song_lyrics_section import *
 from .views.api_gen_song_names import *
 from .views.api_gen_song_styles import *
+from .views.api_gen_song_words import *
+
 
 from .views.api_summarise_chat_history import *
 
@@ -83,6 +85,7 @@ urlpatterns = [
     path("api_gen_song_lyrics_section", api_gen_song_lyrics_section, name="api_gen_song_lyrics_section"),
     path("api_gen_song_names", api_gen_song_names, name="api_gen_song_names"),
     path("api_gen_song_styles", api_gen_song_styles, name="api_gen_song_styles"),
+    path("api_gen_song_words", api_gen_song_words, name="api_gen_song_words"),
 
     # chat history management
     path("api_summarise_chat_history", api_summarise_chat_history, name="api_summarise_chat_history"),

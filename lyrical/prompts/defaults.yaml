@@ -183,3 +183,36 @@
     ...
 
 
+"song_words": |-
+  You are tasked with generating some alternative words for a {{section_type}} of a song.
+
+  Context:
+  The name of the song is "{{ song_name }}".
+
+  {% if include_themes %}These are the styles and topics to focus on: {{ include_themes }}{% endif %}
+  {% if exclude_themes %}These are the styles and topics to avoid: {{ exclude_themes }}{% endif %}
+
+  {% if theme %}The theme of the song is: {{theme}}{% endif %}
+  {% if narrative %}The narrative of the song is: {{narrative}}{% endif %}
+  {% if mood %}The mood of the song is: {{mood}}{% endif %}
+
+  {% if custom_prompt %}Also follow these instructions: {{custom_prompt}} {% endif %}
+
+  Your Task:
+  The current {{section_type}} of the song is:
+  {{song_section}}
+
+  The word you need to provide replacements of is "{{rhyme_with}}".
+  You must return {{count}} words that rhyme with {{rhyme_with}}, that fit the themes, narrative, and mood of the song.
+
+  ONLY USE following NDJSON format, returning EXACTLY ONE line of valid NDJSON per word:
+    {"<index>": "<replacement word>"}
+    {"<index>": "<replacement word>"}
+    ...
+
+  For example:
+    {"1": "alive"}
+    {"2": "thrive"}
+    {"3": "hive"}
+    ...
+  
