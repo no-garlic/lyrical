@@ -9,6 +9,27 @@ import { Markup } from './util_markup.js';
 import { checkSummarizationAndGenerate } from './util_summarization_modal.js';
 
 
+// Matches BadgeLyrics.html
+const BADGES = {
+    MARKER_BUTTON: 0,
+    ERASER_BUTTON: 1,
+    RHYME_BUTTON: 2,
+    INTERACTIVE_BUTTON: 3,
+    REGENERATE_BUTTON: 4,
+    TEXTEDIT_BUTTON: 5,
+    EXIT_BUTTON: 6,
+    TOOLS_BUTTON: 7,
+};
+
+
+// Matches BadgeLyrics.html
+const PANELS = {
+    TEXTAREA: 0,
+    INTERACTIVE: 1,
+    REGENERATE: 2
+};
+
+
 let streamHelperPrimary;
 let streamHelperSecondary;
 let streamHelperSecondaryClickedButton;
@@ -76,6 +97,9 @@ function initBadgeActions() {
     });
     document.querySelectorAll('.badge-exit-button').forEach(button => {
         button.onclick = badgeExitButtonClick;
+    });
+    document.querySelectorAll('.badge-rhyme-button').forEach(button => {
+        button.onclick = badgeRhymeButtonClick;
     });
     document.querySelectorAll('.badge-interactive-button').forEach(button => {
         button.onclick = badgeInteractiveButtonClick;
@@ -705,6 +729,12 @@ function badgeExitButtonClick() {
 }
 
 
+function badgeRhymeButtonClick() {
+    const allButtons = this.parentNode.querySelectorAll('.badge-button');
+    enterEditMode('rhyme', allButtons);  
+}
+
+
 function badgeInteractiveButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('interactive', allButtons);  
@@ -752,13 +782,14 @@ function badgeHideButtonClick() {
 function enterEditMode(mode, allButtons) {
     editMode = mode;
 
-    const buttonMarker = allButtons[0];
-    const buttonEraser = allButtons[1];
-    const buttonInteractive = allButtons[2];
-    const buttonRegenerate = allButtons[3];
-    const buttonTextEdit = allButtons[4];
-    const buttonExit = allButtons[5];
-    const buttonTools = allButtons[6];
+    const buttonMarker = allButtons[BADGES.MARKER_BUTTON];
+    const buttonEraser = allButtons[BADGES.ERASER_BUTTON];
+    const buttonRhyme = allButtons[BADGES.RHYME_BUTTON];
+    const buttonInteractive = allButtons[BADGES.INTERACTIVE_BUTTON];
+    const buttonRegenerate = allButtons[BADGES.REGENERATE_BUTTON];
+    const buttonTextEdit = allButtons[BADGES.TEXTEDIT_BUTTON];
+    const buttonExit = allButtons[BADGES.EXIT_BUTTON];
+    const buttonTools = allButtons[BADGES.TOOLS_BUTTON];
     const songSectionCard = buttonTools.parentNode.parentNode;
     
     if (mode === 'none') {
@@ -775,10 +806,12 @@ function enterEditMode(mode, allButtons) {
 
     if (mode === 'none') {
         showEditTextArea(false, buttonTextEdit);
+        showEditRhyme(false, buttonRhyme);
         showEditInteractive(false, buttonInteractive);
         showEditRegenerate(false, buttonRegenerate);
         updateButtonAppearance(buttonTools, 'shown');
         updateButtonAppearance(buttonExit, 'hidden');
+        updateButtonAppearance(buttonRhyme, 'hidden');
         updateButtonAppearance(buttonInteractive, 'hidden');
         updateButtonAppearance(buttonTextEdit, 'hidden');
         updateButtonAppearance(buttonRegenerate, 'hidden');
@@ -786,11 +819,13 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('show');
     } else if (mode === 'textedit') {
+        showEditRhyme(false, buttonRhyme);
         showEditInteractive(false, buttonInteractive);
         showEditRegenerate(false, buttonRegenerate);
         showEditTextArea(true, buttonTextEdit);
         updateButtonAppearance(buttonTools, 'hidden');
         updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonRhyme, 'shown');
         updateButtonAppearance(buttonInteractive, 'shown');
         updateButtonAppearance(buttonTextEdit, 'active');
         updateButtonAppearance(buttonRegenerate, 'shown');
@@ -798,22 +833,39 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('hide', songSectionCard);
     } else if (mode === 'interactive') {
+        showEditRhyme(false, buttonRhyme);
         showEditTextArea(false, buttonTextEdit);
         showEditRegenerate(false, buttonRegenerate);
         showEditInteractive(true, buttonInteractive);
         updateButtonAppearance(buttonTools, 'hidden');
         updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonRhyme, 'shown');
         updateButtonAppearance(buttonInteractive, 'active');
         updateButtonAppearance(buttonTextEdit, 'shown');
         updateButtonAppearance(buttonRegenerate, 'shown');
         updateMarkupButtonAppearances();
         hideOrShowAllSections('hide', songSectionCard);
+    } else if (mode === 'rhyme') {
+        showEditTextArea(false, buttonTextEdit);
+        showEditRegenerate(false, buttonRegenerate);
+        showEditInteractive(false, buttonInteractive);
+        showEditRhyme(true, buttonRhyme);
+        updateButtonAppearance(buttonTools, 'hidden');
+        updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonRhyme, 'active');
+        updateButtonAppearance(buttonInteractive, 'shown');
+        updateButtonAppearance(buttonTextEdit, 'shown');
+        updateButtonAppearance(buttonRegenerate, 'shown');
+        updateMarkupButtonAppearances();
+        hideOrShowAllSections('hide', songSectionCard);
     } else if (mode === 'regenerate') {
+        showEditRhyme(false, buttonRhyme);
         showEditTextArea(false, buttonTextEdit);
         showEditInteractive(false, buttonInteractive);
         showEditRegenerate(true, buttonRegenerate);
         updateButtonAppearance(buttonTools, 'hidden');
         updateButtonAppearance(buttonExit, 'shown');
+        updateButtonAppearance(buttonRhyme, 'shown');
         updateButtonAppearance(buttonInteractive, 'shown');
         updateButtonAppearance(buttonTextEdit, 'shown');
         updateButtonAppearance(buttonRegenerate, 'active');
@@ -821,14 +873,31 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonEraser, 'hidden');
         hideOrShowAllSections('hide', songSectionCard);
     } else {
-        console.error(`enterEditMode: invalid mode argument (${mode}), must be 'none', 'textedit', 'interactive', or 'regenerate' `);
+        console.error(`enterEditMode: invalid mode argument (${mode}), must be 'none', 'rhyme', 'textedit', 'interactive', or 'regenerate' `);
     }
+
+    updateHeaderTitle(mode);
+}
+
+
+function updateHeaderTitle(mode) {
+    setTimeout(() => {
+        const regenerateHeaderTitle = document.getElementById('regenerate-header-title');
+        
+        if (regenerateHeaderTitle) {
+            if (mode === 'rhyme') {
+                regenerateHeaderTitle.textContent = 'ALTERNATIVE WORDS';
+            } else {
+                regenerateHeaderTitle.textContent = 'ALTERNATIVE LYRICS';
+            }
+        }
+    }, 10);
 }
 
 
 function showEditTextArea(show, buttonTextEdit) {
     const panels = buttonTextEdit.parentNode.nextElementSibling.children;
-    const textArea = panels[0];
+    const textArea = panels[PANELS.TEXTAREA];
 
     if (show) {
         textArea.readOnly = false;
@@ -840,7 +909,7 @@ function showEditTextArea(show, buttonTextEdit) {
 
 function showEditRegenerate(show, buttonRegenerate) {
     const panels = buttonRegenerate.parentNode.nextElementSibling.children;
-    const editRegeneratePanel = panels[2];
+    const editRegeneratePanel = panels[PANELS.REGENERATE];
     const regenerateContainer = document.getElementById('generated-sections');
 
     if (show) {
@@ -853,11 +922,38 @@ function showEditRegenerate(show, buttonRegenerate) {
 }
 
 
+function showEditRhyme(show, buttonRhyme) {
+    const panels = buttonRhyme.parentNode.nextElementSibling.children;
+    const editInteractivePanel = panels[PANELS.INTERACTIVE];
+    const editRegeneratePanel = panels[PANELS.REGENERATE];
+    const textArea = panels[PANELS.TEXTAREA];
+    const regenerateContainer = document.getElementById('generated-rhymes');
+
+    if (show) {
+        // show the ui elements
+        textArea.classList.add('hidden');  
+        editInteractivePanel.classList.remove('hidden');
+        editRegeneratePanel.classList.remove('hidden');
+        regenerateContainer.classList.remove('hidden');
+
+        // copy the lyrics into the panel for selection
+        const lyrics = textArea.value;
+        copyTextToInteractivePanel(lyrics, editInteractivePanel);
+    } else {
+        // show the ui elements
+        editInteractivePanel.classList.add('hidden');
+        editRegeneratePanel.classList.add('hidden');
+        regenerateContainer.classList.add('hidden');
+        textArea.classList.remove('hidden');  
+    }
+}
+
+
 function showEditInteractive(show, buttonInteractive) {
     const panels = buttonInteractive.parentNode.nextElementSibling.children;
-    const editInteractivePanel = panels[1];
-    const editRegeneratePanel = panels[2];
-    const textArea = panels[0];
+    const editInteractivePanel = panels[PANELS.INTERACTIVE];
+    const editRegeneratePanel = panels[PANELS.REGENERATE];
+    const textArea = panels[PANELS.TEXTAREA];
     const regenerateContainer = document.getElementById('generated-sections');
 
     if (show) {
@@ -896,8 +992,8 @@ function getTextFromInteractivePanel(style = 'markup') {
 
 function updateInteractivePanel() {
     if (editCard && editMode == 'interactive') {
-        const textArea = editCard.children[1].children[0];
-        const interactivePanel = editCard.children[1].children[1];
+        const textArea = editCard.children[1].children[PANELS.TEXTAREA];
+        const interactivePanel = editCard.children[1].children[PANELS.INTERACTIVE];
         copyTextToInteractivePanel(textArea.value, interactivePanel);
     }
 }
@@ -1049,8 +1145,8 @@ function updateMarkupButtonAppearances() {
     if (!editCard || !markupSystem) return;
     
     const allButtons = editCard.querySelectorAll('.badge-button');
-    const buttonMarker = allButtons[0];
-    const buttonEraser = allButtons[1];
+    const buttonMarker = allButtons[BADGES.MARKER_BUTTON];
+    const buttonEraser = allButtons[BADGES.ERASER_BUTTON];
     
     if (markupSystem.isMarkerSelected()) {
         updateButtonAppearance(buttonMarker, 'active');

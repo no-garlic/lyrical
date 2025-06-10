@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
             name="Section",
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[("theme", "Theme"), ("narrative", "Narrative"), ("mood", "Mood"), ("intro", "Intro"), ("verse", "Verse"), 
+                ('type', models.CharField(choices=[("theme", "Theme"), ("narrative", "Narrative"), ("mood", "Mood"), ('instrumental-intro', 'Instrumental Intro'), ("intro", "Intro"), ("verse", "Verse"), 
                                                    ("chorus", "Chorus"), ("bridge", "Bridge"), ("pre-chorus", "Pre-Chorus"), ("outro", "Outro"), ("vocalisation", "Vocalisation")], max_length=50)),
                 ('text', models.TextField(default="")),
                 ('hidden', models.BooleanField(default=False)),

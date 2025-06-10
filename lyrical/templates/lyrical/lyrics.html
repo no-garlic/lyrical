@@ -88,7 +88,7 @@
                                                 <!-- Separator Bar -->
                                                 <div class="card w-full bg-base-100 border-b border-base-300 h-11 rounded-none flex flex-row">
                                                     <div class="flex flex-1 justify-start items-center font-bold text-md text-primary pl-4">
-                                                        ALTERNATIVE LYRICS
+                                                        <p id="regenerate-header-title">ALTERNATIVE LYRICS</p>
                                                     </div>
 
                                                     <!-- Generate Buttons -->
@@ -128,6 +128,12 @@
                             {% endfor %}
                         </div>
                         <!-- End: Container for regenrated lyrics -->
+
+                        <!-- Container for generated rhymes -->
+                        <div class="flex-1 hidden overflow-y-auto bg-base-100" id="generated-rhymes">
+                            <!-- Generated Rhymes are inserted here by javascript -->
+                        </div>
+                        <!-- End: Container for generated rhymes -->
 
                     </div>
                     <!-- End: Fields for Edit Song Style -->

@@ -100,9 +100,25 @@
  - Delete the implementation of util_navigation.js
  - Delete horizontal and vertical resize code
 
+ - Move API Keys out of the database
+ - Hot-Reload yaml files
+
 
 ## Todo
- - Hot-Reload yaml files
+
+2025-06-08 06:39:58 [DEBUG] services: Prompt 'lyrics_summary' found in internal prompts
+2025-06-08 06:39:58 [INFO] services: Calling summarisation model gemini/gemini-2.0-flash for lyrics conversation
+2025-06-08 06:40:04 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBmEXSBfLyy7m_iq5XnvuDot0unSF3nqeA "HTTP/1.1 200 OK"
+2025-06-08 06:40:04 [INFO] services: Generated summary of 2934 characters for lyrics conversation
+2025-06-08 06:40:04 [ERROR] services: Error summarising conversation for song 84, type 'lyrics': database is locked
+2025-06-08 06:40:04 [ERROR] apis: Summarisation failed for user mpetrou, song 84, type 'lyrics'
+2025-06-08 06:40:04 [ERROR] django.request: Internal Server Error: /api_summarise_chat_history
+2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 19 hidden status to True
+2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 20 hidden status to True
+
+bug - textedit + save does not update right song lyrics
+
+ - Need to be able to create an instrumental Intro
  - Sort order of new generations
  - Make new generations light grey until clicked on
  - Review all code from LLM on Friday
@@ -111,6 +127,7 @@
  - Library Page
  - Regenerate -> send custom request (check), and send current section lyrics to llm.
  - Disable Regenerate button if not saved.
+ - Add a Rhyme feature somehow to the edit page (different selection mode?)
  - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
  - Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
  - Move Next and Prev Buttons - try just under the page
@@ -118,6 +135,7 @@
  - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
  - Update default page upon login
  - Update modals to look consistent
+ - Remove all the exception handling and do it better
 
 
 ### Bugs & Polish:

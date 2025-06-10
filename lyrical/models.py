@@ -188,6 +188,7 @@ class Section(models.Model):
         ('theme', 'Theme'),
         ("narrative", "Narrative"),
         ("mood", "Mood"),
+        ('instrumental-intro', 'Instrumental Intro'),
         ('intro', 'Intro'),
         ('verse', 'Verse'),
         ('chorus', 'Chorus'),

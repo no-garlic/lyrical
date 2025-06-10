@@ -27,6 +27,10 @@
     --badge-color: #b1f8c8;
     color: #558855;
 }
+.badge-instrumental-intro {
+    --badge-color: #bfcaff;
+    color: #555588;
+}
 .badge-intro {
     --badge-color: #b9e8ff;
     color: #555588;
@@ -54,10 +58,6 @@
 .badge-spare2 {
     --badge-color: #f7db99;
     color: #757545;
-}
-.badge-spare3 {
-    --badge-color: #bfcaff;
-    color: #555588;
 }
 
 .song-section-card {
