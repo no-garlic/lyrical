@@ -285,6 +285,25 @@ export class Markup {
         return lineState ? !!lineState[word] : false;
     }
 
+    _getWordEdgeType(lineIndex, wordIndex) {
+        if (!this.isWordMarked(lineIndex, wordIndex)) {
+            return 'none';
+        }
+        
+        const isLeftEdge = wordIndex === 0 || !this.isWordMarked(lineIndex, wordIndex - 1);
+        const isRightEdge = wordIndex === this.lines[lineIndex].length - 1 || !this.isWordMarked(lineIndex, wordIndex + 1);
+        
+        if (isLeftEdge && isRightEdge) {
+            return 'isolated';
+        } else if (isLeftEdge) {
+            return 'left';
+        } else if (isRightEdge) {
+            return 'right';
+        } else {
+            return 'middle';
+        }
+    }
+
     getNumLines() {
         return this.lines.length;
     }
@@ -326,11 +345,25 @@ export class Markup {
                 
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {
-                    if (this.config.multiSelect) {
-                        wordSpan.classList.add(this.config.markerMulti);
-                    } else {
-                        wordSpan.classList.add(this.config.markerSingle);
-                    }                    
+                    const markerClass = this.config.multiSelect ? this.config.markerMulti : this.config.markerSingle;
+                    wordSpan.classList.add(markerClass);
+                    
+                    // Add rounded corners based on edge position
+                    const edgeType = this._getWordEdgeType(lineIndex, wordIndex);
+                    switch (edgeType) {
+                        case 'isolated':
+                            wordSpan.classList.add('rounded');
+                            break;
+                        case 'left':
+                            wordSpan.classList.add('rounded-l');
+                            break;
+                        case 'right':
+                            wordSpan.classList.add('rounded-r');
+                            break;
+                        case 'middle':
+                            // No rounding for middle words
+                            break;
+                    }
                 }
                 
                 // Add event listeners
