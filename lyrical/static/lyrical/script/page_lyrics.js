@@ -626,25 +626,21 @@ function handleWordDragDrop(item, zone, event) {
     const line = parseInt(item.element.dataset.line);
     const index = parseInt(item.element.dataset.index);
 
-    // Only proceed if we have valid data and are in rhyme mode
+    // only proceed if we have valid data and are in rhyme mode
     if (editMode !== 'rhyme' || !markupSystem || isNaN(line) || isNaN(index)) {
         console.error('handleWordDragDrop: invalid state or data', { editMode, line, index, word });
         return;
     }
 
+    // update the text in the markup system
     markupSystem.replaceWord(line, index, word);
-
     const sourceText = markupSystem.getText('raw');
 
+    // copy the text to the textarea so it gets saved
     const destination = zone.element.children[1].children[PANELS.TEXTAREA];
     if (destination.value.trim() != sourceText) {
         destination.value = sourceText;
         setLyricsDirty();
-
-        if (editMode === 'rhyme') {
-            const interactivePanel = editCard.children[1].children[PANELS.INTERACTIVE];
-            copyTextToInteractivePanel(sourceText, interactivePanel);
-        }
     }    
 }
 

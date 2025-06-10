@@ -99,6 +99,14 @@ export class Markup {
         this._renderText();
     }
 
+    updateText(text) {
+        // Update text while preserving marked state
+        this.text = text;
+        this.lines = text.split('\n').map(line => line.trim().split(/\s+/).filter(word => word.length > 0));
+        // Keep existing markedState
+        this._renderText();
+    }
+
     replaceWord(line, index, word) {
         // replace the word on line 'line', at index 'index', with word 'word'.
         // if the word was marked before, then mark the new word
