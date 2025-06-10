@@ -13,6 +13,7 @@ export class Markup {
             lineSpacing: '0.125rem',
             lineHeight: '1.35',
             wordSpacing: '-1px',
+            multiSelect: true,
             ...initialConfig,
         };
         this.callbacks = {
@@ -51,6 +52,14 @@ export class Markup {
         if (this.callbacks.onToolChanged) {
             this.callbacks.onToolChanged('eraser');
         }
+    }
+
+    setSingleSelectMode() {
+        this.multiSelect = false;
+    }
+
+    setMultiSelectMode() {       
+        this.multiSelect = true; 
     }
 
     isMarkerSelected() {
