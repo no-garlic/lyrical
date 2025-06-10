@@ -55,11 +55,19 @@ export class Markup {
     }
 
     setSingleSelectMode() {
-        this.multiSelect = false;
+        this.config.multiSelect = false;
+        this.clearHighlighting();
+        if (this.callbacks.onModeChanged) {
+            this.callbacks.onModeChanged('single');
+        }
     }
 
-    setMultiSelectMode() {       
-        this.multiSelect = true; 
+    setMultiSelectMode() {
+        this.config.multiSelect = true;
+        this.clearHighlighting();
+        if (this.callbacks.onModeChanged) {
+            this.callbacks.onModeChanged('multi');
+        }
     }
 
     isMarkerSelected() {
@@ -68,6 +76,10 @@ export class Markup {
 
     isEraserSelected() {
         return this.selectedTool === 'eraser';
+    }
+
+    isSingleSelectMode() {
+        return !this.config.multiSelect;
     }
 
     clearHighlighting() {
@@ -291,18 +303,31 @@ export class Markup {
     _handleMouseDown(e, lineIndex, wordIndex) {
         e.preventDefault();
         
-        if (e.shiftKey) {
-            // Shift-click: mark/unmark entire line
-            this._toggleLine(lineIndex);
+        if (this.isSingleSelectMode()) {
+            // Single-select mode: ignore shift-click and drag
+            if (this.selectedTool === 'eraser') {
+                // Clear all selections in single-select mode with eraser
+                this.clearHighlighting();
+            } else {
+                // Clear all selections first, then toggle the clicked word
+                this.clearHighlighting();
+                this._toggleWord(lineIndex, wordIndex);
+            }
         } else {
-            // Regular mousedown: toggle immediately and prepare for potential drag
-            this._toggleWord(lineIndex, wordIndex);
-            
-            this.isDragging = true;
-            this.dragStartWord = { line: lineIndex, word: wordIndex };
-            
-            // Capture the state we just set for consistent drag behavior
-            this.dragTargetState = this.isWordMarked(lineIndex, wordIndex);
+            // Multi-select mode: original behavior
+            if (e.shiftKey) {
+                // Shift-click: mark/unmark entire line
+                this._toggleLine(lineIndex);
+            } else {
+                // Regular mousedown: toggle immediately and prepare for potential drag
+                this._toggleWord(lineIndex, wordIndex);
+                
+                this.isDragging = true;
+                this.dragStartWord = { line: lineIndex, word: wordIndex };
+                
+                // Capture the state we just set for consistent drag behavior
+                this.dragTargetState = this.isWordMarked(lineIndex, wordIndex);
+            }
         }
     }
     

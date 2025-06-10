@@ -959,6 +959,7 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonRegenerate, 'shown');
         updateMarkupButtonAppearances();
         hideOrShowAllSections('hide', songSectionCard);
+        markupSystem.setMultiSelectMode();
     } else if (mode === 'rhyme') {
         showEditTextArea(false, buttonTextEdit);
         showEditRegenerate(false, buttonRegenerate);
@@ -972,6 +973,7 @@ function enterEditMode(mode, allButtons) {
         updateButtonAppearance(buttonRegenerate, 'shown');
         updateMarkupButtonAppearances();
         hideOrShowAllSections('hide', songSectionCard);
+        markupSystem.setSingleSelectMode();
     } else if (mode === 'regenerate') {
         showEditRhyme(false, buttonRhyme);
         showEditTextArea(false, buttonTextEdit);
