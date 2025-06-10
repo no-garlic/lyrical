@@ -103,6 +103,37 @@ export class Markup {
         // replace the word on line 'line', at index 'index', with word 'word'.
         // if the word was marked before, then mark the new word
         // call the callback function onWordReplaced(line, index, oldWord, newWord) and onTextChanged()
+        
+        if (!this.lines[line] || index < 0 || index >= this.lines[line].length) {
+            console.error(`replaceWord: invalid line (${line}) or index (${index})`);
+            return;
+        }
+        
+        const oldWord = this.lines[line][index];
+        
+        // Replace the word in the data structure
+        this.lines[line][index] = word;
+        
+        // Update the raw text to match
+        this.text = this.lines.map(line => line.join(' ')).join('\n');
+        
+        // If the old word was marked, mark the new word
+        const wasMarked = this.isWordMarked(line, index);
+        if (wasMarked) {
+            if (!this.markedState[line]) {
+                this.markedState[line] = {};
+            }
+            this.markedState[line][index] = true;
+        }
+        
+        // Re-render the text
+        this._renderText();
+        
+        // Call callbacks
+        if (this.callbacks.onWordReplaced) {
+            this.callbacks.onWordReplaced(line, index, oldWord, word);
+        }
+        this._notifyTextChanged();
     }
 
     getText(style = 'markup') {

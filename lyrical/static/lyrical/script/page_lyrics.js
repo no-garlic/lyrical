@@ -623,8 +623,14 @@ function handleSectionDragDrop(item, zone, event) {
 
 function handleWordDragDrop(item, zone, event) {
     const word = item.element.dataset.word;
-    const line = item.element.dataset.line;
-    const index = item.element.dataset.index;
+    const line = parseInt(item.element.dataset.line);
+    const index = parseInt(item.element.dataset.index);
+
+    // Only proceed if we have valid data and are in rhyme mode
+    if (editMode !== 'rhyme' || !markupSystem || isNaN(line) || isNaN(index)) {
+        console.error('handleWordDragDrop: invalid state or data', { editMode, line, index, word });
+        return;
+    }
 
     markupSystem.replaceWord(line, index, word);
 
@@ -635,7 +641,7 @@ function handleWordDragDrop(item, zone, event) {
         destination.value = sourceText;
         setLyricsDirty();
 
-        if (editMode === 'interactive') {
+        if (editMode === 'rhyme') {
             const interactivePanel = editCard.children[1].children[PANELS.INTERACTIVE];
             copyTextToInteractivePanel(sourceText, interactivePanel);
         }
