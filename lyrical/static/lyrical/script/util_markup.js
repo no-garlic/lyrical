@@ -309,9 +309,15 @@ export class Markup {
                 // Clear all selections in single-select mode with eraser
                 this.clearHighlighting();
             } else {
-                // Clear all selections first, then toggle the clicked word
-                this.clearHighlighting();
-                this._toggleWord(lineIndex, wordIndex);
+                // Check if clicking on already marked word
+                if (this.isWordMarked(lineIndex, wordIndex)) {
+                    // Unmark the clicked word (since it's already marked)
+                    this._toggleWord(lineIndex, wordIndex);
+                } else {
+                    // Clear all selections first, then mark the clicked word
+                    this.clearHighlighting();
+                    this._toggleWord(lineIndex, wordIndex);
+                }
             }
         } else {
             // Multi-select mode: original behavior
