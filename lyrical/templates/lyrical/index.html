@@ -10,7 +10,7 @@
     <img src="{% static 'lyrical/image/singer-transparent.png' %}" 
          alt="Singer performing"
          class="object-contain max-w-[100vw] max-h-[50vh] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
-    <a href="{% if user.is_authenticated %}{% url 'names' %}{% else %}{% url 'login' %}{% endif %}" 
+    <a href="{% if user.is_authenticated %}{% url 'song' %}{% else %}{% url 'login' %}{% endif %}" 
        class="btn btn-xl btn-primary btn-wide mt-12 mb-4">Login</a>
     <a href="{% url 'register' %}" class="link text-neutral link-hover">No account? Register here.</a>
 </div>

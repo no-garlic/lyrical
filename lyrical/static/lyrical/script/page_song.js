@@ -95,8 +95,8 @@ function initEventHandlers() {
     filterLiked.onchange = applyFilters;
     filterGenerated.onchange = applyFilters;
     filterPublished.onchange = applyFilters;
-    btnNext.onclick = navigateNext;
-    btnPrev.classList.add('hidden');
+    if (btnNext) btnNext.onclick = navigateNext;
+    if (btnPrev) btnPrev.classList.add('hidden');
 }
 
 
@@ -169,10 +169,12 @@ function removeSelectionStyles(element) {
 function updateButtonStylesForSelection(element) {
     const btnNext = document.getElementById('btn-navigate-next')
 
-    if (element) {
-        btnNext.classList.remove('btn-disabled')
-    } else {
-        btnNext.classList.add('btn-disabled')
+    if (btnNext) {
+        if (element) {
+            btnNext.classList.remove('btn-disabled')
+        } else {
+            btnNext.classList.add('btn-disabled')
+        }
     }
 }
 

@@ -195,27 +195,31 @@
                     <div class="h-full w-full flex items-center justify-center">
                         <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 px-4">
 
-                            <!-- Previous Button -->
-                            <div class="w-200"> <!-- This div is only here so the Next Button does not dock to the left when we hide the Prev Button -->
-                                <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 10 24" class="w-6 h-6">
-                                        <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
+                            {% if navigation %}
+                                <!-- Previous Button -->
+                                <div class="w-200"> <!-- This div is only here so the Next Button does not dock to the left when we hide the Prev Button -->
+                                    <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 10 24" class="w-6 h-6">
+                                            <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
+                                        </svg>
+                                        <p>Previous</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
                                     </svg>
-                                    <p>Previous</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
-                                </svg>
-                                </button>
-                            </div>
+                                    </button>
+                                </div>
+                                <!-- End: Previous Button -->
 
-                            <!-- Next Button -->
-                            <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
-                                </svg>
-                                <p>Next</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="14 0 8 24" class="w-6 h-6">
-                                    <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />
-                                </svg>
-                            </button>
+                                <!-- Next Button -->
+                                <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
+                                    </svg>
+                                    <p>Next</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="14 0 8 24" class="w-6 h-6">
+                                        <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />
+                                    </svg>
+                                </button>
+                                <!-- End: Next Button -->                                
+                            {% endif %}
 
                         </div>
                     </div>

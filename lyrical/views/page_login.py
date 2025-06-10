@@ -50,7 +50,7 @@ def page_login(request):
                 if user.is_active:
                     login(request, user)
                     logger.info(f"user '{username}' logged in successfully")
-                    return HttpResponseRedirect(reverse("library"))
+                    return HttpResponseRedirect(reverse("song"))
                 else:
                     logger.warning(f"login attempt failed for user '{username}': account is deactivated")
                     return render(request, "lyrical/login.html", {

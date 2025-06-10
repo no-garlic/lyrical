@@ -99,17 +99,17 @@
  - Admin classes
  - Delete the implementation of util_navigation.js
  - Delete horizontal and vertical resize code
-
  - Move API Keys out of the database
  - Hot-Reload yaml files
+ - Pass a list of exclude words to the LLM based on contents of container on page
+ - Dont need history for words
+ - Need to be able to create an instrumental Intro
 
 
 ## Todo
 
 
  - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
- - Pass a list of exclude words to the LLM based on contents of container on page
- - Dont need history for words
 
 2025-06-08 06:39:58 [DEBUG] services: Prompt 'lyrics_summary' found in internal prompts
 2025-06-08 06:39:58 [INFO] services: Calling summarisation model gemini/gemini-2.0-flash for lyrics conversation
@@ -123,7 +123,6 @@
 
 bug - textedit + save does not update right song lyrics
 
- - Need to be able to create an instrumental Intro
  - Sort order of new generations
  - Make new generations light grey until clicked on
  - Review all code from LLM on Friday
