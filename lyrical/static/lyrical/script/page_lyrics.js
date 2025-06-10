@@ -228,8 +228,13 @@ function handleRegenerateClick() {
                 requestParams['count'] = 2;
                 streamHelperSection.initiateRequest(requestParams);
             } else if (editMode === 'rhyme') {
+
+                const word, line, index = getFirstMarkedWordFromInteractivePanel();
+
                 requestParams['prompt'] = 'song_words';
-                requestParams['rhyme_with'] = getFirstMarkedWordFromInteractivePanel().trim();
+                requestParams['rhyme_with'] = word;
+                requestParams['word_line'] = line;
+                requestParams['word_index'] = index;
                 requestParams['count'] = 12;
                 requestParams['song_section'] = getTextFromInteractivePanel('raw').trim();
                 streamHelperRhyme.initiateRequest(requestParams);
@@ -567,7 +572,41 @@ function handleRhymeDataStreamError(error) {
 
 
 function handleDragDrop(item, zone, event) {
+    const itemId = item.element.id;
+    if (itemId.toLowerCase().includes('section')) {
+        handleSectionDragDrop(item, zone, event);
+    } else {
+        handleWordDragDrop(item, zone, event);
+    }
+}
+
+
+function handleSectionDragDrop(item, zone, event) {
     const sectionId = item.element.dataset.sectionId;
+    const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
+    let sourceText = sourceTextElement.innerHTML.trim();
+    const destination = zone.element.children[1].children[0];
+
+    const shiftDrop = false;
+
+    if (shiftDrop) {
+        sourceText = destination.value + '\n' + sourceText;
+    }
+
+    if (destination.value.trim() != sourceText) {
+        destination.value = sourceText;
+        setLyricsDirty();
+
+        if (editMode === 'interactive') {
+            const interactivePanel = editCard.children[1].children[1];
+            copyTextToInteractivePanel(sourceText, interactivePanel);
+        }
+    }    
+}
+
+
+function handleWordDragDrop(item, zone, event) {
+    const word = item.element.dataset.word;
     const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
     let sourceText = sourceTextElement.innerHTML.trim();
     const destination = zone.element.children[1].children[0];
@@ -592,8 +631,15 @@ function handleDragDrop(item, zone, event) {
 
 function registerCardForDragDrop(card) {
     const sectionId = card.dataset.sectionId;
-    //console.log(`registering card for drag-drop: ${sectionId}`)
+    console.log(`registering card for drag-drop: ${sectionId}`)
     dragDropSystem.registerDraggable(card, { sectionId: sectionId });
+}
+
+
+function registerWordForDragDrop(card) {
+    const word = card.dataset.word;
+    console.log(`registering word for drag-drop: ${word}`)
+    dragDropSystem.registerDraggable(card, { word: word });
 }
 
 
@@ -1107,7 +1153,12 @@ function getTextFromInteractivePanel(style = 'markup') {
 
 
 function getFirstMarkedWordFromInteractivePanel() {
-    return markupSystem.getFirstMarkedWord();
+    const selectedWord = markupSystem.getFirstMarkedWord();
+    if (selectedWord) {
+        return selectedWord.trim();
+    } else {
+        return '';
+    }
 }
 
 
@@ -1186,15 +1237,30 @@ function addNewLyricsSection(sectionId, section, lyrics) {
 
 
 function addNewRhymeWord(word) {
-    console.log(`####################### ${word}`)
+    // ensure the word is unique
+    const container = document.getElementById('generated-rhymes');
+    Array.from(container.children).forEach(child => { 
+        if (child.dataset.word == word) {
+            return;
+        }
+    });
+    
+    // get the line and index of the selected word
+    let line = 0;
+    let index = 0;
 
-
-
-    // TODO
-
-
-
-
+    // create a new card for the word
+    apiRenderComponent('card_word', 'generated-rhymes', { word: { text: word, line: line, index: index } })
+        .then(html => {
+            // register with the drag-drop system
+            const wordCard = document.getElementById(`word-card-${word}`);
+            registerWordForDragDrop(wordCard);
+        })
+        .catch(error => {
+            // handle the error if the component rendering fails
+            console.error('Failed to render or initialize new song section card:', error);
+            toastSystem.showError('Failed to display the new song section. Please refresh the page.');
+        });
 }
 
 
