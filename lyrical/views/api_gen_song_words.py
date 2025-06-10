@@ -23,6 +23,7 @@ class SongWordsGenerator(LLMGenerator):
             'word_index': self.request.GET.get("word_index", -1),
             'song_section': self.request.GET.get("song_section", "").strip(),
             'section_type': self.request.GET.get("section_type", "").strip(),
+            'exclude_list': self.request.GET.get("exclude_list", "").strip(),
             'count': int(self.request.GET.get("count", 10)),
             'custom_prompt': self.request.GET.get("custom_prompt", "").strip(),
         }
@@ -93,6 +94,7 @@ class SongWordsGenerator(LLMGenerator):
             'narrative': self.extracted_params['narrative'],
             'mood': self.extracted_params['mood'],
             'rhyme_with': self.extracted_params['rhyme_with'],
+            'exclude_list': self.extracted_params['exclude_list'],
             'song_section': self.extracted_params['song_section'],
             'section_type': self.extracted_params['section_type'],
             'count': self.extracted_params['count'],

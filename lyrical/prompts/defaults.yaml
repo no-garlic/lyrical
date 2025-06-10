@@ -9,6 +9,8 @@
   {"key": {"sub-key1": "val1", "sub-key2", "val2"}}
   ...
   As you can see, there is a complete and valid JSON structure on each individual line.
+  NEVER return just plain text asking me a question or telling me you dont know what to do, in that case return the NDJSON structure:
+  {"error": "the error message"}
 
 
 "song_names" : |-
@@ -204,6 +206,11 @@
 
   The word you need to provide replacements of is "{{rhyme_with}}".
   You must return {{count}} words that rhyme with {{rhyme_with}}, that fit the themes, narrative, and mood of the song.
+
+  DO NOT return any duplicate words.
+  {% if exclude_list %}
+  DO NOT return any words in this list:
+  {{exclude_list}}{% endif %}
 
   ONLY USE following NDJSON format, returning EXACTLY ONE line of valid NDJSON per word:
     {"<index>": "<replacement word>"}

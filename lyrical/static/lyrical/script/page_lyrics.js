@@ -240,9 +240,9 @@ function handleRegenerateClick() {
                 requestParams['rhyme_with'] = word;
                 requestParams['word_line'] = line;
                 requestParams['word_index'] = index;
-                requestParams['count'] = 12;
+                requestParams['count'] = 50;
                 requestParams['song_section'] = songSection;
-                //requestParams['exclude_list'] = wordsToExclude;
+                requestParams['exclude_list'] = wordsToExclude;
                 streamHelperRhyme.initiateRequest(requestParams);
             } else {
                 requestParams['prompt'] = 'song_lyrics_section';
@@ -1255,8 +1255,8 @@ function addNewRhymeWord(word, line, index) {
     // ensure the word is unique
     const currentWords = getCurrentWordsFromRhymeContainer();
 
-    if (word in currentWords) {
-        console.log(`shipping word: '${word}' as it is a duplicate.`)
+    if (currentWords.includes(word)) {
+        console.log(`skipping word: '${word}' as it is a duplicate.`)
     } else {
         // create a new card for the word
         apiRenderComponent('card_word', 'generated-rhymes', { word: { text: word, line: line, index: index } })
