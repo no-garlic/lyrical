@@ -71,7 +71,7 @@ def make_song_lyrics(song):
             "item_name": f"section-{item_name}" if item_name != 'verse' else f"section-verse{item_index}",
             "index": song_section.index,
             "words": song_section.words,
-            "allow_words": True if song_section.type in ['verse', 'pre-chorus', 'chorus', 'bridge', 'outro', 'vocalisation'] else False,
+            "allow_words": True if song_section.type in ['verse', 'pre-chorus', 'chorus', 'bridge', 'intro', 'outro', 'vocalisation'] else False,
         })
     
     return song_lyrics

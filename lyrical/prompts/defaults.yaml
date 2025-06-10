@@ -121,6 +121,7 @@
   {% endif %}{% if pre_chorus_lines %}- a pre-chorus with {{ pre_chorus_lines }} lines of lyrics
   {% endif %}{% if chorus_lines %}- a chorus with {{ chorus_lines }} lines of lyrics
   {% endif %}{% if bridge_lines %}- a bridge with {{ bridge_lines }} lines of lyrics
+  {% endif %}{% if intro_lines %}- an intro with {{ intro_lines }} lines of lyrics
   {% endif %}{% if outro_lines %}- an outro with {{ outro_lines }} lines of lyrics
   {% endif %}{% if vocalisation_lines %}- a vocalisation section with {{ vocalisation_lines }} lines of lyrics{% endif %}
 
