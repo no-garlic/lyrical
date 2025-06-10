@@ -3,7 +3,8 @@ export class Markup {
 
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
-            marker: 'bg-error',
+            markerMulti: 'bg-error',
+            markerSingle: 'bg-success',
             replaceMarkedLinesWith: '<<line>>',
             replaceMarkedSequencesWith: '<<words>>',
             replaceMarkedWordsWith: '<<word>>',
@@ -325,7 +326,11 @@ export class Markup {
                 
                 // Apply marking if word is marked
                 if (this.isWordMarked(lineIndex, wordIndex)) {
-                    wordSpan.classList.add(this.config.marker);
+                    if (this.config.multiSelect) {
+                        wordSpan.classList.add(this.config.markerMulti);
+                    } else {
+                        wordSpan.classList.add(this.config.markerSingle);
+                    }                    
                 }
                 
                 // Add event listeners
@@ -345,7 +350,11 @@ export class Markup {
                     if (this.isWordMarked(lineIndex, wordIndex) && 
                         wordIndex + 1 < line.length && 
                         this.isWordMarked(lineIndex, wordIndex + 1)) {
-                        spaceSpan.classList.add(this.config.marker);
+                        if (this.config.multiSelect) {
+                            spaceSpan.classList.add(this.config.markerMulti);
+                        } else {
+                            spaceSpan.classList.add(this.config.markerSingle);
+                        }                    
                     }
                     
                     lineDiv.appendChild(spaceSpan);

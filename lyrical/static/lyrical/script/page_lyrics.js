@@ -167,7 +167,8 @@ function initDragDrop() {
 
 function initMarkupSystem() {
     markupSystem = new Markup({
-        marker: 'bg-success',
+        markerMulti: 'bg-error',
+        markerSingle: 'bg-success',
         replaceMarkedLinesWith: '<line>',
         replaceMarkedSequencesWith: '<words>',
         replaceMarkedWordsWith: '<word>',
