@@ -19,6 +19,8 @@ class SongWordsGenerator(LLMGenerator):
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
             'rhyme_with': self.request.GET.get("rhyme_with", "").strip(),
+            'word_line': self.request.GET.get("word_line", -1),
+            'word_index': self.request.GET.get("word_index", -1),
             'song_section': self.request.GET.get("song_section", "").strip(),
             'section_type': self.request.GET.get("section_type", "").strip(),
             'count': int(self.request.GET.get("count", 10)),
@@ -106,14 +108,17 @@ class SongWordsGenerator(LLMGenerator):
     def preprocess_ndjson(self, ndjson_line: str) -> str:
         data = json.loads(ndjson_line)
         
+        new_data = {}
 
         for index, word in data.items():
             word = normalize_to_ascii(word)
-            data[index] = word
+            new_data['word'] = word
+            new_data['line'] = self.extracted_params['word_line']
+            new_data['index'] = self.extracted_params['word_index']
 
         # add the new song ID to the data
-        logger.debug(f"Preprocessed NDJSON line: {data}")
-        return json.dumps(data)
+        logger.debug(f"Preprocessed NDJSON line: {new_data}")
+        return json.dumps(new_data)
         
 
 @login_required

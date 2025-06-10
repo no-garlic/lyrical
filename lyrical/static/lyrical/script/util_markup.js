@@ -17,6 +17,10 @@ export class Markup {
             ...initialConfig,
         };
         this.callbacks = {
+            onToolChanged: () => {},
+            onModeChanged: () => {},
+            onWordReplaced: () => {},
+            onTextChanged: () => {},
             ...initialCallbacks,
         };
         
@@ -93,6 +97,12 @@ export class Markup {
         this.lines = text.split('\n').map(line => line.trim().split(/\s+/).filter(word => word.length > 0));
         this.markedState = {};
         this._renderText();
+    }
+
+    replaceWord(line, index, word) {
+        // replace the word on line 'line', at index 'index', with word 'word'.
+        // if the word was marked before, then mark the new word
+        // call the callback function onWordReplaced(line, index, oldWord, newWord) and onTextChanged()
     }
 
     getText(style = 'markup') {
@@ -182,12 +192,20 @@ export class Markup {
             for (let wordIndex = 0; wordIndex < line.length; wordIndex++) {
                 if (lineState[wordIndex]) {
                     const word = line[wordIndex];
-                    return word.trim().replace(/[.,]+$/, '');
+                    return {
+                        word: word.trim().replace(/[.,]+$/, ''),
+                        line: lineIndex,
+                        index: wordIndex
+                    };
                 }
             }
         }
         
-        return null;
+        return {
+            word: '',
+            line: -1,
+            index: -1
+        };
     }
 
     getUnmarkedText() {

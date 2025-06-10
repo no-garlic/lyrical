@@ -185,7 +185,9 @@ function initMarkupSystem() {
         },
         onToolChanged: (tool) => {
             updateMarkupButtonAppearances();
-        }
+        },
+        onWordReplaced: (line, index, oldWord, newWord) => {
+        }        
     });
 }
 
@@ -229,7 +231,7 @@ function handleRegenerateClick() {
                 streamHelperSection.initiateRequest(requestParams);
             } else if (editMode === 'rhyme') {
 
-                const word, line, index = getFirstMarkedWordFromInteractivePanel();
+                const { word, line, index } = getFirstMarkedWordFromInteractivePanel();
 
                 requestParams['prompt'] = 'song_words';
                 requestParams['rhyme_with'] = word;
@@ -538,10 +540,24 @@ function handleRhymeDataStreamData(data) {
             return;
         }
         
+        let word = '';
+        let line = -1;
+        let index = -1;
+
         for (const [key, value] of Object.entries(data)) {
-            console.log(`handleSectionDataStreamData: key:${key} value:${value}`);
-            addNewRhymeWord(value);
+            if (key == 'word') {
+                word = value;
+            } else if (key == 'line') {
+                line = parseInt(value);
+            } else if (key == 'index') {
+                index = parseInt(value);
+            }
         }
+
+        if (word && line >= 0 && index >= 0) {
+            addNewRhymeWord(word, line, index)
+        }
+
     } else {
         handleSectionDataStreamError(data);
     }
@@ -585,7 +601,7 @@ function handleSectionDragDrop(item, zone, event) {
     const sectionId = item.element.dataset.sectionId;
     const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
     let sourceText = sourceTextElement.innerHTML.trim();
-    const destination = zone.element.children[1].children[0];
+    const destination = zone.element.children[1].children[PANELS.TEXTAREA];
 
     const shiftDrop = false;
 
@@ -607,22 +623,20 @@ function handleSectionDragDrop(item, zone, event) {
 
 function handleWordDragDrop(item, zone, event) {
     const word = item.element.dataset.word;
-    const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
-    let sourceText = sourceTextElement.innerHTML.trim();
-    const destination = zone.element.children[1].children[0];
+    const line = item.element.dataset.line;
+    const index = item.element.dataset.index;
 
-    const shiftDrop = false;
+    markupSystem.replaceWord(line, index, word);
 
-    if (shiftDrop) {
-        sourceText = destination.value + '\n' + sourceText;
-    }
+    const sourceText = markupSystem.getText('raw');
 
+    const destination = zone.element.children[1].children[PANELS.TEXTAREA];
     if (destination.value.trim() != sourceText) {
         destination.value = sourceText;
         setLyricsDirty();
 
         if (editMode === 'interactive') {
-            const interactivePanel = editCard.children[1].children[1];
+            const interactivePanel = editCard.children[1].children[PANELS.INTERACTIVE];
             copyTextToInteractivePanel(sourceText, interactivePanel);
         }
     }    
@@ -1153,12 +1167,7 @@ function getTextFromInteractivePanel(style = 'markup') {
 
 
 function getFirstMarkedWordFromInteractivePanel() {
-    const selectedWord = markupSystem.getFirstMarkedWord();
-    if (selectedWord) {
-        return selectedWord.trim();
-    } else {
-        return '';
-    }
+    return markupSystem.getFirstMarkedWord();
 }
 
 
@@ -1236,7 +1245,7 @@ function addNewLyricsSection(sectionId, section, lyrics) {
 }
 
 
-function addNewRhymeWord(word) {
+function addNewRhymeWord(word, line, index) {
     // ensure the word is unique
     const container = document.getElementById('generated-rhymes');
     Array.from(container.children).forEach(child => { 
@@ -1245,10 +1254,6 @@ function addNewRhymeWord(word) {
         }
     });
     
-    // get the line and index of the selected word
-    let line = 0;
-    let index = 0;
-
     // create a new card for the word
     apiRenderComponent('card_word', 'generated-rhymes', { word: { text: word, line: line, index: index } })
         .then(html => {
