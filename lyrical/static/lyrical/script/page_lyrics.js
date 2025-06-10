@@ -182,7 +182,7 @@ function initMarkupSystem() {
     
     markupSystem.init({
         onTextChanged: () => {
-            debugShowInteractiveText();
+            //debugShowInteractiveText();
         },
         onToolChanged: (tool) => {
             updateMarkupButtonAppearances();
@@ -232,14 +232,17 @@ function handleRegenerateClick() {
                 streamHelperSection.initiateRequest(requestParams);
             } else if (editMode === 'rhyme') {
 
+                const songSection = getTextFromInteractivePanel('raw').trim();
                 const { word, line, index } = getFirstMarkedWordFromInteractivePanel();
+                const wordsToExclude = getCurrentWordsFromRhymeContainer();
 
                 requestParams['prompt'] = 'song_words';
                 requestParams['rhyme_with'] = word;
                 requestParams['word_line'] = line;
                 requestParams['word_index'] = index;
                 requestParams['count'] = 12;
-                requestParams['song_section'] = getTextFromInteractivePanel('raw').trim();
+                requestParams['song_section'] = songSection;
+                //requestParams['exclude_list'] = wordsToExclude;
                 streamHelperRhyme.initiateRequest(requestParams);
             } else {
                 requestParams['prompt'] = 'song_lyrics_section';
@@ -560,7 +563,7 @@ function handleRhymeDataStreamData(data) {
         }
 
     } else {
-        handleSectionDataStreamError(data);
+        handleRhymeDataStreamError(data);
     }
 }
 
@@ -1250,25 +1253,38 @@ function addNewLyricsSection(sectionId, section, lyrics) {
 
 function addNewRhymeWord(word, line, index) {
     // ensure the word is unique
+    const currentWords = getCurrentWordsFromRhymeContainer();
+
+    if (word in currentWords) {
+        console.log(`shipping word: '${word}' as it is a duplicate.`)
+    } else {
+        // create a new card for the word
+        apiRenderComponent('card_word', 'generated-rhymes', { word: { text: word, line: line, index: index } })
+            .then(html => {
+                // register with the drag-drop system
+                const wordCard = document.getElementById(`word-card-${word}`);
+                registerWordForDragDrop(wordCard);
+            })
+            .catch(error => {
+                // handle the error if the component rendering fails
+                console.error('Failed to render or initialize new song section card:', error);
+                toastSystem.showError('Failed to display the new song section. Please refresh the page.');
+            });
+    }
+}
+
+
+function getCurrentWordsFromRhymeContainer() {
+    let currentWords = [];
+
     const container = document.getElementById('generated-rhymes');
+
     Array.from(container.children).forEach(child => { 
-        if (child.dataset.word == word) {
-            return;
-        }
+        currentWords.push(child.dataset.word);
     });
-    
-    // create a new card for the word
-    apiRenderComponent('card_word', 'generated-rhymes', { word: { text: word, line: line, index: index } })
-        .then(html => {
-            // register with the drag-drop system
-            const wordCard = document.getElementById(`word-card-${word}`);
-            registerWordForDragDrop(wordCard);
-        })
-        .catch(error => {
-            // handle the error if the component rendering fails
-            console.error('Failed to render or initialize new song section card:', error);
-            toastSystem.showError('Failed to display the new song section. Please refresh the page.');
-        });
+
+    console.log(`currentWords:\n${currentWords}`)
+    return currentWords;
 }
 
 

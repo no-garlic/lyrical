@@ -106,6 +106,11 @@
 
 ## Todo
 
+
+ - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+ - Pass a list of exclude words to the LLM based on contents of container on page
+ - Dont need history for words
+
 2025-06-08 06:39:58 [DEBUG] services: Prompt 'lyrics_summary' found in internal prompts
 2025-06-08 06:39:58 [INFO] services: Calling summarisation model gemini/gemini-2.0-flash for lyrics conversation
 2025-06-08 06:40:04 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBmEXSBfLyy7m_iq5XnvuDot0unSF3nqeA "HTTP/1.1 200 OK"

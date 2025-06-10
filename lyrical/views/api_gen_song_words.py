@@ -29,7 +29,7 @@ class SongWordsGenerator(LLMGenerator):
     
 
     def uses_conversation_history(self) -> bool:
-        return True
+        return False
     
 
     def query_database_data(self) -> Dict[str, Any]:
@@ -77,7 +77,7 @@ class SongWordsGenerator(LLMGenerator):
     
 
     def get_message_type(self) -> str:
-        return 'rhyme'
+        return ''
     
     
     def get_song_id(self) -> int:
