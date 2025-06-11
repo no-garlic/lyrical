@@ -147,9 +147,6 @@ function initSongManagement() {
     document.getElementById('tab-filter-new').onclick = applyFilter;
     document.getElementById('tab-filter-liked').onclick = applyFilter;
     document.getElementById('tab-filter-disliked').onclick = applyFilter;
-
-    document.getElementById('btn-navigate-next').classList.add('hidden');
-    document.getElementById('btn-navigate-prev').classList.add('hidden');
     
     document.querySelectorAll('[id*="song-like"').forEach(button => {
         button.onclick = () => {
@@ -162,8 +159,21 @@ function initSongManagement() {
             dislikeSong(button.dataset.songId);
         }
     });
+
+    // register the song cards dblclick event to go to the style page
+    document.querySelectorAll('.song-card').forEach(card => {
+        addEventListenerToCard(card);
+    });
 }
 
+
+function addEventListenerToCard(card) {
+    card.addEventListener('dblclick', (event) => {
+        const songId = card.dataset.songId;
+        const url = `/style/${songId}`
+        window.location.href = url;
+    });
+}
 
 
 function getFilterStage() {
@@ -310,6 +320,7 @@ function initializeNewSongCard(songId, songName) {
 
     setupNewCardVisualState(newCard);
     registerCardForSelection(newCard);
+    addEventListenerToCard(newCard);
     sortCardsInContainer('songs-container');
 
     applyFilter();

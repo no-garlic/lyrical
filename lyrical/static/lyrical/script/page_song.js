@@ -53,9 +53,20 @@ function initSelectSystem() {
     // begin with all buttons disabled
     updateButtonStylesForSelection(null);
 
-    // register existing song cards with the select system
+    // register existing song cards with the select system and setup the
+    // dblclick event to go to the style page
     document.querySelectorAll('.song-card').forEach(card => {
         selectSystem.addElement(card);
+        card.addEventListener('dblclick', (event) => {
+            const songId = card.dataset.songId;
+            const url = `/style/${songId}`
+            window.location.href = url;
+        });
+    });
+
+    // hide the button controls on all song cards
+    document.querySelectorAll('.buttons-container').forEach(container => {
+        container.classList.add('hidden');
     });
 
     // pressing the enter key will click the next button

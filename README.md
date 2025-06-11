@@ -113,7 +113,6 @@
 
 ## Todo
 
-1 - Sort order of new generations
 1 - Prompts - follow up, summarizing, refining, etc
 1 - Follow Up Prompt
 1 - Summarize prompt bug with database locked
@@ -127,6 +126,7 @@
 1 - Disable Regenerate button if not saved.
 1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
 
+2 - Sort order of new generations
 2 - Make new generations light grey until clicked on
 2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
 2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
