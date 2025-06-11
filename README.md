@@ -111,37 +111,42 @@
  - Update TODO List, work out what happens now, and what is backlog
 1 - Add a 'Clear' button for rhymes and regenerate modes
 1 - Empty song - right song lyrics panel should be empty
+2 - Sort order of new generations
+2 - Make new generations light grey until clicked on
+1 - Make sure a word is selected before regenerate words button is active
+1 - Make sure 1 or more words are selected before regenerate lyrics button is active
 
 
 ## Todo
+
+Prompts:
+1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+1 - Bug: textedit + save does not update right panel song lyrics
+1 - Bug: drag-drop word + undo does not undo changes
+1 - Disable Regenerate button if not saved.
+1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
+
+1 - Add filter to ignore specific words for song names (Victorious for example), set in user profile
+1 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
 
 1 - Prompts - follow up, summarizing, refining, etc
 1 - Follow Up Prompt
 1 - Summarize prompt bug with database locked
 1 - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
 1 - Create follow up prompts, eg, song_hooks.follow_up.
-
-1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
-1 - Bug: textedit + save does not update right song lyrics
 1 - Regenerate -> send custom request (check), and send current section lyrics to llm.
-1 - Disable Regenerate button if not saved.
-1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
-1 - Make sure a word is selected before regenerate words button is active
-1 - Make sure 1 or more words are selected before regenerate lyrics button is active
+1 - Bug: getting cases of << >> in the generated lyrics
+1 - Bug: getting cases of multiple words for single word replace
+1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 
-2 - Sort order of new generations
-2 - Make new generations light grey until clicked on
 2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
 2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
-2 - Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 2 - Refactor using btn-generate for songId - get it from document.body instead
 2 - Double click on song page to go to Next
 2 - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
 2 - Update LLM Costs and maybe add other models for testing
 2 - Update range for Max Tokens, set better default, update range based on selected model maybe?
 2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X)
-2 - Add filter to ignore specific words for song names (Victorious for example)
-2 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
 
 3 - Create at least 1 proper structure template in the migration 
 3 - Set browser title to song name
@@ -151,6 +156,7 @@
 3 - Move Next and Prev Buttons - try just under the page
 3 - Review all code from LLM
 3 - Update code documentation (use co-pilot)
+3 - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
 
 
 https://platform.openai.com/docs/pricing

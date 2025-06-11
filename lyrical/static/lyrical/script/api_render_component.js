@@ -3,9 +3,10 @@
  * @param {string} componentName - The name of the component to render.
  * @param {string} targetElement - The ID of the target element to insert the component into.
  * @param {Object} props - Properties to pass to the component.
+ * @param {string} position - Either 'beforeend' or 'afterbegin'
  * @returns {Promise<string>} Promise that resolves to the rendered HTML.
  */
-export function apiRenderComponent(componentName, targetElement, props) {
+export function apiRenderComponent(componentName, targetElement, props, position='afterbegin') {
     // get the CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -26,7 +27,7 @@ export function apiRenderComponent(componentName, targetElement, props) {
     })
     .then(data => {
         if (data && data.html !== undefined) {
-            document.getElementById(targetElement).insertAdjacentHTML('beforeend', data.html);
+            document.getElementById(targetElement).insertAdjacentHTML(position, data.html);
             return data.html;
         } else {
             console.error('Error rendering component: Invalid data received', data);

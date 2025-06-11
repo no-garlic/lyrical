@@ -194,6 +194,7 @@ function initMarkupSystem() {
     markupSystem.init({
         onTextChanged: () => {
             //debugShowInteractiveText();
+            updateRegenerateButtonAppearance();
         },
         onToolChanged: (tool) => {
             updateMarkupButtonAppearances();
@@ -870,7 +871,10 @@ function exportLyrics() {
 
 
 function setLyricsDirty(dirty = true) {
-    if (dirty) updateLyricsListing();
+    console.log(`************** ${dirty}`)
+
+    if (dirty) 
+        updateLyricsListing();
 
     if (dirty && !lyricsDirty) {
         lyricsDirty = true;
@@ -887,6 +891,8 @@ function setLyricsDirty(dirty = true) {
         const undoButton = document.getElementById('btn-undo');
         undoButton.classList.add('btn-disabled');
     }
+
+    updateRegenerateButtonAppearance();
 }
 
 
@@ -1434,6 +1440,28 @@ function updateMarkupButtonAppearances() {
     } else if (markupSystem.isEraserSelected()) {
         updateButtonAppearance(buttonMarker, 'shown');
         updateButtonAppearance(buttonEraser, 'active');
+    }
+}
+
+
+function updateRegenerateButtonAppearance() {
+    if (editMode === 'interactive' || editMode === 'rhyme') {
+        const { word, line, index } = markupSystem.getFirstMarkedWord();
+        document.querySelectorAll('.btn-regenerate').forEach(button => {
+            if (word.length > 0 && lyricsDirty === false) {
+                button.classList.remove('btn-disabled');
+            } else {
+                button.classList.add('btn-disabled');
+            }
+        });
+    } else {
+        document.querySelectorAll('.btn-regenerate').forEach(button => {
+            if (lyricsDirty === false) {
+                button.classList.remove('btn-disabled');
+            } else {
+                button.classList.add('btn-disabled');
+            }
+        });
     }
 }
 
