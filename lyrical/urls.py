@@ -10,7 +10,6 @@ from .views.page_song import *
 from .views.page_profile import *
 from .views.page_lyrics import *
 from .views.page_structure import *
-from .views.page_edit import *
 
 from .views.api_render_component import *
 from .views.api_user_llm import *
@@ -57,7 +56,6 @@ urlpatterns = [
     path("style/<int:song_id>", page_style, name="style"),
     path("structure/<int:song_id>", page_structure, name="structure"),
     path("lyrics/<int:song_id>", page_lyrics, name="lyrics"),
-    path("edit/<int:song_id>", page_edit, name="edit"),
 
     # api pages
     path("api_render_component/<str:component_name>", api_render_component, name="api_render_component"),
