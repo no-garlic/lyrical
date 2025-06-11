@@ -64,7 +64,16 @@ def add_data(apps, schema_editor):
 
     # Create the default song structure templates
     for i in range(8):
-        song_structure_template.objects.create(name=f'Template {i+1}', user=mpetrou)
+        if i == 0:
+            song_structure_template.objects.create(
+                name=f'Pop Song', 
+                structure='instrumental-intro,verse,chorus,interlude,verse,chorus,interlude,bridge,chorus,solo,outro', 
+                average_syllables=6, 
+                user=mpetrou) 
+        else:
+            song_structure_template.objects.create(
+                name=f'Template {i+1}', 
+                user=mpetrou)
 
 
 def remove_data(apps, schema_editor):

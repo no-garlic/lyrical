@@ -93,12 +93,15 @@
 
                                                     <!-- Generate Buttons -->
                                                     <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
-                                                        <c-panel-header-button extrastyles="btn-regenerate w-40 bi bi-music-note-list">
+                                                        <c-panel-header-button extrastyles="w-40 bi bi-music-note-list btn-regenerate">
                                                             GENERATE
                                                         </c-panel-header-button>
-                                                        <c-panel-header-button-loading extrastyles="btn-regenerating w-40">
+                                                        <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
                                                             PLEASE WAIT...
                                                         </c-panel-header-button-loading>
+                                                        <c-panel-header-button extrastyles="bi bi-x-circle btn-clear">
+                                                            CLEAR
+                                                        </c-panel-header-button>
                                                     </div>
                                                     <!-- End: Generate Buttons -->
 
@@ -166,7 +169,9 @@
                     <!-- End: Header Section -->
 
                    <!-- Export Song Lyrics -->
-                    <div id="song-lyrics-text" class="px-3 py-3 card border-none bg-base-200 overflow-y-auto min-h-0 hidden">
+                    <div id="song-lyrics-text"
+                         data-song-generated="{% if song.generated %}true{% else %}false{% endif %}"
+                         class="px-3 py-3 card border-none bg-base-200 overflow-y-auto min-h-0 hidden">
                     </div>
                     <!-- End: Export Song Lyrics -->
 

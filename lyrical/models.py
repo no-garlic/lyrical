@@ -132,7 +132,7 @@ class Song(models.Model):
         self.song_name_length_min = user.song_name_length_min
         self.song_name_length_max = user.song_name_length_max
         self.song_name_gen_count = user.song_name_gen_count
-    
+
 
 class SongStructureTemplate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='structure_templates')
@@ -147,7 +147,7 @@ class SongStructureTemplate(models.Model):
     pre_chorus_lines = models.IntegerField(default=4)
     chorus_lines = models.IntegerField(default=4)
     bridge_lines = models.IntegerField(default=4)
-    intro_lines = models.IntegerField(default=4)
+    intro_lines = models.IntegerField(default=2)
     outro_lines = models.IntegerField(default=4)
     vocalisation_lines = models.IntegerField(default=2)
     structure = models.TextField(default='')

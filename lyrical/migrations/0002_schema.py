@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
                 ("pre_chorus_lines", models.IntegerField(default=4)),
                 ("chorus_lines", models.IntegerField(default=4)),
                 ("bridge_lines", models.IntegerField(default=4)),
-                ("intro_lines", models.IntegerField(default=4)),
+                ("intro_lines", models.IntegerField(default=2)),
                 ("outro_lines", models.IntegerField(default=4)),
                 ("vocalisation_lines", models.IntegerField(default=2)),
                 ("structure", models.TextField(default="")),

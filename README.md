@@ -109,6 +109,8 @@
  - Add a Rhyme feature somehow to the edit page (different selection mode?)
  - Update default page upon login
  - Update TODO List, work out what happens now, and what is backlog
+1 - Add a 'Clear' button for rhymes and regenerate modes
+1 - Empty song - right song lyrics panel should be empty
 
 
 ## Todo
@@ -118,13 +120,14 @@
 1 - Summarize prompt bug with database locked
 1 - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
 1 - Create follow up prompts, eg, song_hooks.follow_up.
-1 - Add a 'Clear' button for rhymes and regenerate modes
+
 1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
 1 - Bug: textedit + save does not update right song lyrics
-1 - Empty song - right song lyrics panel should be empty
 1 - Regenerate -> send custom request (check), and send current section lyrics to llm.
 1 - Disable Regenerate button if not saved.
 1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
+1 - Make sure a word is selected before regenerate words button is active
+1 - Make sure 1 or more words are selected before regenerate lyrics button is active
 
 2 - Sort order of new generations
 2 - Make new generations light grey until clicked on

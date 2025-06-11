@@ -114,10 +114,7 @@ function initBadgeActions() {
     document.querySelectorAll('.badge-hide-button').forEach(button => {
         button.onclick = badgeHideButtonClick;
     });
-}
 
-
-function initStreamHelpers() {
     document.getElementById('btn-generate').addEventListener('click', handleGenerateClick);
 
     document.querySelectorAll('.btn-regenerate').forEach(button => {
@@ -129,6 +126,20 @@ function initStreamHelpers() {
         });
     });
 
+    document.querySelectorAll('.btn-clear').forEach(button => {
+        button.addEventListener('click', function() {
+            if (editMode === 'interactive' || editMode === 'regenerate') {
+                clearAllVisibleSections.call();
+            } else if (editMode === 'rhyme') {
+                clearAllVisibleWords.call();
+            }            
+        });
+    });
+
+}
+
+
+function initStreamHelpers() {
     streamHelperSong = createStreamHelperSong();
     streamHelperSection = createStreamHelperSection();
     streamHelperRhyme = createStreamHelperRhyme();
@@ -735,6 +746,9 @@ function copyFromSaveHistory() {
 
 
 function displayLyrics(section, words) {
+    const container = document.getElementById('song-lyrics-text')
+    container.dataset.songGenerated = 'true';
+
     document.querySelectorAll(`.section-${section}`).forEach(element => {
         element.value = words;
         setLyricsDirty(true);
@@ -746,38 +760,40 @@ function updateLyricsListing() {
     const container = document.getElementById('song-lyrics-text')
     container.innerHTML = '';
 
-    document.querySelectorAll('.badge-lyrics').forEach(element => {
-        const sectionType = element.dataset.sectionType;
-        const sectionIndex = element.dataset.sectionIndex;
-        const sectionWordsId = element.dataset.sectionWordsId;
+    if (container.dataset.songGenerated === 'true') {
+        document.querySelectorAll('.badge-lyrics').forEach(element => {
+            const sectionType = element.dataset.sectionType;
+            const sectionIndex = element.dataset.sectionIndex;
+            const sectionWordsId = element.dataset.sectionWordsId;
 
-        if (sectionType === 'INTRO') {
-            container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
-        } else if (sectionType === 'INTERLUDE') {
-            container.innerHTML += '[MELODIC INTERLUDE]<br>';
-        } else if (sectionIndex > 0) {
-            container.innerHTML += '[' + sectionType + ' ' + sectionIndex + ']<br>';
+            if (sectionType === 'INTRO') {
+                container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
+            } else if (sectionType === 'INTERLUDE') {
+                container.innerHTML += '[MELODIC INTERLUDE]<br>';
+            } else if (sectionIndex > 0) {
+                container.innerHTML += '[' + sectionType + ' ' + sectionIndex + ']<br>';
+            } else {
+                container.innerHTML += '[' + sectionType + ']<br>';
+            }
+
+            if (sectionWordsId.length > 0) {
+                const textArea = document.getElementById(sectionWordsId);
+                const textValue = textArea.value;
+                const htmlValue = textValue.replace(/\n/g, '<br>');
+
+                container.innerHTML += htmlValue + '<br>';
+            }
+            container.innerHTML += '<br>';
+        });
+
+        container.innerHTML += '[END]';
+
+        if (container.innerHTML.length > 0) {
+            container.classList.remove('hidden');
         } else {
-            container.innerHTML += '[' + sectionType + ']<br>';
+            container.classList.add('hidden');
         }
-
-        if (sectionWordsId.length > 0) {
-            const textArea = document.getElementById(sectionWordsId);
-            const textValue = textArea.value;
-            const htmlValue = textValue.replace(/\n/g, '<br>');
-
-            container.innerHTML += htmlValue + '<br>';
-        }
-        container.innerHTML += '<br>';
-    });
-
-    container.innerHTML += '[END]';
-
-    if (container.innerHTML.length > 0) {
-        container.classList.remove('hidden');
-    } else {
-        container.classList.add('hidden');
-    }
+    }    
 }
 
 
@@ -1362,6 +1378,46 @@ function showSectionCard(card) {
         card.classList.remove('collapsing-show');
         card.style.height = '';
     }, 500);
+}
+
+
+function clearAllVisibleSections() {
+    const sectionContainer = document.getElementById('generated-sections');
+
+    if (!sectionContainer.classList.contains('hidden')) {
+        Array.from(sectionContainer.children).forEach(child => {
+            if (!child.classList.contains('hidden')) {
+                const sectionId = child.dataset.sectionId;
+                apiSectionEdit(sectionId, true)
+                .then(sectionId => {
+                    // update the text on the song card
+                    console.log(`Successfully updated sectionId: ${sectionId}`);
+
+                    // hide the card from the list
+                    sectionContainer.removeChild(child);
+
+                    // remove the card from the drag drop system
+                    dragDropSystem.unregisterDraggable(child);
+                })
+                .catch(error => {
+                    // handle the error if the API call fails
+                    console.error('Failed to edit the section:', error);
+                    toastSystem.showError('Failed to update the section. Please try again.');
+                });
+            }
+        });            
+    }
+}
+
+
+function clearAllVisibleWords() {
+    const container = document.getElementById('generated-rhymes');
+
+    Array.from(container.children).forEach(child => { 
+        dragDropSystem.unregisterDraggable(child);
+        container.removeChild(child);
+    });
+
 }
 
 
