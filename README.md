@@ -104,13 +104,79 @@
  - Pass a list of exclude words to the LLM based on contents of container on page
  - Dont need history for words
  - Need to be able to create an instrumental Intro
+ - Profile Page
+ - Library Page
+ - Add a Rhyme feature somehow to the edit page (different selection mode?)
+ - Update default page upon login
+ - Update TODO List, work out what happens now, and what is backlog
 
 
 ## Todo
 
+1 - Sort order of new generations
+1 - Prompts - follow up, summarizing, refining, etc
+1 - Follow Up Prompt
+1 - Summarize prompt bug with database locked
+1 - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
+1 - Create follow up prompts, eg, song_hooks.follow_up.
+1 - Add a 'Clear' button for rhymes and regenerate modes
+1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+1 - Bug: textedit + save does not update right song lyrics
+1 - Empty song - right song lyrics panel should be empty
+1 - Regenerate -> send custom request (check), and send current section lyrics to llm.
+1 - Disable Regenerate button if not saved.
+1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
 
- - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+2 - Make new generations light grey until clicked on
+2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
+2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+2 - Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
+2 - Refactor using btn-generate for songId - get it from document.body instead
+2 - Double click on song page to go to Next
+2 - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
+2 - Update LLM Costs and maybe add other models for testing
+2 - Update range for Max Tokens, set better default, update range based on selected model maybe?
+2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X)
+2 - Add filter to ignore specific words for song names (Victorious for example)
+2 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
 
+3 - Create at least 1 proper structure template in the migration 
+3 - Set browser title to song name
+3 - Consistent visual style across all screens
+3 - Make all modals looks the same
+3 - Add bootstrap icons to buttons
+3 - Move Next and Prev Buttons - try just under the page
+3 - Review all code from LLM
+3 - Update code documentation (use co-pilot)
+
+
+https://platform.openai.com/docs/pricing
+https://ai.google.dev/gemini-api/docs/pricing
+https://www.anthropic.com/pricing#api
+https://docs.x.ai/docs/models
+
+
+## Backlog
+ - Create 8 records for structure templates when creating a user
+ - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
+ - Update prompt about other rules, like ... and rrrrrrun, and trailing ``````
+ - Add href# to Navigation Timeline
+ - Make all panels use scrollbars the same
+ - Update register and login pages
+ - Use tabs on song page instead of booleans
+ - Change Toast system to be a singleton
+ - Drag and drop not showing custom cursors
+ - Drag and drop not animating back upon drop out of bounds for lyrics page
+ - Media query to hide the girl image, and reduce the padding when the page height is reduced
+ - Click close button on a card, shows another X and Tick as a confirmation
+ - Put instructional text on every page to tell the user what to do
+ - Add Tooltips to buttons
+ - Remove all the exception handling and do it better
+ - Profile Page
+ - Library Page
+
+
+### Logs
 2025-06-08 06:39:58 [DEBUG] services: Prompt 'lyrics_summary' found in internal prompts
 2025-06-08 06:39:58 [INFO] services: Calling summarisation model gemini/gemini-2.0-flash for lyrics conversation
 2025-06-08 06:40:04 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBmEXSBfLyy7m_iq5XnvuDot0unSF3nqeA "HTTP/1.1 200 OK"
@@ -120,57 +186,3 @@
 2025-06-08 06:40:04 [ERROR] django.request: Internal Server Error: /api_summarise_chat_history
 2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 19 hidden status to True
 2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 20 hidden status to True
-
-bug - textedit + save does not update right song lyrics
-
- - Sort order of new generations
- - Make new generations light grey until clicked on
- - Review all code from LLM on Friday
- - Update code documentation (use co-pilot)
- - Profile Page
- - Library Page
- - Regenerate -> send custom request (check), and send current section lyrics to llm.
- - Disable Regenerate button if not saved.
- - Add a Rhyme feature somehow to the edit page (different selection mode?)
- - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
- - Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
- - Move Next and Prev Buttons - try just under the page
- - Follow Up Prompt
- - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
- - Update default page upon login
- - Update modals to look consistent
- - Remove all the exception handling and do it better
-
-
-### Bugs & Polish:
- - Set browser title to song name
- - Create 8 records for structure templates when creating a user
- - Create at least 1 proper structure template in the migration 
- - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
- - Update prompt about other rules, like ... and rrrrrrun, and trailing ``````
- - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
- - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
- - Refactor using btn-generate for songId - get it from document.body instead
- - Double click on song page to go to Next
- - Make all modals looks the same
- - Add href# to Navigation Timeline
- - Make all panels use scrollbars the same
- - Create follow up prompts, eg, song_hooks.follow_up.
- - Add bootstrap icons to buttons
- - Update register and login pages
- - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
- - Use tabs on song page instead of booleans
- - Update LLM Costs and maybe add other models for testing
- - Update range for Max Tokens, set better default, update range based on selected model maybe?
- - Change Toast system to be a singleton
- - Drag and drop not showing custom cursors
- - Drag and drop not animating back upon drop out of bounds for lyrics page
- - Media query to hide the girl image, and reduce the padding when the page height is reduced
- - Click close button on a card, shows another X and Tick as a confirmation
- - Review scrollbars use on all pages
- - Put instructional text on every page to tell the user what to do
- - Add filter to ignore specific words for song names (Victorious for example)
- - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
- - Add Tooltips to buttons
-
- 
