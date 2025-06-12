@@ -8,7 +8,7 @@
     <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
         <!-- Title -->
-        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
+        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG LYRICS - {{song.name|upper}}</h2>
 
         <!-- Content -->
         <div class="flex flex-row flex-1 min-h-0 gap-4">
@@ -17,7 +17,7 @@
             <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
                 <!-- Right Header -->
-                <c-panel-header title="SONG LYRICS" padding="4">
+                <c-panel-header text="SONG LYRICS" padding="4">
                     <c-panel-header-button id="btn-generate" extrastyles="w-45 bi bi-music-note-list">
                         GENERATE{% if song.generated %} AGAIN{% endif %}
                     </c-panel-header-button>
@@ -151,13 +151,17 @@
                         <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
                 
                             <!-- Edit Song Style Section -->
-                            <c-panel-header title="EXPORT SONG LYRICS" padding="4">
+                            <c-panel-header text="EXPORT SONG LYRICS" padding="4">
+                                <div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">
                                 <c-panel-header-button id="btn-copy" extrastyles="bi bi-copy">
                                     COPY
                                 </c-panel-header-button>
+                                </div>
+                                <div class="tooltip tooltip-bottom" data-tip="Export to a file">
                                 <c-panel-header-button id="btn-export" extrastyles="bi bi-filetype-txt" data-song-name="{{ song.name }}">
                                     EXPORT
                                 </c-panel-header-button>
+                                </div>
                             </c-panel-header>
                             <!-- End: Edit Song Style Section -->
 

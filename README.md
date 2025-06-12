@@ -131,6 +131,9 @@
  - Bug: textedit + save does not update right panel song lyrics
  - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
  - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
+ - Update range for Max Tokens, set better default, update range based on selected model maybe
+ - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
+ - Lyrics Page - Copy and Export should be disabled if there are no lyrics in the panel 
 
 
 ## Todo
@@ -161,14 +164,13 @@ Prompts:
 
 
 2 - Update LLM Costs and maybe add other models for testing
-2 - Update range for Max Tokens, set better default, update range based on selected model maybe
-2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
 https://platform.openai.com/docs/pricing
 https://ai.google.dev/gemini-api/docs/pricing
 https://www.anthropic.com/pricing#api
 https://docs.x.ai/docs/models
 
 
+2 - Add tooltips to all buttons (<div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">)
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
 3 - Update badge colors

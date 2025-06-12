@@ -20,6 +20,21 @@ class LLM(models.Model):
     
     def __str__(self):
         return f"{self.display_name}"
+    
+    @property
+    def max_tokens_75_percent(self):
+        """Returns 75% of the max tokens."""
+        return int(self.max_tokens * 0.75)
+    
+    @property
+    def max_tokens_50_percent(self):
+        """Returns 50% of the max tokens."""
+        return int(self.max_tokens * 0.5)
+    
+    @property
+    def max_tokens_25_percent(self):
+        """Returns 25% of the max tokens."""
+        return int(self.max_tokens * 0.25)
 
 
 class User(AbstractUser):
@@ -41,6 +56,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
+    
+    @property
+    def max_tokens_for_selected_llm(self):
+        """Returns the maximum tokens for the user's LLM model."""
+        return min(self.llm_model.max_tokens if self.llm_model else self.llm_max_tokens, self.llm_max_tokens)
 
 
 class UserAPIKey(models.Model):

@@ -86,6 +86,7 @@ async function handleModelChange(event) {
         // update cost display if successful
         if (result) {
             updateCostDisplay(modelId);
+            updateMaxTokensRange(modelId);
         }
         
         // store the current value for potential future reversion
@@ -172,6 +173,32 @@ function updateCostDisplay(modelId) {
     if (selectedOption && selectedOption.dataset.cost) {
         const cost = parseFloat(selectedOption.dataset.cost);
         costDisplay.textContent = `$${cost.toFixed(2)}`;
+    }
+}
+
+
+function updateMaxTokensRange(modelId) {
+    // get the model cost from the select option's data attribute
+    const modelSelect = document.querySelector('#sidebar-model-select');
+    const selectedOption = modelSelect.querySelector(`option[value="${modelId}"]`);
+    
+    if (selectedOption && selectedOption.dataset.maxTokens) {
+        const maxTokens = parseInt(selectedOption.dataset.maxTokens);
+        
+        console.log(`setting max_tokens to ${maxTokens}k`);
+
+        const range = document.getElementById('sidebar-max-tokens-range');
+
+        range.min = 1;
+        range.max = maxTokens;
+        range.step = 0.1;
+
+        const spans = document.getElementById('sidebar-max-tokens-spans');
+        spans.children[0].innerText = `1k`;
+        spans.children[1].innerText = `${(maxTokens * 0.25).toFixed(0)}k`;
+        spans.children[2].innerText = `${(maxTokens * 0.5).toFixed(0)}k`;
+        spans.children[3].innerText = `${(maxTokens * 0.75).toFixed(0)}k`;
+        spans.children[4].innerText = `${(maxTokens).toFixed(0)}k`;
     }
 }
 

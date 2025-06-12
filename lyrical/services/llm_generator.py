@@ -494,7 +494,7 @@ class LLMGenerator(ABC):
         """
         model_name = f"{self.llm_model.provider.internal_name}/{self.llm_model.internal_name}"
         temperature = self.user.llm_temperature
-        max_tokens = self.user.llm_max_tokens * 1024
+        max_tokens = self.user.max_tokens_for_selected_llm * 1024
         user_api_key = get_user_api_key(user=self.user, provider=self.llm_model.provider)
         
         # Get parameters for message persistence

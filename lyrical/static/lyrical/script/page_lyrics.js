@@ -810,13 +810,17 @@ function updateLyricsListing() {
         });
 
         container.innerHTML += '[END]';
-
-        if (container.innerHTML.length > 0) {
-            container.classList.remove('hidden');
-        } else {
-            container.classList.add('hidden');
-        }
     }    
+
+    if (container.innerHTML.length > 0) {
+        container.classList.remove('hidden');
+        document.getElementById('btn-copy').classList.remove('btn-disabled');
+        document.getElementById('btn-export').classList.remove('btn-disabled');
+    } else {
+        container.classList.add('hidden');
+        document.getElementById('btn-copy').classList.add('btn-disabled');
+        document.getElementById('btn-export').classList.add('btn-disabled');
+    }
 }
 
 
