@@ -77,7 +77,7 @@ function initSongSections() {
 
 function createAndAddSongSection(sectionName, suppressDirty = false) {
     // get the server to make a new item from the django-cotton template
-    apiRenderComponent('badge_edit', 'song-sections', { slot: sectionName })
+    apiRenderComponent('badge_edit', 'song-sections', { slot: sectionName }, 'beforeend')
         .then(html => {
             // get the song sections container
             const songSections = document.getElementById('song-sections');

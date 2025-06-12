@@ -18,8 +18,8 @@
 
                 <!-- Right Header -->
                 <c-panel-header title="SONG LYRICS" padding="4">
-                    <c-panel-header-button id="btn-generate" extrastyles="w-40 bi bi-music-note-list">
-                        GENERATE
+                    <c-panel-header-button id="btn-generate" extrastyles="w-45 bi bi-music-note-list">
+                        GENERATE{% if song.generated %} AGAIN{% endif %}
                     </c-panel-header-button>
                     <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
                         PLEASE WAIT...
@@ -91,8 +91,8 @@
 
                                                 <!-- Generate Buttons -->
                                                 <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
-                                                    <c-panel-header-button extrastyles="w-40 bi bi-music-note-list btn-regenerate">
-                                                        GENERATE
+                                                    <c-panel-header-button extrastyles="w-45 bi bi-music-note-list btn-regenerate">
+                                                        GENERATE OPTIONS
                                                     </c-panel-header-button>
                                                     <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
                                                         PLEASE WAIT...

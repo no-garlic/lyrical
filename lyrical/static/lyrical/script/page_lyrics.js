@@ -31,6 +31,7 @@ const PANELS = {
 
 
 let streamHelperSong;
+let streamHelperSongIsGenerating = false;
 let streamHelperSection;
 let streamHelperRhyme;
 let regenerateButton;
@@ -278,19 +279,19 @@ function createStreamHelperSong() {
     return new StreamHelper('/api_gen_song_lyrics', {
         callbacks: {
             onPreRequest: () => {
-                console.log("stream prerequest");
+                //console.log("stream prerequest");
                 handleSongDataStreamStart();
             },
             onIncomingData: (data) => {
-                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                //console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
                 handleSongDataStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("=== Song stream end ===");
+                //console.log("=== Song stream end ===");
             },
             onComplete: (summaryInfo) => {
-                console.log("=== Song stream complete ===");
-                console.log("Received summaryInfo:", summaryInfo);
+                //console.log("=== Song stream complete ===");
+                //console.log("Received summaryInfo:", summaryInfo);
                 handleSongDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
@@ -306,18 +307,18 @@ function createStreamHelperSection() {
     return new StreamHelper('/api_gen_song_lyrics_section', {
         callbacks: {
             onPreRequest: () => {
-                console.log("stream prerequest");
+                //console.log("stream prerequest");
                 handleSectionDataStreamStart();
             },
             onIncomingData: (data) => {
-                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                //console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
                 handleSectionDataStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("stream end");
+                //console.log("stream end");
             },
             onComplete: (summaryInfo) => {
-                console.log("stream complete");
+                //console.log("stream complete");
                 handleSectionDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
@@ -334,18 +335,18 @@ function createStreamHelperRhyme() {
     return new StreamHelper('/api_gen_song_words', {
         callbacks: {
             onPreRequest: () => {
-                console.log("stream prerequest");
+                //console.log("stream prerequest");
                 handleRhymeDataStreamStart();
             },
             onIncomingData: (data) => {
-                console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
+                //console.log(`incoming stream data ${JSON.stringify(data, null, 2)}`);
                 handleRhymeDataStreamData(data);
             },
             onStreamEnd: () => {
-                console.log("stream end");
+                //console.log("stream end");
             },
             onComplete: (summaryInfo) => {
-                console.log("stream complete");
+                //console.log("stream complete");
                 handleRhymeDataStreamEnd(summaryInfo);
             },
             onError: (error) => {
@@ -358,6 +359,8 @@ function createStreamHelperRhyme() {
 
 
 function handleSongDataStreamStart() {
+    streamHelperSongIsGenerating = true;
+
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -411,6 +414,8 @@ function handleRhymeDataStreamStart() {
 
 
 function handleSongDataStreamEnd(summaryInfo) {
+    streamHelperSongIsGenerating = false;
+
     // get the buttons
     const generateButton = document.getElementById('btn-generate');
     const generatingButton = document.getElementById('btn-generating');
@@ -418,6 +423,7 @@ function handleSongDataStreamEnd(summaryInfo) {
     // hide the generate button
     if (generateButton) {
         generateButton.classList.remove('hidden');
+        generateButton.innerText = 'GENERATE AGAIN';
     }
 
     // show the generating button in disabled state
@@ -502,6 +508,8 @@ function handleSongDataStreamData(data) {
             if (Array.isArray(words)) {
                 const lyrics = words.join('\n');
                 displayLyrics(section, lyrics);
+                updateLyricsListing();
+                copyToSaveHistory();
             } else {
                 console.warn(`Unexpected data format for section ${section}:`, words);
             }
@@ -630,8 +638,7 @@ function handleSectionDragDrop(item, zone, event) {
         setLyricsDirty();
 
         if (editMode === 'interactive') {
-            const interactivePanel = editCard.children[1].children[1];
-            copyTextToInteractivePanel(sourceText, interactivePanel);
+            markupSystem.updateText(sourceText);
         }
     }    
 }
@@ -641,6 +648,7 @@ function handleWordDragDrop(item, zone, event) {
     const word = item.element.dataset.word;
     const line = parseInt(item.element.dataset.line);
     const index = parseInt(item.element.dataset.index);
+    const destination = zone.element.children[1].children[PANELS.TEXTAREA];
 
     // only proceed if we have valid data and are in rhyme mode
     if (editMode !== 'rhyme' || !markupSystem || isNaN(line) || isNaN(index)) {
@@ -653,24 +661,24 @@ function handleWordDragDrop(item, zone, event) {
     const sourceText = markupSystem.getText('raw');
 
     // copy the text to the textarea so it gets saved
-    const destination = zone.element.children[1].children[PANELS.TEXTAREA];
     if (destination.value.trim() != sourceText) {
         destination.value = sourceText;
         setLyricsDirty();
+        markupSystem.updateText(sourceText);
     }    
 }
 
 
 function registerCardForDragDrop(card) {
     const sectionId = card.dataset.sectionId;
-    console.log(`registering card for drag-drop: ${sectionId}`)
+    //console.log(`registering card for drag-drop: ${sectionId}`)
     dragDropSystem.registerDraggable(card, { sectionId: sectionId });
 }
 
 
 function registerWordForDragDrop(card) {
     const word = card.dataset.word;
-    console.log(`registering word for drag-drop: ${word}`)
+    //console.log(`registering word for drag-drop: ${word}`)
     dragDropSystem.registerDraggable(card, { word: word });
 }
 
@@ -733,15 +741,19 @@ function updateAllDuplicateSections(textarea) {
 
 
 function copyToSaveHistory() {
+    console.log(`copyToSaveHistory():`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
         lyricsHistory[item.dataset.lyricsId] = item.value;
+        console.log(`${item.dataset.lyricsId}:\n${item.value}`);
     });
 }
 
 
 function copyFromSaveHistory() {
+    console.log(`copyFromSaveHistory()`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
         item.value = lyricsHistory[item.dataset.lyricsId];
+        console.log(`${item.dataset.lyricsId}:\n${item.value}`);
     });
 }
 
@@ -752,7 +764,10 @@ function displayLyrics(section, words) {
 
     document.querySelectorAll(`.section-${section}`).forEach(element => {
         element.value = words;
-        setLyricsDirty(true);
+
+        if (!streamHelperSongIsGenerating) {
+            setLyricsDirty(true);
+        }
     });
 }
 
@@ -871,7 +886,6 @@ function exportLyrics() {
 
 
 function setLyricsDirty(dirty = true) {
-    console.log(`************** ${dirty}`)
 
     if (dirty) 
         updateLyricsListing();
@@ -1204,6 +1218,9 @@ function updateInteractivePanel() {
         const textArea = editCard.children[1].children[PANELS.TEXTAREA];
         const interactivePanel = editCard.children[1].children[PANELS.INTERACTIVE];
         copyTextToInteractivePanel(textArea.value, interactivePanel);
+    } else if (editCard && editMode == 'rhyme') {
+        const textArea = editCard.children[1].children[PANELS.TEXTAREA];
+        markupSystem.updateText(textArea.value);
     }
 }
 

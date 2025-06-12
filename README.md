@@ -124,29 +124,26 @@
 3 - Move Next and Prev Buttons - try just under the page
 3 - Set browser title to song name
 2 - Refactor using btn-generate for songId - get it from document.body instead
+1 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
+1 - Click Generate, and it shows that you need to save or undo, however it is already saved
+1 - Bug: drag-drop word + undo does not undo changes
+1 - Disable Regenerate button if not saved.
+1 - Bug: textedit + save does not update right panel song lyrics
+1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
 
 
 ## Todo
 
-Prompts:
 
+1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+
+
+Prompts:
  - Name (ok)
  - Word / Rhyme (ok)
  - Song ()
  - Replace Section ()
  - Replace Section - Partial ()
-
-
-Prompts:
-1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
-1 - Bug: textedit + save does not update right panel song lyrics
-1 - Bug: drag-drop word + undo does not undo changes
-1 - Disable Regenerate button if not saved.
-1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
-
-1 - Add filter to ignore specific words for song names (Victorious for example), set in user profile
-1 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
-
 1 - Prompts - follow up, summarizing, refining, etc
 1 - Follow Up Prompt
 1 - Summarize prompt bug with database locked
@@ -157,15 +154,21 @@ Prompts:
 1 - Bug: getting cases of multiple words for single word replace
 1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 
+
+ - names (ok)
 2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
 2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
 2 - Update LLM Costs and maybe add other models for testing
 2 - Update range for Max Tokens, set better default, update range based on selected model maybe?
 2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
 
+
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
 3 - Update badge colors
+
 
 3 - Review all code from LLM
 3 - Update code documentation (use co-pilot)
@@ -179,6 +182,8 @@ https://docs.x.ai/docs/models
 
 
 ## Backlog
+ - Add filter to ignore specific words for song names (Victorious for example), set in user profile
+ - Destructive actions & song regeneration should show a confirmation prompt
  - Create 8 records for structure templates when creating a user
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
  - Update prompt about other rules, like ... and rrrrrrun, and trailing ``````
