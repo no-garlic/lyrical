@@ -129,6 +129,15 @@
 ## Todo
 
 Prompts:
+
+ - Name (ok)
+ - Word / Rhyme (ok)
+ - Song ()
+ - Replace Section ()
+ - Replace Section - Partial ()
+
+
+Prompts:
 1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
 1 - Bug: textedit + save does not update right panel song lyrics
 1 - Bug: drag-drop word + undo does not undo changes

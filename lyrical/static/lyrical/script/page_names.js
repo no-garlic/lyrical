@@ -314,6 +314,8 @@ function initializeNewSongCard(songId, songName) {
     addEventListenerToCard(newCard);
 
     applyFilter();
+
+    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 
