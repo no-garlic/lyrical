@@ -1,6 +1,6 @@
-<div {{attrs}} class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row font-bold text-md text-primary {{extrastyles}}">
+<div {{attrs}} class="card w-full bg-transparent border-b border-t border-base-300 rounded-none flex flex-row font-bold text-md text-primary select-none {{extrastyles}}">
     <div class="flex flex-1 justify-start items-center {% if padding %}pl-{{padding}}{% else %}pl-2{% endif %}">
-        {{ title }}
+        {{ text }}
     </div>
     <div class="flex flex-0 justify-end items-center {% if padding %}pr-{{padding}}{% else %}pr-2{% endif %} mt-1">                
         {{ slot }}
