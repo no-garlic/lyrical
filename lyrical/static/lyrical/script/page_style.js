@@ -303,8 +303,11 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
             const styleCard = document.getElementById(`style-card-${sectionId}`);
             registerCardForDragDrop(styleCard);
 
+            // scroll into view
+            styleCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
             // update the UI button states
-            updateClearButtonState();
+            updateClearButtonState();            
         })
         .catch(error => {
             // handle the error if the component rendering fails

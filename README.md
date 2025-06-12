@@ -134,11 +134,13 @@
  - Update range for Max Tokens, set better default, update range based on selected model maybe
  - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
  - Lyrics Page - Copy and Export should be disabled if there are no lyrics in the panel 
+ - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
+ - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
 
 
 ## Todo
-
-
 
 
 Prompts:
@@ -158,9 +160,6 @@ Prompts:
 1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 
 
- - Names (ok)
-2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
-2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
 
 2 - Update LLM Costs and maybe add other models for testing

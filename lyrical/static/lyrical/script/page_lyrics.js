@@ -1292,6 +1292,8 @@ function addNewLyricsSection(sectionId, section, lyrics) {
             const sectionCard = document.getElementById(`section-card-${sectionId}`);
             registerCardForDragDrop(sectionCard);
 
+            // scroll into view
+            sectionCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         })
         .catch(error => {
             // handle the error if the component rendering fails
@@ -1314,6 +1316,9 @@ function addNewRhymeWord(word, line, index) {
                 // register with the drag-drop system
                 const wordCard = document.getElementById(`word-card-${word}`);
                 registerWordForDragDrop(wordCard);
+
+                // scroll into view
+                wordCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             })
             .catch(error => {
                 // handle the error if the component rendering fails
