@@ -645,19 +645,26 @@ function handleSectionDragDrop(item, zone, event) {
 
 
 function handleWordDragDrop(item, zone, event) {
-    const word = item.element.dataset.word;
-    const line = parseInt(item.element.dataset.line);
-    const index = parseInt(item.element.dataset.index);
+    const dropWord = item.element.dataset.word;
+    const dropLine = parseInt(item.element.dataset.line);
+    const dropIndex = parseInt(item.element.dataset.index);
     const destination = zone.element.children[1].children[PANELS.TEXTAREA];
 
     // only proceed if we have valid data and are in rhyme mode
-    if (editMode !== 'rhyme' || !markupSystem || isNaN(line) || isNaN(index)) {
-        console.error('handleWordDragDrop: invalid state or data', { editMode, line, index, word });
+    if (editMode !== 'rhyme' || !markupSystem || isNaN(dropLine) || isNaN(dropIndex)) {
+        console.error('handleWordDragDrop: invalid state or data', { editMode, line: dropLine, index: dropIndex, word: dropWord });
         return;
     }
 
     // update the text in the markup system
-    markupSystem.replaceWord(line, index, word);
+    const {word, line, index} = getFirstMarkedWordFromInteractivePanel();
+
+    if (line >= 0 && index >= 0 && word.length > 0) {
+        markupSystem.replaceWord(line, index, dropWord);
+    } else {
+        markupSystem.replaceWord(dropLine, dropIndex, dropWord);
+    }
+
     const sourceText = markupSystem.getText('raw');
 
     // copy the text to the textarea so it gets saved
@@ -741,19 +748,19 @@ function updateAllDuplicateSections(textarea) {
 
 
 function copyToSaveHistory() {
-    console.log(`copyToSaveHistory():`);
+    //console.log(`copyToSaveHistory():`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
         lyricsHistory[item.dataset.lyricsId] = item.value;
-        console.log(`${item.dataset.lyricsId}:\n${item.value}`);
+        //console.log(`${item.dataset.lyricsId}:\n${item.value}`);
     });
 }
 
 
 function copyFromSaveHistory() {
-    console.log(`copyFromSaveHistory()`);
+    //console.log(`copyFromSaveHistory()`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
         item.value = lyricsHistory[item.dataset.lyricsId];
-        console.log(`${item.dataset.lyricsId}:\n${item.value}`);
+        //console.log(`${item.dataset.lyricsId}:\n${item.value}`);
     });
 }
 
