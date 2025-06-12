@@ -493,8 +493,8 @@ class LLMGenerator(ABC):
         Also handles conversation history persistence.
         """
         model_name = f"{self.llm_model.provider.internal_name}/{self.llm_model.internal_name}"
-        temperature = self.user.llm_temperature
-        max_tokens = self.user.max_tokens_for_selected_llm * 1024
+        temperature = self.user.llm_temperature if self.llm_model.use_temperature else None
+        max_tokens = self.user.max_tokens_for_selected_llm * 1000
         user_api_key = get_user_api_key(user=self.user, provider=self.llm_model.provider)
         
         # Get parameters for message persistence
@@ -522,11 +522,13 @@ class LLMGenerator(ABC):
             llm_params = {
                 "model": model_name,
                 "messages": self.prompt_messages.get(),
-                "temperature": temperature,
                 "max_tokens": max_tokens,
                 "stream": True
             }
             
+            if temperature is not None:
+                llm_params["temperature"] = temperature
+
             if user_api_key and len(user_api_key) > 0:
                 llm_params["api_key"] = user_api_key
             

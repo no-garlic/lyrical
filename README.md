@@ -180,6 +180,7 @@ https://docs.x.ai/docs/models
 3 - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
 
 
+4 - Need a way of configuring LLM's (admin panel?)
 
 
 ## Backlog

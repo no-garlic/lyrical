@@ -46,7 +46,7 @@ def add_data(apps, schema_editor):
         last_name='Petrou', 
         is_superuser=True, 
         is_staff=True,
-        llm_max_tokens=2,
+        llm_max_tokens=100,
         llm_temperature=0.2, 
         llm_model=default_llm_model,
         llm_model_summarise=default_llm_model,

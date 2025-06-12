@@ -108,9 +108,9 @@ class ChatSummarisationService:
             )
             
             # Compare with user's max_tokens setting
-            needs_summary = total_tokens > (1024 * user.max_tokens_for_selected_llm)
+            needs_summary = total_tokens > (1000 * user.max_tokens_for_selected_llm)
             
-            logger.info(f"Conversation check: {total_tokens} tokens vs {1024 * user.max_tokens_for_selected_llm} max_tokens = {'NEEDS SUMMARY' if needs_summary else 'OK'}")
+            logger.info(f"Conversation check: {total_tokens} tokens vs {1000 * user.max_tokens_for_selected_llm} max_tokens = {'NEEDS SUMMARY' if needs_summary else 'OK'}")
             return needs_summary
             
         except Exception as e:

@@ -15,7 +15,8 @@ class LLM(models.Model):
     display_name = models.CharField(max_length=255, unique=True)
     internal_name = models.CharField(max_length=255, unique=True)
     cost_per_1m_tokens = models.FloatField(default=0.0)
-    max_tokens = models.IntegerField(default=10000)
+    max_tokens = models.IntegerField(default=1024)
+    use_temperature = models.BooleanField(default=True)
     provider = models.ForeignKey(LLMProvider, on_delete=models.CASCADE, related_name='llms')
     
     def __str__(self):
@@ -41,7 +42,7 @@ class User(AbstractUser):
     llm_model = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False)
     llm_model_summarise = models.ForeignKey(LLM, on_delete=models.PROTECT, null=False, blank=False, related_name='users_summarise')
     llm_temperature = models.FloatField(default=0.2)
-    llm_max_tokens = models.IntegerField(default=2)
+    llm_max_tokens = models.IntegerField(default=100)
 
     # song name default params
     song_name_theme_inc = models.CharField(max_length=255, default='')
