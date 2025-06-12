@@ -51,14 +51,40 @@ class SongNamesGenerator(LLMGenerator):
     
 
     def get_message_type(self) -> str:
-        # uses_conversation_history = false, so no message type needed
-        return ''
+        return 'names'
     
     
     def get_song_id(self) -> int:
-        # uses_conversation_history = false, so no song id needed
-        return 0
+        return None
     
+
+    def get_excluded_song_names(self) -> Optional[list]:
+        """
+        Returns a list of song names to exclude from generation.
+        If no song names are available, returns None.
+        """
+        list_of_names = self.extracted_params['exclude_song_names']
+
+        # split the names into lines of 110+ characters each, splitting after the next comma
+        if not list_of_names:
+            return None
+        excluded_names = []
+        current_line = ""
+        for name in list_of_names:
+            if len(current_line) + len(name) + 2 > 110:
+                excluded_names.append(current_line.strip() + '\n')
+                current_line = "'" + name + "', "
+            else:
+                current_line += "'" + name + "', "
+        if current_line:
+            excluded_names.append(current_line.strip() + '\n')
+
+        excluded_names[-1] = excluded_names[-1].rstrip(', \n')
+
+
+        logger.debug(f"Excluded song names: {excluded_names}")
+        return excluded_names if excluded_names else None        
+        
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
         return {
@@ -71,7 +97,7 @@ class SongNamesGenerator(LLMGenerator):
             'count': self.extracted_params['count'],
             'min_words': self.extracted_params['min_words'],
             'max_words': self.extracted_params['max_words'],
-            'exclude_song_names': self.extracted_params['exclude_song_names'],
+            'exclude_song_names': self.get_excluded_song_names(),
             'custom_prompt': self.extracted_params['custom_prompt'],
         }
     

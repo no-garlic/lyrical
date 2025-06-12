@@ -64,7 +64,9 @@ class LLMConversationLogger:
         Returns:
             Path object for the log file
         """
-        filename = f"{message_type}_{song_id}.log"
+        filename = f"{message_type}.log"
+        if song_id is not None:
+            filename = f"{message_type}_{song_id}.log"
         return LLM_LOGS_DIR / filename
     
     @staticmethod
@@ -80,7 +82,9 @@ class LLMConversationLogger:
             Formatted header string (HEADER_LENGTH characters wide)
         """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        header_text = f" {timestamp} | {message_type} | song_id: {song_id} "
+        header_text = f" {timestamp} | {message_type} "
+        if song_id is not None:
+            header_text = f" {timestamp} | {message_type} | song_id: {song_id} "
         
         # Calculate padding to make exactly HEADER_LENGTH characters
         total_padding = HEADER_LENGTH - len(header_text)

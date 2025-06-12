@@ -30,7 +30,8 @@
   [{{ exclude_words }}]{% endif %}
 
   {% if exclude_song_names %}The song names MUST BE UNIQUE, and MUST NOT appear in this list:
-  {{ exclude_song_names }}]{% endif %}
+  [{% for line in exclude_song_names %}{{line}}{% endfor %}]
+  {% endif %}
 
   {% if starts_with %}The song names MUST start with the word(s): '{{ starts_with }}'{% endif %}
   {% if ends_with %}The song names MUST end with the word(s): '{{ ends_with }}'{% endif %}

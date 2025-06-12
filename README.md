@@ -156,6 +156,7 @@ Prompts:
 
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
+3 - Update badge colors
 
 3 - Review all code from LLM
 3 - Update code documentation (use co-pilot)
