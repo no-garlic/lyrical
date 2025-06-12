@@ -36,7 +36,7 @@ def add_data(apps, schema_editor):
 
     # Create the Users
     users.objects.create(username='admin', password=make_password('admin'), email='admin@example.com', first_name='Admin', last_name='Admin', is_superuser=True, is_staff=True,
-                         llm_max_tokens=2000, llm_temperature=0.5, llm_model=default_llm_model, llm_model_summarise=default_llm_model)
+                         llm_max_tokens=2, llm_temperature=0.5, llm_model=default_llm_model, llm_model_summarise=default_llm_model)
     
     mpetrou = users.objects.create(
         username='mpetrou', 
@@ -46,7 +46,7 @@ def add_data(apps, schema_editor):
         last_name='Petrou', 
         is_superuser=True, 
         is_staff=True,
-        llm_max_tokens=2000,
+        llm_max_tokens=2,
         llm_temperature=0.2, 
         llm_model=default_llm_model,
         llm_model_summarise=default_llm_model,

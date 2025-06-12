@@ -109,33 +109,33 @@
  - Add a Rhyme feature somehow to the edit page (different selection mode?)
  - Update default page upon login
  - Update TODO List, work out what happens now, and what is backlog
-1 - Add a 'Clear' button for rhymes and regenerate modes
-1 - Empty song - right song lyrics panel should be empty
-2 - Sort order of new generations
-2 - Make new generations light grey until clicked on
-1 - Make sure a word is selected before regenerate words button is active
-1 - Make sure 1 or more words are selected before regenerate lyrics button is active
-1 - Delete page_edit and update navigation
-1 - Move navigate buttons by moving outer frame to sidebar.html
-2 - Double click on song page to go to Next
-2 - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
-3 - Create at least 1 proper structure template in the migration 
-3 - Add bootstrap icons to buttons
-3 - Move Next and Prev Buttons - try just under the page
-3 - Set browser title to song name
-2 - Refactor using btn-generate for songId - get it from document.body instead
-1 - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
-1 - Click Generate, and it shows that you need to save or undo, however it is already saved
-1 - Bug: drag-drop word + undo does not undo changes
-1 - Disable Regenerate button if not saved.
-1 - Bug: textedit + save does not update right panel song lyrics
-1 - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
+ - Add a 'Clear' button for rhymes and regenerate modes
+ - Empty song - right song lyrics panel should be empty
+ - Sort order of new generations
+ - Make new generations light grey until clicked on
+ - Make sure a word is selected before regenerate words button is active
+ - Make sure 1 or more words are selected before regenerate lyrics button is active
+ - Delete page_edit and update navigation
+ - Move navigate buttons by moving outer frame to sidebar.html
+ - Double click on song page to go to Next
+ - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
+ - Create at least 1 proper structure template in the migration 
+ - Add bootstrap icons to buttons
+ - Move Next and Prev Buttons - try just under the page
+ - Set browser title to song name
+ - Refactor using btn-generate for songId - get it from document.body instead
+ - Bug: Handle duplicate song name from LLM quietly (and check against exclude words)
+ - Click Generate, and it shows that you need to save or undo, however it is already saved
+ - Bug: drag-drop word + undo does not undo changes
+ - Disable Regenerate button if not saved.
+ - Bug: textedit + save does not update right panel song lyrics
+ - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
+ - Make regenerate button wider, and change lable to something like GENERATE CHOICES or GENERATE MORE or GENERATE OPTIONS.
 
 
 ## Todo
 
 
-1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
 
 
 Prompts:
@@ -155,14 +155,18 @@ Prompts:
 1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 
 
- - names (ok)
+ - Names (ok)
 2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
 2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
 
 2 - Update LLM Costs and maybe add other models for testing
-2 - Update range for Max Tokens, set better default, update range based on selected model maybe?
+2 - Update range for Max Tokens, set better default, update range based on selected model maybe
 2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
+https://platform.openai.com/docs/pricing
+https://ai.google.dev/gemini-api/docs/pricing
+https://www.anthropic.com/pricing#api
+https://docs.x.ai/docs/models
 
 
 3 - Consistent visual style across all screens
@@ -175,10 +179,6 @@ Prompts:
 3 - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
 
 
-https://platform.openai.com/docs/pricing
-https://ai.google.dev/gemini-api/docs/pricing
-https://www.anthropic.com/pricing#api
-https://docs.x.ai/docs/models
 
 
 ## Backlog
