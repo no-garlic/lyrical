@@ -193,8 +193,6 @@ function applyFilter() {
     const filterStage = getFilterStage();
     const container = document.getElementById('songs-container');
 
-    //console.log(`Applying filter: ${filterStage}`)
-
     if (filterStage === undefined) {
         Array.from(container.children).forEach(node => {
             node.classList.remove('hidden');
@@ -222,6 +220,7 @@ function applyFilter() {
         } else {
             document.getElementById('btn-add-song-name').classList.add('btn-disabled');
             document.getElementById('btn-dislike-all-new-song-names').classList.add('btn-disabled');
+            sortCardsInContainer('songs-container');
         }
     }
 
@@ -302,14 +301,6 @@ function initializeNewSongCard(songId, songName) {
         return;
     }
 
-    /*
-    <div class="song-card" id="song-card-163" data-song-id="163" data-song-name="Victory In My Heart" data-song-stage="new">
-    <p id="song-text-163">Victory In My Heart</p>
-    <div id="song-hover-163" data-class="hidden">
-    <a class="bi-hand-thumbs-up btn-song-like" id="song-like-163" data-song-id="163">
-    <a class="bi-hand-thumbs-down btn-song-dislike" id="song-dislike-163" data-song-id="163">
-    */
-
     document.getElementById(`song-like-${songId}`).onclick = () => {
         likeSong(songId);
     }
@@ -321,7 +312,6 @@ function initializeNewSongCard(songId, songName) {
     setupNewCardVisualState(newCard);
     registerCardForSelection(newCard);
     addEventListenerToCard(newCard);
-    sortCardsInContainer('songs-container');
 
     applyFilter();
 }
@@ -635,8 +625,6 @@ function handleGeneratedSongData(data) {
     } else {
         handleGenerationError(data);
     }
-
-    sortCardsInContainer('songs-container');
 }
 
 /**
