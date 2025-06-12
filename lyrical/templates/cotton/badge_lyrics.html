@@ -2,13 +2,21 @@
     <div {{attrs}} class="badge-lyrics badge badge-sm rounded badge-{{slot|lower}} w-44 font-bold mb-3 mt-3 ml-2 {{extrastyles}}">{% if song_section.name %}{{song_section.name}}{% else %}{{slot|upper}}{% endif %}</div>
     {% if song_section.allow_words %}
     <div class="flex flex-grow"></div>
-    <button class="badge-button badge-marker-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-marker-tip text-xl"></i></button>
-    <button class="badge-button badge-eraser-button mt-1 mr-7 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-eraser text-xl"></i></button>
-    <button class="badge-button badge-rhyme-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-music-note-beamed text-xl"></i></button>
-    <button class="badge-button badge-interactive-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-highlighter text-xl"></i></button>
-    <button class="badge-button badge-regenerate-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-arrow-clockwise text-xl"></i></button>
-    <button class="badge-button badge-textedit-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-fonts text-xl"></i></button>
-    <button class="badge-button badge-exit-button mt-1 ml-2 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"><i class="bi bi-x-square text-xl"></i></button>
-    <button class="badge-button badge-tools-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral"><i class="bi bi-three-dots-vertical text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-marker-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="marker"><i class="bi bi-marker-tip text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-eraser-button mt-1 mr-7 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="eraser"><i class="bi bi-eraser text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-rhyme-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="generate words that rhyme with selection"><i class="bi bi-music-note-beamed text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-interactive-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="interactively regenerate {{slot|lower}} sections"><i class="bi bi-highlighter text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-regenerate-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+             data-tip="generate more {{slot|lower}} options"><i class="bi bi-arrow-clockwise text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-textedit-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="edit {{slot|lower}} text"><i class="bi bi-fonts text-xl"></i></button>
+    <button class="tooltip tooltip-bottom badge-button badge-exit-button mt-1 ml-2 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral hidden"
+            data-tip="close"><i class="bi bi-x-square text-xl"></i></button>
+    <button class="tooltip tooltip-left badge-button badge-tools-button mt-1 btn-style btn btn-xs btn-ghost focus:outline-none focus:border-primary h-full text-neutral" 
+            data-tip="{{slot|lower}} tools"><i class="bi bi-three-dots-vertical text-xl"></i></button>
     {% endif %}
 </div>

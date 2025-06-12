@@ -203,12 +203,16 @@ Lyrical
                                 {% if navigation %}
                                     <!-- Previous Button -->
                                     <div class="w-200"> <!-- This div is only here so the Next Button does not dock to the left when we hide the Prev Button -->
-                                        <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}} bi bi-caret-left-square-fill">PREVIOUS</button>
+                                        <div class="tooltip tooltip-top font-bold" data-tip="navigate to the previous page">
+                                            <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}} bi bi-caret-left-square-fill">PREVIOUS</button>
+                                        </div>
                                     </div>
                                     <!-- End: Previous Button -->
 
                                     <!-- Next Button -->
-                                    <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">NEXT<i class="bi bi-caret-right-square-fill"></i></button>
+                                    <div class="tooltip tooltip-top font-bold" data-tip="navigate to the next page">
+                                        <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">NEXT<i class="bi bi-caret-right-square-fill"></i></button>
+                                    </div>
                                     <!-- End: Next Button -->                                
                                 {% endif %}
 

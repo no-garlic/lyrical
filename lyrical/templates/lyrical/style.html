@@ -18,7 +18,7 @@
 
                 <!-- Right Header -->
                 <c-panel-header text="CUSTOM PROMPT" padding="4">
-                    <c-panel-header-button id="btn-generate" extrastyles="w-40 bi bi-music-note-list" data-song-id="{{song.id}}">
+                    <c-panel-header-button id="btn-generate" tip="generate styles" extrastyles="w-40 bi bi-music-note-list" data-song-id="{{song.id}}">
                         GENERATE
                     </c-panel-header-button>
                     <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
@@ -46,10 +46,10 @@
                 
                             <!-- Edit Song Style Section -->
                             <c-panel-header text="EDIT YOUR SONG STYLE" padding="4">
-                                <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                                <c-panel-header-button id="btn-cancel" tip="undo all changes" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
                                     UNDO
                                 </c-panel-header-button>
-                                <c-panel-header-button id="btn-save" extrastyles="btn-disabled bi bi-floppy">
+                                <c-panel-header-button id="btn-save" tip="save all changes" extrastyles="btn-disabled bi bi-floppy">
                                     SAVE
                                 </c-panel-header-button>
                             </c-panel-header>
@@ -137,7 +137,7 @@
                             <!-- End: Tabs Group -->
 
                             <!-- Clear Button -->
-                            <c-panel-header-button id="btn-clear" extrastyles="btn-disabled bi bi-dash-circle">
+                            <c-panel-header-button id="btn-clear" tip="remove all" extrastyles="btn-disabled bi bi-dash-circle">
                                 CLEAR
                             </c-panel-header-button>
                             <!-- End: Clear Button -->                            

@@ -66,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initPageActions() {
     // navigate next button
     const nextButton = document.getElementById('btn-navigate-next');
-    nextButton.classList.remove('btn-disabled');
-    nextButton.onclick = () => { window.location.href = `/edit/${songId}`; };
+    nextButton.classList.add('hidden');
 
     // navigate previous button
     const prevButton = document.getElementById('btn-navigate-prev');

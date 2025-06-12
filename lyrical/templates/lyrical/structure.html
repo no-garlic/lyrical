@@ -19,17 +19,17 @@
             <div class="border-b border-base-300 pt-1">
                 <!-- Right Header -->
                 <c-panel-header text="SETTINGS" padding="4">
-                    <c-panel-header-button id="btn-load-from-template" data-song-id="{{song.id}}" extrastyles="bi bi-download">
+                    <c-panel-header-button id="btn-load-from-template" tip="initialise all settings from a template" data-song-id="{{song.id}}" extrastyles="bi bi-download w-50">
                         LOAD FROM TEMPLATE
                     </c-panel-header-button>
-                    <c-panel-header-button id="btn-save-to-template" data-song-id="{{song.id}}" extrastyles="bi bi-upload">
+                    <c-panel-header-button id="btn-save-to-template" tip="save all settings to a template" data-song-id="{{song.id}}" extrastyles="bi bi-upload w-50">
                         SAVE TO TEMPLATE
                     </c-panel-header-button>
                     <c-panel-header-divider />
-                    <c-panel-header-button id="btn-cancel" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                    <c-panel-header-button id="btn-cancel" tip="undo all changes" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
                         UNDO
                     </c-panel-header-button>
-                    <c-panel-header-button id="btn-save" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-floppy">
+                    <c-panel-header-button id="btn-save" tip="save all changes" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-floppy">
                         SAVE
                     </c-panel-header-button>
                 </c-panel-header>
@@ -212,9 +212,11 @@
                                             SECTIONS
                                         </div>
                                         <div class="flex flex-0 justify-end items-center pr-4">
+                                            <div class="tooltip tooltip-bottom" data-tip="clear all sections">
                                             <a id="btn-clear" class="btn btn-xs h-5 mt-1 mb-2 ml-2 btn-primary btn-disabled bi bi-dash-circle">
                                                 CLEAR
                                             </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -18,16 +18,16 @@
 
                 <!-- Right Header -->
                 <c-panel-header text="SONG LYRICS" padding="4">
-                    <c-panel-header-button id="btn-generate" extrastyles="w-45 bi bi-music-note-list">
+                    <c-panel-header-button id="btn-generate" tip="generate lyrics for the full song" extrastyles="w-45 bi bi-music-note-list">
                         GENERATE{% if song.generated %} AGAIN{% endif %}
                     </c-panel-header-button>
                     <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
                         PLEASE WAIT...
                     </c-panel-header-button-loading>
-                    <c-panel-header-button id="btn-undo" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                    <c-panel-header-button id="btn-undo" tip="undo all changes" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
                         UNDO
                     </c-panel-header-button>
-                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled bi bi-floppy">
+                    <c-panel-header-button id="btn-save" tip="save all changes" extrastyles="btn-disabled bi bi-floppy">
                         SAVE
                     </c-panel-header-button>
                 </c-panel-header>
@@ -91,13 +91,13 @@
 
                                                 <!-- Generate Buttons -->
                                                 <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
-                                                    <c-panel-header-button extrastyles="w-45 bi bi-music-note-list btn-regenerate">
+                                                    <c-panel-header-button tip="generate alternatives" extrastyles="w-45 bi bi-music-note-list btn-regenerate">
                                                         GENERATE OPTIONS
                                                     </c-panel-header-button>
                                                     <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
                                                         PLEASE WAIT...
                                                     </c-panel-header-button-loading>
-                                                    <c-panel-header-button extrastyles="bi bi-x-circle btn-clear">
+                                                    <c-panel-header-button tip="clear alternatives" extrastyles="bi bi-x-circle btn-clear">
                                                         CLEAR
                                                     </c-panel-header-button>
                                                 </div>
@@ -152,12 +152,12 @@
                 
                             <!-- Edit Song Style Section -->
                             <c-panel-header text="EXPORT SONG LYRICS" padding="4">
-                                <div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">
+                                <div class="tooltip tooltip-bottom" data-tip="copy to the clipboard">
                                 <c-panel-header-button id="btn-copy" extrastyles="bi bi-copy">
                                     COPY
                                 </c-panel-header-button>
                                 </div>
-                                <div class="tooltip tooltip-bottom" data-tip="Export to a file">
+                                <div class="tooltip tooltip-bottom" data-tip="export to a file">
                                 <c-panel-header-button id="btn-export" extrastyles="bi bi-filetype-txt" data-song-name="{{ song.name }}">
                                     EXPORT
                                 </c-panel-header-button>

@@ -136,12 +136,12 @@
  - Lyrics Page - Copy and Export should be disabled if there are no lyrics in the panel 
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
  - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ - Add tooltips to all buttons (<div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">)
 
 
 
 
 ## Todo
-
 
 Prompts:
  - Name (ok)
@@ -161,18 +161,18 @@ Prompts:
 
 
 
-
-2 - Update LLM Costs and maybe add other models for testing
+2 - Update LLM Costs and Max Tokens and add other models for testing
 https://platform.openai.com/docs/pricing
 https://ai.google.dev/gemini-api/docs/pricing
 https://www.anthropic.com/pricing#api
 https://docs.x.ai/docs/models
 
 
-2 - Add tooltips to all buttons (<div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">)
+
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
 3 - Update badge colors
+
 
 
 3 - Review all code from LLM
@@ -198,8 +198,9 @@ https://docs.x.ai/docs/models
  - Media query to hide the girl image, and reduce the padding when the page height is reduced
  - Click close button on a card, shows another X and Tick as a confirmation
  - Put instructional text on every page to tell the user what to do
- - Add Tooltips to buttons
+ - All new cards should be light grey until clicked on
  - Remove all the exception handling and do it better
+ - Alternative Lyrics & Clear tooltips not working on lyrics page
  - Profile Page
  - Library Page
 
