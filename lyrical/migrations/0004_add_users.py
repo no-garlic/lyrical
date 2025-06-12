@@ -47,7 +47,7 @@ def add_data(apps, schema_editor):
         is_superuser=True, 
         is_staff=True,
         llm_max_tokens=100,
-        llm_temperature=0.2, 
+        llm_temperature=0.7, 
         llm_model=default_llm_model,
         llm_model_summarise=default_llm_model,
 

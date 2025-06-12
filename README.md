@@ -137,6 +137,11 @@
  - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
  - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
  - Add tooltips to all buttons (<div class="tooltip tooltip-bottom" data-tip="Copy to the clipboard">)
+ - Update LLM Costs and Max Tokens and add other models for testing
+    https://platform.openai.com/docs/pricing
+    https://ai.google.dev/gemini-api/docs/pricing
+    https://www.anthropic.com/pricing#api
+    https://docs.x.ai/docs/models
 
 
 
@@ -161,18 +166,12 @@ Prompts:
 
 
 
-2 - Update LLM Costs and Max Tokens and add other models for testing
-https://platform.openai.com/docs/pricing
-https://ai.google.dev/gemini-api/docs/pricing
-https://www.anthropic.com/pricing#api
-https://docs.x.ai/docs/models
 
 
 
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
 3 - Update badge colors
-
 
 
 3 - Review all code from LLM
