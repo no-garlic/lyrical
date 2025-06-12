@@ -200,11 +200,15 @@ class LLMGenerator(ABC):
             else:
                 logger.debug(f"Conversation history disabled for this generator - starting fresh conversation")
             
+            # determine if we prefer a follow up prompt
+            prefer_follow_up = (self.uses_conversation_history() and self.prompt_messages.get_user_message_count() > 0)
+
             # get user prompt with custom parameters
             user_prompt_params = self.build_user_prompt_params()
             user_message = get_user_prompt(
                 prompt_name=prompt_name,
                 llm=self.llm_model,
+                prefer_follow_up=prefer_follow_up,
                 **user_prompt_params
             )
             

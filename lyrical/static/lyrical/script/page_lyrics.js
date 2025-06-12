@@ -252,7 +252,7 @@ function handleRegenerateClick() {
                 requestParams['rhyme_with'] = word;
                 requestParams['word_line'] = line;
                 requestParams['word_index'] = index;
-                requestParams['count'] = 50;
+                requestParams['count'] = 12;
                 requestParams['song_section'] = songSection;
                 requestParams['exclude_list'] = wordsToExclude;
                 streamHelperRhyme.initiateRequest(requestParams);

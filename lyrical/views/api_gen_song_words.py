@@ -94,7 +94,7 @@ class SongWordsGenerator(LLMGenerator):
             'narrative': self.extracted_params['narrative'],
             'mood': self.extracted_params['mood'],
             'rhyme_with': self.extracted_params['rhyme_with'],
-            'exclude_list': self.extracted_params['exclude_list'],
+            'exclude_list': self.extracted_params['exclude_list'].replace(',', ', '),
             'song_section': self.extracted_params['song_section'],
             'section_type': self.extracted_params['section_type'],
             'count': self.extracted_params['count'],

@@ -42,38 +42,6 @@ def _get_file_timestamp(file_path: Path) -> float:
         return 0
 
 
-def _check_and_invalidate_if_changed():
-    """Check if any prompt files have changed and invalidate cached data if needed."""
-    global _default_prompts, _internal_prompts, _model_prompts
-    global _default_prompts_timestamp, _internal_prompts_timestamp, _model_prompts_timestamps
-    
-    # Check default prompts file
-    default_file_path = PROMPTS_FILE_PATH / DEFAULT_PROMPT_FILE
-    current_default_timestamp = _get_file_timestamp(default_file_path)
-    if _default_prompts_timestamp is not None and current_default_timestamp > _default_prompts_timestamp:
-        logger.debug(f"Default prompts file changed, invalidating cache")
-        _default_prompts = None
-        _default_prompts_timestamp = None
-    
-    # Check internal prompts file
-    internal_file_path = PROMPTS_FILE_PATH / INTERNAL_PROMPT_FILE
-    current_internal_timestamp = _get_file_timestamp(internal_file_path)
-    if _internal_prompts_timestamp is not None and current_internal_timestamp > _internal_prompts_timestamp:
-        logger.debug(f"Internal prompts file changed, invalidating cache")
-        _internal_prompts = None
-        _internal_prompts_timestamp = None
-    
-    # Check model-specific prompts files
-    for model_name in list(_model_prompts_timestamps.keys()):
-        model_file_path = PROMPTS_FILE_PATH / f"{model_name}.yaml"
-        current_model_timestamp = _get_file_timestamp(model_file_path)
-        stored_timestamp = _model_prompts_timestamps.get(model_name, 0)
-        if stored_timestamp > 0 and current_model_timestamp > stored_timestamp:
-            logger.debug(f"Model prompts file for {model_name} changed, invalidating cache")
-            _model_prompts[model_name] = None
-            del _model_prompts_timestamps[model_name]
-
-
 def get_system_prompt(prompt_name: str, llm: LLM = None) -> str:
     custom_system_prompt_name = f"{prompt_name}.system_prompt"
 
@@ -87,8 +55,24 @@ def get_system_prompt(prompt_name: str, llm: LLM = None) -> str:
     return collapse_blank_lines(system_prompt)
 
 
-def get_user_prompt(prompt_name: str, llm: LLM = None, **kwargs) -> str:
-    prompt = _get_prompt(prompt_name, llm)
+def get_user_prompt(prompt_name: str, llm: LLM = None, prefer_follow_up: bool = False, **kwargs) -> str:
+    prompt = None
+    
+    if prefer_follow_up:
+        follow_up_prompt_name = f"{prompt_name}.follow_up" 
+        prompt = _get_prompt(follow_up_prompt_name, llm)
+        if prompt:
+            logger.debug(f"Using follow-up prompt '{follow_up_prompt_name}'")
+
+    if not prompt:    
+        prompt = _get_prompt(prompt_name, llm)
+        if prompt:
+            logger.debug(f"Using user prompt '{prompt_name}'")
+
+    if not prompt:
+        logger.debug(f"User prompt '{prompt_name}' not found.")
+        return None
+    
     rendered_prompt = apply_prompt_args(prompt, **kwargs)
     return collapse_blank_lines(rendered_prompt)
 
@@ -182,8 +166,6 @@ def _get_model_prompts(model_name: str) -> dict:
             _model_prompts[model_name] = None
             _model_prompts_timestamps[model_name] = 0
     return _model_prompts.get(model_name, {})
-
-
 
 
 def _get_prompt(prompt_name: str, llm: LLM = None) -> str:

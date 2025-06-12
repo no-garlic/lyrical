@@ -128,6 +128,43 @@ class MessageBuilder:
                 return message["content"]
         return None
     
+    def get_user_message_count(self) -> int:
+        """
+        Get the count of user messages in the conversation.
+        
+        Returns:
+            Number of user messages
+        """
+        return sum(1 for message in self.messages if message["role"] == "user")
+
+    def get_assistant_message_count(self) -> int:
+        """
+        Get the count of assistant messages in the conversation.
+        
+        Returns:
+            Number of assistant messages
+        """
+        return sum(1 for message in self.messages if message["role"] == "assistant")
+
+    def get_system_message_count(self) -> int:
+        """
+        Get the count of system messages in the conversation.
+        
+        Returns:
+            Number of system messages
+        """
+        return sum(1 for message in self.messages if message["role"] == "system")
+
+    def get_message_count(self) -> int:
+        """
+        Get the total count of messages in the conversation.
+        
+        Returns:
+            Total number of messages (user + assistant + system)
+        """
+        return len(self.messages)
+
+
     def has_conversation_history(self) -> bool:
         """
         Check if this MessageBuilder contains conversation history.
