@@ -114,6 +114,12 @@ class SongNamesGenerator(LLMGenerator):
         name = normalize_to_ascii(data["name"])
         data["name"] = name
 
+        # check if the song name is already in the database
+        if models.Song.objects.filter(name=name, user=self.request.user).exists():
+            logger.warning(f"Song name '{name}' already exists for user {self.request.user.id}. Skipping creation.")
+            data['id'] = -1
+            return json.dumps(data)        
+
         # create a new song object in the database
         song = models.Song.objects.create(name=data["name"], user=self.request.user)
         logger.debug(f"Created song with ID {song.id} and name '{song.name}'")

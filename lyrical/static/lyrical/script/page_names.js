@@ -193,7 +193,7 @@ function applyFilter() {
     const filterStage = getFilterStage();
     const container = document.getElementById('songs-container');
 
-    console.log(`Applying filter: ${filterStage}`)
+    //console.log(`Applying filter: ${filterStage}`)
 
     if (filterStage === undefined) {
         Array.from(container.children).forEach(node => {
@@ -581,7 +581,7 @@ function createStreamHelper() {
     return new StreamHelper('/api_gen_song_names', {
         callbacks: {
             onPreRequest: () => {
-                console.log("stream prerequest");
+                //console.log("stream prerequest");
                 handleGenerationLoadingStart();
             },
             onIncomingData: (data) => {
@@ -589,10 +589,10 @@ function createStreamHelper() {
                 handleGeneratedSongData(data);
             },
             onStreamEnd: () => {
-                console.log("stream end");
+                //console.log("stream end");
             },
             onComplete: (summaryInfo) => {
-                console.log("stream complete");
+                //console.log("stream complete");
                 handleGenerationLoadingEnd(summaryInfo);
             },
             onError: (error) => {
@@ -627,7 +627,11 @@ function buildGenerationRequestParams() {
  */
 function handleGeneratedSongData(data) {
     if (data && data.id && typeof data.id === 'number') {
-        addNewSongCard(data.id, data.name);
+        if (data.id === -1) {
+            console.log(`skipping creation of duplicate song name ${data.name}`);
+        } else {
+            addNewSongCard(data.id, data.name);
+        }        
     } else {
         handleGenerationError(data);
     }
