@@ -1,6 +1,11 @@
 {% extends "lyrical/base.html" %}
 {% load static %}
 
+{% block title %}
+Lyrical
+{% if song %} - {{song.name}}{% endif %}
+{% endblock %}
+
 {% block body %}
     <!-- The modal dialogs -->
     <c-modal-delete />
@@ -185,44 +190,38 @@
 
             <!-- Container for main page panels and their splitters -->
             <div id="main-panels-container" class="flex flex-1 overflow-hidden">
-                {% block page_content %}
-                {% endblock %}
+
+                <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
+                    
+                    {% block page_content %}
+                    {% endblock %}
+
+                    <div class="w-[1164px]">
+                        <div class="h-full w-full flex items-center justify-center">
+                            <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 mt-4">
+
+                                {% if navigation %}
+                                    <!-- Previous Button -->
+                                    <div class="w-200"> <!-- This div is only here so the Next Button does not dock to the left when we hide the Prev Button -->
+                                        <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}} bi bi-caret-left-square-fill">PREVIOUS</button>
+                                    </div>
+                                    <!-- End: Previous Button -->
+
+                                    <!-- Next Button -->
+                                    <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">NEXT<i class="bi bi-caret-right-square-fill"></i></button>
+                                    <!-- End: Next Button -->                                
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             {% block footer %}
                 <!-- Fixed height footer -->
                 <div id="footer-panel" class="h-14 flex-shrink-0 flex justify-center items-center overflow-hidden">
-                    <div class="h-full w-full flex items-center justify-center">
-                        <div class="h-full w-full flex justify-between items-top border-none border-base-300 bg-base-200 px-4">
-
-                            {% if navigation %}
-                                <!-- Previous Button -->
-                                <div class="w-200"> <!-- This div is only here so the Next Button does not dock to the left when we hide the Prev Button -->
-                                    <button id="btn-navigate-prev" class="btn w-45 btn-md btn-primary btn-disabled {{btn_previous}}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 10 24" class="w-6 h-6">
-                                            <path d="M15.75 19.5L8.25 12l7.5-7.5Z" />
-                                        </svg>
-                                        <p>Previous</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
-                                    </svg>
-                                    </button>
-                                </div>
-                                <!-- End: Previous Button -->
-
-                                <!-- Next Button -->
-                                <button id="btn-navigate-next" class="btn w-45 btn-md btn-primary btn-disabled {{btn_next}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 0 0" class="w-6 h-6">
-                                    </svg>
-                                    <p>Next</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="14 0 8 24" class="w-6 h-6">
-                                        <path d="M8.25 4.5l7.5 7.5-7.5 7.5Z" />
-                                    </svg>
-                                </button>
-                                <!-- End: Next Button -->                                
-                            {% endif %}
-
-                        </div>
-                    </div>
                 </div>
             {% endblock %}
         </div>

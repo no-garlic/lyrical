@@ -19,6 +19,9 @@ let styleTextDirty = false;
 let saveHistory = { theme: '', narrative: '', mood: '' };
 
 
+const songId = document.body.dataset.songId;
+
+
 document.addEventListener('DOMContentLoaded', () => {
     initStyleCards();
     initGeneration();
@@ -144,9 +147,6 @@ function initPageActions() {
  * Builds request parameters and initiates the stream request.
  */
 function handleGenerateClick() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
-    
     const actualGenerate = () => {
         const requestParams = buildRequestParams();
         streamHelper.initiateRequest(requestParams);
@@ -194,9 +194,6 @@ function createStreamHelper() {
  * @returns {Object} Request parameters object.
  */
 function buildRequestParams() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
-
     let params = {
         prompt: 'song_styles',
         custom_prompt: document.getElementById('prompt-text').value,
@@ -407,8 +404,6 @@ function updateNavigationButtonStates() {
 
 function clearGeneratedStyles() {
     const clearButton = document.getElementById('btn-clear');
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);    
 
     // call the api to update the section to set the hidden flag to true
     apiSectionEditBulk(songId, true)
@@ -478,9 +473,6 @@ function saveStyle() {
     const newSongNarrative = narrativeElement.value.trim();
     const newSongMood = moodElement.value.trim();
 
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);    
-
     // call the api to update the song styles
     apiSongEdit(songId, { song_theme: newSongTheme, song_narrative: newSongNarrative, song_mood: newSongMood })
         .then(songId => {
@@ -546,14 +538,10 @@ function applyFilter() {
 
 
 function navigateNext() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
     window.location.href = `/structure/${songId}`;
 }
 
 
 function navigatePrevious() {
-    const generateButton = document.getElementById('btn-generate');
-    const songId = parseInt(generateButton.dataset.songId);
     window.location.href = `/song?id=${songId}`;
 }

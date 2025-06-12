@@ -5,181 +5,178 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
-        <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-            <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
+        <!-- Title -->
+        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
 
-            <!-- Content -->
-            <div class="flex flex-row flex-1 min-h-0 gap-4">
+        <!-- Content -->
+        <div class="flex flex-row flex-1 min-h-0 gap-4">
 
-                <!-- Left Panel -->
-                <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+            <!-- Left Panel -->
+            <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
-                    <!-- Right Header -->
-                    <c-panel-header title="SONG LYRICS" padding="4">
-                        <c-panel-header-button id="btn-generate" extrastyles="w-40 bi bi-music-note-list">
-                            GENERATE
-                        </c-panel-header-button>
-                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
-                            PLEASE WAIT...
-                        </c-panel-header-button-loading>
-                        <c-panel-header-button id="btn-undo" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
-                            UNDO
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-save" extrastyles="btn-disabled bi bi-floppy">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-header>
-                    <!-- End: Right Header -->
+                <!-- Right Header -->
+                <c-panel-header title="SONG LYRICS" padding="4">
+                    <c-panel-header-button id="btn-generate" extrastyles="w-40 bi bi-music-note-list">
+                        GENERATE
+                    </c-panel-header-button>
+                    <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
+                        PLEASE WAIT...
+                    </c-panel-header-button-loading>
+                    <c-panel-header-button id="btn-undo" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                        UNDO
+                    </c-panel-header-button>
+                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled bi bi-floppy">
+                        SAVE
+                    </c-panel-header-button>
+                </c-panel-header>
+                <!-- End: Right Header -->
 
-                    <!-- Fields for Edit Song Style -->
-                    <div class="bg-base-100 overflow-y-auto min-h-0 flex flex-col flex-1">
+                <!-- Fields for Edit Song Style -->
+                <div class="bg-base-100 overflow-y-auto min-h-0 flex flex-col flex-1">
 
-                        <div class="flex-shrink-0 bg-base-200">
-                            {% for song_section in song_lyrics %}
-                                <!-- Song Section Card -->
-                                <div class="song-section-card" data-drop-zone="true" data-textarea-id="lyrics-text-{{ forloop.counter }}">
+                    <div class="flex-shrink-0 bg-base-200">
+                        {% for song_section in song_lyrics %}
+                            <!-- Song Section Card -->
+                            <div class="song-section-card" data-drop-zone="true" data-textarea-id="lyrics-text-{{ forloop.counter }}">
 
-                                    <!-- Badge header row -->
-                                    <c-badge-lyrics
-                                        data-section-type="{{song_section.type|upper}}"
-                                        data-section-index="{{song_section.index}}"
-                                        data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
-                                        >{{song_section.type}}</c-badge-lyrics>
-                                    <!-- End: Badge header row -->
+                                <!-- Badge header row -->
+                                <c-badge-lyrics
+                                    data-section-type="{{song_section.type|upper}}"
+                                    data-section-index="{{song_section.index}}"
+                                    data-section-words-id="{% if song_section.allow_words %}lyrics-text-{{ forloop.counter }}{% endif %}"
+                                    >{{song_section.type}}</c-badge-lyrics>
+                                <!-- End: Badge header row -->
 
-                                    <!-- Song Section Lyrics & Edit UI -->
-                                    {% if song_section.allow_words %}
-                                        <div class="flex flex-col">
-                                            <textarea 
-                                                id="lyrics-text-{{ forloop.counter }}" 
-                                                data-lyrics-id="{{song_section.id}}"
-                                                type="text" 
-                                                placeholder="" 
-                                                readonly
-                                                autocomplete="off" 
-                                                class="{{song_section.item_name}} mx-1 mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                                style="field-sizing: content;"
-                                            >{{song_section.words}}</textarea>
+                                <!-- Song Section Lyrics & Edit UI -->
+                                {% if song_section.allow_words %}
+                                    <div class="flex flex-col">
+                                        <textarea 
+                                            id="lyrics-text-{{ forloop.counter }}" 
+                                            data-lyrics-id="{{song_section.id}}"
+                                            type="text" 
+                                            placeholder="" 
+                                            readonly
+                                            autocomplete="off" 
+                                            class="{{song_section.item_name}} mx-1 mb-1 input-control textarea text-[16px] min-h-8 textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                                            style="field-sizing: content;"
+                                        >{{song_section.words}}</textarea>
 
-                                            <!-- Edit Panel: Interactive -->
-                                            <div id="edit-panel-interactive-{{song_section.id}}" class="edit-panel-interactive mx-1 px-3 pt-2 pb-1.75 mb-1 h-auto hidden bg-base-100">
-                                                <!-- The text is inserted in here by javascript -->
+                                        <!-- Edit Panel: Interactive -->
+                                        <div id="edit-panel-interactive-{{song_section.id}}" class="edit-panel-interactive mx-1 px-3 pt-2 pb-1.75 mb-1 h-auto hidden bg-base-100">
+                                            <!-- The text is inserted in here by javascript -->
+                                        </div>
+                                        <!-- Edit Panel: Interactive -->
+
+                                        <!-- Edit Panel: Regenerate -->
+                                        <div class="edit-panel-regenerate h-auto hidden">
+                                            <div class="flex flex-col flex-1 px-1 pb-1">
+                                                <c-input-label>CUSTOM REQUEST:</c-input-label>
+                                                <textarea
+                                                    id="input-custom-request" 
+                                                    type="text" 
+                                                    placeholder="" 
+                                                    autocomplete="off" 
+                                                    class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
+                                                    value=""
+                                                ></textarea>
                                             </div>
-                                            <!-- Edit Panel: Interactive -->
 
-                                            <!-- Edit Panel: Regenerate -->
-                                            <div class="edit-panel-regenerate h-auto hidden">
-                                                <div class="flex flex-col flex-1 px-1 pb-1">
-                                                    <c-input-label>CUSTOM REQUEST:</c-input-label>
-                                                    <textarea
-                                                        id="input-custom-request" 
-                                                        type="text" 
-                                                        placeholder="" 
-                                                        autocomplete="off" 
-                                                        class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
-                                                        value=""
-                                                    ></textarea>
+                                            <!-- Separator Bar -->
+                                            <div class="card w-full bg-base-100 border-b border-base-300 h-11 rounded-none flex flex-row">
+                                                <div class="flex flex-1 justify-start items-center font-bold text-md text-primary pl-4">
+                                                    <p id="regenerate-header-title">ALTERNATIVE LYRICS</p>
                                                 </div>
 
-                                                <!-- Separator Bar -->
-                                                <div class="card w-full bg-base-100 border-b border-base-300 h-11 rounded-none flex flex-row">
-                                                    <div class="flex flex-1 justify-start items-center font-bold text-md text-primary pl-4">
-                                                        <p id="regenerate-header-title">ALTERNATIVE LYRICS</p>
-                                                    </div>
-
-                                                    <!-- Generate Buttons -->
-                                                    <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
-                                                        <c-panel-header-button extrastyles="w-40 bi bi-music-note-list btn-regenerate">
-                                                            GENERATE
-                                                        </c-panel-header-button>
-                                                        <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
-                                                            PLEASE WAIT...
-                                                        </c-panel-header-button-loading>
-                                                        <c-panel-header-button extrastyles="bi bi-x-circle btn-clear">
-                                                            CLEAR
-                                                        </c-panel-header-button>
-                                                    </div>
-                                                    <!-- End: Generate Buttons -->
-
+                                                <!-- Generate Buttons -->
+                                                <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
+                                                    <c-panel-header-button extrastyles="w-40 bi bi-music-note-list btn-regenerate">
+                                                        GENERATE
+                                                    </c-panel-header-button>
+                                                    <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
+                                                        PLEASE WAIT...
+                                                    </c-panel-header-button-loading>
+                                                    <c-panel-header-button extrastyles="bi bi-x-circle btn-clear">
+                                                        CLEAR
+                                                    </c-panel-header-button>
                                                 </div>
-                                                <!-- End: Separator Bar -->
+                                                <!-- End: Generate Buttons -->
 
                                             </div>
-                                            <!-- End: Edit Panel: Regenerate -->
+                                            <!-- End: Separator Bar -->
 
                                         </div>
-                                    {% else %}
-                                        <div class="border-y border-base-100"></div>
-                                    {% endif %}
-                                    <!-- Song Section Lyrics & Edit UI -->
-                                    
-                                </div>
-                                <!-- End: Song Section Card -->
-                            {% endfor %}
-                        </div>
+                                        <!-- End: Edit Panel: Regenerate -->
 
-                        <!-- Container for regenrated lyrics -->
-                        <div class="flex-1 hidden overflow-y-auto bg-base-100" id="generated-sections">
-                            {% for section in song_sections %}
-                                {% if not section.hidden %}
-                                    <c-card-lyrics-section />
+                                    </div>
+                                {% else %}
+                                    <div class="border-y border-base-100"></div>
                                 {% endif %}
-                            {% endfor %}
-                        </div>
-                        <!-- End: Container for regenrated lyrics -->
-
-                        <!-- Container for generated rhymes -->
-                        <div class="hidden overflow-y-auto bg-base-100 grid grid-cols-3 gap-4 p-4" id="generated-rhymes">
-                            <!-- Generated Rhymes are inserted here by javascript -->
-                        </div>
-                        <!-- End: Container for generated rhymes -->
-
-                    </div>
-                    <!-- End: Fields for Edit Song Style -->
-                    
-                </div>
-                <!-- End: Left Panel -->
-
-                <!-- Right Panel -->
-                <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full overflow-hidden">
-
-                    <!-- Header Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
-                    
-                                <!-- Edit Song Style Section -->
-                                <c-panel-header title="EXPORT SONG LYRICS" padding="4">
-                                    <c-panel-header-button id="btn-copy" extrastyles="bi bi-copy">
-                                        COPY
-                                    </c-panel-header-button>
-                                    <c-panel-header-button id="btn-export" extrastyles="bi bi-filetype-txt" data-song-name="{{ song.name }}">
-                                        EXPORT
-                                    </c-panel-header-button>
-                                </c-panel-header>
-                                <!-- End: Edit Song Style Section -->
-
+                                <!-- Song Section Lyrics & Edit UI -->
+                                
                             </div>
-                        </div>
+                            <!-- End: Song Section Card -->
+                        {% endfor %}
                     </div>
-                    <!-- End: Header Section -->
 
-                   <!-- Export Song Lyrics -->
-                    <div id="song-lyrics-text"
-                         data-song-generated="{% if song.generated %}true{% else %}false{% endif %}"
-                         class="px-3 py-3 card border-none bg-base-200 overflow-y-auto min-h-0 hidden">
+                    <!-- Container for regenrated lyrics -->
+                    <div class="flex-1 hidden overflow-y-auto bg-base-100" id="generated-sections">
+                        {% for section in song_sections %}
+                            {% if not section.hidden %}
+                                <c-card-lyrics-section />
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <!-- End: Export Song Lyrics -->
+                    <!-- End: Container for regenrated lyrics -->
+
+                    <!-- Container for generated rhymes -->
+                    <div class="hidden overflow-y-auto bg-base-100 grid grid-cols-3 gap-4 p-4" id="generated-rhymes">
+                        <!-- Generated Rhymes are inserted here by javascript -->
+                    </div>
+                    <!-- End: Container for generated rhymes -->
 
                 </div>
-                <!-- End: Right Panel -->
+                <!-- End: Fields for Edit Song Style -->
+                
+            </div>
+            <!-- End: Left Panel -->
 
-            </div>                
-        </div>
-        <div class="bg-primary w-[1164px]">zzz</div>
+            <!-- Right Panel -->
+            <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full overflow-hidden">
+
+                <!-- Header Section -->
+                <div class="flex flex-col flex-shrink-0">
+                    <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
+                        <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
+                
+                            <!-- Edit Song Style Section -->
+                            <c-panel-header title="EXPORT SONG LYRICS" padding="4">
+                                <c-panel-header-button id="btn-copy" extrastyles="bi bi-copy">
+                                    COPY
+                                </c-panel-header-button>
+                                <c-panel-header-button id="btn-export" extrastyles="bi bi-filetype-txt" data-song-name="{{ song.name }}">
+                                    EXPORT
+                                </c-panel-header-button>
+                            </c-panel-header>
+                            <!-- End: Edit Song Style Section -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End: Header Section -->
+
+                <!-- Export Song Lyrics -->
+                <div id="song-lyrics-text"
+                        data-song-generated="{% if song.generated %}true{% else %}false{% endif %}"
+                        class="px-3 py-3 card border-none bg-base-200 overflow-y-auto min-h-0 hidden">
+                </div>
+                <!-- End: Export Song Lyrics -->
+
+            </div>
+            <!-- End: Right Panel -->
+
+        </div>                
     </div>
 {% endblock %}
 

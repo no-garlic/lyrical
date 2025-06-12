@@ -8,249 +8,247 @@
     <c-modal-select-song-section />
     <c-modal-song-structure-template />
 
-    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
-        <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-            <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STRUCTURE - {{song.name|upper}}</h2>
+        <!-- Title -->
+        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STRUCTURE - {{song.name|upper}}</h2>
 
-            <!-- Content Outer Border -->
-            <div class="border-1 w-[1116px] rounded border-base-300 flex flex-col flex-1">
-                                
-                <div class="border-b border-base-300 pt-1">
-                    <!-- Right Header -->
-                    <c-panel-header title="SETTINGS" padding="4">
-                        <c-panel-header-button id="btn-load-from-template" data-song-id="{{song.id}}">
-                            LOAD FROM TEMPLATE
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-save-to-template" data-song-id="{{song.id}}">
-                            SAVE TO TEMPLATE
-                        </c-panel-header-button>
-                        <c-panel-header-divider />
-                        <c-panel-header-button id="btn-cancel" data-song-id="{{song.id}}" extrastyles="btn-disabled">
-                            CANCEL
-                        </c-panel-header-button>
-                        <c-panel-header-button id="btn-save" data-song-id="{{song.id}}" extrastyles="btn-disabled">
-                            SAVE
-                        </c-panel-header-button>
-                    </c-panel-header>
-                    <!-- End: Right Header -->
-                </div>
+        <!-- Content Outer Border -->
+        <div class="border-1 w-[1116px] rounded border-base-300 flex flex-col flex-1">
+                            
+            <div class="border-b border-base-300 pt-1">
+                <!-- Right Header -->
+                <c-panel-header title="SETTINGS" padding="4">
+                    <c-panel-header-button id="btn-load-from-template" data-song-id="{{song.id}}" extrastyles="bi bi-download">
+                        LOAD FROM TEMPLATE
+                    </c-panel-header-button>
+                    <c-panel-header-button id="btn-save-to-template" data-song-id="{{song.id}}" extrastyles="bi bi-upload">
+                        SAVE TO TEMPLATE
+                    </c-panel-header-button>
+                    <c-panel-header-divider />
+                    <c-panel-header-button id="btn-cancel" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                        UNDO
+                    </c-panel-header-button>
+                    <c-panel-header-button id="btn-save" data-song-id="{{song.id}}" extrastyles="btn-disabled bi bi-floppy">
+                        SAVE
+                    </c-panel-header-button>
+                </c-panel-header>
+                <!-- End: Right Header -->
+            </div>
 
-                <!-- Content -->
-                <div class="flex flex-row h-full">
+            <!-- Content -->
+            <div class="flex flex-row h-full">
 
-                    <!-- Left Panel (Settings Area) -->
-                    <div class="flex flex-col flex-1 h-full w-[730px]">
+                <!-- Left Panel (Settings Area) -->
+                <div class="flex flex-col flex-1 h-full w-[730px]">
 
-                        <!-- Settings Controls -->
-                        <div class="flex-shrink-0">
-                            <table class="w-full mb-4">
-                                <tr>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>INTRO LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-intro-lines" type="range" min="2" max="8" value="{{song.structure_intro_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                    <!-- Settings Controls -->
+                    <div class="flex-shrink-0">
+                        <table class="w-full mb-4">
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>INTRO LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-intro-lines" type="range" min="2" max="8" value="{{song.structure_intro_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>VERSE LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-verse-lines" type="range" min="2" max="8" value="{{song.structure_verse_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VERSE LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-verse-lines" type="range" min="2" max="8" value="{{song.structure_verse_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>PRE-CHORUS LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-pre-chorus-lines" type="range" min="2" max="8" value="{{song.structure_pre_chorus_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>PRE-CHORUS LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-pre-chorus-lines" type="range" min="2" max="8" value="{{song.structure_pre_chorus_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>CHORUS LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-chorus-lines" type="range" min="2" max="8" value="{{song.structure_chorus_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>CHORUS LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-chorus-lines" type="range" min="2" max="8" value="{{song.structure_chorus_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>BRIDGE LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-bridge-lines" type="range" min="2" max="8" value="{{song.structure_bridge_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>BRIDGE LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-bridge-lines" type="range" min="2" max="8" value="{{song.structure_bridge_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>OUTRO LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-outro-lines" type="range" min="2" max="8" value="{{song.structure_outro_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>2</span>
-                                                <span>4</span>
-                                                <span>6</span>
-                                                <span>8</span>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>OUTRO LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-outro-lines" type="range" min="2" max="8" value="{{song.structure_outro_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>2</span>
+                                            <span>4</span>
+                                            <span>6</span>
+                                            <span>8</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 pt-4" colspan="2">
-                                        <c-input-label>SYLLABLES PER LINE:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{song.structure_average_syllables}}" class="range range-primary w-203" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-205">
-                                                <span>3</span>
-                                                <span>5</span>
-                                                <span>7</span>
-                                                <span>9</span>
-                                                <span>11</span>
-                                                <span>13</span>
-                                                <span>15</span>
-                                            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 pt-4" colspan="2">
+                                    <c-input-label>SYLLABLES PER LINE:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-syllables-per-line" type="range" min="3" max="15" value="{{song.structure_average_syllables}}" class="range range-primary w-203" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-205">
+                                            <span>3</span>
+                                            <span>5</span>
+                                            <span>7</span>
+                                            <span>9</span>
+                                            <span>11</span>
+                                            <span>13</span>
+                                            <span>15</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>VOCALISATION LEVEL:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-vocalisation-level" type="range" min="0" max="3" value="{{song.structure_vocalisation_level}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>Off</span>
-                                                <span>Low</span>
-                                                <span>Medium</span>
-                                                <span>High</span>
-                                            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VOCALISATION LEVEL:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-vocalisation-level" type="range" min="0" max="3" value="{{song.structure_vocalisation_level}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>Off</span>
+                                            <span>Low</span>
+                                            <span>Medium</span>
+                                            <span>High</span>
                                         </div>
-                                    </td>
-                                    <td class="w-[50%] px-4 pt-4">
-                                        <c-input-label>VOCALISATION LINES:</c-input-label>
-                                        <div class="w-full max-w-xs">
-                                            <input id="input-vocalisation-lines" type="range" min="1" max="4" value="{{song.structure_vocalisation_lines}}" class="range range-primary w-97" step="1"/>
-                                            <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
-                                                <span>1</span>
-                                                <span>2</span>
-                                                <span>3</span>
-                                                <span>4</span>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td class="w-[50%] px-4 pt-4">
+                                    <c-input-label>VOCALISATION LINES:</c-input-label>
+                                    <div class="w-full max-w-xs">
+                                        <input id="input-vocalisation-lines" type="range" min="1" max="4" value="{{song.structure_vocalisation_lines}}" class="range range-primary w-97" step="1"/>
+                                        <div class="flex justify-between px-2.5 mt-2 text-xs w-98">
+                                            <span>1</span>
+                                            <span>2</span>
+                                            <span>3</span>
+                                            <span>4</span>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 pt-4" colspan="2">
-                                        <c-input-label>VOCALISATION TERMS:</c-input-label>
-                                        <input
-                                            id="input-vocalisation-terms" 
-                                            type="text" 
-                                            placeholder="" 
-                                            autocomplete="off" 
-                                            class="input-control input input-md text-[16px] input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
-                                            value="{{song.structure_vocalisation_terms}}"
-                                        ></input>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        
-                        <!-- Custom Request Section (Expandable) -->
-                        <div class="flex flex-col flex-1 px-4 pb-4">
-                            <c-input-label>CUSTOM REQUEST:</c-input-label>
-                            <textarea
-                                id="input-custom-request" 
-                                type="text" 
-                                placeholder="" 
-                                autocomplete="off" 
-                                class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
-                                value=""
-                            >{{song.structure_custom_request}}</textarea>
-                        </div>
-                        <!-- End: Settings Controls -->
-
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 pt-4" colspan="2">
+                                    <c-input-label>VOCALISATION TERMS:</c-input-label>
+                                    <input
+                                        id="input-vocalisation-terms" 
+                                        type="text" 
+                                        placeholder="" 
+                                        autocomplete="off" 
+                                        class="input-control input input-md text-[16px] input-neutral w-[100%] border-base-300 shadow-none focus:outline-none" 
+                                        value="{{song.structure_vocalisation_terms}}"
+                                    ></input>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <!-- End: Left Panel (Settings Area) -->
+                    
+                    <!-- Custom Request Section (Expandable) -->
+                    <div class="flex flex-col flex-1 px-4 pb-4">
+                        <c-input-label>CUSTOM REQUEST:</c-input-label>
+                        <textarea
+                            id="input-custom-request" 
+                            type="text" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
+                            value=""
+                        >{{song.structure_custom_request}}</textarea>
+                    </div>
+                    <!-- End: Settings Controls -->
 
-                    <!-- Right Panel -->
-                    <div class="flex flex-col border-l border-base-300 rounded-none w-[270px]">
-                        <div class="w-[270px] min-w-0 flex flex-col h-full pt-1 pb-1">
+                </div>
+                <!-- End: Left Panel (Settings Area) -->
 
-                            <!-- Splitter Section (Clear) -->
-                            <div class="flex flex-col flex-shrink-0">
-                                <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
-                                    <div class="flex flex-0 justify-end items-center flex-1">   
-                                        <div class="card w-full bg-transparent border-b border-base-300 h-7 rounded-none flex flex-row text-md text-neutral-content">
-                                            <div class="flex flex-1 justify-start items-center pl-4">
-                                                SECTIONS
-                                            </div>
-                                            <div class="flex flex-0 justify-end items-center pr-4">
-                                                <a id="btn-clear" class="btn btn-xs h-5 mt-1 mb-2 ml-2 btn-primary btn-disabled">
-                                                    CLEAR
-                                                </a>
-                                            </div>
+                <!-- Right Panel -->
+                <div class="flex flex-col border-l border-base-300 rounded-none w-[270px]">
+                    <div class="w-[270px] min-w-0 flex flex-col h-full pt-1 pb-1">
+
+                        <!-- Splitter Section (Clear) -->
+                        <div class="flex flex-col flex-shrink-0">
+                            <div class="card w-full bg-transparent flex flex-row font-bold text-md text-primary">
+                                <div class="flex flex-0 justify-end items-center flex-1">   
+                                    <div class="card w-full bg-transparent border-b border-base-300 h-7 rounded-none flex flex-row text-md text-neutral-content">
+                                        <div class="flex flex-1 justify-start items-center pl-4">
+                                            SECTIONS
+                                        </div>
+                                        <div class="flex flex-0 justify-end items-center pr-4">
+                                            <a id="btn-clear" class="btn btn-xs h-5 mt-1 mb-2 ml-2 btn-primary btn-disabled bi bi-dash-circle">
+                                                CLEAR
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End: Splitter Section (Clear) -->
+                        </div>
+                        <!-- End: Splitter Section (Clear) -->
 
-                            <!-- Fields for Edit Song Style -->
-                            <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
+                        <!-- Fields for Edit Song Style -->
+                        <div id="song-sections" class="mt-1 mx-1 card border border-base-300 bg-base-200 overflow-y-auto scrollbar-show" data-drop-zone="true">
 
-                                <!-- Song Sections Added Here -->
-                                {% for item in song_sections %}
-                                    <c-badge-edit>{{ item }}</c-badge-edit>
-                                {% endfor %}
-                                
-                                <!-- Add Item -->
-                                <div id="song-sections-end">
-                                    <div id="badge-add-item-divider" class="border-b border-neutral mt-2 mb-1 hidden"></div>
-                                    <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-52 font-bold mb-3 mt-3 ml-2 cursor-pointer text-neutral-content">ADD ITEM</button>
-                                </div>
-                                <!-- End: Add Item -->
-
+                            <!-- Song Sections Added Here -->
+                            {% for item in song_sections %}
+                                <c-badge-edit>{{ item }}</c-badge-edit>
+                            {% endfor %}
+                            
+                            <!-- Add Item -->
+                            <div id="song-sections-end">
+                                <div id="badge-add-item-divider" class="border-b border-neutral mt-2 mb-1 hidden"></div>
+                                <button id="badge-add-item" class="badge badge-sm rounded badge-neutral w-52 font-bold mb-3 mt-3 ml-2 cursor-pointer text-neutral-content">ADD ITEM</button>
                             </div>
-                            <!-- End: Fields for Edit Song Style -->
+                            <!-- End: Add Item -->
 
                         </div>
+                        <!-- End: Fields for Edit Song Style -->
+
                     </div>
-                    <!-- End: Right Panel -->
-
                 </div>
-                <!-- End: Content -->
-            </div>     
-            <!-- End: Content Outer Border -->
+                <!-- End: Right Panel -->
 
-        </div>
+            </div>
+            <!-- End: Content -->
+        </div>     
+        <!-- End: Content Outer Border -->
+
     </div>
 {% endblock %}
 

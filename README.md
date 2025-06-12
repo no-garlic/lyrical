@@ -115,13 +115,20 @@
 2 - Make new generations light grey until clicked on
 1 - Make sure a word is selected before regenerate words button is active
 1 - Make sure 1 or more words are selected before regenerate lyrics button is active
+1 - Delete page_edit and update navigation
+1 - Move navigate buttons by moving outer frame to sidebar.html
+2 - Double click on song page to go to Next
+2 - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
+3 - Create at least 1 proper structure template in the migration 
+3 - Add bootstrap icons to buttons
+3 - Move Next and Prev Buttons - try just under the page
+3 - Set browser title to song name
+2 - Refactor using btn-generate for songId - get it from document.body instead
 
 
 ## Todo
 
 Prompts:
-1 - Delete page_edit and update navigation
-1 - Move navigate buttons by moving outer frame to sidebar.html
 1 - If there is a marked word, drag-dropping a word should replace the marked word, otherwise it should replace the original word (by line/index)
 1 - Bug: textedit + save does not update right panel song lyrics
 1 - Bug: drag-drop word + undo does not undo changes
@@ -143,19 +150,13 @@ Prompts:
 
 2 - When a new card is added, make sure it is visible (scroll to it), depends on sorting, etc
 2 - Use: badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
-2 - Refactor using btn-generate for songId - get it from document.body instead
-2 - Double click on song page to go to Next
-2 - Create Lyrics button on names.html goes to page 2 of edit (or dblclick?)
 2 - Update LLM Costs and maybe add other models for testing
 2 - Update range for Max Tokens, set better default, update range based on selected model maybe?
-2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X)
+2 - Update cards to check that all icons on all cards are valid (ie, thumbs up/down, X), and cursors are correct, and select-none where appropriate
 
-3 - Create at least 1 proper structure template in the migration 
-3 - Set browser title to song name
 3 - Consistent visual style across all screens
 3 - Make all modals looks the same
-3 - Add bootstrap icons to buttons
-3 - Move Next and Prev Buttons - try just under the page
+
 3 - Review all code from LLM
 3 - Update code documentation (use co-pilot)
 3 - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
@@ -197,3 +198,20 @@ https://docs.x.ai/docs/models
 2025-06-08 06:40:04 [ERROR] django.request: Internal Server Error: /api_summarise_chat_history
 2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 19 hidden status to True
 2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 20 hidden status to True
+
+
+### Bootstrap Icons
+generate:       bi-music-note-list
+clear:          bi-dash-circle
+add:            bi-plus-circle
+edit:           bi-pencil-square
+like:           bi-hand-thumbs-up (-fill)
+dislike:        bi-hand-thumbs-down (-fill)
+save:           bi-floppy
+undo:           bi-arrow-counterclockwise
+save template:  bi-upload
+load template:  bi-download
+next:           bi-caret-right-square-fill
+prev:           bi-caret-left-square-fill
+
+

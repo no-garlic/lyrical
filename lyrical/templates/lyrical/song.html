@@ -1,63 +1,65 @@
 {% extends "lyrical/base_sidebar.html" %}
 {% load static %}
 
+{% block title %}
+Lyrical - Select Song
+{% endblock %}
+
 {% block head %}
 {% endblock %}
 
 {% block page_content %}
-    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
-        <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="card max-w-[90%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-            <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SELECT SONG</h2>
+        <!-- Title -->
+        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SELECT SONG</h2>
 
-            <!-- Content -->
-            <div class="flex flex-row flex-1 min-h-0 gap-4">
+        <!-- Content -->
+        <div class="flex flex-row flex-1 min-h-0 gap-4">
 
-                <!-- Filters -->
-                <div class="w-[400px] min-w-0 border-1 rounded border-base-300">
+            <!-- Filters -->
+            <div class="w-[550px] min-w-0 border-1 rounded border-base-300">
 
-                    <c-panel-header title="FILTER SONG NAMES" padding="2">
-                        <!-- Clear Button -->
-                        <c-panel-header-button id="btn-clear" extrastyles="mt-2">
-                            CLEAR
-                        </c-panel-header-button>
-                        <!-- End: Clear Button -->                            
+                <c-panel-header title="FILTER SONG NAMES" padding="4">
+                    <!-- Clear Button -->
+                    <c-panel-header-button id="btn-clear" extrastyles="mt-1.5 bi bi-dash-circle">
+                        CLEAR
+                    </c-panel-header-button>
+                    <!-- End: Clear Button -->                            
 
-                    </c-panel-header>
+                </c-panel-header>
 
-                    <div class="px-2 py-4">
-                        <c-input-label>
-                            SEARCH TERM:
-                        </c-input-label>
-                        <c-input-text id="filter-term">{{search_term}}</c-input-text>
-                        <c-input-spacer />
+                <div class="px-4 pt-2 pb-4">
+                    <c-input-label>
+                        SEARCH TERM:
+                    </c-input-label>
+                    <c-input-text id="filter-term">{{search_term}}</c-input-text>
+                    <c-input-spacer />
 
-                        <c-input-label>
-                            CATEGORIES:
-                        </c-input-label>
+                    <c-input-label>
+                        CATEGORIES:
+                    </c-input-label>
 
-                        <c-input-group>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-new" {% if filter_new %} checked="checked" {% endif %}></input>New</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-liked" {% if filter_liked %} checked="checked" {% endif %}></input>Liked</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-generated" {% if filter_generated %} checked="checked" {% endif %}></input>Generated</span>
-                            <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-published" {% if filter_published %} checked="checked" {% endif %}></input>Published</span>
-                        </c-input-group>
+                    <c-input-group>
+                        <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-new" {% if filter_new %} checked="checked" {% endif %}></input>New</span>
+                        <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-liked" {% if filter_liked %} checked="checked" {% endif %}></input>Liked</span>
+                        <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-generated" {% if filter_generated %} checked="checked" {% endif %}></input>Generated</span>
+                        <span><input type="checkbox" class="toggle toggle-primary ml-1 mr-2 mb-2" id="filter-published" {% if filter_published %} checked="checked" {% endif %}></input>Published</span>
+                    </c-input-group>
 
-                    </div>
                 </div>
+            </div>
 
-                <!-- Song List -->
-                <div class="w-[400px] min-w-0 overflow-y-auto scrollbar-show">
-                    <div class="w-full h-full" id="song-list">
-                        {% for song in songs %}
-                            <c-card-song />
-                        {% endfor %}
-                    </div>
+            <!-- Song List -->
+            <div class="w-[550px] min-w-0 overflow-y-auto scrollbar-show">
+                <div class="w-full h-full" id="song-list">
+                    {% for song in songs %}
+                        <c-card-song />
+                    {% endfor %}
                 </div>
+            </div>
 
-            </div>                
-        </div>
+        </div>                
     </div>
 {% endblock %}
 

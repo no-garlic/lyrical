@@ -5,165 +5,164 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="w-full min-h-screen flex flex-col items-center justify-top bg-base-200 p-4 m-8">
-        <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
+    <div class="card max-w-[100%] h-[85%] bg-base-100 shadow-xl p-6 flex flex-col">
 
-            <!-- Title -->
-            <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
+        <!-- Title -->
+        <h2 class="mb-6 text-3xl font-bold text-primary text-center flex-shrink-0">SONG STYLE - {{song.name|upper}}</h2>
 
-            <!-- Content -->
-            <div class="flex flex-row flex-1 min-h-0 gap-4">
+        <!-- Content -->
+        <div class="flex flex-row flex-1 min-h-0 gap-4">
 
-                <!-- Left Panel -->
-                <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
+            <!-- Left Panel -->
+            <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1">
 
-                    <!-- Right Header -->
-                    <c-panel-header title="CUSTOM PROMPT" padding="4">
-                        <c-panel-header-button id="btn-generate" extrastyles="w-40" data-song-id="{{song.id}}">
-                            GENERATE
-                        </c-panel-header-button>
-                        <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
-                            PLEASE WAIT...
-                        </c-panel-header-button-loading>
-                    </c-panel-header>
-                    <!-- End: Right Header -->
+                <!-- Right Header -->
+                <c-panel-header title="CUSTOM PROMPT" padding="4">
+                    <c-panel-header-button id="btn-generate" extrastyles="w-40 bi bi-music-note-list" data-song-id="{{song.id}}">
+                        GENERATE
+                    </c-panel-header-button>
+                    <c-panel-header-button-loading id="btn-generating" extrastyles="w-40">
+                        PLEASE WAIT...
+                    </c-panel-header-button-loading>
+                </c-panel-header>
+                <!-- End: Right Header -->
 
-                    <!-- Prompt Input -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <textarea 
-                            id="prompt-text" 
-                            type="text" 
-                            placeholder="add an optional prompt or just click generate..." 
-                            autocomplete="off" 
-                            class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
-                        ></textarea>
-                    </div>
-                    <!-- End: Prompt Input -->
-
-                    <!-- Splitter Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-t border-base-300 rounded-none flex flex-row font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
-                    
-                                <!-- Edit Song Style Section -->
-                                <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
-                                    <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled">
-                                        CANCEL
-                                    </c-panel-header-button>
-                                    <c-panel-header-button id="btn-save" extrastyles="btn-disabled">
-                                        SAVE
-                                    </c-panel-header-button>
-                                </c-panel-header>
-                                <!-- End: Edit Song Style Section -->
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End: Splitter Section -->
-
-                    <!-- Fields for Edit Song Style -->
-                    <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
-
-                        <!-- Theme -->
-                        <c-badge>THEME</c-badge>
-                        <div class="flex flex-col">
-                            <textarea 
-                                id="style-text-theme" 
-                                type="text" 
-                                placeholder="drag-drop a generated theme here..." 
-                                autocomplete="off" 
-                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                style="field-sizing: content;"
-                            >{{song.theme}}</textarea>
-                        </div>
-                        <!-- End: Theme -->
-
-                        <!-- Narrative -->
-                        <c-badge>NARRATIVE</c-badge>
-                        <div class="flex flex-col">
-                            <textarea 
-                                id="style-text-narrative" 
-                                type="text" 
-                                placeholder="drag-drop a generated narrative here..." 
-                                autocomplete="off" 
-                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                style="field-sizing: content;"
-                            >{{song.narrative}}</textarea>
-                        </div>
-                        <!-- End: Narrative-->
-
-                        <!-- Mood-->
-                        <c-badge>MOOD</c-badge>
-                        <div class="flex flex-col">
-                            <textarea 
-                                id="style-text-mood" 
-                                type="text" 
-                                placeholder="drag-drop a generated mood here..." 
-                                autocomplete="off" 
-                                class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
-                                style="field-sizing: content;"
-                            >{{song.mood}}</textarea>
-                        </div>
-                        <!-- End: Mood -->
-
-                    </div>
-                    <!-- End: Fields for Edit Song Style -->
-
-                    <!-- Drop Zone Buffer -->
-                    <div class="flex-1" data-drop-zone="true">
-                    </div>
-                    <!-- End: Drop Zone Buffer -->
-
+                <!-- Prompt Input -->
+                <div class="flex flex-col flex-shrink-0">
+                    <textarea 
+                        id="prompt-text" 
+                        type="text" 
+                        placeholder="add an optional prompt or just click generate..." 
+                        autocomplete="off" 
+                        class="input-control textarea text-[16px] textarea-neutral w-full h-full px-4 mb-1 resize-none border-none shadow-none focus:outline-none"
+                    ></textarea>
                 </div>
-                <!-- End: Left Panel -->
+                <!-- End: Prompt Input -->
 
-
-                <!-- Right Panel -->
-                <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1 overflow-hidden">
-
-                    <!-- Splitter Section -->
-                    <div class="flex flex-col flex-shrink-0">
-                        <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row font-bold text-md text-primary">
-                            <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
-                                
-                                <!-- Tabs Group -->
-                                <div class="flex flex-1 justify-start items-center ">
-                                    <div class="tabs tabs-border tabs-md mr-1">
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab px-4" aria-label="ALL" checked="checked" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="THEME" class="tab px-4" aria-label="THEMES" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-narratives" data-style-type="NARRATIVE" class="tab px-4" aria-label="NARRATIVES" />
-                                        <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="MOOD" class="tab px-4" aria-label="MOODS" />
-                                    </div>
-                                </div>
-                                <!-- End: Tabs Group -->
-
-                                <!-- Clear Button -->
-                                <c-panel-header-button id="btn-clear" extrastyles="btn-disabled">
-                                    CLEAR
+                <!-- Splitter Section -->
+                <div class="flex flex-col flex-shrink-0">
+                    <div class="card w-full bg-transparent border-t border-base-300 rounded-none flex flex-row font-bold text-md text-primary">
+                        <div class="flex flex-0 justify-end items-center flex-1 mt-1">                
+                
+                            <!-- Edit Song Style Section -->
+                            <c-panel-header title="EDIT YOUR SONG STYLE" padding="4">
+                                <c-panel-header-button id="btn-cancel" extrastyles="btn-disabled bi bi-arrow-counterclockwise">
+                                    UNDO
                                 </c-panel-header-button>
-                                <!-- End: Clear Button -->                            
+                                <c-panel-header-button id="btn-save" extrastyles="btn-disabled bi bi-floppy">
+                                    SAVE
+                                </c-panel-header-button>
+                            </c-panel-header>
+                            <!-- End: Edit Song Style Section -->
 
-                            </div>
                         </div>
                     </div>
-                    <!-- End: Splitter Section -->
+                </div>
+                <!-- End: Splitter Section -->
 
-                    <!-- Container for Generated Styles -->
-                    <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
-                        {% for section in song_sections %}
-                            {% if not section.hidden %}
-                                <c-card-style />
-                            {% endif %}
-                        {% endfor %}
+                <!-- Fields for Edit Song Style -->
+                <div class="mt-1 mx-1 card border border-base-300 bg-base-200" data-drop-zone="true">
+
+                    <!-- Theme -->
+                    <c-badge>THEME</c-badge>
+                    <div class="flex flex-col">
+                        <textarea 
+                            id="style-text-theme" 
+                            type="text" 
+                            placeholder="drag-drop a generated theme here..." 
+                            autocomplete="off" 
+                            class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                            style="field-sizing: content;"
+                        >{{song.theme}}</textarea>
                     </div>
-                    <!-- End: Container for Generated Styles -->
+                    <!-- End: Theme -->
+
+                    <!-- Narrative -->
+                    <c-badge>NARRATIVE</c-badge>
+                    <div class="flex flex-col">
+                        <textarea 
+                            id="style-text-narrative" 
+                            type="text" 
+                            placeholder="drag-drop a generated narrative here..." 
+                            autocomplete="off" 
+                            class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                            style="field-sizing: content;"
+                        >{{song.narrative}}</textarea>
+                    </div>
+                    <!-- End: Narrative-->
+
+                    <!-- Mood-->
+                    <c-badge>MOOD</c-badge>
+                    <div class="flex flex-col">
+                        <textarea 
+                            id="style-text-mood" 
+                            type="text" 
+                            placeholder="drag-drop a generated mood here..." 
+                            autocomplete="off" 
+                            class="input-control textarea text-[16px] textarea-neutral w-full resize-none border-none shadow-none focus:outline-none"
+                            style="field-sizing: content;"
+                        >{{song.mood}}</textarea>
+                    </div>
+                    <!-- End: Mood -->
 
                 </div>
-                <!-- End: Right Panel -->
+                <!-- End: Fields for Edit Song Style -->
 
-            </div>                
-        </div>
+                <!-- Drop Zone Buffer -->
+                <div class="flex-1" data-drop-zone="true">
+                </div>
+                <!-- End: Drop Zone Buffer -->
+
+            </div>
+            <!-- End: Left Panel -->
+
+
+            <!-- Right Panel -->
+            <div class="w-[550px] min-w-0 border-1 rounded border-base-300 flex flex-col h-full pt-1 overflow-hidden">
+
+                <!-- Splitter Section -->
+                <div class="flex flex-col flex-shrink-0">
+                    <div class="card w-full bg-transparent border-b border-base-300 rounded-none flex flex-row font-bold text-md text-primary">
+                        <div class="flex flex-0 justify-end items-center flex-1 pr-4">                
+                            
+                            <!-- Tabs Group -->
+                            <div class="flex flex-1 justify-start items-center ">
+                                <div class="tabs tabs-border tabs-md mr-1">
+                                    <input type="radio" name="tab-group-filter" id="tab-filter-all" class="tab px-4" aria-label="ALL" checked="checked" />
+                                    <input type="radio" name="tab-group-filter" id="tab-filter-themes" data-style-type="THEME" class="tab px-4" aria-label="THEMES" />
+                                    <input type="radio" name="tab-group-filter" id="tab-filter-narratives" data-style-type="NARRATIVE" class="tab px-4" aria-label="NARRATIVES" />
+                                    <input type="radio" name="tab-group-filter" id="tab-filter-moods" data-style-type="MOOD" class="tab px-4" aria-label="MOODS" />
+                                </div>
+                            </div>
+                            <!-- End: Tabs Group -->
+
+                            <!-- Clear Button -->
+                            <c-panel-header-button id="btn-clear" extrastyles="btn-disabled bi bi-dash-circle">
+                                CLEAR
+                            </c-panel-header-button>
+                            <!-- End: Clear Button -->                            
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End: Splitter Section -->
+
+                <!-- Container for Generated Styles -->
+                <div class="flex flex-col flex-1 px-1 overflow-y-auto min-h-0" id="generated-styles">
+                    {% for section in song_sections %}
+                        {% if not section.hidden %}
+                            <c-card-style />
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- End: Container for Generated Styles -->
+
+            </div>
+            <!-- End: Right Panel -->
+
+        </div>                
     </div>
+    
 {% endblock %}
 
 {% block scripts %}
