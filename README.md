@@ -143,41 +143,28 @@
     https://www.anthropic.com/pricing#api
     https://docs.x.ai/docs/models
  - Uses a song structure template when creating a song
- 
+ - Make all modals looks the same
+ - Need a way of configuring LLM's (admin panel?)
+ - Prompts - follow up, summarizing, refining, etc
+ - Create follow up prompts, eg, song_hooks.follow_up.
+ - Regenerate -> send custom request (check), and send current section lyrics to llm.
+ - Consistent visual style across all screens
+
 
 
 ## Todo
 
-Prompts:
- - Name (ok)
- - Word / Rhyme (ok)
- - Themes (ok)
- - Song ()
- - Replace Section ()
- - Replace Section - Partial ()
-1 - Prompts - follow up, summarizing, refining, etc
-1 - Follow Up Prompt
-1 - Summarize prompt bug with database locked
-1 - Improve the summarisation, and the follow up prompts need to be very specific about the format and details because they can be summarised away.
-1 - Create follow up prompts, eg, song_hooks.follow_up.
-1 - Regenerate -> send custom request (check), and send current section lyrics to llm.
+1 - Improve the summarisation prompts
 1 - Bug: getting cases of << >> in the generated lyrics
 1 - Bug: getting cases of multiple words for single word replace
 1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
 
+ - Make sure all edits reflect in right hand panel for song lyrics
+ - Update badge colors
+ - Review all code from LLM
+ - Update code documentation (use co-pilot)
+ - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
 
-
-3 - Consistent visual style across all screens
-3 - Make all modals looks the same
-3 - Update badge colors
-
-
-3 - Review all code from LLM
-3 - Update code documentation (use co-pilot)
-3 - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
-
-
-4 - Need a way of configuring LLM's (admin panel?)
 
 
 ## Backlog

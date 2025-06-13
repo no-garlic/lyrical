@@ -43,12 +43,8 @@
   Summarize this conversation about song style and theme development.
 
   Focus on preserving:
-  - Theme preferences and requirements
-  - Narrative directions explored
-  - Mood and emotional tone decisions
-  - Any specific style guidelines or constraints
-  - User feedback on generated options
-  - Creative direction changes
+  - All generated themes, moods, and narratives.
+  - User feedback on generated themes, moods, and narratives.
 
   Original conversation:
   {{ conversation_content }}
@@ -58,7 +54,7 @@
 
   Focus on preserving:
   - All generated lyrics
-  - Any evolving creative direction
+  - User feedback on generated lyrics
 
   Original conversation:
   {{ conversation_content }}

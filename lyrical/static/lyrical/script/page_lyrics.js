@@ -228,8 +228,9 @@ function handleRegenerateClick() {
         const actualRegenerate = () => {
             const sectionType = editCard.firstElementChild.dataset.sectionName;
             console.log(`initiate request for sectionType: ${sectionType}`)
-
-            const customRequest = document.getElementById('input-custom-request');
+            
+            const customRequestId = editCard.dataset.customRequestId;
+            const customRequest = document.getElementById(customRequestId);
 
             const requestParams = {
                 song_id: songId,

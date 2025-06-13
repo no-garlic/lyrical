@@ -19,6 +19,7 @@ class SongLyricsSectionGenerator(LLMGenerator):
             'song_id': int(self.request.GET.get("song_id", "")),
             'section_type': self.request.GET.get("section_type", "").strip(),
             'markup_lyrics': self.request.GET.get("markup_lyrics", "").strip(),
+            'custom_request': self.request.GET.get("custom_request", "").strip(),
             'count': int(self.request.GET.get("count", 1)),
         }
     

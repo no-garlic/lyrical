@@ -39,7 +39,9 @@
                     <div class="flex-shrink-0 bg-base-200">
                         {% for song_section in song_lyrics %}
                             <!-- Song Section Card -->
-                            <div class="song-section-card" data-drop-zone="true" data-textarea-id="lyrics-text-{{ forloop.counter }}">
+                            <div class="song-section-card" data-drop-zone="true" 
+                                 data-textarea-id="lyrics-text-{{ forloop.counter }}"
+                                 data-custom-request-id="input-custom-request-{{ forloop.counter }}">
 
                                 <!-- Badge header row -->
                                 <c-badge-lyrics
@@ -74,11 +76,11 @@
                                             <div class="flex flex-col flex-1 px-1 pb-1">
                                                 <c-input-label>CUSTOM REQUEST:</c-input-label>
                                                 <textarea
-                                                    id="input-custom-request" 
+                                                    id="input-custom-request-{{ forloop.counter }}" 
                                                     type="text" 
                                                     placeholder="" 
                                                     autocomplete="off" 
-                                                    class="input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
+                                                    class="input-custom-request input-control input input-md input-neutral textarea text-[16px] textarea-neutral w-[100%] flex-1 border-base-300 shadow-none resize-none focus:outline-none" 
                                                     value=""
                                                 ></textarea>
                                             </div>
@@ -92,7 +94,7 @@
                                                 <!-- Generate Buttons -->
                                                 <div class="flex flex-0 justify-end items-center pr-4 mt-0.5">
                                                     <c-panel-header-button tip="generate alternatives" extrastyles="w-45 bi bi-music-note-list btn-regenerate">
-                                                        GENERATE OPTIONS
+                                                        GENERATE MORE
                                                     </c-panel-header-button>
                                                     <c-panel-header-button-loading extrastyles="w-40 btn-regenerating">
                                                         PLEASE WAIT...
