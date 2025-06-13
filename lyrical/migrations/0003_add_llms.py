@@ -34,7 +34,7 @@ def add_data(apps, schema_editor):
     llm_provider.objects.create(display_name="xAI", internal_name="xai")
     llm_provider.objects.create(display_name="Ollama", internal_name="ollama")
 
-    add_llm("GPT:4.1", "gpt-4.1", "openai", 8.0, 1000, True)
+    add_llm("GPT:4.1", "gpt-4.1", "openai", 8.0, 32, True)
     add_llm("GPT:4o", "gpt-4o", "openai", 10.0, 200, True)
     add_llm("o4-mini", "o4-mini", "openai", 4.40, 100, False)
 

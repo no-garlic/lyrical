@@ -45,6 +45,10 @@ export async function showSummarizationModal(songId, onProceed, conversationType
         const btnNo = document.getElementById('btn-summarize-no');
         const btnCancel = document.getElementById('btn-summarize-cancel');
         
+        // Reset button states before setting up new handlers
+        btnYes.disabled = false;
+        btnYes.innerHTML = 'Yes';
+        
         // Clean up any existing event listeners
         const newBtnYes = btnYes.cloneNode(true);
         const newBtnNo = btnNo.cloneNode(true);
@@ -55,8 +59,6 @@ export async function showSummarizationModal(songId, onProceed, conversationType
         
         // Handle Yes - Summarize
         newBtnYes.addEventListener('click', async () => {
-            closeModal();
-            
             try {
                 // Show loading state
                 newBtnYes.disabled = true;
@@ -78,12 +80,19 @@ export async function showSummarizationModal(songId, onProceed, conversationType
                 
                 toastSystem.showSuccess(`Successfully summarized ${conversationsToSummarize.join(' and ')} conversation history`);
                 
+                // Close modal after successful summarization
+                closeModal();
+                
                 // Proceed with generation
                 onProceed();
                 
             } catch (error) {
                 console.error('Error during summarization:', error);
                 toastSystem.showError('Failed to summarize conversation history. Please try again.');
+                
+                // Reset button state on error so user can try again
+                newBtnYes.disabled = false;
+                newBtnYes.innerHTML = 'Yes';
             }
         });
         

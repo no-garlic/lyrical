@@ -1,5 +1,5 @@
 <div id="modal-summarization" class="modal">
-    <div class="modal-box">
+    <div class="modal-box bg-base-300">
         <h3 class="font-bold text-lg text-primary mb-4">Conversation History Summary Required</h3>
         
         <div class="py-4">
@@ -7,26 +7,19 @@
                 Your conversation history is getting long and may impact generation performance. 
                 Would you like to summarize your conversation history now?
             </p>
-            
-            <div class="bg-base-200 p-3 rounded text-sm text-base-content opacity-75">
-                <strong>Note:</strong> Summarizing will condense your conversation history while preserving 
-                important context, which can improve response quality and speed.
-            </div>
         </div>
         
         <div class="modal-action">
-            <button id="btn-summarize-yes" class="btn btn-primary">
+            <button id="btn-summarize-yes" class="btn">
                 Yes, Summarize Now
             </button>
-            <button id="btn-summarize-no" class="btn btn-secondary">
+            <button id="btn-summarize-no" class="btn">
                 No, Continue Anyway
             </button>
-            <button id="btn-summarize-cancel" class="btn btn-outline">
+            <button id="btn-summarize-cancel" class="btn">
                 Cancel
             </button>
         </div>
     </div>
-    
-    <!-- Modal backdrop -->
-    <div class="modal-backdrop bg-black bg-opacity-50"></div>
+   
 </div>

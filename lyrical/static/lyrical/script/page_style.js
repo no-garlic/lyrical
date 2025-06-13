@@ -270,13 +270,6 @@ function handleLoadingEnd(summaryInfo) {
     if (generatingButton) {
         generatingButton.classList.add('hidden');
     }
-
-    // Handle summarization notification
-    if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showError }) => {
-            showError('Your style conversation is getting long. Consider summarizing to improve performance.');
-        });
-    }
 }
 
 

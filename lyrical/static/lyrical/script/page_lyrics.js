@@ -429,13 +429,6 @@ function handleSongDataStreamEnd(summaryInfo) {
     if (generatingButton) {
         generatingButton.classList.add('hidden');
     }
-
-    // Handle summarization notification
-    if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showError }) => {
-            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
-        });
-    }
 }
 
 
@@ -453,13 +446,6 @@ function handleSectionDataStreamEnd(summaryInfo) {
     // show the regenerating button in disabled state
     if (regeneratingButton) {
         regeneratingButton.classList.add('hidden');
-    }
-
-    // Handle summarization notification
-    if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showError }) => {
-            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
-        });
     }
 
     regenerateButton = null;
@@ -480,13 +466,6 @@ function handleRhymeDataStreamEnd(summaryInfo) {
     // show the regenerating button in disabled state
     if (regeneratingButton) {
         regeneratingButton.classList.add('hidden');
-    }
-
-    // Handle summarization notification
-    if (summaryInfo && summaryInfo.needsSummarisation) {
-        import('./util_toast.js').then(({ showError }) => {
-            showError('Your lyrics conversation is getting long. Consider summarizing to improve performance.');
-        });
     }
 
     regenerateButton = null;
