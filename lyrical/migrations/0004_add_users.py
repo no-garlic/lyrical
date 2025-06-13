@@ -54,7 +54,7 @@ def add_data(apps, schema_editor):
         song_name_theme_inc='happy, positive, inspirational, motivational, an accomplishment, success from difficult odds, or about winning',
         song_name_theme_exc='futuristic, electric, cyber, technology, hate, anger, sadness, pain, loss, or anything negative',
         song_name_words_inc='',
-        song_name_words_exc='',
+        song_name_words_exc='victory, victorious, champion, triumphant, joy, rise, rising, shine, shining, glorious, glory',
         song_name_starts_with='',
         song_name_ends_with='',
         song_name_length_min=1,

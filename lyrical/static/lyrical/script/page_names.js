@@ -629,7 +629,7 @@ function buildGenerationRequestParams() {
         exclude_words: document.getElementById('input-exclude-words').value,
         starts_with: document.getElementById('input-starts-with').value,
         ends_with: document.getElementById('input-ends-with').value,
-        count: parseInt(document.getElementById('input-count').value, 10),
+        count: 20,
         min_words: parseInt(document.getElementById('input-min-words').value, 10),
         max_words: parseInt(document.getElementById('input-max-words').value, 10),
         custom_request: document.getElementById('prompt-text').value,

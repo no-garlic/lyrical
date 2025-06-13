@@ -1,4 +1,4 @@
-<div {{attrs}} class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 h-12 bg-base-200 flex flex-row w-full items-center justify-between {{extrastyles}}"
+<div {{attrs}} class="song-card card border border-base-300 pl-4 pr-4 pt-3 pb-3 mt-1 h-12 bg-neutral flex flex-row w-full items-center justify-between {{extrastyles}}"
      id="song-card-{{ song.id }}" 
      data-song-id="{{ song.id }}"
      data-song-name="{{ song.name }}"
@@ -10,12 +10,12 @@
 
     <div class="buttons-container flex items-center gap-x-[5px] flex-shrink-0">
         <div id="song-hover-{{ song.id }}" data-class="hidden">
-            <a class="bi bi-hand-thumbs-up{% if song.stage == 'liked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-like" 
+            <a class="bi bi-hand-thumbs-up{% if song.stage == 'liked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none transition-none mt-1 mb-2 cursor-pointer btn-song-like" 
             {{ attrs }} 
             id="song-like-{{ song.id }}"
             data-song-id="{{ song.id }}">
             </a>
-            <a class="bi bi-hand-thumbs-down{% if song.stage == 'disliked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none mt-1 mb-2 cursor-pointer btn-song-dislike" 
+            <a class="bi bi-hand-thumbs-down{% if song.stage == 'disliked' %}-fill{% endif %} btn btn-circle btn-lg btn-ghost hover:bg-transparent hover:border-none hover:shadow-none transition-none mt-1 mb-2 cursor-pointer btn-song-dislike" 
             {{ attrs }} 
             id="song-dislike-{{ song.id }}" 
             data-song-id="{{ song.id }}">
