@@ -1,7 +1,29 @@
+/**
+ * API function for editing song structure templates.
+ * Handles updating template names and structure settings.
+ */
 
-
+/**
+ * Edit a structure template via API call
+ * @param {string} templateId - The ID of the template to edit
+ * @param {Object} [updates={}] - Object containing fields to update
+ * @param {string} [updates.template_name] - New template name
+ * @param {number} [updates.intro_lines] - Number of intro lines
+ * @param {number} [updates.outro_lines] - Number of outro lines
+ * @param {number} [updates.verse_lines] - Number of verse lines
+ * @param {number} [updates.pre_chorus_lines] - Number of pre-chorus lines
+ * @param {number} [updates.chorus_lines] - Number of chorus lines
+ * @param {number} [updates.bridge_lines] - Number of bridge lines
+ * @param {number} [updates.average_syllables] - Average syllables per line
+ * @param {number} [updates.vocalisation_level] - Vocalisation level
+ * @param {number} [updates.vocalisation_lines] - Number of vocalisation lines
+ * @param {string} [updates.vocalisation_terms] - Vocalisation terms
+ * @param {string} [updates.custom_request] - Custom structure request
+ * @param {string} [updates.structure] - Song structure as comma-separated string
+ * @returns {Promise<string>} Promise that resolves to the template ID
+ */
 export function apiStructureTemplateEdit(templateId, updates = {}) {
-    // accept updates object with specific parameters only
+    // Accept updates object with specific parameters only
     const {
         template_name: templateName,
 
@@ -19,16 +41,16 @@ export function apiStructureTemplateEdit(templateId, updates = {}) {
         structure: songStructure,
     } = updates;
 
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with only provided fields
+    // Build request body with only provided fields
     const requestBody = { template_id: templateId };
 
-    // base fields
+    // Base fields
     if (templateName) requestBody.template_name = templateName;
     
-    // song structure fields
+    // Song structure fields
     if (introLines != undefined) requestBody.intro_lines = introLines;
     if (outroLines != undefined) requestBody.outro_lines = outroLines;
     if (verseLines != undefined) requestBody.verse_lines = verseLines;
@@ -45,7 +67,7 @@ export function apiStructureTemplateEdit(templateId, updates = {}) {
     // Log the request body for debugging
     console.log('Request body for template edit:', JSON.stringify(requestBody, null, 2));
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_structure_template_edit', {
         method: 'PUT',
         headers: {
@@ -62,10 +84,10 @@ export function apiStructureTemplateEdit(templateId, updates = {}) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('edit operation returned success');
+            console.log('Edit operation returned success');
             return data.song_id;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to edit template');
         }
     })

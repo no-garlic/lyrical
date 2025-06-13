@@ -1,23 +1,30 @@
+/**
+ * API function for editing user LLM settings.
+ * Handles updating LLM model selection, temperature, and max tokens.
+ */
 
 /**
- * Edit the users LLM settings via API call.
- * @param {Object} updates - Object containing fields to update (llm_model_id, llm_temperature, llm_max_tokens).
- * @returns {Promise<string>} Promise that resolves to the user's selected LLM id.
+ * Edit the user's LLM settings via API call
+ * @param {Object} [updates={}] - Object containing fields to update
+ * @param {number} [updates.llm_model_id] - The LLM model ID to set
+ * @param {number} [updates.llm_temperature] - The temperature setting (0.0 to 1.0)
+ * @param {number} [updates.llm_max_tokens] - The max tokens setting
+ * @returns {Promise<string>} Promise that resolves to the user's selected LLM ID
  */
 export function apiUserLLM(updates = {}) {
-    // accept updates object with optional parameters
+    // Accept updates object with optional parameters
     const { llm_model_id: llmModelId, llm_temperature: llmTemperature, llm_max_tokens: llmMaxTokens } = updates;
     
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with only provided fields
-    const requestBody = { };
+    // Build request body with only provided fields
+    const requestBody = {};
     if (llmModelId) requestBody.llm_model_id = llmModelId;
     if (llmTemperature !== undefined) requestBody.llm_temperature = llmTemperature;
     if (llmMaxTokens) requestBody.llm_max_tokens = llmMaxTokens;
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_user_llm', {
         method: 'PUT',
         headers: {
@@ -34,15 +41,15 @@ export function apiUserLLM(updates = {}) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('edit operation returned success');
+            console.log('Edit operation returned success');
             return data.llm_model_id;
         } else {
-            console.log('no data.status received');
-            throw new Error('Failed to edit the user llm settings');
+            console.log('No data.status received');
+            throw new Error('Failed to edit the user LLM settings');
         }
     })
     .catch(error => {
-        console.error('Error editing user llm settings:', error);
+        console.error('Error editing user LLM settings:', error);
         throw error;
     });
 }

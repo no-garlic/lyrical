@@ -1,17 +1,24 @@
+/**
+ * API function for retrieving song structure templates.
+ * Handles fetching template data from the server.
+ */
 
-
+/**
+ * Get a structure template via API call
+ * @param {string} templateId - The ID of the template to retrieve
+ * @returns {Promise<Object>} Promise that resolves to the template data
+ */
 export function apiStructureTemplateGet(templateId) {
-
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with only provided fields
+    // Build request body with only provided fields
     const requestBody = { template_id: templateId };
 
     // Log the request body for debugging
     console.log('Request body for template get:', JSON.stringify(requestBody, null, 2));
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_structure_template_get', {
         method: 'POST',
         headers: {
@@ -28,10 +35,10 @@ export function apiStructureTemplateGet(templateId) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('get template operation returned success');
+            console.log('Get template operation returned success');
             return data.data;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to get the template');
         }
     })

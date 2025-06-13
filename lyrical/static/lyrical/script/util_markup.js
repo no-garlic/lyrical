@@ -1,6 +1,14 @@
-
+/**
+ * Markup utility class for text highlighting and manipulation.
+ * Provides interactive text markup functionality with word selection, highlighting, and replacement.
+ */
 export class Markup {
 
+    /**
+     * Creates a new Markup instance
+     * @param {Object} [initialConfig={}] - Initial configuration options
+     * @param {Object} [initialCallbacks={}] - Initial callback functions
+     */
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
             markerMulti: 'bg-error',
@@ -36,15 +44,26 @@ export class Markup {
         this.renderDebounceTimer = null;
     }
 
+    /**
+     * Initialize the markup system with callbacks
+     * @param {Object} [callbacks={}] - Callback functions to merge with existing callbacks
+     */
     init(callbacks = {}) {
         this.callbacks = { ...this.callbacks, ...callbacks };
         this.container = null;
     }
 
+    /**
+     * Set the container element for rendering markup
+     * @param {HTMLElement} container - The container element
+     */
     setContainer(container) {
         this.container = container;
     }
 
+    /**
+     * Select the marker tool for highlighting text
+     */
     selectMarker() {
         this.selectedTool = 'marker';
         if (this.callbacks.onToolChanged) {
@@ -52,6 +71,9 @@ export class Markup {
         }
     }
 
+    /**
+     * Select the eraser tool for removing highlights
+     */
     selectEraser() {
         this.selectedTool = 'eraser';
         if (this.callbacks.onToolChanged) {
@@ -59,6 +81,9 @@ export class Markup {
         }
     }
 
+    /**
+     * Enable single selection mode
+     */
     setSingleSelectMode() {
         this.config.multiSelect = false;
         this.clearHighlighting();
@@ -67,6 +92,9 @@ export class Markup {
         }
     }
 
+    /**
+     * Enable multi-selection mode
+     */
     setMultiSelectMode() {
         this.config.multiSelect = true;
         this.clearHighlighting();
@@ -75,24 +103,43 @@ export class Markup {
         }
     }
 
+    /**
+     * Check if the marker tool is selected
+     * @returns {boolean} True if marker is selected
+     */
     isMarkerSelected() {
         return this.selectedTool === 'marker';
     }
 
+    /**
+     * Check if the eraser tool is selected
+     * @returns {boolean} True if eraser is selected
+     */
     isEraserSelected() {
         return this.selectedTool === 'eraser';
     }
 
+    /**
+     * Check if single selection mode is active
+     * @returns {boolean} True if in single selection mode
+     */
     isSingleSelectMode() {
         return !this.config.multiSelect;
     }
 
+    /**
+     * Clear all highlighting from the text
+     */
     clearHighlighting() {
         this.markedState = {};
         this._renderTextImmediate();
         this._notifyTextChanged();
     }
 
+    /**
+     * Set the text content and reset markup state
+     * @param {string} text - The text content to set
+     */
     setText(text) {
         this.text = text;
         this.lines = text.split('\n').map(line => line.trim().split(/\s+/).filter(word => word.length > 0));
@@ -100,6 +147,10 @@ export class Markup {
         this._renderText();
     }
 
+    /**
+     * Update the text content while preserving marked state
+     * @param {string} text - The updated text content
+     */
     updateText(text) {
         // Update text while preserving marked state
         this.text = text;
@@ -108,10 +159,16 @@ export class Markup {
         this._renderText();
     }
 
+    /**
+     * Replace a word at a specific position
+     * @param {number} line - The line number
+     * @param {number} index - The word index within the line
+     * @param {string} word - The new word to replace with
+     */
     replaceWord(line, index, word) {
-        // replace the word on line 'line', at index 'index', with word 'word'.
-        // if the word was marked before, then mark the new word
-        // call the callback function onWordReplaced(line, index, oldWord, newWord) and onTextChanged()
+        // Replace the word on line 'line', at index 'index', with word 'word'.
+        // If the word was marked before, then mark the new word
+        // Call the callback function onWordReplaced(line, index, oldWord, newWord) and onTextChanged()
         
         if (!this.lines[line] || index < 0 || index >= this.lines[line].length) {
             console.error(`replaceWord: invalid line (${line}) or index (${index})`);
@@ -149,6 +206,11 @@ export class Markup {
         this._notifyTextChanged();
     }
 
+    /**
+     * Get the text with markup formatting
+     * @param {string} [style='markup'] - The output style ('markup', 'raw', or 'replacement')
+     * @returns {string} The formatted text
+     */
     getText(style = 'markup') {
         if (style === 'raw') {
             return this.text;
@@ -212,6 +274,10 @@ export class Markup {
         return result.join('\n');
     }
 
+    /**
+     * Get only the marked (highlighted) text
+     * @returns {string} The marked text content
+     */
     getMarkedText() {
         const result = [];
         
@@ -228,6 +294,10 @@ export class Markup {
         return result.join('\n');
     }
 
+    /**
+     * Get the first marked word and its position
+     * @returns {Object} Object containing word, line, and index properties
+     */
     getFirstMarkedWord() {
         for (let lineIndex = 0; lineIndex < this.lines.length; lineIndex++) {
             const line = this.lines[lineIndex];
@@ -252,6 +322,10 @@ export class Markup {
         };
     }
 
+    /**
+     * Get only the unmarked text
+     * @returns {string} The unmarked text content
+     */
     getUnmarkedText() {
         const result = [];
         
@@ -268,6 +342,10 @@ export class Markup {
         return result.join('\n');
     }
 
+    /**
+     * Get the current marked state for all words
+     * @returns {Object} Object mapping line indices to arrays of boolean values
+     */
     getMarkedState() {
         const result = {};
         
@@ -280,11 +358,24 @@ export class Markup {
         return result;
     }
 
+    /**
+     * Check if a specific word is marked
+     * @param {number} line - The line number
+     * @param {number} word - The word index
+     * @returns {boolean} True if the word is marked
+     */
     isWordMarked(line, word) {
         const lineState = this.markedState[line];
         return lineState ? !!lineState[word] : false;
     }
 
+    /**
+     * Get the edge type of a marked word (for styling purposes)
+     * @param {number} lineIndex - The line number
+     * @param {number} wordIndex - The word index
+     * @returns {string} Edge type: 'none', 'isolated', 'left', 'right', or 'middle'
+     * @private
+     */
     _getWordEdgeType(lineIndex, wordIndex) {
         if (!this.isWordMarked(lineIndex, wordIndex)) {
             return 'none';
@@ -304,19 +395,36 @@ export class Markup {
         }
     }
 
+    /**
+     * Get the number of lines in the text
+     * @returns {number} Number of lines
+     */
     getNumLines() {
         return this.lines.length;
     }
 
+    /**
+     * Get the number of words in a specific line
+     * @param {number} line - The line number
+     * @returns {number} Number of words in the line
+     */
     getNumWords(line) {
         return this.lines[line] ? this.lines[line].length : 0;
     }
     
+    /**
+     * Render the text with current markup state
+     * @private
+     */
     _renderText() {
         // Remove debouncing - render immediately
         this._performRender();
     }
     
+    /**
+     * Perform the actual rendering of marked up text
+     * @private
+     */
     _performRender() {
         if (!this.container) {
             throw new Error(`Container has not been set (container is null)`);
@@ -403,6 +511,13 @@ export class Markup {
         document.addEventListener('mouseup', () => this._handleDocumentMouseUp());
     }
     
+    /**
+     * Handle mouse down events on words
+     * @param {Event} e - The mouse event
+     * @param {number} lineIndex - The line index
+     * @param {number} wordIndex - The word index
+     * @private
+     */
     _handleMouseDown(e, lineIndex, wordIndex) {
         e.preventDefault();
         
@@ -440,6 +555,13 @@ export class Markup {
         }
     }
     
+    /**
+     * Handle mouse enter events on words (for drag selection)
+     * @param {Event} e - The mouse event
+     * @param {number} lineIndex - The line index
+     * @param {number} wordIndex - The word index
+     * @private
+     */
     _handleMouseEnter(e, lineIndex, wordIndex) {
         if (this.isDragging && this.dragStartWord) {
             // Check if we've moved to a different word to avoid unnecessary re-renders
@@ -450,6 +572,13 @@ export class Markup {
         }
     }
     
+    /**
+     * Handle mouse up events on words
+     * @param {Event} e - The mouse event
+     * @param {number} lineIndex - The line index
+     * @param {number} wordIndex - The word index
+     * @private
+     */
     _handleMouseUp(e, lineIndex, wordIndex) {
         // Just clean up drag state - word was already toggled on mousedown
         this.isDragging = false;
@@ -457,12 +586,22 @@ export class Markup {
         this.dragTargetState = null;
     }
     
+    /**
+     * Handle document mouse up events (cleanup)
+     * @private
+     */
     _handleDocumentMouseUp() {
         this.isDragging = false;
         this.dragStartWord = null;
         this.dragTargetState = null;
     }
     
+    /**
+     * Toggle the marked state of a word
+     * @param {number} lineIndex - The line index
+     * @param {number} wordIndex - The word index
+     * @private
+     */
     _toggleWord(lineIndex, wordIndex) {
         if (!this.markedState[lineIndex]) {
             this.markedState[lineIndex] = {};
@@ -478,6 +617,11 @@ export class Markup {
         this._notifyTextChanged();
     }
     
+    /**
+     * Toggle the marked state of an entire line
+     * @param {number} lineIndex - The line index
+     * @private
+     */
     _toggleLine(lineIndex) {
         if (!this.lines[lineIndex]) return;
         
@@ -500,6 +644,14 @@ export class Markup {
         this._notifyTextChanged();
     }
     
+    /**
+     * Mark a range of words (for drag selection)
+     * @param {number} startLine - The starting line index
+     * @param {number} startWord - The starting word index
+     * @param {number} endLine - The ending line index
+     * @param {number} endWord - The ending word index
+     * @private
+     */
     _markRange(startLine, startWord, endLine, endWord) {
         // For simplicity, only handle ranges within the same line
         if (startLine !== endLine) return;
@@ -523,14 +675,21 @@ export class Markup {
         this._notifyTextChanged();
     }
     
+    /**
+     * Render text immediately without debouncing
+     * @private
+     */
     _renderTextImmediate() {
         this._performRender();
     }
     
+    /**
+     * Notify callbacks that text has changed
+     * @private
+     */
     _notifyTextChanged() {
         if (this.callbacks.onTextChanged) {
             this.callbacks.onTextChanged();
         }
     }
 }
-

@@ -1,19 +1,22 @@
+/**
+ * API function for editing section properties.
+ * Handles updating section visibility and other properties.
+ */
 
 /**
- * Edit a section via API call.
- * @param {string} sectionId - The ID of the section to edit.
- * @param {Boolean} hidden - The hidden field to update.
- * @returns {Promise<string>} Promise that resolves to the section ID.
+ * Edit a section via API call
+ * @param {string} sectionId - The ID of the section to edit
+ * @param {boolean} isHidden - The hidden field to update
+ * @returns {Promise<string>} Promise that resolves to the section ID
  */
 export function apiSectionEdit(sectionId, isHidden) {
-
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with only provided fields
+    // Build request body with only provided fields
     const requestBody = { section_id: sectionId, hidden: isHidden };
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_section_edit', {
         method: 'PUT',
         headers: {
@@ -30,10 +33,10 @@ export function apiSectionEdit(sectionId, isHidden) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('edit operation returned success');
+            console.log('Edit operation returned success');
             return data.section_id;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to edit section');
         }
     })

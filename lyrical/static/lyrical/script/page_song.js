@@ -1,10 +1,16 @@
 
-import { SelectSystem } from './util_select.js';
+/**
+ * Song selection page - Song list filtering and navigation
+ * Handles song filtering, selection, and navigation to song editing
+ */
 
+import { SelectSystem } from './util_select.js';
 
 let selectSystem = null;
 
-
+/**
+ * Initialize the page when DOM is loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     applyFilters();
     initEventHandlers();
@@ -12,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+/**
+ * Initialize the selection system for song cards
+ */
 function initSelectSystem() {
     // create the select system and assign to module-level variable
     selectSystem = new SelectSystem();
@@ -92,6 +101,9 @@ function initSelectSystem() {
 }
 
 
+/**
+ * Initialize event handlers for filters and navigation
+ */
 function initEventHandlers() {
     const filterTerm = document.getElementById('filter-term');
     const filterNew = document.getElementById('filter-new');
@@ -111,6 +123,9 @@ function initEventHandlers() {
 }
 
 
+/**
+ * Apply filters to show/hide songs based on stage and search term
+ */
 function applyFilters() {
     // get the form filters
     const filterTerm = document.getElementById('filter-term');
@@ -159,6 +174,10 @@ function applyFilters() {
 }
 
 
+/**
+ * Apply visual selection styles to an element
+ * @param {Element} element - The element to style
+ */
 function applySelectionStyles(element) {
     const selectionStyleToAdd = ['border-2', 'border-primary'];
     const selectionStyleToRemove = ['border-base-300'];
@@ -168,6 +187,10 @@ function applySelectionStyles(element) {
 }
 
 
+/**
+ * Remove visual selection styles from an element
+ * @param {Element} element - The element to remove styles from
+ */
 function removeSelectionStyles(element) {
     const selectionStyleToAdd = ['border-2', 'border-primary'];
     const selectionStyleToRemove = ['border-base-300'];
@@ -177,6 +200,10 @@ function removeSelectionStyles(element) {
 }
 
 
+/**
+ * Update button styles based on current selection
+ * @param {Element|null} element - The selected element or null
+ */
 function updateButtonStylesForSelection(element) {
     const btnNext = document.getElementById('btn-navigate-next')
 
@@ -190,6 +217,9 @@ function updateButtonStylesForSelection(element) {
 }
 
 
+/**
+ * Select the first visible card in the song list
+ */
 function selectFirstVisisbleCard() {
     const songList = document.getElementById('song-list');
 
@@ -203,6 +233,10 @@ function selectFirstVisisbleCard() {
 }
 
 
+/**
+ * Check if the currently selected card is visible
+ * @returns {boolean} True if selected card is visible, false otherwise
+ */
 function isSelectedCardVisible() {
     const selected = selectSystem.getSelectedElement();
 
@@ -211,6 +245,9 @@ function isSelectedCardVisible() {
 }
 
 
+/**
+ * Navigate to the style page for the selected song
+ */
 function navigateNext() {
     const songId = selectSystem.getSelectedElement().dataset.songId;
     const url = `/style/${songId}`

@@ -1,9 +1,8 @@
-
 /**
- * Edit a song via API call.
- * @param {string} songId - The ID of the song to edit.
- * @param {Object} updates - Object containing fields to update (song_name and/or song_stage).
- * @returns {Promise<string>} Promise that resolves to the song ID.
+ * Edit song lyrics via API call
+ * @param {string} songId - The ID of the song to edit
+ * @param {string} lyrics - The lyrics content to update
+ * @returns {Promise<string>} Promise that resolves to the song ID
  */
 export function apiLyricsEdit(songId, lyrics) {
     // get CSRF token

@@ -1,10 +1,10 @@
-
-
-
 /**
  * ToastSystem singleton class for managing toast notifications
  */
 class ToastSystem {
+    /**
+     * Creates an instance of ToastSystem (singleton pattern)
+     */
     constructor() {
         if (ToastSystem.instance) {
             return ToastSystem.instance;
@@ -18,6 +18,9 @@ class ToastSystem {
         return this;
     }
 
+    /**
+     * Initializes the toast system
+     */
     init() {
         if (!this.initialized) {
             this.initToastContainer();
@@ -25,6 +28,9 @@ class ToastSystem {
         }
     }
 
+    /**
+     * Initializes the toast container element
+     */
     initToastContainer() {
         // Create a toast container if it doesn't exist
         if (!this.toastContainer) {
@@ -35,6 +41,11 @@ class ToastSystem {
         }
     }
 
+    /**
+     * Show an error toast
+     * @param {string} message - The error message to display
+     * @returns {string|null} The toast ID or null if failed
+     */
     showError(message) {
         return this._showToast('error', 'Error', message);
     }
@@ -42,6 +53,7 @@ class ToastSystem {
     /**
      * Show an info toast
      * @param {string} message - The info message to display
+     * @returns {string|null} The toast ID or null if failed
      */
     showInfo(message) {
         return this._showToast('info', 'Info', message);
@@ -50,6 +62,7 @@ class ToastSystem {
     /**
      * Show a warning toast
      * @param {string} message - The warning message to display
+     * @returns {string|null} The toast ID or null if failed
      */
     showWarning(message) {
         return this._showToast('warning', 'Warning', message);
@@ -58,6 +71,7 @@ class ToastSystem {
     /**
      * Show a success toast
      * @param {string} message - The success message to display
+     * @returns {string|null} The toast ID or null if failed
      */
     showSuccess(message) {
         return this._showToast('success', 'Success', message);
@@ -68,6 +82,8 @@ class ToastSystem {
      * @param {string} type - The toast type (error, info, warning, success)
      * @param {string} title - The toast title
      * @param {string} message - The toast message
+     * @returns {string|null} The toast ID or null if failed
+     * @private
      */
     _showToast(type, title, message) {
         this.initToastContainer();
@@ -120,6 +136,10 @@ class ToastSystem {
         return toastId;
     }
 
+    /**
+     * Closes a toast by its ID
+     * @param {string} toastId - The ID of the toast to close
+     */
     closeToast(toastId) {
         const toastElement = document.getElementById(toastId);
         if (!toastElement) return;
@@ -145,6 +165,11 @@ class ToastSystem {
         }, 300);
     }
 
+    /**
+     * Animates remaining toasts upward after one is removed
+     * @param {number} removedHeight - The height of the removed toast
+     * @param {number} removedIndex - The index of the removed toast
+     */
     animateToastsUp(removedHeight, removedIndex) {
         const toasts = Array.from(this.toastContainer.querySelectorAll('.alert'));
         
@@ -179,23 +204,46 @@ toastSystem.init();
 // Export the singleton instance
 export { toastSystem };
 
-// Export convenience functions for easier usage
+/**
+ * Show an error toast (convenience function)
+ * @param {string} message - The error message to display
+ * @returns {string|null} The toast ID or null if failed
+ */
 export function showError(message) {
     return toastSystem.showError(message);
 }
 
+/**
+ * Show an info toast (convenience function)
+ * @param {string} message - The info message to display
+ * @returns {string|null} The toast ID or null if failed
+ */
 export function showInfo(message) {
     return toastSystem.showInfo(message);
 }
 
+/**
+ * Show a warning toast (convenience function)
+ * @param {string} message - The warning message to display
+ * @returns {string|null} The toast ID or null if failed
+ */
 export function showWarning(message) {
     return toastSystem.showWarning(message);
 }
 
+/**
+ * Show a success toast (convenience function)
+ * @param {string} message - The success message to display
+ * @returns {string|null} The toast ID or null if failed
+ */
 export function showSuccess(message) {
     return toastSystem.showSuccess(message);
 }
 
+/**
+ * Close a toast by its ID (convenience function)
+ * @param {string} toastId - The ID of the toast to close
+ */
 export function closeToast(toastId) {
     return toastSystem.closeToast(toastId);
 }

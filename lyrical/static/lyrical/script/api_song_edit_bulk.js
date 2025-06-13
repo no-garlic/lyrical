@@ -1,25 +1,31 @@
+/**
+ * API function for bulk editing songs.
+ * Handles updating the stage of multiple songs at once.
+ */
 
 /**
- * Update the stage of all songs of the specified stage via API call.
- * @param {Object} updates - Object containing fields to update (song_stage_from and song_stage_to).
- * @returns {Promise<string>} Promise that resolves to the list of song ID's updated.
+ * Update the stage of all songs of the specified stage via API call
+ * @param {Object} [updates={}] - Object containing fields to update (song_stage_from and song_stage_to)
+ * @param {string} updates.song_stage_from - The current stage to filter songs by
+ * @param {string} updates.song_stage_to - The new stage to update songs to
+ * @returns {Promise<Array>} Promise that resolves to the list of song IDs updated
  */
 export function apiSongEditBulk(updates = {}) {
-    // accept updates object with optional song_name and/or song_stage
+    // Accept updates object with optional song_name and/or song_stage
     const { song_stage_from: songStageFrom, song_stage_to: songStageTo } = updates;
     
-    // log the operation
+    // Log the operation
     if (songStageFrom && songStageTo) {
-        console.log(`updating all songs from stage '${songStageFrom}' to stage '${songStageTo}'`);
+        console.log(`Updating all songs from stage '${songStageFrom}' to stage '${songStageTo}'`);
     }
 
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with the data
+    // Build request body with the data
     const requestBody = { song_stage_from: songStageFrom, song_stage_to: songStageTo };
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_song_edit_bulk', {
         method: 'PUT',
         headers: {
@@ -36,10 +42,10 @@ export function apiSongEditBulk(updates = {}) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('bulk edit operation returned success');
+            console.log('Bulk edit operation returned success');
             return data.updated_song_ids;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to edit songs');
         }
     })

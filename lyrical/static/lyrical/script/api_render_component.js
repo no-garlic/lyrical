@@ -1,16 +1,21 @@
 /**
- * Render a component via API call and insert it into a target element.
- * @param {string} componentName - The name of the component to render.
- * @param {string} targetElement - The ID of the target element to insert the component into.
- * @param {Object} props - Properties to pass to the component.
- * @param {string} position - Either 'beforeend' or 'afterbegin'
- * @returns {Promise<string>} Promise that resolves to the rendered HTML.
+ * API function for rendering Django Cotton components via AJAX.
+ * Fetches rendered HTML from the server and inserts it into the DOM.
  */
-export function apiRenderComponent(componentName, targetElement, props, position='afterbegin') {
-    // get the CSRF token
+
+/**
+ * Render a component via API call and insert it into a target element
+ * @param {string} componentName - The name of the component to render
+ * @param {string} targetElement - The ID of the target element to insert the component into
+ * @param {Object} props - Properties to pass to the component
+ * @param {string} [position='afterbegin'] - Insert position: 'beforeend' or 'afterbegin'
+ * @returns {Promise<string>} Promise that resolves to the rendered HTML
+ */
+export function apiRenderComponent(componentName, targetElement, props, position = 'afterbegin') {
+    // Get the CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // get the component HTML from the server
+    // Get the component HTML from the server
     return fetch(`/api_render_component/${componentName}`, {
         method: 'POST',
         headers: {

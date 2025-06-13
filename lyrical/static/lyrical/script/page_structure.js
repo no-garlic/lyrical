@@ -1,9 +1,12 @@
+/**
+ * Song structure page functionality.
+ * Handles song structure editing, drag and drop, template management, and save/load operations.
+ */
 
 import { apiRenderComponent } from './api_render_component.js';
 import { apiSongEdit } from './api_song_edit.js';
 import { apiStructureTemplateEdit } from './api_structure_template_edit.js'
 import { apiStructureTemplateGet } from './api_structure_template_get.js';
-
 
 let draggedItem = null;
 let placeholder = null;
@@ -12,7 +15,9 @@ let saveHistory = {};
 
 const songId = document.body.dataset.songId;
 
-
+/**
+ * Initialize page when DOM is loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initSongSections();
@@ -23,9 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNavigationButtonStates();
 });
 
-
+/**
+ * Initialize page action buttons and navigation
+ */
 function initPageActions() {    
-
     document.getElementById('btn-navigate-next').classList.remove('btn-disabled');
     document.getElementById('btn-navigate-next').onclick = () => { 
         window.location.href = `/lyrics/${songId}`; 
@@ -48,58 +54,64 @@ function initPageActions() {
     document.getElementById('btn-save-to-template').onclick = showSaveTemplateModal;
 }
 
-
+/**
+ * Initialize song section management functionality
+ */
 function initSongSections() {
-    // register an onclick callback for all menu options on the modal window
+    // Register an onclick callback for all menu options on the modal window
     document.querySelectorAll('[id*="modal-add-"').forEach(choice => {
         document.getElementById(choice.id).onclick = () => {
             createAndAddSongSection(choice.innerHTML);
         };
     });
 
-    // register the onclick callback for the ADD ITEM button
+    // Register the onclick callback for the ADD ITEM button
     document.getElementById('badge-add-item').onclick = (event) => {
         document.getElementById('modal-select-song-section').showModal();
     }
 
-    // register the close button for all badges already on the page that were loaded by
-    // the django template
+    // Register the close button for all badges already on the page that were loaded by
+    // the Django template
     document.querySelectorAll('.badge-edit-close-button').forEach(badge => {
         badge.onclick = () => {
             removeSongSection(badge);
         }
     });
 
-    // update the add button based on the number of items in the list
+    // Update the add button based on the number of items in the list
     updateSongSectionsUIElements();
 }
 
-
+/**
+ * Create and add a new song section
+ * @param {string} sectionName - The name of the section to add
+ * @param {boolean} [suppressDirty=false] - Whether to suppress the dirty state flag
+ */
 function createAndAddSongSection(sectionName, suppressDirty = false) {
-    // get the server to make a new item from the django-cotton template
+    // Get the server to make a new item from the django-cotton template
     apiRenderComponent('badge_edit', 'song-sections', { slot: sectionName }, 'beforeend')
         .then(html => {
-            // get the song sections container
+            // Get the song sections container
             const songSections = document.getElementById('song-sections');
             
-            // the item we just created is now the last child of the song sections container
+            // The item we just created is now the last child of the song sections container
             const lastChild = songSections.lastElementChild;
 
-            // make the item we just created draggable
+            // Make the item we just created draggable
             if (lastChild && lastChild.classList.contains('badge-edit-item')) {
                 makeItemDraggable(lastChild);
             }
 
-            // add an event listener to the close button on the item we just created
+            // Add an event listener to the close button on the item we just created
             lastChild.querySelector('.badge-edit-close-button').onclick = () => {
                 removeSongSection(lastChild.querySelector('.badge-edit-close-button'));
             }
 
-            // move the item up 1 slot, above the add button
+            // Move the item up 1 slot, above the add button
             const addButton = lastChild.previousElementSibling;
             songSections.insertBefore(lastChild, addButton);
 
-            // update the add button based on the number of items in the list
+            // Update the add button based on the number of items in the list
             if (!suppressDirty) {
                 setSaveDirty();
             }
@@ -111,11 +123,14 @@ function createAndAddSongSection(sectionName, suppressDirty = false) {
             toastSystem.showError('Failed to display the list item. Please refresh the page.');
         });
 
-    // close the menu
+    // Close the menu
     document.activeElement.blur();
 }
 
-
+/**
+ * Remove a song section from the list
+ * @param {HTMLElement} badge - The badge element to remove
+ */
 function removeSongSection(badge) {
     const parent = badge.parentElement;
     const songSections = document.getElementById('song-sections');
@@ -124,7 +139,9 @@ function removeSongSection(badge) {
     updateSongSectionsUIElements();
 }
 
-
+/**
+ * Update UI elements based on the number of song sections
+ */
 function updateSongSectionsUIElements() {
     const songSections = document.getElementById('song-sections');
     const divider = document.getElementById('badge-add-item-divider');
@@ -139,7 +156,9 @@ function updateSongSectionsUIElements() {
     }
 }
 
-
+/**
+ * Clear all song sections from the list
+ */
 function clearAllSongSections() {
     const songSections = document.getElementById('song-sections');
 
@@ -151,7 +170,10 @@ function clearAllSongSections() {
     updateSongSectionsUIElements();
 }
 
-
+/**
+ * Get song sections as a comma-separated text string
+ * @returns {string} Comma-separated list of section names
+ */
 function getSongSectionsAsText() {
     const songSections = document.getElementById('song-sections');
     const sections = Array.from([]);
@@ -167,9 +189,11 @@ function getSongSectionsAsText() {
     return sectionsAsText;
 }
 
-
+/**
+ * Save the current song structure to the database
+ */
 function saveSongStructure() {
-    // get the data values to save
+    // Get the data values to save
     const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
     const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
     const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
@@ -183,7 +207,7 @@ function saveSongStructure() {
     const newCustomRequest = document.getElementById('input-custom-request').value.trim();
     const songSectionsText = getSongSectionsAsText().trim();
 
-    // call the api to update the song styles
+    // Call the API to update the song styles
     apiSongEdit(songId, {
         structure_intro_lines: newIntroLines,
         structure_outro_lines: newOutroLines,
@@ -201,7 +225,7 @@ function saveSongStructure() {
         .then(songId => {
             console.log(`Successfully updated the song structure for songId: ${songId}`);
 
-            // update the dirty state and the UI for the save button
+            // Update the dirty state and the UI for the save button
             saveDirty = false;
             const saveButton = document.getElementById('btn-save');
             const cancelButton = document.getElementById('btn-cancel');
@@ -212,26 +236,30 @@ function saveSongStructure() {
 
             updateSaveHistory();
 
-            // update the state of the navigation buttons
+            // Update the state of the navigation buttons
             updateNavigationButtonStates();
         })
         .catch(error => {
-            // handle the error if the API call fails
+            // Handle the error if the API call fails
             console.error('Failed to edit the song structure:', error);
             toastSystem.showError('Failed to update the song structure. Please try again.');
         });
 }
 
-
+/**
+ * Cancel song structure changes and revert to saved state
+ */
 function cancelSongStructureChanges() {
     revertSaveHistory();
 }
 
-
+/**
+ * Update the save history with current form values
+ */
 function updateSaveHistory() {
     console.log('Updating save history...');
 
-    // record the current state of the song structure in the save history
+    // Record the current state of the song structure in the save history
     saveHistory.intro_lines = parseInt(document.getElementById('input-intro-lines').value.trim());
     saveHistory.outro_lines = parseInt(document.getElementById('input-outro-lines').value.trim());
     saveHistory.verse_lines = parseInt(document.getElementById('input-verse-lines').value.trim());
@@ -246,17 +274,19 @@ function updateSaveHistory() {
     saveHistory.structure = getSongSectionsAsText().trim();
 }
 
-
+/**
+ * Revert form values to the last saved state
+ */
 function revertSaveHistory() {
     console.log('Reverting to the last saved state...');
 
-    // temporarily remove event listeners to prevent triggering setSaveDirty
+    // Temporarily remove event listeners to prevent triggering setSaveDirty
     const inputs = document.querySelectorAll('[id*="input-"]');
     inputs.forEach(input => {
         input.removeEventListener('input', setSaveDirty);
     });
 
-    // revert the last save by restoring the last saved state from the history
+    // Revert the last save by restoring the last saved state from the history
     document.getElementById('input-intro-lines').value = saveHistory.intro_lines;
     document.getElementById('input-outro-lines').value = saveHistory.outro_lines;
     document.getElementById('input-verse-lines').value = saveHistory.verse_lines;
@@ -271,12 +301,12 @@ function revertSaveHistory() {
 
     const songSections = document.getElementById('song-sections');
 
-    // clear existing song sections
+    // Clear existing song sections
     while (songSections.childElementCount > 1) {
         songSections.removeChild(songSections.firstChild);
     }
 
-    // add the song sections from the saved history
+    // Add the song sections from the saved history
     const sections = saveHistory.structure.split(',');
     console.log(`Reverting song sections: ${sections}`);
     sections.forEach(section => {
@@ -284,26 +314,26 @@ function revertSaveHistory() {
         createAndAddSongSection(section.trim(), true); // suppress dirty state
     });
     
-    // update the UI elements based on the reverted song sections
+    // Update the UI elements based on the reverted song sections
     updateSongSectionsUIElements();
 
-    // reset the save dirty state
+    // Reset the save dirty state
     saveDirty = false;
 
-    // get the save and cancel buttons
+    // Get the save and cancel buttons
     const saveButton = document.getElementById('btn-save');
     const cancelButton = document.getElementById('btn-cancel');
     const saveToTemplateButton = document.getElementById('btn-save-to-template');
 
-    // update the UI to reflect the saved state
+    // Update the UI to reflect the saved state
     saveButton.classList.add('btn-disabled');
     cancelButton.classList.add('btn-disabled');
     saveToTemplateButton.classList.remove('btn-disabled');
 
-    // update the state of the navigation buttons
+    // Update the state of the navigation buttons
     updateNavigationButtonStates();
 
-    // re-add event listeners
+    // Re-add event listeners
     inputs.forEach(input => {
         input.addEventListener('input', setSaveDirty);
     });
@@ -311,7 +341,9 @@ function revertSaveHistory() {
     console.log('Reverting to the last saved state...done.');
 }
 
-
+/**
+ * Set the save dirty state to indicate unsaved changes
+ */
 function setSaveDirty() {
     if (!saveDirty) {
         saveDirty = true;
@@ -326,12 +358,14 @@ function setSaveDirty() {
         cancelButton.classList.remove('btn-disabled');
         saveToTemplateButton.classList.add('btn-disabled');
 
-        // update the state of the navigation buttons
+        // Update the state of the navigation buttons
         updateNavigationButtonStates();
     }
 }
 
-
+/**
+ * Update the state of navigation buttons based on current conditions
+ */
 function updateNavigationButtonStates() {
     const nextButton = document.getElementById('btn-navigate-next');
     const prevButton = document.getElementById('btn-navigate-prev');
@@ -358,13 +392,17 @@ function updateNavigationButtonStates() {
     }
 }
 
+/* 
+ * **************************************************************
+ *
+ * Drag and Drop Functionality
+ * 
+ * **************************************************************
+ */
 
-
-
-
-
-
-
+/**
+ * Initialize drag and drop functionality for song sections
+ */
 function initDragAndDrop() {
     const songSectionsContainer = document.getElementById('song-sections');
     if (!songSectionsContainer) return;
@@ -382,15 +420,20 @@ function initDragAndDrop() {
     placeholder.style.display = 'none'; // Hidden by default
 }
 
-
-
+/**
+ * Make an item draggable
+ * @param {HTMLElement} item - The item to make draggable
+ */
 function makeItemDraggable(item) {
     item.setAttribute('draggable', true);
     item.addEventListener('dragstart', handleDragStart);
     item.addEventListener('dragend', handleDragEnd);
 }
 
-
+/**
+ * Handle drag start event
+ * @param {Event} e - The drag event
+ */
 function handleDragStart(e) {
     draggedItem = e.target.closest('.badge-edit-item');
     e.dataTransfer.effectAllowed = 'move';
@@ -406,7 +449,10 @@ function handleDragStart(e) {
     placeholder.style.display = 'none';
 }
 
-
+/**
+ * Handle drag end event
+ * @param {Event} e - The drag event
+ */
 function handleDragEnd(e) {
     if (draggedItem) {
         draggedItem.classList.remove('dragging');
@@ -418,7 +464,10 @@ function handleDragEnd(e) {
     placeholder.style.display = 'none';
 }
 
-
+/**
+ * Handle drag over event
+ * @param {Event} e - The drag event
+ */
 function handleDragOver(e) {
     e.preventDefault();
     const songSectionsContainer = document.getElementById('song-sections');
@@ -428,7 +477,6 @@ function handleDragOver(e) {
     
     // Don't allow dropping at the end - only between items or at the beginning
     if (afterElement == null) {
-
         // Hide placeholder if trying to drop at the end
         if (placeholder.parentNode) {
             placeholder.parentNode.removeChild(placeholder);
@@ -442,7 +490,10 @@ function handleDragOver(e) {
     }
 }
 
-
+/**
+ * Handle drag leave event
+ * @param {Event} e - The drag event
+ */
 function handleDragLeave(e) {
     // Only hide placeholder if leaving the container itself, not just moving between items
     const songSectionsContainer = document.getElementById('song-sections');
@@ -452,7 +503,10 @@ function handleDragLeave(e) {
     }
 }
 
-
+/**
+ * Handle drop event
+ * @param {Event} e - The drop event
+ */
 function handleDrop(e) {
     e.preventDefault();
     const songSectionsContainer = document.getElementById('song-sections');
@@ -472,7 +526,12 @@ function handleDrop(e) {
     placeholder.style.display = 'none';
 }
 
-
+/**
+ * Get the element after which the dragged item should be dropped
+ * @param {HTMLElement} container - The container element
+ * @param {number} y - The Y coordinate of the mouse
+ * @returns {HTMLElement|null} The element after which to drop, or null
+ */
 function getDragAfterElement(container, y) {
     // Get badge-edit-item elements and the song-sections-end element
     const draggableElements = [...container.querySelectorAll('.badge-edit-item:not(.dragging)')];
@@ -500,7 +559,6 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-
 /* 
  * **************************************************************
  *
@@ -509,16 +567,14 @@ function getDragAfterElement(container, y) {
  * **************************************************************
  */
 
-
+/**
+ * Initialize song structure template functionality
+ */
 function initSongStructureTemplates() {
-    
-    // testing
-    // showSaveTemplateModal();
-
-    // setup callback when the ok (save/load) button is pressed
+    // Setup callback when the ok (save/load) button is pressed
     document.getElementById('modal-song-structure-ok').onclick = onSongStructureTemplateOkClicked;
 
-    // setup callbacks for when the radio options are selected
+    // Setup callbacks for when the radio options are selected
     document.querySelectorAll('[id*="radio-option-"').forEach(option => {
         option.onclick = onSongStructureTemplateOptionSelected;
     });
@@ -528,23 +584,22 @@ function initSongStructureTemplates() {
     });
 
     if (document.getElementById('modal-song-structure-ok').innerHTML === 'Save') {
-
-        // setup callbacks for the edit buttons on each template
+        // Setup callbacks for the edit buttons on each template
         document.querySelectorAll('[id*="btn-edit-option-"').forEach(button => {
             button.onclick = onSongStructureTemplateEditClicked;
         });
 
-        // setup callbacks for the save buttons on each template
+        // Setup callbacks for the save buttons on each template
         document.querySelectorAll('[id*="btn-save-option-"').forEach(button => {
             button.onclick = onSongStructureTemplateSaveClicked;
         });
 
-        // setup callbacks for the cancel buttons on each template
+        // Setup callbacks for the cancel buttons on each template
         document.querySelectorAll('[id*="btn-cancel-option-"').forEach(button => {
             button.onclick = onSongStructureTemplateCancelClicked;
         });
 
-        // setup callbacks for the text input on each template
+        // Setup callbacks for the text input on each template
         document.querySelectorAll('[id*="text-option-"').forEach(element => {
             element.addEventListener('keydown', function(event) {
                 if (event.key === "Enter") {
@@ -558,7 +613,9 @@ function initSongStructureTemplates() {
     }
 }
 
-
+/**
+ * Show the save template modal dialog
+ */
 function showSaveTemplateModal() {
     document.getElementById('modal-song-structure-title').innerHTML = 'Save Template';
     document.getElementById('modal-song-structure-message').innerHTML = 'Select the template to save to:';
@@ -568,7 +625,9 @@ function showSaveTemplateModal() {
     modalDialog.showModal();
 }
 
-
+/**
+ * Show the load template modal dialog
+ */
 function showLoadTemplateModal() {
     document.getElementById('modal-song-structure-title').innerHTML = 'Load Template';
     document.getElementById('modal-song-structure-message').innerHTML = 'Select the template to load from:';
@@ -578,7 +637,9 @@ function showLoadTemplateModal() {
     modalDialog.showModal();
 }
 
-
+/**
+ * Handle OK button click in template modal
+ */
 function onSongStructureTemplateOkClicked() {
     const selectedTemplateId = this.dataset.selectedTemplateId;
 
@@ -591,13 +652,17 @@ function onSongStructureTemplateOkClicked() {
     }
 }
 
-
+/**
+ * Handle template option selection
+ */
 function onSongStructureTemplateOptionSelected() {
     console.log(`option selected: ${this.dataset.index}`);
     handleSongStructureTemplateOptionSelected(this.dataset.index);
 }
 
-
+/**
+ * Handle text input click in template modal
+ */
 function onSongStructureTextInputClicked() {
     const index = this.dataset.index;
 
@@ -614,9 +679,11 @@ function onSongStructureTextInputClicked() {
     handleSongStructureTemplateOptionSelected(index);
 }
 
-
+/**
+ * Handle template option selection logic
+ * @param {string} index - The template index
+ */
 function handleSongStructureTemplateOptionSelected(index) {
-    
     const templateId = document.getElementById(`radio-option-${index}`).dataset.templateId;
     document.getElementById('modal-song-structure-ok').dataset.selectedTemplateId = templateId;
 
@@ -634,7 +701,9 @@ function handleSongStructureTemplateOptionSelected(index) {
     }
 }
 
-
+/**
+ * Handle template edit button click
+ */
 function onSongStructureTemplateEditClicked() {
     console.log(`edit item clicked: ${this.id}`);
 
@@ -656,19 +725,27 @@ function onSongStructureTemplateEditClicked() {
     editControl.setSelectionRange(length, length);
 }
 
-
+/**
+ * Handle Enter key press in template text input
+ * @param {HTMLElement} element - The input element
+ */
 function onSongStructureTemplateEnterKeyPressed(element) {
     console.log(`enter key pressed: ${element.dataset.index}`);
     saveSongStructureTemplate(element.dataset.index);
 }
 
-
+/**
+ * Handle template save button click
+ */
 function onSongStructureTemplateSaveClicked() {
     console.log(`save item clicked: ${this.dataset.index}`);
     saveSongStructureTemplate(this.dataset.index);
 }
 
-
+/**
+ * Save a song structure template
+ * @param {string} index - The template index
+ */
 function saveSongStructureTemplate(index) {
     const editControl = document.getElementById(`text-option-${index}`);
 
@@ -691,13 +768,15 @@ function saveSongStructureTemplate(index) {
             document.getElementById(`btn-cancel-option-${index}`).classList.add('hidden');
         })
         .catch(error => {
-            // handle the error if the API call fails
+            // Handle the error if the API call fails
             console.error('Failed to edit the song structure template:', error);
             toastSystem.showError('Failed to update the song structure template. Please try again.');
         });
 }
 
-
+/**
+ * Handle template cancel button click
+ */
 function onSongStructureTemplateCancelClicked() {
     console.log(`cancel item clicked: ${this.dataset.index}`);
 
@@ -711,11 +790,14 @@ function onSongStructureTemplateCancelClicked() {
     editControl.readOnly = true;
 }
 
-
+/**
+ * Save current song structure to a template
+ * @param {string} templateId - The template ID to save to
+ */
 function saveSongStructureToTemplate(templateId) {
     console.log('saving current structure to template ${templateId} ...');
 
-    // get the data values to save
+    // Get the data values to save
     const newIntroLines = parseInt(document.getElementById('input-intro-lines').value.trim());
     const newOutroLines = parseInt(document.getElementById('input-outro-lines').value.trim());
     const newVerseLines = parseInt(document.getElementById('input-verse-lines').value.trim());
@@ -729,7 +811,7 @@ function saveSongStructureToTemplate(templateId) {
     const newCustomRequest = document.getElementById('input-custom-request').value.trim();
     const songSectionsText = getSongSectionsAsText().trim();
 
-    // call the api to update the song styles
+    // Call the API to update the song styles
     apiStructureTemplateEdit(templateId, {
         intro_lines: newIntroLines,
         outro_lines: newOutroLines,
@@ -746,26 +828,27 @@ function saveSongStructureToTemplate(templateId) {
     })
         .then(templateId => {
             console.log(`Successfully updated the structure template for templateId: ${templateId}`);
-
         })
         .catch(error => {
-            // handle the error if the API call fails
+            // Handle the error if the API call fails
             console.error('Failed to edit the song structure template:', error);
             toastSystem.showError('Failed to update the song structure template. Please try again.');
         });
 }
 
-
+/**
+ * Load song structure from a template
+ * @param {string} templateId - The template ID to load from
+ */
 function loadSongStructurefromTemplate(templateId) {
     console.log('loading saved structure template for templateId: ${templateId} ...');
-
 
     apiStructureTemplateGet(templateId)
         .then(templateData => {
             console.log(`Successfully loaded the structure template for templateId: ${templateData}`);
             console.log(`Loaded template data:`, JSON.stringify(templateData, null, 2));
 
-            // update the UI with the loaded template data
+            // Update the UI with the loaded template data
             document.getElementById('input-intro-lines').value = templateData.intro_lines;
             document.getElementById('input-outro-lines').value = templateData.outro_lines;
             document.getElementById('input-verse-lines').value = templateData.verse_lines;
@@ -778,10 +861,10 @@ function loadSongStructurefromTemplate(templateId) {
             document.getElementById('input-vocalisation-terms').value = templateData.vocalisation_terms;
             document.getElementById('input-custom-request').value = templateData.custom_request;
 
-            // clear existing song sections
+            // Clear existing song sections
             clearAllSongSections();
 
-            // add the song sections from the loaded template
+            // Add the song sections from the loaded template
             const songSectionsContainer = document.getElementById('song-sections');
             const sections = templateData.structure.split(',');
 
@@ -792,7 +875,7 @@ function loadSongStructurefromTemplate(templateId) {
                 createAndAddSongSection(section.trim());
             });
 
-            // update the UI elements based on the new song sections
+            // Update the UI elements based on the new song sections
             updateSongSectionsUIElements();
             setSaveDirty();
             const saveButton = document.getElementById('btn-save');
@@ -801,15 +884,9 @@ function loadSongStructurefromTemplate(templateId) {
             cancelButton.classList.remove('btn-disabled');
             updateNavigationButtonStates();
             console.log('Song structure loaded successfully from the template.');
-
         })
         .catch(error => {
             console.error('Failed to load the song structure from the template:', error);
             toastSystem.showError('Failed to load the song structure from the selected template. Please try again.');
         });
 }
-
-
-
-
-

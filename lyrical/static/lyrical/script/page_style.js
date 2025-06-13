@@ -126,6 +126,11 @@ function registerCardForDragDrop(card) {
 }
 
 
+/**
+ * Initialize page action buttons and event handlers
+ * Sets up click handlers for navigation, save/cancel, clear, and filter buttons
+ * Also sets up input change listeners for style text fields
+ */
 function initPageActions() {
     document.getElementById('btn-navigate-next').onclick = navigateNext;
     document.getElementById('btn-navigate-prev').onclick = navigatePrevious;
@@ -273,6 +278,14 @@ function handleLoadingEnd(summaryInfo) {
 }
 
 
+/**
+ * Add a style card from incoming data based on the data type
+ * @param {Object} data - The style data containing theme, narrative, or mood
+ * @param {string} [data.theme] - Theme text if this is a theme style
+ * @param {string} [data.narrative] - Narrative text if this is a narrative style
+ * @param {string} [data.mood] - Mood text if this is a mood style
+ * @param {number} data.id - The ID of the style section
+ */
 function addStyleCardFromData(data) {
     if (data.theme != undefined) {
         addStyleCard('badge-theme', 'THEME', data.theme, data.id);
@@ -286,6 +299,13 @@ function addStyleCardFromData(data) {
 }
 
 
+/**
+ * Add a new style card to the page and initialize it
+ * @param {string} badgeStyle - CSS class for the badge styling
+ * @param {string} badgeName - Display name for the badge
+ * @param {string} cardText - The text content for the card
+ * @param {number} sectionId - The ID of the style section
+ */
 function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
     apiRenderComponent('card_style', 'generated-styles', { section: { id: sectionId, badge_name: badgeName, badge_style: badgeStyle, text: cardText }})
         .then(html => {
@@ -310,6 +330,10 @@ function addStyleCard(badgeStyle, badgeName, cardText, sectionId) {
 }
 
 
+/**
+ * Initialize all existing style cards on page load
+ * Registers existing cards for drag-drop and updates button states
+ */
 function initStyleCards() {
     const container = document.getElementById('generated-styles');
     Array.from(container.children).forEach(node => {
@@ -320,6 +344,11 @@ function initStyleCards() {
 }
 
 
+/**
+ * Initialize event handlers for a new style card
+ * Sets up the hide button functionality for the specified section
+ * @param {number} sectionId - The ID of the style section to initialize
+ */
 function initNewStyleCard(sectionId) {
     const hideButton = document.getElementById(`btn-style-hide-${sectionId}`);
 
@@ -345,6 +374,10 @@ function initNewStyleCard(sectionId) {
 }
 
 
+/**
+ * Mark the song style as dirty (unsaved changes) and update UI accordingly
+ * Enables save/cancel buttons and updates navigation button states
+ */
 function setSongStyleDirty() {
     if (!styleTextDirty) {
         styleTextDirty = true;
@@ -360,6 +393,10 @@ function setSongStyleDirty() {
 }
 
 
+/**
+ * Update the clear button state based on whether there are any generated styles
+ * Enables the button if there are style cards, disables it if empty
+ */
 function updateClearButtonState() {
     const container = document.getElementById('generated-styles');
     const clearButton = document.getElementById('btn-clear');
@@ -371,6 +408,10 @@ function updateClearButtonState() {
 }
 
 
+/**
+ * Update navigation button states based on save status and content completion
+ * Next button requires all fields filled and saved, previous button only requires saved state
+ */
 function updateNavigationButtonStates() {
     const nextButton = document.getElementById('btn-navigate-next');
     const prevButton = document.getElementById('btn-navigate-prev');
@@ -398,6 +439,10 @@ function updateNavigationButtonStates() {
 }
 
 
+/**
+ * Clear all generated style cards by hiding them via API call
+ * Removes cards from UI and unregisters them from drag-drop system
+ */
 function clearGeneratedStyles() {
     const clearButton = document.getElementById('btn-clear');
 
@@ -439,6 +484,10 @@ function clearGeneratedStyles() {
 }
 
 
+/**
+ * Update the save history with current values from style text fields
+ * Used to track the last saved state for cancel/revert functionality
+ */
 function updateSaveHistory() {
     const themeElement = document.getElementById('style-text-theme');
     const narrativeElement = document.getElementById('style-text-narrative');
@@ -450,6 +499,10 @@ function updateSaveHistory() {
 }
 
 
+/**
+ * Revert style text fields to their last saved state
+ * Restores values from save history and resets dirty state
+ */
 function revertSaveHistory() {
     const themeElement = document.getElementById('style-text-theme');
     const narrativeElement = document.getElementById('style-text-narrative');
@@ -471,6 +524,10 @@ function revertSaveHistory() {
 }
 
 
+/**
+ * Save the current style text values via API call
+ * Updates the song with theme, narrative, and mood values and resets dirty state
+ */
 function saveStyle() {
     const themeElement = document.getElementById('style-text-theme');
     const narrativeElement = document.getElementById('style-text-narrative');
@@ -506,11 +563,19 @@ function saveStyle() {
 }
 
 
+/**
+ * Cancel unsaved changes and revert to last saved state
+ * Calls revertSaveHistory to restore previous values
+ */
 function cancelStyle() {
     revertSaveHistory();
 }
 
 
+/**
+ * Get the currently selected style filter type from the filter tabs
+ * @returns {string|undefined} The selected style type ('themes', 'narratives', 'moods') or undefined if 'all' is selected
+ */
 function getFilterStyleType() {
     let styleType = undefined;
 
@@ -524,6 +589,10 @@ function getFilterStyleType() {
 }
 
 
+/**
+ * Apply the current filter to show/hide style cards based on their type
+ * Shows all cards if no specific filter is selected, otherwise shows only matching types
+ */
 function applyFilter() {
     const styleType = getFilterStyleType();
     const container = document.getElementById('generated-styles');
@@ -544,11 +613,17 @@ function applyFilter() {
 }
 
 
+/**
+ * Navigate to the next page in the song creation workflow (structure page)
+ */
 function navigateNext() {
     window.location.href = `/structure/${songId}`;
 }
 
 
+/**
+ * Navigate to the previous page in the song creation workflow (song details page)
+ */
 function navigatePrevious() {
     window.location.href = `/song?id=${songId}`;
 }

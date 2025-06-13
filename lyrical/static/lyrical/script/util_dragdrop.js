@@ -1,10 +1,11 @@
-
 /**
- * drag and drop system for managing draggable items and drop zones
+ * Drag and drop system for managing draggable items and drop zones
  */
 export class DragDropSystem {
     /**
-     * creates a new dragdropsystem instance
+     * Creates a new DragDropSystem instance
+     * @param {object} [initialConfig={}] - Initial configuration options
+     * @param {object} [initialCallbacks={}] - Initial callback functions
      */
     constructor(initialConfig = {}, initialCallbacks = {}) {
         this.config = {
@@ -30,8 +31,8 @@ export class DragDropSystem {
     }
 
     /**
-     * creates a transparent canvas for drag preview
-     * @returns {HTMLCanvasElement} the canvas element
+     * Creates a transparent canvas for drag preview
+     * @returns {HTMLCanvasElement} The canvas element
      * @private
      */
     _createDragPreviewCanvas() {
@@ -53,8 +54,8 @@ export class DragDropSystem {
     }
 
     /**
-     * initializes the drag drop system with callbacks
-     * @param {object} [callbacks={}] - callback functions for drag events
+     * Initializes the drag drop system with callbacks
+     * @param {object} [callbacks={}] - Callback functions for drag events
      */
     init(callbacks = {}) {
         this.callbacks = { ...this.callbacks, ...callbacks };
@@ -62,7 +63,7 @@ export class DragDropSystem {
     }
 
     /**
-     * attaches global event listeners for drag operations
+     * Attaches global event listeners for drag operations
      * @private
      */
     _attachGlobalEventListeners() {
@@ -72,9 +73,9 @@ export class DragDropSystem {
     }
 
     /**
-     * registers an element as draggable
-     * @param {HTMLElement} element - the element to make draggable
-     * @param {object} [data={}] - data associated with the draggable item
+     * Registers an element as draggable
+     * @param {HTMLElement} element - The element to make draggable
+     * @param {object} [data={}] - Data associated with the draggable item
      */
     registerDraggable(element, data = {}) {
         element.setAttribute('draggable', true);
@@ -87,8 +88,8 @@ export class DragDropSystem {
     }
 
     /**
-     * unregisters an element as draggable
-     * @param {HTMLElement} element - the element to remove draggable functionality from
+     * Unregisters an element as draggable
+     * @param {HTMLElement} element - The element to remove draggable functionality from
      */
     unregisterDraggable(element) {
         element.removeAttribute('draggable');
@@ -100,9 +101,9 @@ export class DragDropSystem {
     }
 
     /**
-     * registers an element as a drop zone
-     * @param {HTMLElement} element - the element to make a drop zone
-     * @param {object} [data={}] - configuration for the drop zone
+     * Registers an element as a drop zone
+     * @param {HTMLElement} element - The element to make a drop zone
+     * @param {object} [data={}] - Configuration for the drop zone
      */
     registerDropZone(element, data = { name: '', acceptedTypes: [] }) {
         element.dataset.dropZone = 'true';
@@ -111,10 +112,10 @@ export class DragDropSystem {
     }
 
     /**
-     * updates data for a registered draggable element
-     * @param {HTMLElement} element - the draggable element to update data for
-     * @param {object} updates - object containing data properties to update
-     * @returns {boolean} true if element was found and updated, false otherwise
+     * Updates data for a registered draggable element
+     * @param {HTMLElement} element - The draggable element to update data for
+     * @param {object} updates - Object containing data properties to update
+     * @returns {boolean} True if element was found and updated, false otherwise
      */
     updateItemData(element, updates = {}) {
         if (!this.draggableItems.has(element)) {
@@ -130,8 +131,8 @@ export class DragDropSystem {
     }
 
     /**
-     * creates a ghost element for visual drag feedback
-     * @param {HTMLElement} originalElement - the original element being dragged
+     * Creates a ghost element for visual drag feedback
+     * @param {HTMLElement} originalElement - The original element being dragged
      * @private
      */
     _createGhostElement(originalElement) {
@@ -152,8 +153,8 @@ export class DragDropSystem {
     }
 
     /**
-     * updates the position of the ghost element
-     * @param {DragEvent} event - the drag event
+     * Updates the position of the ghost element
+     * @param {DragEvent} event - The drag event
      * @private
      */
     _updateGhostPosition(event) {
@@ -164,9 +165,9 @@ export class DragDropSystem {
     }
 
     /**
-     * handles the drag start event
-     * @param {DragEvent} event - the drag start event
-     * @param {HTMLElement} itemElement - the element being dragged
+     * Handles the drag start event
+     * @param {DragEvent} event - The drag start event
+     * @param {HTMLElement} itemElement - The element being dragged
      * @private
      */
     _handleDragStart(event, itemElement) {
@@ -204,8 +205,8 @@ export class DragDropSystem {
     }
 
     /**
-     * handles global drag over events
-     * @param {DragEvent} event - the drag over event
+     * Handles global drag over events
+     * @param {DragEvent} event - The drag over event
      * @private
      */
     _handleGlobalDragOver(event) {
@@ -261,10 +262,10 @@ export class DragDropSystem {
         }
     }
 
-        /**
-     * finds the drop zone element under the mouse cursor
-     * @param {HTMLElement} targetElement - the element under the cursor
-     * @returns {HTMLElement|null} the drop zone element or null
+    /**
+     * Finds the drop zone element under the mouse cursor
+     * @param {HTMLElement} targetElement - The element under the cursor
+     * @returns {HTMLElement|null} The drop zone element or null
      * @private
      */
     _getDropZoneUnderMouse(targetElement) {
@@ -279,8 +280,8 @@ export class DragDropSystem {
     }
 
     /**
-     * handles global drop events
-     * @param {DragEvent} event - the drop event
+     * Handles global drop events
+     * @param {DragEvent} event - The drop event
      * @private
      */
     _handleGlobalDrop(event) {
@@ -314,8 +315,8 @@ export class DragDropSystem {
     }
 
     /**
-     * handles global drag end events
-     * @param {DragEvent} event - the drag end event
+     * Handles global drag end events
+     * @param {DragEvent} event - The drag end event
      * @private
      */
     _handleGlobalDragEnd(event) {
@@ -340,7 +341,7 @@ export class DragDropSystem {
     }
 
     /**
-     * cleans up drag state and visual elements
+     * Cleans up drag state and visual elements
      * @private
      */
     _cleanupDragState() {

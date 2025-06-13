@@ -1,17 +1,21 @@
+/**
+ * API function for deleting songs.
+ * Handles song deletion via REST API.
+ */
 
 /**
- * Delete a song via API call.
- * @param {string} songId - The ID of the song to delete.
- * @returns {Promise<string>} Promise that resolves to the song ID.
+ * Delete a song via API call
+ * @param {string} songId - The ID of the song to delete
+ * @returns {Promise<string>} Promise that resolves to the song ID
  */
 export function apiSongDelete(songId) {
-    // log the operation
-    console.log(`deleting song_id: ${songId}`);
+    // Log the operation
+    console.log(`Deleting song_id: ${songId}`);
 
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_song_delete', {
         method: 'DELETE',
         headers: {
@@ -30,10 +34,10 @@ export function apiSongDelete(songId) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('delete operation returned success');
+            console.log('Delete operation returned success');
             return data.song_id;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to delete song');
         }
     })

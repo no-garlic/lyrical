@@ -1,4 +1,9 @@
 
+/**
+ * Lyrics page - Complex lyrics editing and generation system
+ * Handles AI-powered lyrics generation, editing modes, drag-drop, markup system, and streaming
+ */
+
 import { StreamHelper } from "./util_stream_helper.js";
 import { toastSystem } from './util_toast.js';
 import { DragDropSystem } from './util_dragdrop.js';
@@ -9,7 +14,7 @@ import { Markup } from './util_markup.js';
 import { checkSummarizationAndGenerate } from './util_summarization_modal.js';
 
 
-// Matches BadgeLyrics.html
+// Matches BadgeLyrics.html - Badge button indices for lyrics editing
 const BADGES = {
     MARKER_BUTTON: 0,
     ERASER_BUTTON: 1,
@@ -21,8 +26,7 @@ const BADGES = {
     TOOLS_BUTTON: 7,
 };
 
-
-// Matches BadgeLyrics.html
+// Matches BadgeLyrics.html - Panel indices for editing modes
 const PANELS = {
     TEXTAREA: 0,
     INTERACTIVE: 1,
@@ -30,6 +34,7 @@ const PANELS = {
 };
 
 
+// Global state variables
 let streamHelperSong;
 let streamHelperSongIsGenerating = false;
 let streamHelperSection;
@@ -42,10 +47,12 @@ let lyricsHistory = {};
 let editCard = null;
 let editMode = 'none';
 
-
 const songId = document.body.dataset.songId;
 
 
+/**
+ * Initialize the lyrics page when DOM is loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     initPageActions();
     initBadgeActions();
@@ -63,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // =================================================================================
 
 
+/**
+ * Initialize page navigation and action buttons
+ */
 function initPageActions() {
     // navigate next button
     const nextButton = document.getElementById('btn-navigate-next');
@@ -86,6 +96,9 @@ function initPageActions() {
 }
 
 
+/**
+ * Initialize badge action buttons and their event handlers
+ */
 function initBadgeActions() {
     document.querySelectorAll('.badge-marker-button').forEach(button => {
         button.onclick = badgeMarkerButtonClick;
@@ -135,10 +148,12 @@ function initBadgeActions() {
             }            
         });
     });
-
 }
 
 
+/**
+ * Initialize streaming helpers for different generation types
+ */
 function initStreamHelpers() {
     streamHelperSong = createStreamHelperSong();
     streamHelperSection = createStreamHelperSection();
@@ -146,8 +161,11 @@ function initStreamHelpers() {
 }
 
 
+/**
+ * Initialize drag and drop system for lyrics sections and words
+ * @returns {DragDropSystem} The initialized drag drop system
+ */
 function initDragDrop() {
-    
     // create the drag and drop system and assign to module-level variable
     dragDropSystem = new DragDropSystem({ 
         insertElementOnDrop: false
@@ -176,6 +194,9 @@ function initDragDrop() {
 }
 
 
+/**
+ * Initialize the markup system for text highlighting and editing
+ */
 function initMarkupSystem() {
     markupSystem = new Markup({
         markerMulti: 'bg-error',
@@ -213,6 +234,9 @@ function initMarkupSystem() {
 // =================================================================================
 
 
+/**
+ * Handle generate button click for full song lyrics generation
+ */
 function handleGenerateClick() {
     const actualGenerate = () => {
         const requestParams = {
@@ -226,6 +250,9 @@ function handleGenerateClick() {
 }
 
 
+/**
+ * Handle regenerate button click for section-specific lyrics generation
+ */
 function handleRegenerateClick() {
     if (editCard) {
         const actualRegenerate = () => {
@@ -278,6 +305,10 @@ function handleRegenerateClick() {
 }
 
 
+/**
+ * Create stream helper for full song lyrics generation
+ * @returns {StreamHelper} Configured stream helper for song generation
+ */
 function createStreamHelperSong() {
     return new StreamHelper('/api_gen_song_lyrics', {
         callbacks: {
@@ -306,6 +337,10 @@ function createStreamHelperSong() {
 }
 
 
+/**
+ * Create stream helper for section-specific lyrics generation
+ * @returns {StreamHelper} Configured stream helper for section generation
+ */
 function createStreamHelperSection() {
     return new StreamHelper('/api_gen_song_lyrics_section', {
         callbacks: {
@@ -334,6 +369,10 @@ function createStreamHelperSection() {
 
 
 
+/**
+ * Create stream helper for rhyme word generation
+ * @returns {StreamHelper} Configured stream helper for rhyme generation
+ */
 function createStreamHelperRhyme() {
     return new StreamHelper('/api_gen_song_words', {
         callbacks: {
@@ -361,6 +400,9 @@ function createStreamHelperRhyme() {
 }
 
 
+/**
+ * Handle UI changes when song generation starts
+ */
 function handleSongDataStreamStart() {
     streamHelperSongIsGenerating = true;
 
@@ -380,6 +422,9 @@ function handleSongDataStreamStart() {
 }
 
 
+/**
+ * Handle UI changes when section generation starts
+ */
 function handleSectionDataStreamStart() {
     console.log(`handleSectionDataStreamStart: ${regenerateButton}`);
 
@@ -398,6 +443,9 @@ function handleSectionDataStreamStart() {
 }
 
 
+/**
+ * Handle UI changes when rhyme generation starts
+ */
 function handleRhymeDataStreamStart() {
     console.log(`handleRhymeDataStreamStart: ${regenerateButton}`);
 
@@ -416,6 +464,10 @@ function handleRhymeDataStreamStart() {
 }
 
 
+/**
+ * Handle UI changes when song generation ends
+ * @param {Object} summaryInfo - Summary information from the stream
+ */
 function handleSongDataStreamEnd(summaryInfo) {
     streamHelperSongIsGenerating = false;
 
@@ -436,6 +488,10 @@ function handleSongDataStreamEnd(summaryInfo) {
 }
 
 
+/**
+ * Handle UI changes when section generation ends
+ * @param {Object} summaryInfo - Summary information from the stream
+ */
 function handleSectionDataStreamEnd(summaryInfo) {
     console.log(`handleSectionDataStreamEnd: ${regenerateButton}`);
 
@@ -456,6 +512,10 @@ function handleSectionDataStreamEnd(summaryInfo) {
 }
 
 
+/**
+ * Handle UI changes when rhyme generation ends
+ * @param {Object} summaryInfo - Summary information from the stream
+ */
 function handleRhymeDataStreamEnd(summaryInfo) {
     console.log(`handleRhymeDataStreamEnd: ${regenerateButton}`);
 
@@ -476,6 +536,10 @@ function handleRhymeDataStreamEnd(summaryInfo) {
 }
 
 
+/**
+ * Handle incoming song data from streaming generation
+ * @param {Object} data - Streaming data containing sections and lyrics
+ */
 function handleSongDataStreamData(data) {
     if (data) {
         // Check if this is an error response
@@ -502,6 +566,10 @@ function handleSongDataStreamData(data) {
 }
 
 
+/**
+ * Handle incoming section data from streaming generation
+ * @param {Object} data - Streaming data containing section info and lyrics
+ */
 function handleSectionDataStreamData(data) {
     if (data) {
         // Check if this is an error response
@@ -537,6 +605,10 @@ function handleSectionDataStreamData(data) {
 }
 
 
+/**
+ * Handle incoming rhyme data from streaming generation
+ * @param {Object} data - Streaming data containing rhyme word and position info
+ */
 function handleRhymeDataStreamData(data) {
     if (data) {
         // Check if this is an error response
@@ -570,18 +642,30 @@ function handleRhymeDataStreamData(data) {
 }
 
 
+/**
+ * Handle song generation stream errors
+ * @param {Object} error - Error object from the stream
+ */
 function handleSongDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
 }
 
 
+/**
+ * Handle section generation stream errors
+ * @param {Object} error - Error object from the stream
+ */
 function handleSectionDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
 }
 
 
+/**
+ * Handle rhyme generation stream errors
+ * @param {Object} error - Error object from the stream
+ */
 function handleRhymeDataStreamError(error) {
     const errorStr = JSON.stringify(error, null, 2);
     toastSystem.showError(errorStr);
@@ -593,6 +677,12 @@ function handleRhymeDataStreamError(error) {
 // =================================================================================
 
 
+/**
+ * Handle drag and drop operations for sections and words
+ * @param {Object} item - The dragged item
+ * @param {Object} zone - The drop zone
+ * @param {Event} event - The drag event
+ */
 function handleDragDrop(item, zone, event) {
     const itemId = item.element.id;
     if (itemId.toLowerCase().includes('section')) {
@@ -603,6 +693,12 @@ function handleDragDrop(item, zone, event) {
 }
 
 
+/**
+ * Handle drag and drop operations for section elements
+ * @param {Object} item - The dragged section item
+ * @param {Object} zone - The drop zone
+ * @param {Event} event - The drag event
+ */
 function handleSectionDragDrop(item, zone, event) {
     const sectionId = item.element.dataset.sectionId;
     const sourceTextElement = document.getElementById(`section-text-${sectionId}`);
@@ -626,6 +722,12 @@ function handleSectionDragDrop(item, zone, event) {
 }
 
 
+/**
+ * Handle drag and drop operations for word elements
+ * @param {Object} item - The dragged word item
+ * @param {Object} zone - The drop zone
+ * @param {Event} event - The drag event
+ */
 function handleWordDragDrop(item, zone, event) {
     const dropWord = item.element.dataset.word;
     const dropLine = parseInt(item.element.dataset.line);
@@ -658,6 +760,10 @@ function handleWordDragDrop(item, zone, event) {
 }
 
 
+/**
+ * Register a card for drag and drop functionality
+ * @param {Element} card - The card element to register
+ */
 function registerCardForDragDrop(card) {
     const sectionId = card.dataset.sectionId;
     //console.log(`registering card for drag-drop: ${sectionId}`)
@@ -665,6 +771,10 @@ function registerCardForDragDrop(card) {
 }
 
 
+/**
+ * Register a word card for drag and drop functionality
+ * @param {Element} card - The word card element to register
+ */
 function registerWordForDragDrop(card) {
     const word = card.dataset.word;
     //console.log(`registering word for drag-drop: ${word}`)
@@ -677,6 +787,9 @@ function registerWordForDragDrop(card) {
 // =================================================================================
 
 
+/**
+ * Save lyrics changes to the server
+ */
 function saveLyrics() {
     let lyrics = {}
 
@@ -709,6 +822,9 @@ function saveLyrics() {
 }
 
 
+/**
+ * Undo lyrics changes by restoring from save history
+ */
 function undoLyrics() {
     copyFromSaveHistory();
     updateLyricsListing();
@@ -717,6 +833,10 @@ function undoLyrics() {
 }
 
 
+/**
+ * Update all duplicate sections with the same lyrics content
+ * @param {HTMLElement} textarea - The source textarea element
+ */
 function updateAllDuplicateSections(textarea) {
     const lyricsId = textarea.dataset.lyricsId;
 
@@ -729,6 +849,9 @@ function updateAllDuplicateSections(textarea) {
 }
 
 
+/**
+ * Copy current lyrics to save history for undo functionality
+ */
 function copyToSaveHistory() {
     //console.log(`copyToSaveHistory():`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
@@ -738,6 +861,9 @@ function copyToSaveHistory() {
 }
 
 
+/**
+ * Restore lyrics from save history for undo functionality
+ */
 function copyFromSaveHistory() {
     //console.log(`copyFromSaveHistory()`);
     document.querySelectorAll('[id*="lyrics-text-"').forEach(item => {
@@ -747,6 +873,11 @@ function copyFromSaveHistory() {
 }
 
 
+/**
+ * Display generated lyrics for a specific section
+ * @param {string} section - The section name
+ * @param {string} words - The lyrics content
+ */
 function displayLyrics(section, words) {
     const container = document.getElementById('song-lyrics-text')
     container.dataset.songGenerated = 'true';
@@ -761,6 +892,9 @@ function displayLyrics(section, words) {
 }
 
 
+/**
+ * Update the lyrics listing display with current section content
+ */
 function updateLyricsListing() {
     const container = document.getElementById('song-lyrics-text')
     container.innerHTML = '';
@@ -806,6 +940,9 @@ function updateLyricsListing() {
 }
 
 
+/**
+ * Copy lyrics to clipboard with fallback for older browsers
+ */
 function copyLyrics() {
     const container = document.getElementById('song-lyrics-text')
     const lyrics = container.innerText.replace(/\n\s*\n\s*\n+/g, '\n\n');
@@ -841,6 +978,9 @@ function copyLyrics() {
 }
 
 
+/**
+ * Export lyrics as a downloadable text file
+ */
 function exportLyrics() {
     const container = document.getElementById('song-lyrics-text')
     const lyrics = container.innerText.replace(/\n\s*\n\s*\n+/g, '\n\n');
@@ -878,6 +1018,10 @@ function exportLyrics() {
 }
 
 
+/**
+ * Set the dirty state of lyrics and update UI accordingly
+ * @param {boolean} [dirty=true] - Whether lyrics are dirty (have unsaved changes)
+ */
 function setLyricsDirty(dirty = true) {
 
     if (dirty) 
@@ -908,6 +1052,9 @@ function setLyricsDirty(dirty = true) {
 // =================================================================================
 
 
+/**
+ * Handle badge marker button click to select marker tool
+ */
 function badgeMarkerButtonClick() {
     if (markupSystem) {
         markupSystem.selectMarker();
@@ -915,6 +1062,9 @@ function badgeMarkerButtonClick() {
 }
 
 
+/**
+ * Handle badge eraser button click to select eraser tool
+ */
 function badgeEraserButtonClick() {
     if (markupSystem) {
         markupSystem.selectEraser();
@@ -922,6 +1072,9 @@ function badgeEraserButtonClick() {
 }
 
 
+/**
+ * Handle badge tools button click to enter text edit mode
+ */
 function badgeToolsButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('textedit', allButtons);
@@ -929,6 +1082,12 @@ function badgeToolsButtonClick() {
 }
 
 
+/**
+ * Handle badge exit button click to exit current edit mode
+ */
+/**
+ * Handle badge exit button click to exit current editing mode
+ */
 function badgeExitButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     if (lyricsDirty) {
@@ -938,30 +1097,45 @@ function badgeExitButtonClick() {
 }
 
 
+/**
+ * Handle badge rhyme button click to enter rhyme editing mode
+ */
 function badgeRhymeButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('rhyme', allButtons);  
 }
 
 
+/**
+ * Handle badge interactive button click to enter interactive editing mode
+ */
 function badgeInteractiveButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('interactive', allButtons);  
 }
 
 
+/**
+ * Handle badge text edit button click to enter text editing mode
+ */
 function badgeTextEditButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('textedit', allButtons);    
 }
 
 
+/**
+ * Handle badge regenerate button click to enter regeneration mode
+ */
 function badgeRegenerateButtonClick() {
     const allButtons = this.parentNode.querySelectorAll('.badge-button');
     enterEditMode('regenerate', allButtons);
 }
 
 
+/**
+ * Handle badge hide button click to hide a lyrics section
+ */
 function badgeHideButtonClick() {
     const sectionId = this.dataset.lyricsId;
     console.log(`hiding section with Id=${sectionId}`);
@@ -988,6 +1162,11 @@ function badgeHideButtonClick() {
 }
 
 
+/**
+ * Enter a specific editing mode (none, textedit, interactive, rhyme, regenerate)
+ * @param {string} mode - The editing mode to enter
+ * @param {NodeList} allButtons - Array of all badge buttons
+ */
 function enterEditMode(mode, allButtons) {
     editMode = mode;
 
@@ -1091,6 +1270,10 @@ function enterEditMode(mode, allButtons) {
 }
 
 
+/**
+ * Update the header title based on the current editing mode
+ * @param {string} mode - The current editing mode
+ */
 function updateHeaderTitle(mode) {
     setTimeout(() => {
         const regenerateHeaderTitle = document.getElementById('regenerate-header-title');
@@ -1106,6 +1289,11 @@ function updateHeaderTitle(mode) {
 }
 
 
+/**
+ * Show or hide the text area editing interface
+ * @param {boolean} show - Whether to show or hide the text area
+ * @param {HTMLElement} buttonTextEdit - The text edit button element
+ */
 function showEditTextArea(show, buttonTextEdit) {
     const panels = buttonTextEdit.parentNode.nextElementSibling.children;
     const textArea = panels[PANELS.TEXTAREA];
@@ -1118,6 +1306,11 @@ function showEditTextArea(show, buttonTextEdit) {
 }
 
 
+/**
+ * Show or hide the regenerate editing interface
+ * @param {boolean} show - Whether to show or hide the regenerate panel
+ * @param {HTMLElement} buttonRegenerate - The regenerate button element
+ */
 function showEditRegenerate(show, buttonRegenerate) {
     const panels = buttonRegenerate.parentNode.nextElementSibling.children;
     const editRegeneratePanel = panels[PANELS.REGENERATE];
@@ -1133,6 +1326,11 @@ function showEditRegenerate(show, buttonRegenerate) {
 }
 
 
+/**
+ * Show or hide the rhyme editing interface
+ * @param {boolean} show - Whether to show or hide the rhyme panel
+ * @param {HTMLElement} buttonRhyme - The rhyme button element
+ */
 function showEditRhyme(show, buttonRhyme) {
     const panels = buttonRhyme.parentNode.nextElementSibling.children;
     const editInteractivePanel = panels[PANELS.INTERACTIVE];
@@ -1160,6 +1358,11 @@ function showEditRhyme(show, buttonRhyme) {
 }
 
 
+/**
+ * Show or hide the interactive editing interface
+ * @param {boolean} show - Whether to show or hide the interactive panel
+ * @param {HTMLElement} buttonInteractive - The interactive button element
+ */
 function showEditInteractive(show, buttonInteractive) {
     const panels = buttonInteractive.parentNode.nextElementSibling.children;
     const editInteractivePanel = panels[PANELS.INTERACTIVE];
@@ -1187,6 +1390,11 @@ function showEditInteractive(show, buttonInteractive) {
 }
 
 
+/**
+ * Copy text content to the interactive editing panel
+ * @param {string} lyrics - The lyrics text to copy
+ * @param {HTMLElement} panel - The interactive panel element
+ */
 function copyTextToInteractivePanel(lyrics, panel) {
     console.log(`panel: ${panel.id}`)
     if (markupSystem) {
@@ -1196,16 +1404,28 @@ function copyTextToInteractivePanel(lyrics, panel) {
 }
 
 
+/**
+ * Get text content from the interactive editing panel
+ * @param {string} [style='markup'] - The style of text to retrieve ('markup', 'raw', 'replacement')
+ * @returns {string} The text content from the interactive panel
+ */
 function getTextFromInteractivePanel(style = 'markup') {
     return markupSystem.getText(style);
 }
 
 
+/**
+ * Get the first marked word from the interactive editing panel
+ * @returns {Object} Object containing word, line, and index properties
+ */
 function getFirstMarkedWordFromInteractivePanel() {
     return markupSystem.getFirstMarkedWord();
 }
 
 
+/**
+ * Update the interactive panel with current text content
+ */
 function updateInteractivePanel() {
     if (editCard && editMode == 'interactive') {
         const textArea = editCard.children[1].children[PANELS.TEXTAREA];
@@ -1218,6 +1438,9 @@ function updateInteractivePanel() {
 }
 
 
+/**
+ * Debug function to show interactive text in different formats
+ */
 function debugShowInteractiveText() {
     const textRaw = getTextFromInteractivePanel('raw');
     const textMarkup = getTextFromInteractivePanel('markup');
@@ -1229,6 +1452,11 @@ function debugShowInteractiveText() {
 }
 
 
+/**
+ * Update the appearance of a button based on its state
+ * @param {HTMLElement} button - The button element to update
+ * @param {string} appearance - The appearance state ('shown', 'active', 'hidden')
+ */
 function updateButtonAppearance(button, appearance) {
     if (appearance === 'shown') {
         button.classList.remove('hidden', 'bg-primary', 'hover:border-primary');
@@ -1247,6 +1475,11 @@ function updateButtonAppearance(button, appearance) {
 }
 
 
+/**
+ * Hide or show all section cards with optional exception
+ * @param {string} showOrHide - Whether to 'show' or 'hide' sections
+ * @param {HTMLElement} [except=null] - Optional section card to exclude from the operation
+ */
 function hideOrShowAllSections(showOrHide, except=null) {
     document.querySelectorAll('.song-section-card').forEach(card => {
         if (card != except) {
@@ -1262,6 +1495,12 @@ function hideOrShowAllSections(showOrHide, except=null) {
 }
 
 
+/**
+ * Add a new lyrics section to the generated sections container
+ * @param {number} sectionId - The ID of the section
+ * @param {string} section - The section type (verse, chorus, etc.)
+ * @param {string} lyrics - The lyrics text
+ */
 function addNewLyricsSection(sectionId, section, lyrics) {
     console.log(`create card for section (${section}) with lyrics:\n${lyrics}.`)
 
@@ -1285,6 +1524,12 @@ function addNewLyricsSection(sectionId, section, lyrics) {
 }
 
 
+/**
+ * Add a new rhyme word to the generated rhymes container
+ * @param {string} word - The rhyme word
+ * @param {number} line - The line number in the text
+ * @param {number} index - The word index in the line
+ */
 function addNewRhymeWord(word, line, index) {
     // ensure the word is unique
     const currentWords = getCurrentWordsFromRhymeContainer();
@@ -1311,6 +1556,10 @@ function addNewRhymeWord(word, line, index) {
 }
 
 
+/**
+ * Get current words from the rhyme container to avoid duplicates
+ * @returns {Array<string>} Array of current rhyme words
+ */
 function getCurrentWordsFromRhymeContainer() {
     let currentWords = [];
 
@@ -1325,6 +1574,9 @@ function getCurrentWordsFromRhymeContainer() {
 }
 
 
+/**
+ * Apply filter to show/hide sections based on current edit card
+ */
 function applyFilter() {
     if (editCard) {
         const filter = editCard.firstElementChild.dataset.sectionName;
@@ -1339,6 +1591,10 @@ function applyFilter() {
 }
 
 
+/**
+ * Hide a section card with smooth animation
+ * @param {HTMLElement} card - The section card to hide
+ */
 function hideSectionCard(card) {
     // If already hidden or in process of hiding, do nothing
     if (card.classList.contains('collapsed') || card.classList.contains('collapsing-hide')) {
@@ -1369,6 +1625,10 @@ function hideSectionCard(card) {
 }
 
 
+/**
+ * Show a section card with smooth animation
+ * @param {HTMLElement} card - The section card to show
+ */
 function showSectionCard(card) {
     // If already visible or in process of showing, do nothing
     if (!card.classList.contains('collapsed') && !card.classList.contains('collapsing-show')) {
@@ -1402,6 +1662,9 @@ function showSectionCard(card) {
 }
 
 
+/**
+ * Clear all visible sections from the generated sections container
+ */
 function clearAllVisibleSections() {
     const sectionContainer = document.getElementById('generated-sections');
 
@@ -1431,6 +1694,9 @@ function clearAllVisibleSections() {
 }
 
 
+/**
+ * Clear all visible words from the generated rhymes container
+ */
 function clearAllVisibleWords() {
     const container = document.getElementById('generated-rhymes');
 
@@ -1442,6 +1708,9 @@ function clearAllVisibleWords() {
 }
 
 
+/**
+ * Update markup button appearances based on current tool selection
+ */
 function updateMarkupButtonAppearances() {
     if (!editCard || !markupSystem) return;
     
@@ -1459,6 +1728,9 @@ function updateMarkupButtonAppearances() {
 }
 
 
+/**
+ * Update regenerate button appearance based on current state and mode
+ */
 function updateRegenerateButtonAppearance() {
     if (editMode === 'interactive' || editMode === 'rhyme') {
         const { word, line, index } = markupSystem.getFirstMarkedWord();

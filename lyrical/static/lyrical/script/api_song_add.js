@@ -1,17 +1,21 @@
+/**
+ * API function for adding new songs.
+ * Handles song creation via REST API.
+ */
 
 /**
- * Add a new song via API call.
- * @param {string} songName - The name of the song to add.
- * @returns {Promise<string>} Promise that resolves to the song ID.
+ * Add a new song via API call
+ * @param {string} songName - The name of the song to add
+ * @returns {Promise<string>} Promise that resolves to the song ID
  */
 export function apiSongAdd(songName) {
-    // log the operation
-    console.log(`adding new song with name: ${songName}`);
+    // Log the operation
+    console.log(`Adding new song with name: ${songName}`);
 
-    // get CSRF token
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_song_add', {
         method: 'POST',
         headers: {
@@ -30,10 +34,10 @@ export function apiSongAdd(songName) {
     })
     .then(data => {
         if (data.status === 'success' && data.song_id) {
-            console.log('add operation returned success, new song id: ', data.song_id);
+            console.log('Add operation returned success, new song id: ', data.song_id);
             return data.song_id;
         } else {
-            console.log('no data.status received or song_id missing');
+            console.log('No data.status received or song_id missing');
             throw new Error('Failed to add song or song_id missing in response');
         }
     })

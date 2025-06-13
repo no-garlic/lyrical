@@ -1,19 +1,23 @@
+/**
+ * API function for bulk editing sections.
+ * Handles updating multiple sections of a song at once.
+ */
 
 /**
- * Edit all sections of a song via API call.
- * @param {string} songId - The ID of the song to edit.
- * @param {Boolean} hidden - The hidden field to update.
- * @returns {Promise<string>} Promise that resolves to the song ID.
+ * Edit all sections of a song via API call
+ * @param {string} songId - The ID of the song to edit
+ * @param {boolean} isHidden - The hidden field to update
+ * @param {Array} [styleIds=null] - Optional array of specific style IDs to update
+ * @returns {Promise<string>} Promise that resolves to the song ID
  */
-export function apiSectionEditBulk(songId, isHidden, styleIds=None) {
-
-    // get CSRF token
+export function apiSectionEditBulk(songId, isHidden, styleIds = null) {
+    // Get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // build request body with only provided fields
+    // Build request body with only provided fields
     const requestBody = { song_id: songId, hidden: isHidden, style_ids: styleIds };
 
-    // send the request to the server
+    // Send the request to the server
     return fetch('/api_section_edit_bulk', {
         method: 'PUT',
         headers: {
@@ -30,10 +34,10 @@ export function apiSectionEditBulk(songId, isHidden, styleIds=None) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('edit operation returned success');
+            console.log('Edit operation returned success');
             return data.song_id;
         } else {
-            console.log('no data.status received');
+            console.log('No data.status received');
             throw new Error('Failed to edit sections');
         }
     })

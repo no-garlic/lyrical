@@ -1,15 +1,14 @@
-
 /**
- * helper class for handling streaming http requests with ndjson responses
- * provides callbacks for different stages of the streaming process
+ * Helper class for handling streaming HTTP requests with NDJSON responses.
+ * Provides callbacks for different stages of the streaming process.
  */
 export class StreamHelper {
     /**
-     * creates a new streamhelper instance
-     * @param {string} baseUrl - the base url for the streaming endpoint
-     * @param {object} [options={}] - configuration options
-     * @param {object} [options.callbacks] - callback functions for stream events
-     * @param {string} [options.csrfTokenSelector] - css selector for csrf token element
+     * Creates a new StreamHelper instance
+     * @param {string} baseUrl - The base URL for the streaming endpoint
+     * @param {Object} [options={}] - Configuration options
+     * @param {Object} [options.callbacks] - Callback functions for stream events
+     * @param {string} [options.csrfTokenSelector] - CSS selector for CSRF token element
      */
     constructor(baseUrl, options = {}) {
         this.baseUrl = baseUrl;
@@ -27,33 +26,33 @@ export class StreamHelper {
     }
 
     /**
-     * sets a url parameter that will be included in requests
-     * @param {string} name - the name of the parameter
-     * @param {string} value - the value of the parameter
+     * Sets a URL parameter that will be included in requests
+     * @param {string} name - The name of the parameter
+     * @param {string} value - The value of the parameter
      */
     setParameter(name, value) {
         this.params.set(name, value);
     }
 
     /**
-     * removes a default url parameter
-     * @param {string} name - the name of the parameter
+     * Removes a default URL parameter
+     * @param {string} name - The name of the parameter
      */
     removeParameter(name) {
         this.params.delete(name);
     }
 
     /**
-     * clears all default url parameters
+     * Clears all default URL parameters
      */
     clearParameters() {
         this.params = new URLSearchParams();
     }
 
     /**
-     * initiates the streaming request
-     * @param {object} [requestSpecificParams={}] - parameters for this specific request
-     *                                            these are combined with and can override default parameters
+     * Initiates the streaming request
+     * @param {Object} [requestSpecificParams={}] - Parameters for this specific request
+     *                                            These are combined with and can override default parameters
      */
     initiateRequest(requestSpecificParams = {}) {
         if (this.abortController) {
@@ -79,9 +78,9 @@ export class StreamHelper {
     }
 
     /**
-     * builds final parameters combining default and request-specific params
-     * @param {object} requestSpecificParams - request-specific parameters
-     * @returns {URLSearchParams} combined parameters
+     * Builds final parameters combining default and request-specific params
+     * @param {Object} requestSpecificParams - Request-specific parameters
+     * @returns {URLSearchParams} Combined parameters
      * @private
      */
     _buildFinalParams(requestSpecificParams) {
@@ -95,8 +94,8 @@ export class StreamHelper {
     }
 
     /**
-     * retrieves csrf token from the document
-     * @returns {string|null} csrf token value or null if not found
+     * Retrieves CSRF token from the document
+     * @returns {string|null} CSRF token value or null if not found
      * @private
      */
     _getCsrfToken() {
@@ -104,17 +103,17 @@ export class StreamHelper {
         const csrfToken = csrfTokenInput ? csrfTokenInput.value : null;
 
         if (!csrfToken) {
-            console.warn('csrf token not found using selector:', this.csrfTokenSelector, '. request might fail.');
+            console.warn('CSRF token not found using selector:', this.csrfTokenSelector, '. Request might fail.');
         }
 
         return csrfToken;
     }
 
     /**
-     * builds fetch options for the request
-     * @param {string|null} csrfToken - csrf token
-     * @param {AbortSignal} signal - abort signal
-     * @returns {object} fetch options
+     * Builds fetch options for the request
+     * @param {string|null} csrfToken - CSRF token
+     * @param {AbortSignal} signal - Abort signal
+     * @returns {Object} Fetch options
      * @private
      */
     _buildFetchOptions(csrfToken, signal) {
@@ -129,9 +128,9 @@ export class StreamHelper {
     }
 
     /**
-     * handles the fetch response
-     * @param {Response} response - fetch response
-     * @returns {Promise} promise that resolves after processing the stream
+     * Handles the fetch response
+     * @param {Response} response - Fetch response
+     * @returns {Promise} Promise that resolves after processing the stream
      * @private
      */
     _handleResponse(response) {
@@ -139,15 +138,15 @@ export class StreamHelper {
             return this._handleServerError(response);
         }
         if (!response.body) {
-            throw { type: 'network', message: 'response body is missing.', response: response };
+            throw { type: 'network', message: 'Response body is missing.', response: response };
         }
         return this._processStream(response.body);
     }
 
     /**
-     * handles server error responses
-     * @param {Response} response - fetch response with error
-     * @returns {Promise} rejected promise with error details
+     * Handles server error responses
+     * @param {Response} response - Fetch response with error
+     * @returns {Promise} Rejected promise with error details
      * @private
      */
     _handleServerError(response) {
@@ -156,7 +155,7 @@ export class StreamHelper {
                 throw {
                     type: 'server',
                     status: response.status,
-                    message: errData.error || errData.detail || response.statusText || 'server error',
+                    message: errData.error || errData.detail || response.statusText || 'Server error',
                     data: errData,
                     response: response
                 };
@@ -165,25 +164,25 @@ export class StreamHelper {
                 throw {
                     type: 'server',
                     status: response.status,
-                    message: response.statusText || 'server error with non-json response',
+                    message: response.statusText || 'Server error with non-JSON response',
                     response: response
                 };
             });
     }
 
     /**
-     * handles fetch errors
-     * @param {Error} error - error object
+     * Handles fetch errors
+     * @param {Error} error - Error object
      * @private
      */
     _handleError(error) {
         if (error.name === 'AbortError') {
-            console.log('fetch aborted by user.');
+            console.log('Fetch aborted by user.');
             return;
         }
         const errorObject = {
             type: error.type || 'network',
-            message: error.message || 'an unexpected network or request error occurred.',
+            message: error.message || 'An unexpected network or request error occurred.',
             status: error.status,
             data: error.data,
             originalError: error
@@ -193,7 +192,7 @@ export class StreamHelper {
     }
 
     /**
-     * aborts the current streaming request, if any
+     * Aborts the current streaming request, if any
      */
     abortRequest() {
         if (this.abortController) {
@@ -202,9 +201,9 @@ export class StreamHelper {
     }
 
     /**
-     * processes the streaming response body
-     * @param {ReadableStream} readableStream - the response stream
-     * @returns {Promise} promise that resolves when stream processing is complete
+     * Processes the streaming response body
+     * @param {ReadableStream} readableStream - The response stream
+     * @returns {Promise} Promise that resolves when stream processing is complete
      * @private
      */
     async _processStream(readableStream) {
@@ -236,20 +235,20 @@ export class StreamHelper {
     }
 
     /**
-     * processes any remaining data in the buffer when stream ends
-     * @param {string} accumulatedData - remaining data
+     * Processes any remaining data in the buffer when stream ends
+     * @param {string} accumulatedData - Remaining data
      * @private
      */
     _processRemainingData(accumulatedData) {
         if (accumulatedData.trim() !== '') {
-            console.warn('stream ended with unprocessed data in buffer:', accumulatedData);
+            console.warn('Stream ended with unprocessed data in buffer:', accumulatedData);
             try {
                 const jsonData = JSON.parse(accumulatedData);
                 this.callbacks.onIncomingData(jsonData);
             } catch (e) {
                 this.callbacks.onError({
                     type: 'parsing',
-                    message: 'failed to parse final json object from stream buffer.',
+                    message: 'Failed to parse final JSON object from stream buffer.',
                     raw_content: accumulatedData,
                     details: e.toString(),
                 });
@@ -258,9 +257,9 @@ export class StreamHelper {
     }
 
     /**
-     * processes complete lines from accumulated data
-     * @param {string} accumulatedData - accumulated stream data
-     * @returns {string} remaining unprocessed data
+     * Processes complete lines from accumulated data
+     * @param {string} accumulatedData - Accumulated stream data
+     * @returns {string} Remaining unprocessed data
      * @private
      */
     _processLines(accumulatedData) {
@@ -277,8 +276,8 @@ export class StreamHelper {
     }
 
     /**
-     * parses a single line as json
-     * @param {string} line - line to parse
+     * Parses a single line as JSON
+     * @param {string} line - Line to parse
      * @private
      */
     _parseLine(line) {
@@ -288,7 +287,7 @@ export class StreamHelper {
         } catch (e) {
             this.callbacks.onError({
                 type: 'parsing',
-                message: 'failed to parse ndjson line from stream.',
+                message: 'Failed to parse NDJSON line from stream.',
                 raw_content: line,
                 details: e.toString(),
             });
@@ -296,25 +295,25 @@ export class StreamHelper {
     }
 
     /**
-     * handles errors during stream processing
-     * @param {Error} error - error object
+     * Handles errors during stream processing
+     * @param {Error} error - Error object
      * @private
      */
     _handleStreamError(error) {
         if (error.name === 'AbortError') {
-            console.log('stream reading aborted by user.');
+            console.log('Stream reading aborted by user.');
             return;
         }
         this.callbacks.onError({
             type: 'stream_processing',
-            message: 'error while processing the data stream.',
+            message: 'Error while processing the data stream.',
             details: error.toString(),
             originalError: error,
         });
     }
 
     /**
-     * handles completion by checking summarization status and calling onComplete callback
+     * Handles completion by checking summarization status and calling onComplete callback
      * @private
      */
     async _handleCompletion() {
@@ -354,8 +353,8 @@ export class StreamHelper {
     }
 
     /**
-     * determines if summarization status should be checked for this endpoint
-     * @returns {boolean} true if summarization check should be performed
+     * Determines if summarization status should be checked for this endpoint
+     * @returns {boolean} True if summarization check should be performed
      * @private
      */
     _shouldCheckSummarization() {

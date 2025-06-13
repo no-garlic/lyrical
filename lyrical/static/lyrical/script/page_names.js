@@ -167,6 +167,10 @@ function initSongManagement() {
 }
 
 
+/**
+ * Add double-click event listener to a song card to navigate to the style page
+ * @param {HTMLElement} card - The song card element to add the listener to
+ */
 function addEventListenerToCard(card) {
     card.addEventListener('dblclick', (event) => {
         const songId = card.dataset.songId;
@@ -176,6 +180,10 @@ function addEventListenerToCard(card) {
 }
 
 
+/**
+ * Get the currently active filter stage from the filter tabs
+ * @returns {string|undefined} The active filter stage ('new', 'liked', 'disliked') or undefined if none selected
+ */
 function getFilterStage() {
     let filterStage = undefined;
 
@@ -189,6 +197,10 @@ function getFilterStage() {
 }
 
 
+/**
+ * Apply the current filter to show/hide song cards and update button states
+ * Handles visibility of songs based on their stage and manages UI state accordingly
+ */
 function applyFilter() {
     const filterStage = getFilterStage();
     const container = document.getElementById('songs-container');
@@ -319,6 +331,11 @@ function initializeNewSongCard(songId, songName) {
 }
 
 
+/**
+ * Toggle the like status of a song between 'liked' and 'new' stages
+ * Updates the UI elements and calls the API to persist the change
+ * @param {string} songId - The ID of the song to like/unlike
+ */
 function likeSong(songId) {
     const card = document.getElementById(`song-card-${songId}`);
 
@@ -350,6 +367,11 @@ function likeSong(songId) {
 }
 
 
+/**
+ * Toggle the dislike status of a song between 'disliked' and 'new' stages
+ * Updates the UI elements and calls the API to persist the change
+ * @param {string} songId - The ID of the song to dislike/undislike
+ */
 function dislikeSong(songId) {
     const card = document.getElementById(`song-card-${songId}`);
 

@@ -4,9 +4,9 @@
  */
 
 /**
- * Check if any conversations for a song need summarisation.
- * @param {string|number} songId - The ID of the song to check.
- * @returns {Promise<Object>} Promise that resolves to summarisation status information.
+ * Check if any conversations for a song need summarisation
+ * @param {string|number} songId - The ID of the song to check
+ * @returns {Promise<Object>} Promise that resolves to summarisation status information
  */
 export function apiCheckSummarisationStatus(songId) {
     const url = new URL('/api_check_summarisation_status', window.location.origin);
@@ -37,11 +37,11 @@ export function apiCheckSummarisationStatus(songId) {
 }
 
 /**
- * Summarise chat history for a specific conversation type.
- * @param {string|number} songId - The ID of the song.
- * @param {string} messageType - The type of conversation ('style' or 'lyrics').
- * @param {boolean} forceSummarise - Whether to force summarisation even if not needed.
- * @returns {Promise<Object>} Promise that resolves to summarisation result.
+ * Summarise chat history for a specific conversation type
+ * @param {string|number} songId - The ID of the song
+ * @param {string} messageType - The type of conversation ('style' or 'lyrics')
+ * @param {boolean} [forceSummarise=false] - Whether to force summarisation even if not needed
+ * @returns {Promise<Object>} Promise that resolves to summarisation result
  */
 export function apiSummariseChatHistory(songId, messageType, forceSummarise = false) {
     // Validate message type
@@ -95,10 +95,10 @@ export function apiSummariseChatHistory(songId, messageType, forceSummarise = fa
 }
 
 /**
- * Summarise all conversations for a song that need summarisation.
- * @param {string|number} songId - The ID of the song.
- * @param {boolean} forceSummarise - Whether to force summarisation even if not needed.
- * @returns {Promise<Object>} Promise that resolves to combined summarisation results.
+ * Summarise all conversations for a song that need summarisation
+ * @param {string|number} songId - The ID of the song
+ * @param {boolean} [forceSummarise=false] - Whether to force summarisation even if not needed
+ * @returns {Promise<Object>} Promise that resolves to combined summarisation results
  */
 export function apiSummariseAllConversations(songId, forceSummarise = false) {
     console.log('Starting summarisation for all conversations for song:', songId);
@@ -166,8 +166,8 @@ export function apiSummariseAllConversations(songId, forceSummarise = false) {
 /**
  * Show a user notification about summarisation status.
  * This function can be used to inform users when summarisation is needed or completed.
- * @param {Object} statusData - Status data from apiCheckSummarisationStatus.
- * @param {Function} notificationFunction - Function to display notifications (e.g., showErrorToast).
+ * @param {Object} statusData - Status data from apiCheckSummarisationStatus
+ * @param {Function} notificationFunction - Function to display notifications (e.g., showErrorToast)
  */
 export function showSummarisationNotification(statusData, notificationFunction) {
     if (!statusData.any_needs_summarisation) {
