@@ -53,38 +53,42 @@ class LLMConversationLogger:
             raise
     
     @staticmethod
-    def get_log_file_path(message_type: str, song_id: int) -> Path:
+    def get_log_file_path(message_type: str, song_id: int, is_summarization: bool = False) -> Path:
         """
         Get the log file path for a specific message type and song ID.
         
         Args:
             message_type: The message type ('style', 'lyrics')
             song_id: The song ID
+            is_summarization: Whether this is for summarization logging
             
         Returns:
             Path object for the log file
         """
-        filename = f"{message_type}.log"
+        suffix = "_summarize" if is_summarization else ""
+        filename = f"{message_type}{suffix}.log"
         if song_id is not None:
-            filename = f"{message_type}_{song_id}.log"
+            filename = f"{message_type}_{song_id}{suffix}.log"
         return LLM_LOGS_DIR / filename
     
     @staticmethod
-    def create_session_header(message_type: str, song_id: int) -> str:
+    def create_session_header(message_type: str, song_id: int, is_summarization: bool = False) -> str:
         """
         Create a timestamped header for a new conversation session.
         
         Args:
             message_type: The message type
             song_id: The song ID
+            is_summarization: Whether this is for summarization logging
             
         Returns:
             Formatted header string (HEADER_LENGTH characters wide)
         """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        header_text = f" {timestamp} | {message_type} "
+        type_suffix = " [SUMMARIZATION]" if is_summarization else ""
+        header_text = f" {timestamp} | {message_type}{type_suffix} "
         if song_id is not None:
-            header_text = f" {timestamp} | {message_type} | song_id: {song_id} "
+            header_text = f" {timestamp} | {message_type}{type_suffix} | song_id: {song_id} "
         
         # Calculate padding to make exactly HEADER_LENGTH characters
         total_padding = HEADER_LENGTH - len(header_text)
@@ -132,19 +136,60 @@ class LLMConversationLogger:
             # Don't raise the exception - logging failures shouldn't break the main flow
     
     @staticmethod
-    def get_conversation_log_info(message_type: str, song_id: int) -> dict:
+    def log_summarization_conversation(message_type: str, song_id: int, system_prompt: str, user_prompt: str, summary_response: str):
+        """
+        Log a summarization conversation to the appropriate _summarize file with a timestamped header.
+        
+        Args:
+            message_type: The message type ('style', 'lyrics')
+            song_id: The song ID
+            system_prompt: The system prompt sent to the LLM
+            user_prompt: The user prompt sent to the LLM
+            summary_response: The summary response from the LLM
+        """
+        try:
+            # Ensure directory exists
+            LLMConversationLogger.ensure_llm_logs_directory()
+            
+            # Get the log file path for summarization
+            log_file_path = LLMConversationLogger.get_log_file_path(message_type, song_id, is_summarization=True)
+            
+            # Create session header for summarization
+            header = LLMConversationLogger.create_session_header(message_type, song_id, is_summarization=True)
+            
+            # Build conversation content
+            conversation_content = f"role: system\n{system_prompt}\n\nrole: user\n{user_prompt}\n\nrole: assistant\n{summary_response}"
+            
+            # Thread-safe file writing
+            with _file_lock:
+                with open(log_file_path, 'a', encoding='utf-8') as f:
+                    f.write(f"{header}\n")
+                    f.write("=" * HEADER_LENGTH + "\n")
+                    for line in conversation_content.splitlines():
+                        f.write(f"{line}\n") if line.startswith('role: ') else f.write(f"    {line}\n")
+                    f.write("=" * HEADER_LENGTH + "\n")
+            
+            logger.info(f"LLM summarization conversation logged to: {log_file_path}")
+            
+        except Exception as e:
+            logger.error(f"Failed to log LLM summarization conversation for {message_type}_{song_id}: {e}")
+            # Don't raise the exception - logging failures shouldn't break the main flow
+    
+    @staticmethod
+    def get_conversation_log_info(message_type: str, song_id: int, is_summarization: bool = False) -> dict:
         """
         Get information about the conversation log file.
         
         Args:
             message_type: The message type
             song_id: The song ID
+            is_summarization: Whether this is for summarization logging
             
         Returns:
             Dictionary with log file information
         """
         try:
-            log_file_path = LLMConversationLogger.get_log_file_path(message_type, song_id)
+            log_file_path = LLMConversationLogger.get_log_file_path(message_type, song_id, is_summarization)
             
             if log_file_path.exists():
                 stat = log_file_path.stat()
@@ -168,7 +213,7 @@ class LLMConversationLogger:
             logger.error(f"Failed to get conversation log info for {message_type}_{song_id}: {e}")
             return {
                 'exists': False,
-                'path': str(LLMConversationLogger.get_log_file_path(message_type, song_id)),
+                'path': str(LLMConversationLogger.get_log_file_path(message_type, song_id, is_summarization)),
                 'error': str(e)
             }
     

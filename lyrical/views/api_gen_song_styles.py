@@ -68,7 +68,7 @@ class SongStylesGenerator(LLMGenerator):
 
 
     def get_message_type(self) -> str:
-        return ''
+        return 'style'
 
 
     def get_song_id(self) -> int:

@@ -158,7 +158,7 @@ class ChatSummarisationService:
             return False
     
     @staticmethod
-    def _call_summarisation_llm(messages_content: str, message_type: str, user: User) -> Optional[str]:
+    def _call_summarisation_llm(messages_content: str, message_type: str, user: User, song_id: int = None) -> Optional[str]:
         """
         Call the LLM to generate a summary of the conversation.
         
@@ -166,13 +166,15 @@ class ChatSummarisationService:
             messages_content: Full conversation content as string
             message_type: Type of conversation ('style', 'lyrics')
             user: User object with LLM settings
+            song_id: Song ID for logging purposes
             
         Returns:
             Summary text or None if failed
         """
         try:
-            # Import prompt utilities
+            # Import prompt utilities and logging
             from .prompts import get_system_prompt, get_user_prompt
+            from ..llm_conversation_logger import LLMConversationLogger
             
             model_name = f"{user.llm_model_summarise.provider.internal_name}/{user.llm_model_summarise.internal_name}"
             user_api_key = get_user_api_key(user=user, provider=user.llm_model_summarise.provider)
@@ -218,6 +220,17 @@ class ChatSummarisationService:
             if response.choices and response.choices[0].message:
                 summary = response.choices[0].message.content.strip()
                 logger.info(f"Generated summary of {len(summary)} characters for {message_type} conversation")
+                
+                # Log the summarization conversation if song_id is provided
+                if song_id is not None:
+                    try:
+                        LLMConversationLogger.log_summarization_conversation(
+                            message_type, song_id, system_prompt, user_prompt, summary
+                        )
+                    except Exception as log_error:
+                        logger.error(f"Failed to log summarization conversation: {log_error}")
+                        # Don't fail the summarization if logging fails
+                
                 return summary
             else:
                 logger.error("No valid response from summarisation LLM")
@@ -272,7 +285,7 @@ class ChatSummarisationService:
                 
                 # Generate summary using LLM
                 summary = ChatSummarisationService._call_summarisation_llm(
-                    conversation_content, message_type, user
+                    conversation_content, message_type, user, song_id
                 )
                 
                 if not summary:
