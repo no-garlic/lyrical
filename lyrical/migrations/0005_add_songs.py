@@ -13,7 +13,7 @@ published_songs = [
     'Finally Free', 'Find Your Fire', 'Find Your Way', 'From The Ashes', 'Heart of Chaos', 'Hidden In The Night', 'I Am Strong', 'I Can Fly', 'I Create', 'In My Dreams', 'In My Mind', 
     'In My Sea', 'In The Rain', 'Into the Night', 'Invincible', 'Leave A Trace', 'Light Your Fire', 'Light Your Way', 'Morning Glow', 'Ocean of Dreams', 'Run Free', 'Shine Like Stars', 
     'Shine Your Light', 'Silent Echoes', 'Smile Through The Rain', 'Sound Of Summer', 'Stronger Every Day', 'Summer In Your Soul', 'Summer Nights', 'Summertime', 'Sunrise', 'The End Of Me', 
-    'Unbreakable', 'Under The Sun', 'Unseen Love', 'Unstoppable', 'Wild and Free', 'Winner'
+    'Unbreakable', 'Under The Sun', 'Unseen Love', 'Unstoppable', 'Wild and Free', 'Winner', 'Stand As One',
     ]
 
 
@@ -21,8 +21,7 @@ liked_songs = [
     'Before The Storm', 'Chase The Sun', 'Climb Higher', 'Dare To Dream', 'Garden Of Dreams', 'Into The Wild', 'Light The Sky',
     'Own The Moment', 'Stand Tall', 'Summer Dreams', 'Hold On Tight', 'One More Step', 'Heart On Fire',
     'Own The Fight', 'New Sunrise', 'Forgotten Dreams', 'Every Heartbeat', 'We Are One', 'Hidden Sights',
-    'Stand As One', 'Before The Thunder', 'Sun Will Shine', 'Dreams Will Come', 'Still We Rise', 
-    'Reason To Smile', 'Never Give Up'
+    'Before The Thunder', 'Sun Will Shine', 'Dreams Will Come', 'Still We Rise', 'Reason To Smile', 'Never Give Up'
     ]
 
 
@@ -31,21 +30,21 @@ def add_data(apps, schema_editor):
 
     # create all of the published songs for the user
     for song_name in published_songs:
-        song = models.Song(user=user, name=song_name, stage="published")
+        song = models.Song.create_from_template(song_name, user, None)
         song.apply_user_defaults(user)
+        song.stage = "published"
         song.save()
 
     # create all of the liked songs for the user
     for song_name in liked_songs:
-        song = models.Song(user=user, name=song_name, stage="liked")
+        song = models.Song.create_from_template(song_name, user, None)
         song.apply_user_defaults(user)
+        song.stage = "liked"
         song.save()
 
     
 def remove_data(apps, schema_editor):
-    users = apps.get_model("lyrical", "User")
     songs = apps.get_model("lyrical", "Song")
-
     songs.objects.all().delete()
 
 

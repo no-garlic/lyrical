@@ -41,7 +41,7 @@ def api_song_add(request):
             return JsonResponse({"error": f"A song with the name '{song_name}' already exists"}, status=400)
 
         # create a new song object
-        song = models.Song(name=song_name.strip(), user=request.user)
+        song = models.Song.create_from_template(song_name.strip(), request.user, None)
         song.apply_user_defaults(request.user)
         song.save()
 

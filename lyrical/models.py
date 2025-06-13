@@ -119,6 +119,34 @@ class Song(models.Model):
     def __str__(self):
         return f"{self.name} ({self.stage})"
 
+    @classmethod
+    def create_from_template(cls, song_name, song_user, song_structure_template=None):
+        """
+        Create a new song from a template.
+        """
+        if song_structure_template is None:
+            song_structure_template = SongStructureTemplate.objects.filter(user=song_user).first()
+
+        song = Song(
+            user=song_user,
+            name=song_name,
+            structure=song_structure_template.structure,
+            structure_custom_request=song_structure_template.custom_request,
+            structure_vocalisation_level=song_structure_template.vocalisation_level,
+            structure_vocalisation_terms=song_structure_template.vocalisation_terms,
+            structure_average_syllables=song_structure_template.average_syllables,
+            structure_verse_lines=song_structure_template.verse_lines,
+            structure_pre_chorus_lines=song_structure_template.pre_chorus_lines,
+            structure_chorus_lines=song_structure_template.chorus_lines,
+            structure_bridge_lines=song_structure_template.bridge_lines,
+            structure_intro_lines=song_structure_template.intro_lines,
+            structure_outro_lines=song_structure_template.outro_lines,
+            structure_vocalisation_lines=song_structure_template.vocalisation_lines
+        )
+        song.save()
+        return song
+
+
     @property
     def new(self):
         return self.stage == 'new'

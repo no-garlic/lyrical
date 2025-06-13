@@ -142,8 +142,8 @@
     https://ai.google.dev/gemini-api/docs/pricing
     https://www.anthropic.com/pricing#api
     https://docs.x.ai/docs/models
-
-
+ - Uses a song structure template when creating a song
+ 
 
 
 ## Todo
@@ -151,7 +151,7 @@
 Prompts:
  - Name (ok)
  - Word / Rhyme (ok)
- - Themes ()
+ - Themes (ok)
  - Song ()
  - Replace Section ()
  - Replace Section - Partial ()
@@ -164,9 +164,6 @@ Prompts:
 1 - Bug: getting cases of << >> in the generated lyrics
 1 - Bug: getting cases of multiple words for single word replace
 1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
-
-
-
 
 
 

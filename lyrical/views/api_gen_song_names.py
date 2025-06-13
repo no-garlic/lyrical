@@ -121,7 +121,9 @@ class SongNamesGenerator(LLMGenerator):
             return json.dumps(data)        
 
         # create a new song object in the database
-        song = models.Song.objects.create(name=data["name"], user=self.request.user)
+        song = models.Song.create_from_template(data["name"], self.request.user, None)
+        song.apply_user_defaults(self.request.user)
+        song.save()
         logger.debug(f"Created song with ID {song.id} and name '{song.name}'")
 
         # create new song metadata
