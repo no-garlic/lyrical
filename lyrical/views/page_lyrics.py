@@ -105,7 +105,7 @@ def page_lyrics(request, song_id: int):
 
     # extract song sections
     section_names_exclude = ['theme', 'narrative', 'mood']
-    song_sections = models.Section.objects.filter(song=song).order_by('created_at')
+    song_sections = models.Section.objects.filter(song=song).order_by('-created_at')
     song_sections = song_sections.exclude(type__in=section_names_exclude)
 
     context = {

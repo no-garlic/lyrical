@@ -154,12 +154,42 @@
     ...
 
 
+# ==================================================================================================================
+# Song Lyrics (1 Section)
+# ==================================================================================================================
+"song_lyrics_section": |-
+  You are tasked with creating some alternative song sections for the song you have generated.
+  Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables 
+  per line, and all other specific details that I previously provided.
+
+  Your new alternatives must not include the same lyrics as previously generated lyrics for this {{section_type}}.
+  Ensure that the new lyrics that you generate still rhyme with the existing lyrics, and follow the rhythm and theme of the song.
+  At all times, pairs of lyrics lines must rhyme (that is lines 1&2 must rhyme together, lines 3&4 must rhyme together, and so on...).
+  
+  {% if custom_request %}Also follow these instructions: 
+  {{custom_request}} {% endif %}
+
+  Generate {{count}} new song sections for the {{section_type}}:
+
+  Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
+    {"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
+    {"<section>": ["<lyrics line 1>", "<lyrics line 2>"]}
+    {"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>", "<lyrics line 5>", "<lyrics line 6>"]}
+    ...
+
+  For example:
+    {"{{section_type}}": ["Oh, I will survive!!!,", "You know i'm alive (oh-oh-oh),", "Oh, I will survive!!!,", "Whoa, It's time to thrive"]}
+    {"{{section_type}}": ["From the ashes I am reborn,", "Into the light of a new dawn.", "Ooh-ooh-ooh-ooh-ooh, Ahh-ah,", "Ooh, In the end we face the storm."]}
+    ...
+
+
+# ==================================================================================================================
+# Song Lyrics (Markup Section)
+# ==================================================================================================================
 "song_lyrics_section": |-
   You are tasked with creating some alternatives song sections for the song you have generated.
   Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables 
   per line, and all other specific details that I previously provided.
-
-  {% if markup_lyrics %}
 
   IMPORTANT!!! You must follow these instructions: 
   Your task is to create alternatives to the following {{section_type}}:
@@ -173,16 +203,6 @@
 
   Ensure that the new lyrics that you add rhyme with the existing lyrics.
   At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
-
-  {% else %}
-
-  IMPORTANT!!! You must follow these instructions: 
-  Your task is to create alternatives to an existing {{section_type}}.
-  Your new alternatives must not include the same lines as previously generated lines of lyrics for this {{section_type}}.
-  Ensure that the new lyrics that you generate still rhyme with the existing lyrics, and follow the rhythm and theme of the song.
-  At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
-  
-  {% endif %}
 
   {% if custom_request %}Also follow these instructions: 
   {{custom_request}} {% endif %}

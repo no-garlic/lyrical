@@ -238,7 +238,7 @@ function handleRegenerateClick() {
             };
 
             if (editMode === 'interactive') {
-                requestParams['prompt'] = 'song_lyrics_section';
+                requestParams['prompt'] = 'song_lyrics_markup';
                 requestParams['markup_lyrics'] = getTextFromInteractivePanel().trim();
                 requestParams['count'] = 2;
                 streamHelperSection.initiateRequest(requestParams);
