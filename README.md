@@ -148,23 +148,15 @@
  - Prompts - follow up, summarizing, refining, etc
  - Create follow up prompts, eg, song_hooks.follow_up.
  - Regenerate -> send custom request (check), and send current section lyrics to llm.
+ - Review all code from LLM
  - Consistent visual style across all screens
-
-
-
-## Todo
-
-1 - Improve the summarisation prompts
-1 - Bug: getting cases of << >> in the generated lyrics
-1 - Bug: getting cases of multiple words for single word replace
-1 - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
-
+ - Improve the summarisation prompts
+ - Bug: getting cases of << >> in the generated lyrics
+ - Bug: getting cases of multiple words for single word replace
+ - Bug: Flash 1.5 gave me a VERSE_ALTERNATIVE not a VERSE, should be able to fix it in code, plus improve the prompt
  - Make sure all edits reflect in right hand panel for song lyrics
  - Update badge colors
- - Review all code from LLM
- - Update code documentation (use co-pilot)
- - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
-
+ - Update code documentation
 
 
 ## Backlog
@@ -172,6 +164,7 @@
  - Destructive actions & song regeneration should show a confirmation prompt
  - Create 8 records for structure templates when creating a user
  - Update prompts about combining vocalisations, eg, ah, aah or ah-ah-ah, ooh-ah-ahh
+ - Apply the LLM Rules (like exclude word, include word, start with word) in code as a final check before sending text to page
  - Update prompt about other rules, like ... and rrrrrrun, and trailing ``````
  - Add href# to Navigation Timeline
  - Make all panels use scrollbars the same
@@ -190,19 +183,7 @@
  - Library Page
 
 
-### Logs
-2025-06-08 06:39:58 [DEBUG] services: Prompt 'lyrics_summary' found in internal prompts
-2025-06-08 06:39:58 [INFO] services: Calling summarisation model gemini/gemini-2.0-flash for lyrics conversation
-2025-06-08 06:40:04 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBmEXSBfLyy7m_iq5XnvuDot0unSF3nqeA "HTTP/1.1 200 OK"
-2025-06-08 06:40:04 [INFO] services: Generated summary of 2934 characters for lyrics conversation
-2025-06-08 06:40:04 [ERROR] services: Error summarising conversation for song 84, type 'lyrics': database is locked
-2025-06-08 06:40:04 [ERROR] apis: Summarisation failed for user mpetrou, song 84, type 'lyrics'
-2025-06-08 06:40:04 [ERROR] django.request: Internal Server Error: /api_summarise_chat_history
-2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 19 hidden status to True
-2025-06-08 06:40:04 [INFO] apis: User mpetrou updated section 20 hidden status to True
-
-
-### Bootstrap Icons
+## Bootstrap Icons
 generate:       bi-music-note-list
 clear:          bi-dash-circle
 add:            bi-plus-circle

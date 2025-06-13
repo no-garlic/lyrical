@@ -1,64 +1,18 @@
 
-.badge-theme {
-    --badge-color: #ffb7d1;
-    color: #885555;
-}
-.badge-narrative {
-    --badge-color: #ade3ff;
-    color: #555588;
-}
-.badge-mood {
-    --badge-color: #baf9b1;
-    color: #558855;
-}
-.badge-verse {
-    --badge-color: #ffd99f;
-    color: #757545;
-}
-.badge-chorus {
-    --badge-color: #e8baff;
-    color: #885555;
-}
-.badge-bridge {
-    --badge-color: #ffbcbc;
-    color: #885555;
-}
-.badge-pre-chorus {
-    --badge-color: #b1f8c8;
-    color: #558855;
-}
-.badge-instrumental-intro {
-    --badge-color: #bfcaff;
-    color: #555588;
-}
-.badge-intro {
-    --badge-color: #b9e8ff;
-    color: #555588;
-}
-.badge-outro {
-    --badge-color: #fbe0a0;
-    color: #757545;
-}
-.badge-vocalisation {
-    --badge-color: #c3d4ff;
-    color: #555588;
-}
-.badge-interlude {
-    --badge-color: #ffdb9e;
-    color: #757545;
-}
-.badge-solo {
-    --badge-color: #adebd3;
-    color: #558855;
-}
-.badge-spare1 {
-    --badge-color: #ffb7e8;
-    color: #885588;
-}
-.badge-spare2 {
-    --badge-color: #f7db99;
-    color: #757545;
-}
+.badge-theme                { --badge-color: #ffb7d1; color: #885555; }
+.badge-narrative            { --badge-color: #ade3ff; color: #555588; }
+.badge-mood                 { --badge-color: #baf9b1; color: #558855; }
+.badge-outro                { --badge-color: #ffb7d1; color: #885555; }
+.badge-chorus               { --badge-color: #ade3ff; color: #555588; }
+.badge-bridge               { --badge-color: #baf9b1; color: #558855; }
+.badge-intro                { --badge-color: #ffe7d0; color: #757545; }
+.badge-verse                { --badge-color: #ffecb2; color: #757545; }
+.badge-solo                 { --badge-color: #ffd3a6; color: #885555; }
+.badge-vocalisation         { --badge-color: #e2caff; color: #555588; }
+.badge-instrumental-intro   { --badge-color: #d1f7ff; color: #555588; }
+.badge-pre-chorus           { --badge-color: #c3d4ff; color: #555588; }
+.badge-interlude            { --badge-color: #e8baff; color: #885555; }
+.badge-spare                { --badge-color: #b1ffea; color: #558855; }
 
 .song-section-card {
     overflow: hidden;

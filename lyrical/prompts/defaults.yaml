@@ -186,28 +186,31 @@
 # ==================================================================================================================
 # Song Lyrics (Markup Section)
 # ==================================================================================================================
-"song_lyrics_section": |-
-  You are tasked with creating some alternatives song sections for the song you have generated.
+"song_lyrics_markup": |-
+  You are tasked with creating some alternative song sections for the song you have generated.
   Please refer to our chat history regarding all details of the song, including the number of lines per section, the number of syllables 
   per line, and all other specific details that I previously provided.
 
-  IMPORTANT!!! You must follow these instructions: 
-  Your task is to create alternatives to the following {{section_type}}:
+  Ensure that the new lyrics that you generate still rhyme with the existing lyrics, and follow the rhythm and theme of the song.
+  At all times, pairs of lyrics lines must rhyme (that is lines 1&2 must rhyme together, lines 3&4 must rhyme together, and so on...).
+
+  Your task is to create some variations of the following {{section_type}}.
+  You will substitute some new words into specific locations of the following {{section_type}}:
   {{markup_lyrics}}
 
-  Your new alternatives must include the exact words and structure of the above {{section_type}}, except:
-  - replace every <<line>> token you see with a new lyrics line, every time you see this token you must replace the line with a new line that has never been seen in our chat history for this {{section_type}}.
-  - replace any <<words>> token you see with new lyrics words, every time you see this token you must replace the words with new words that have never been seen in our chat history for this {{section_type}}.
-  - replace any <<word> token you see with a new lyrics word, every time you see this token you must replace the word with a new word that has never been seen in our chat history for this {{section_type}}.
+  Your new alternatives must include the exact words and structure of the above {{section_type}}, except you must replace every instance of the token * with:
+  - a new word, or
+  - a sequence of new words, or
+  - a new line of lyrics
   All other words must match the above {{section_type}}.
 
-  Ensure that the new lyrics that you add rhyme with the existing lyrics.
-  At all times, pairs of lyrics lines must rhyme (that is lines 1&2, lines 3&4, and so on...).
+  Whether you substitute the * token for 1 word, a sequence of words, or a full line of lyrics will depend on what is required
+  to approximately match the syllable count for the other lines of the {{section_type}}.
 
   {% if custom_request %}Also follow these instructions: 
   {{custom_request}} {% endif %}
 
-  Generate {{count}} new song sections for the {{section_type}}:
+  Generate {{count}} variations of the {{section_type}}.
 
   Use the same NDJSON format as before, with EXACTLY ONE song section per row, and each separate line of lyrics for that section as an element in a list:
     {"<section>": ["<lyrics line 1>", "<lyrics line 2>", "<lyrics line 3>", "<lyrics line 4>"]}
@@ -221,6 +224,9 @@
     ...
 
 
+# ==================================================================================================================
+# Words that Rhyme
+# ==================================================================================================================
 "song_words": |-
   You are tasked with returning {{count}} words that rhyme with {{rhyme_with}}.
 
