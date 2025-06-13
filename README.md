@@ -151,6 +151,7 @@
 Prompts:
  - Name (ok)
  - Word / Rhyme (ok)
+ - Themes ()
  - Song ()
  - Replace Section ()
  - Replace Section - Partial ()

@@ -196,7 +196,7 @@ function createStreamHelper() {
 function buildRequestParams() {
     let params = {
         prompt: 'song_styles',
-        custom_prompt: document.getElementById('prompt-text').value,
+        custom_request: document.getElementById('prompt-text').value,
         song_id: songId,
     };
 
@@ -408,8 +408,16 @@ function updateNavigationButtonStates() {
 function clearGeneratedStyles() {
     const clearButton = document.getElementById('btn-clear');
 
+    let styleIds = [];
+    const container = document.getElementById('generated-styles');
+    Array.from(container.children).forEach(node => {
+        if (!node.classList.contains('hidden')) {
+            styleIds.push(node.dataset.styleId);
+        }
+    });
+
     // call the api to update the section to set the hidden flag to true
-    apiSectionEditBulk(songId, true)
+    apiSectionEditBulk(songId, true, styleIds)
         .then(songId => {
             // update the text on the song card
             console.log(`Successfully updated sections for songId: ${songId}`);
@@ -418,11 +426,14 @@ function clearGeneratedStyles() {
             const container = document.getElementById('generated-styles');
             Array.from(container.children).forEach(node => {
 
-                // remove the card from the drag drop system
-                dragDropSystem.unregisterDraggable(node);
+                // only clear the visible items
+                if (!node.classList.contains('hidden')) {
+                    // remove the card from the drag drop system
+                    dragDropSystem.unregisterDraggable(node);
 
-                // remove the card from the container
-                container.removeChild(node);
+                    // remove the card from the container
+                    container.removeChild(node);
+                }
             });
 
             clearButton.classList.add('btn-disabled');

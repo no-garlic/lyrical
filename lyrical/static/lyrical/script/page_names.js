@@ -610,7 +610,7 @@ function buildGenerationRequestParams() {
         count: parseInt(document.getElementById('input-count').value, 10),
         min_words: parseInt(document.getElementById('input-min-words').value, 10),
         max_words: parseInt(document.getElementById('input-max-words').value, 10),
-        custom_prompt: document.getElementById('prompt-text').value,
+        custom_request: document.getElementById('prompt-text').value,
     };
 }
 

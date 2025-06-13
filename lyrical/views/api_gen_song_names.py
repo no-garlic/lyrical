@@ -26,7 +26,7 @@ class SongNamesGenerator(LLMGenerator):
             'count': int(self.request.GET.get("count", 1)),
             'min_words': int(self.request.GET.get("min_words", 1)),
             'max_words': int(self.request.GET.get("max_words", 5)),
-            'custom_prompt': self.request.GET.get("custom_prompt", "").strip(),
+            'custom_request': self.request.GET.get("custom_request", "").strip(),
         }
     
 
@@ -98,7 +98,7 @@ class SongNamesGenerator(LLMGenerator):
             'min_words': self.extracted_params['min_words'],
             'max_words': self.extracted_params['max_words'],
             'exclude_song_names': self.get_excluded_song_names(),
-            'custom_prompt': self.extracted_params['custom_prompt'],
+            'custom_request': self.extracted_params['custom_request'],
         }
     
     

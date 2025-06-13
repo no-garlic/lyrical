@@ -5,13 +5,13 @@
  * @param {Boolean} hidden - The hidden field to update.
  * @returns {Promise<string>} Promise that resolves to the song ID.
  */
-export function apiSectionEditBulk(songId, isHidden) {
+export function apiSectionEditBulk(songId, isHidden, styleIds=None) {
 
     // get CSRF token
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // build request body with only provided fields
-    const requestBody = { song_id: songId, hidden: isHidden };
+    const requestBody = { song_id: songId, hidden: isHidden, style_ids: styleIds };
 
     // send the request to the server
     return fetch('/api_section_edit_bulk', {

@@ -18,10 +18,14 @@ class SongStylesGenerator(LLMGenerator):
         return {
             'prompt_name': self.request.GET.get("prompt", "").strip(),
             'song_id': int(self.request.GET.get("song_id", "")),
-            'custom_prompt': self.request.GET.get("custom_prompt", "").strip(),
+            'custom_request': self.request.GET.get("custom_request", "").strip(),
             'style_filter': self.request.GET.get("style_filter", "").strip(),
         }
+
     
+    def uses_conversation_history(self) -> bool:
+        return False
+
 
     def query_database_data(self) -> Dict[str, Any]:
         # get the song ID from the request parameters
@@ -58,19 +62,23 @@ class SongStylesGenerator(LLMGenerator):
             'exclude_themes': exclude_themes,
         }    
 
+
     def get_prompt_name(self) -> str:
         return self.extracted_params['prompt_name']
-    
+
+
     def get_message_type(self) -> str:
-        return 'style'
-    
+        return ''
+
+
     def get_song_id(self) -> int:
         return self.extracted_params['song_id']
+
 
     def build_user_prompt_params(self) -> Dict[str, Any]:
         params = {
             'song_name': self.extracted_params['song_name'],
-            'custom_prompt': self.extracted_params['custom_prompt'],
+            'custom_request': self.extracted_params['custom_request'],
             'include_themes': self.extracted_params['include_themes'],
             'exclude_themes': self.extracted_params['exclude_themes'],
         }

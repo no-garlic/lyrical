@@ -234,7 +234,7 @@ function handleRegenerateClick() {
             const requestParams = {
                 song_id: songId,
                 section_type: sectionType,
-                custom_prompt: customRequest.value.trim()
+                custom_request: customRequest.value.trim()
             };
 
             if (editMode === 'interactive') {
