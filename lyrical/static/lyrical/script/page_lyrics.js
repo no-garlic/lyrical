@@ -905,7 +905,7 @@ function updateLyricsListing() {
             const sectionIndex = element.dataset.sectionIndex;
             const sectionWordsId = element.dataset.sectionWordsId;
 
-            if (sectionType === 'INTRO') {
+            if (sectionType === 'INSTRUMENTAL-INTRO') {
                 container.innerHTML += '[INSTRUMENTAL INTRO]<br>';
             } else if (sectionType === 'INTERLUDE') {
                 container.innerHTML += '[MELODIC INTERLUDE]<br>';
