@@ -5,12 +5,13 @@
  - All styles show while being generated even if a tab is selected
  - Need a way to run the server as a macos application
  - Need to work out the branhcing and integration strategy
- - remove the hyphen from INSTRUMENTAL-INTRO
- - after typing in text to a VOCALISATION section, it is not copied to other VOCALISATION sections
+ - Remove the hyphen from INSTRUMENTAL-INTRO
+ - After typing in text to a VOCALISATION section, it is not copied to other VOCALISATION sections
    and therefore also not being filled in export lyrics list (need to check chorus also).
    look at updateAllDuplicateSections, and when it is called.
- - prompts for cyberpunk music (remove prompt references to pop and make it a style selection)
- - page scroll bug when song lyrics section container gets full, entire page goes up. 
+ - Prompts for cyberpunk music (remove prompt references to pop and make it a style selection)
+ - Page scroll bug when song lyrics section container gets full, entire page goes up. 
+ - Select the database at launch time
 
 
 ## Done
