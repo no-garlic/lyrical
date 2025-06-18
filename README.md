@@ -4,7 +4,7 @@
  - Generate Vocalisation not working (giving 4 lines like a verse)
  - All styles show while being generated even if a tab is selected
  - Need a way to run the server as a macos application
- - Need to work out the branhcing and integration strategy
+ - Need to work out the branching and integration strategy
  - Remove the hyphen from INSTRUMENTAL-INTRO
  - After typing in text to a VOCALISATION section, it is not copied to other VOCALISATION sections
    and therefore also not being filled in export lyrics list (need to check chorus also).
